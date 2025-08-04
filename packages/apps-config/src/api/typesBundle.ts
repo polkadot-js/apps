@@ -30142,18 +30142,113 @@ export const typesBundle = {
             null
           ],
           "types": {
+            "Amount": "i128",
+            "Balance": "u128",
+            "BlockNumber": "u64",
+            "CurrencyId": {
+              "_enum": {
+                "Native": "u32",
+                "DexShare": "(DexShare, DexShare)",
+                "ForeignAsset": "u32"
+              }
+            },
+            "DexShare": {
+              "_enum": {
+                "Native": "u32",
+                "ForeignAsset": "u32"
+              }
+            },
+            "TradingPair": "(CurrencyId,  CurrencyId)",
+            "ProvisionParameters": {
+              "minContribution": "(Balance, Balance)",
+              "targetProvision": "(Balance, Balance)",
+              "accumulatedProvision": "(Balance, Balance)",
+              "notBefore": "u32"
+            },
+            "TradingPairStatus": {
+              "_enum": {
+                "Disabled": "Null",
+                "Provisioning": "ProvisionParameters",
+                "Enabled": "Null"
+              }
+            },
             "StakingRates": {
               "collatorStakingRate": "Perquintill",
               "collatorRewardRate": "Perquintill",
               "delegatorStakingRate": "Perquintill",
               "delegatorRewardRate": "Perquintill"
-            },
-            "AssetId": "u32",
-            "Balance": "u128"
+            }
           }
         }
       ],
       "runtime": {
+        "Doton": [
+          {
+            "methods": {
+              "doton_mint_amount_with_dot": {
+                "description": "Amount of DOTON that expected to be minted from passed DOT amount.",
+                "params": [
+                  {
+                    "name": "amount",
+                    "type": "Balance"
+                  }
+                ],
+                "type": "Result<Balance, DispatchError>"
+              },
+              "dot_redeem_amount_with_doton": {
+                "description": "Amount of DOT that expected to be redeemed with passed amount of DOTON.",
+                "params": [
+                  {
+                    "name": "amount",
+                    "type": "Balance"
+                  }
+                ],
+                "type": "Result<Balance, DispatchError>"
+              },
+              "min_mint_from_dot_amount": {
+                "description": "Minimal amount of DOT to stake through DOTON module.",
+                "params": [],
+                "type": "Result<Balance, DispatchError>"
+              },
+              "min_redeem_to_dot_amount": {
+                "description": "Minimal amount of DOTON to redeem DOT.",
+                "params": [],
+                "type": "Result<Balance, DispatchError>"
+              },
+              "doton_mint_amount_with_jamton": {
+                "description": "Amount of DOTON that expected to be minted from passed jamTON amount.",
+                "params": [
+                  {
+                    "name": "amount",
+                    "type": "Balance"
+                  }
+                ],
+                "type": "Result<Balance, DispatchError>"
+              },
+              "jamton_redeem_amount_with_doton": {
+                "description": "Amount of jamTON that expected to be redeemed with passed amount of DOTON.",
+                "params": [
+                  {
+                    "name": "amount",
+                    "type": "Balance"
+                  }
+                ],
+                "type": "Result<Balance, DispatchError>"
+              },
+              "max_doton_amount_to_redeem_into_dot": {
+                "description": "Maximum amount of DOTON to request redeem to DOT due to the vault state.",
+                "params": [],
+                "type": "Result<Balance, DispatchError>"
+              },
+              "max_doton_amount_to_redeem_into_jamton": {
+                "description": "Maximum amount of DOTON to redeem to jamTON due to the vault state.",
+                "params": [],
+                "type": "Result<Balance, DispatchError>"
+              }
+            },
+            "version": 1
+          }
+        ],
         "ParachainStaking": [
           {
             "methods": {
@@ -30171,21 +30266,51 @@ export const typesBundle = {
                   }
                 ],
                 "type": "Balance"
+              },
+              "get_sorted_proposed_candidates": {
+                "description": "Provides a sorted list of collators most suited for given delegator's stake amount determined with some heuristic algorithm.",
+                "params": [
+                  {
+                    "name": "balance",
+                    "type": "Balance"
+                  }
+                ],
+                "type": "Vec<AccountId>"
+              }
+            },
+            "version": 1
+          }
+        ],
+        "Limits": [
+          {
+            "methods": {
+              "maybe_remaining_dot_stake_limit": {
+                "description": "Remaining DOT amount that account allowed to stake. Returns None if no limit.",
+                "params": [
+                  {
+                    "name": "account",
+                    "type": "AccountId"
+                  }
+                ],
+                "type": "Option<Balance>"
+              },
+              "maybe_remaining_issue_allowance": {
+                "description": "Remaining amount of currency that could be minted. Returns None if no limit.",
+                "params": [
+                  {
+                    "name": "currency_id",
+                    "type": "CurrencyId"
+                  }
+                ],
+                "type": "Option<Balance>"
               }
             },
             "version": 1
           }
         ]
       },
-      "signedExtensions": {
-        "ChargeAssetTxPayment": {
-          "extrinsic": {
-            "tip": "Compact<Balance>",
-            "assetId": "Option<AssetId>"
-          },
-          "payload": {}
-        }
-      }
+      "rpc": {},
+      "signedExtensions": {}
     },
     "jupiter-prep": {
       "types": [
@@ -31366,6 +31491,156 @@ export const typesBundle = {
               }
             },
             "version": 2
+          },
+          {
+            "methods": {
+              "query_by_web3_name": {
+                "description": "Return the information relative to the owner of the provided web3name, if any.",
+                "params": [
+                  {
+                    "name": "name",
+                    "type": "Text"
+                  }
+                ],
+                "type": "Option<RawDidLinkedInfo>"
+              },
+              "query_by_account": {
+                "description": "Return the information relative to the DID to which the provided account is linked, if any.",
+                "params": [
+                  {
+                    "name": "account",
+                    "type": "DidApiAccountId"
+                  }
+                ],
+                "type": "Option<RawDidLinkedInfo>"
+              },
+              "query": {
+                "description": "Return the information relative to the owner of the provided DID, if present.",
+                "params": [
+                  {
+                    "name": "did",
+                    "type": "AccountId32"
+                  }
+                ],
+                "type": "Option<RawDidLinkedInfo>"
+              },
+              "batch_query_by_web3_name": {
+                "description": "Batch multiple calls of `query_by_web3_name`.",
+                "params": [
+                  {
+                    "name": "names",
+                    "type": "Vec<Text>"
+                  }
+                ],
+                "type": "Vec<Option<RawDidLinkedInfo>>"
+              },
+              "batch_query_by_account": {
+                "description": "Batch multiple calls of `query_by_account`.",
+                "params": [
+                  {
+                    "name": "accounts",
+                    "type": "Vec<DidApiAccountId>"
+                  }
+                ],
+                "type": "Vec<Option<RawDidLinkedInfo>>"
+              },
+              "batch_query": {
+                "description": "Batch multiple calls of `query`.",
+                "params": [
+                  {
+                    "name": "dids",
+                    "type": "Vec<AccountId32>"
+                  }
+                ],
+                "type": "Vec<Option<RawDidLinkedInfo>>"
+              }
+            },
+            "version": 3
+          },
+          {
+            "methods": {
+              "query_by_web3_name": {
+                "description": "Return the information relative to the owner of the provided web3name, if any.",
+                "params": [
+                  {
+                    "name": "name",
+                    "type": "Text"
+                  }
+                ],
+                "type": "Option<RawDidLinkedInfo>"
+              },
+              "query_by_account": {
+                "description": "Return the information relative to the DID to which the provided account is linked, if any.",
+                "params": [
+                  {
+                    "name": "account",
+                    "type": "DidApiAccountId"
+                  }
+                ],
+                "type": "Option<RawDidLinkedInfo>"
+              },
+              "query": {
+                "description": "Return the information relative to the owner of the provided DID, if present.",
+                "params": [
+                  {
+                    "name": "did",
+                    "type": "AccountId32"
+                  }
+                ],
+                "type": "Option<RawDidLinkedInfo>"
+              },
+              "batch_query_by_web3_name": {
+                "description": "Batch multiple calls of `query_by_web3_name`.",
+                "params": [
+                  {
+                    "name": "names",
+                    "type": "Vec<Text>"
+                  }
+                ],
+                "type": "Vec<Option<RawDidLinkedInfo>>"
+              },
+              "batch_query_by_account": {
+                "description": "Batch multiple calls of `query_by_account`.",
+                "params": [
+                  {
+                    "name": "accounts",
+                    "type": "Vec<DidApiAccountId>"
+                  }
+                ],
+                "type": "Vec<Option<RawDidLinkedInfo>>"
+              },
+              "batch_query": {
+                "description": "Batch multiple calls of `query`.",
+                "params": [
+                  {
+                    "name": "dids",
+                    "type": "Vec<AccountId32>"
+                  }
+                ],
+                "type": "Vec<Option<RawDidLinkedInfo>>"
+              },
+              "linked_resources": {
+                "description": "Returns the list of linked resources for a given DID that must be deleted before the DID itself can be deleted.",
+                "params": [
+                  {
+                    "name": "did",
+                    "type": "AccountId32"
+                  }
+                ],
+                "type": "Vec<LinkedDidResource>"
+              },
+              "linked_resources_deletion_calls": {
+                "description": "Returns the list of calls that must be executed to delete the linked resources of a given DID, before deleting the DID itself.",
+                "params": [
+                  {
+                    "name": "did",
+                    "type": "AccountId32"
+                  }
+                ],
+                "type": "Vec<RuntimeCall>"
+              }
+            },
+            "version": 4
           }
         ],
         "Staking": [
@@ -31457,6 +31732,47 @@ export const typesBundle = {
               }
             },
             "version": 1
+          },
+          {
+            "methods": {
+              "pool_account_id": {
+                "description": "Calculate the pool account address for a switch pallet instance and asset ID",
+                "params": [
+                  {
+                    "name": "pair_id",
+                    "type": "Text"
+                  },
+                  {
+                    "name": "asset_id",
+                    "type": "XcmVersionedAssetId"
+                  }
+                ],
+                "type": "Result<AccountId32, AssetSwitchApiError>"
+              },
+              "xcm_for_switch": {
+                "description": "Computes the XCM program that will be executed at destination to complete the cross-chain switch.",
+                "params": [
+                  {
+                    "name": "pair_id",
+                    "type": "Text"
+                  },
+                  {
+                    "name": "from",
+                    "type": "AccountId32"
+                  },
+                  {
+                    "name": "to",
+                    "type": "XcmVersionedLocation"
+                  },
+                  {
+                    "name": "amount",
+                    "type": "u128"
+                  }
+                ],
+                "type": "Result<XcmVersionedXcm, AssetSwitchApiError>"
+              }
+            },
+            "version": 2
           }
         ]
       },
@@ -34877,7 +35193,7 @@ export const typesBundle = {
         {
           "minmax": [
             11400,
-            null
+            11499
           ],
           "types": {
             "DidApiAccountId": "PalletDidLookupLinkableAccountLinkableAccountId",
@@ -34990,6 +35306,252 @@ export const typesBundle = {
                 "SwitchPoolNotFound",
                 "Internal"
               ]
+            }
+          }
+        },
+        {
+          "minmax": [
+            11500,
+            11501
+          ],
+          "types": {
+            "DidApiAccountId": "PalletDidLookupLinkableAccountLinkableAccountId",
+            "RawDidLinkedInfo": {
+              "identifier": "AccountId32",
+              "accounts": "Vec<DidApiAccountId>",
+              "w3n": "Option<Text>",
+              "serviceEndpoints": "Vec<DidServiceEndpointsDidEndpoint>",
+              "details": "DidDidDetails"
+            },
+            "PublicCredentialFilter": {
+              "_enum": {
+                "ctypeHash": "Hash",
+                "attester": "AccountId32"
+              }
+            },
+            "PublicCredentialError": {
+              "_enum": [
+                "InvalidSubjectId"
+              ]
+            },
+            "StakingRates": {
+              "collatorStakingRate": "Perquintill",
+              "collatorRewardRate": "Perquintill",
+              "delegatorStakingRate": "Perquintill",
+              "delegatorRewardRate": "Perquintill"
+            },
+            "IdentityCommitmentVersion": "u16",
+            "DipProofRequest": {
+              "identifier": "AccountId32",
+              "version": "IdentityCommitmentVersion",
+              "proofKeys": "Vec<Hash>",
+              "accounts": "Vec<PalletDidLookupLinkableAccountLinkableAccountId>",
+              "shouldIncludeWeb3Name": "bool"
+            },
+            "CompleteMerkleProof": {
+              "root": "MerkleRoot",
+              "proof": "MerkleProof"
+            },
+            "MerkleRoot": "Hash",
+            "MerkleProof": {
+              "blinded": "BlindedLeaves",
+              "revealed": "RevealedLeaves"
+            },
+            "BlindedLeaves": "Vec<BlindedValue>",
+            "BlindedValue": "Bytes",
+            "RevealedLeaves": "Vec<RevealedLeaf>",
+            "RevealedLeaf": {
+              "_enum": {
+                "DidKey": "RevealedDidKey",
+                "Web3Name": "RevealedWeb3Name",
+                "LinkedAccount": "RevealedAccountId"
+              }
+            },
+            "RevealedDidKey": {
+              "id": "Hash",
+              "relationship": "KeyRelationship",
+              "details": "DidDidDetailsDidPublicKeyDetails"
+            },
+            "KeyRelationship": {
+              "_enum": {
+                "Encryption": "Null",
+                "Verification": "VerificationRelationship"
+              }
+            },
+            "VerificationRelationship": {
+              "_enum": [
+                "Authentication",
+                "CapabilityDelegation",
+                "CapabilityInvocation",
+                "AssertionMethod"
+              ]
+            },
+            "RevealedWeb3Name": {
+              "web3Name": "Text",
+              "claimedAt": "BlockNumber"
+            },
+            "RevealedAccountId": "PalletDidLookupLinkableAccountLinkableAccountId",
+            "RuntimeApiDipProofError": {
+              "_enum": {
+                "IdentityProvider": "LinkedDidIdentityProviderError",
+                "MerkleProof": "DidMerkleProofError"
+              }
+            },
+            "LinkedDidIdentityProviderError": {
+              "_enum": [
+                "DidNotFound",
+                "DidDeleted",
+                "Internal"
+              ]
+            },
+            "DidIdentityProviderError": {
+              "_enum": [
+                "DidNotFound",
+                "Internal"
+              ]
+            },
+            "DidMerkleProofError": {
+              "_enum": [
+                "UnsupportedVersion",
+                "KeyNotFound",
+                "LinkedAccountNotFound",
+                "Web3NameNotFound",
+                "Internal"
+              ]
+            },
+            "AssetSwitchApiError": {
+              "_enum": [
+                "InvalidInput",
+                "SwitchPoolNotFound",
+                "SwitchPoolNotSet",
+                "Internal"
+              ]
+            }
+          }
+        },
+        {
+          "minmax": [
+            11502,
+            null
+          ],
+          "types": {
+            "DidApiAccountId": "PalletDidLookupLinkableAccountLinkableAccountId",
+            "RawDidLinkedInfo": {
+              "identifier": "AccountId32",
+              "accounts": "Vec<DidApiAccountId>",
+              "w3n": "Option<Text>",
+              "serviceEndpoints": "Vec<DidServiceEndpointsDidEndpoint>",
+              "details": "DidDidDetails"
+            },
+            "PublicCredentialFilter": {
+              "_enum": {
+                "ctypeHash": "Hash",
+                "attester": "AccountId32"
+              }
+            },
+            "PublicCredentialError": {
+              "_enum": [
+                "InvalidSubjectId"
+              ]
+            },
+            "StakingRates": {
+              "collatorStakingRate": "Perquintill",
+              "collatorRewardRate": "Perquintill",
+              "delegatorStakingRate": "Perquintill",
+              "delegatorRewardRate": "Perquintill"
+            },
+            "IdentityCommitmentVersion": "u16",
+            "DipProofRequest": {
+              "identifier": "AccountId32",
+              "version": "IdentityCommitmentVersion",
+              "proofKeys": "Vec<Hash>",
+              "accounts": "Vec<PalletDidLookupLinkableAccountLinkableAccountId>",
+              "shouldIncludeWeb3Name": "bool"
+            },
+            "CompleteMerkleProof": {
+              "root": "MerkleRoot",
+              "proof": "MerkleProof"
+            },
+            "MerkleRoot": "Hash",
+            "MerkleProof": {
+              "blinded": "BlindedLeaves",
+              "revealed": "RevealedLeaves"
+            },
+            "BlindedLeaves": "Vec<BlindedValue>",
+            "BlindedValue": "Bytes",
+            "RevealedLeaves": "Vec<RevealedLeaf>",
+            "RevealedLeaf": {
+              "_enum": {
+                "DidKey": "RevealedDidKey",
+                "Web3Name": "RevealedWeb3Name",
+                "LinkedAccount": "RevealedAccountId"
+              }
+            },
+            "RevealedDidKey": {
+              "id": "Hash",
+              "relationship": "KeyRelationship",
+              "details": "DidDidDetailsDidPublicKeyDetails"
+            },
+            "KeyRelationship": {
+              "_enum": {
+                "Encryption": "Null",
+                "Verification": "VerificationRelationship"
+              }
+            },
+            "VerificationRelationship": {
+              "_enum": [
+                "Authentication",
+                "CapabilityDelegation",
+                "CapabilityInvocation",
+                "AssertionMethod"
+              ]
+            },
+            "RevealedWeb3Name": {
+              "web3Name": "Text",
+              "claimedAt": "BlockNumber"
+            },
+            "RevealedAccountId": "PalletDidLookupLinkableAccountLinkableAccountId",
+            "RuntimeApiDipProofError": {
+              "_enum": {
+                "IdentityProvider": "LinkedDidIdentityProviderError",
+                "MerkleProof": "DidMerkleProofError"
+              }
+            },
+            "LinkedDidIdentityProviderError": {
+              "_enum": [
+                "DidNotFound",
+                "DidDeleted",
+                "Internal"
+              ]
+            },
+            "DidIdentityProviderError": {
+              "_enum": [
+                "DidNotFound",
+                "Internal"
+              ]
+            },
+            "DidMerkleProofError": {
+              "_enum": [
+                "UnsupportedVersion",
+                "KeyNotFound",
+                "LinkedAccountNotFound",
+                "Web3NameNotFound",
+                "Internal"
+              ]
+            },
+            "AssetSwitchApiError": {
+              "_enum": [
+                "InvalidInput",
+                "SwitchPoolNotFound",
+                "SwitchPoolNotSet",
+                "Internal"
+              ]
+            },
+            "LinkedDidResource": {
+              "_enum": {
+                "Web3Name": "Text",
+                "Web3NameAccount": "PalletDidLookupLinkableAccountLinkableAccountId"
+              }
             }
           }
         }
@@ -35139,6 +35701,156 @@ export const typesBundle = {
               }
             },
             "version": 2
+          },
+          {
+            "methods": {
+              "query_by_web3_name": {
+                "description": "Return the information relative to the owner of the provided web3name, if any.",
+                "params": [
+                  {
+                    "name": "name",
+                    "type": "Text"
+                  }
+                ],
+                "type": "Option<RawDidLinkedInfo>"
+              },
+              "query_by_account": {
+                "description": "Return the information relative to the DID to which the provided account is linked, if any.",
+                "params": [
+                  {
+                    "name": "account",
+                    "type": "DidApiAccountId"
+                  }
+                ],
+                "type": "Option<RawDidLinkedInfo>"
+              },
+              "query": {
+                "description": "Return the information relative to the owner of the provided DID, if present.",
+                "params": [
+                  {
+                    "name": "did",
+                    "type": "AccountId32"
+                  }
+                ],
+                "type": "Option<RawDidLinkedInfo>"
+              },
+              "batch_query_by_web3_name": {
+                "description": "Batch multiple calls of `query_by_web3_name`.",
+                "params": [
+                  {
+                    "name": "names",
+                    "type": "Vec<Text>"
+                  }
+                ],
+                "type": "Vec<Option<RawDidLinkedInfo>>"
+              },
+              "batch_query_by_account": {
+                "description": "Batch multiple calls of `query_by_account`.",
+                "params": [
+                  {
+                    "name": "accounts",
+                    "type": "Vec<DidApiAccountId>"
+                  }
+                ],
+                "type": "Vec<Option<RawDidLinkedInfo>>"
+              },
+              "batch_query": {
+                "description": "Batch multiple calls of `query`.",
+                "params": [
+                  {
+                    "name": "dids",
+                    "type": "Vec<AccountId32>"
+                  }
+                ],
+                "type": "Vec<Option<RawDidLinkedInfo>>"
+              }
+            },
+            "version": 3
+          },
+          {
+            "methods": {
+              "query_by_web3_name": {
+                "description": "Return the information relative to the owner of the provided web3name, if any.",
+                "params": [
+                  {
+                    "name": "name",
+                    "type": "Text"
+                  }
+                ],
+                "type": "Option<RawDidLinkedInfo>"
+              },
+              "query_by_account": {
+                "description": "Return the information relative to the DID to which the provided account is linked, if any.",
+                "params": [
+                  {
+                    "name": "account",
+                    "type": "DidApiAccountId"
+                  }
+                ],
+                "type": "Option<RawDidLinkedInfo>"
+              },
+              "query": {
+                "description": "Return the information relative to the owner of the provided DID, if present.",
+                "params": [
+                  {
+                    "name": "did",
+                    "type": "AccountId32"
+                  }
+                ],
+                "type": "Option<RawDidLinkedInfo>"
+              },
+              "batch_query_by_web3_name": {
+                "description": "Batch multiple calls of `query_by_web3_name`.",
+                "params": [
+                  {
+                    "name": "names",
+                    "type": "Vec<Text>"
+                  }
+                ],
+                "type": "Vec<Option<RawDidLinkedInfo>>"
+              },
+              "batch_query_by_account": {
+                "description": "Batch multiple calls of `query_by_account`.",
+                "params": [
+                  {
+                    "name": "accounts",
+                    "type": "Vec<DidApiAccountId>"
+                  }
+                ],
+                "type": "Vec<Option<RawDidLinkedInfo>>"
+              },
+              "batch_query": {
+                "description": "Batch multiple calls of `query`.",
+                "params": [
+                  {
+                    "name": "dids",
+                    "type": "Vec<AccountId32>"
+                  }
+                ],
+                "type": "Vec<Option<RawDidLinkedInfo>>"
+              },
+              "linked_resources": {
+                "description": "Returns the list of linked resources for a given DID that must be deleted before the DID itself can be deleted.",
+                "params": [
+                  {
+                    "name": "did",
+                    "type": "AccountId32"
+                  }
+                ],
+                "type": "Vec<LinkedDidResource>"
+              },
+              "linked_resources_deletion_calls": {
+                "description": "Returns the list of calls that must be executed to delete the linked resources of a given DID, before deleting the DID itself.",
+                "params": [
+                  {
+                    "name": "did",
+                    "type": "AccountId32"
+                  }
+                ],
+                "type": "Vec<RuntimeCall>"
+              }
+            },
+            "version": 4
           }
         ],
         "Staking": [
@@ -35230,6 +35942,205 @@ export const typesBundle = {
               }
             },
             "version": 1
+          },
+          {
+            "methods": {
+              "pool_account_id": {
+                "description": "Calculate the pool account address for a switch pallet instance and asset ID",
+                "params": [
+                  {
+                    "name": "pair_id",
+                    "type": "Text"
+                  },
+                  {
+                    "name": "asset_id",
+                    "type": "XcmVersionedAssetId"
+                  }
+                ],
+                "type": "Result<AccountId32, AssetSwitchApiError>"
+              },
+              "xcm_for_switch": {
+                "description": "Computes the XCM program that will be executed at destination to complete the cross-chain switch.",
+                "params": [
+                  {
+                    "name": "pair_id",
+                    "type": "Text"
+                  },
+                  {
+                    "name": "from",
+                    "type": "AccountId32"
+                  },
+                  {
+                    "name": "to",
+                    "type": "XcmVersionedLocation"
+                  },
+                  {
+                    "name": "amount",
+                    "type": "u128"
+                  }
+                ],
+                "type": "Result<XcmVersionedXcm, AssetSwitchApiError>"
+              }
+            },
+            "version": 2
+          }
+        ],
+        "BondedCurrency": [
+          {
+            "version": 1,
+            "methods": {
+              "pool_info": {
+                "description": "Query the pool status in a human readable format.",
+                "params": [
+                  {
+                    "name": "pool_id",
+                    "type": "PoolId"
+                  }
+                ],
+                "type": "Result<HumanReadablePoolDetails, BondedCurrencyError>"
+              },
+              "pool_infos": {
+                "description": "Query the pools status in a human readable format.",
+                "params": [
+                  {
+                    "name": "pool_ids",
+                    "type": "Vec<PoolId>"
+                  }
+                ],
+                "type": "Result<Vec<HumanReadablePoolDetails>, BondedCurrencyError>"
+              },
+              "quote_for": {
+                "description": "Calculates the collateral for the given amount. The operation is determining whether the amount is minted or burned. The calculated collateral amount is based on the current state of the pool.",
+                "params": [
+                  {
+                    "name": "pool_id",
+                    "type": "PoolId"
+                  },
+                  {
+                    "name": "currency_idx",
+                    "type": "u8"
+                  },
+                  {
+                    "name": "operation",
+                    "type": "MintBurnOperation"
+                  }
+                ],
+                "type": "Result<CollateralBalance, BondedCurrencyError>"
+              },
+              "quote_for_low_and_high_bounds": {
+                "description": "Calculates the collateral for the given integral bounds lower and upper. This function computes the collateral amount based on the provided lower and upper bounds, regardless of the current state.",
+                "params": [
+                  {
+                    "name": "pool_id",
+                    "type": "PoolId"
+                  },
+                  {
+                    "name": "currency_idx",
+                    "type": "u8"
+                  },
+                  {
+                    "name": "low",
+                    "type": "BondedCurrenciesBalance"
+                  },
+                  {
+                    "name": "high",
+                    "type": "BondedCurrenciesBalance"
+                  },
+                  {
+                    "name": "rounding",
+                    "type": "RoundingKind"
+                  }
+                ],
+                "type": "Result<CollateralBalance, BondedCurrencyError>"
+              },
+              "decode_curve_coefficient": {
+                "description": "Parses the bit representation for the coefficient to a human readable format.",
+                "params": [
+                  {
+                    "name": "bit_representation",
+                    "type": "FixedPointBitsType"
+                  }
+                ],
+                "type": "Result<Text, BondedCurrencyError>"
+              },
+              "encode_curve_coefficient": {
+                "description": "Calculates the bit representation for the coefficient. The coefficient is constructed by `coefficient_int.coefficient_frac`. The first value in the tuple is the internal calculated coefficient, represented as a Text. The second value is the bit representation.",
+                "params": [
+                  {
+                    "name": "coefficient",
+                    "type": "Text"
+                  }
+                ],
+                "type": "Result<EncodedCoefficient, BondedCurrencyError>"
+              },
+              "query_pools_by_owner": {
+                "description": "Query all pool IDs where the given account is the owner.",
+                "params": [
+                  {
+                    "name": "account",
+                    "type": "AccountId32"
+                  }
+                ],
+                "type": "Vec<HumanReadablePoolDetails>"
+              },
+              "query_pools_by_manager": {
+                "description": "Query all pool IDs where the given account is the manager.",
+                "params": [
+                  {
+                    "name": "account",
+                    "type": "AccountId32"
+                  }
+                ],
+                "type": "Vec<HumanReadablePoolDetails>"
+              }
+            }
+          }
+        ],
+        "UniqueLinking": [
+          {
+            "version": 1,
+            "methods": {
+              "address_for_name": {
+                "description": "Looks up a nickname, returning the address it is linked to or None",
+                "params": [
+                  {
+                    "name": "name",
+                    "type": "Text"
+                  }
+                ],
+                "type": "Option<NameLookupResult>"
+              },
+              "batch_address_for_name": {
+                "description": "Looks up multiple nicknames at once. For each name it returns either the address it is linked to or None",
+                "params": [
+                  {
+                    "name": "names",
+                    "type": "Vec<Text>"
+                  }
+                ],
+                "type": "Vec<Option<NameLookupResult>>"
+              },
+              "name_for_address": {
+                "description": "Looks up an address, returned the nickname that is linked to it or None.",
+                "params": [
+                  {
+                    "name": "address",
+                    "type": "DidApiAccountId"
+                  }
+                ],
+                "type": "Option<AccountLookupResult>"
+              },
+              "batch_name_for_address": {
+                "description": "Looks up multiple addresses at once. For each address it returns either the nickname it is linked to or None",
+                "params": [
+                  {
+                    "name": "addresses",
+                    "type": "Vec<DidApiAccountId>"
+                  }
+                ],
+                "type": "Vec<Option<AccountLookupResult>>"
+              }
+            }
           }
         ]
       },
@@ -38650,7 +39561,7 @@ export const typesBundle = {
         {
           "minmax": [
             11400,
-            null
+            11499
           ],
           "types": {
             "DidApiAccountId": "PalletDidLookupLinkableAccountLinkableAccountId",
@@ -38763,6 +39674,418 @@ export const typesBundle = {
                 "SwitchPoolNotFound",
                 "Internal"
               ]
+            }
+          }
+        },
+        {
+          "minmax": [
+            11500,
+            11501
+          ],
+          "types": {
+            "DidApiAccountId": "PalletDidLookupLinkableAccountLinkableAccountId",
+            "RawDidLinkedInfo": {
+              "identifier": "AccountId32",
+              "accounts": "Vec<DidApiAccountId>",
+              "w3n": "Option<Text>",
+              "serviceEndpoints": "Vec<DidServiceEndpointsDidEndpoint>",
+              "details": "DidDidDetails"
+            },
+            "PublicCredentialFilter": {
+              "_enum": {
+                "ctypeHash": "Hash",
+                "attester": "AccountId32"
+              }
+            },
+            "PublicCredentialError": {
+              "_enum": [
+                "InvalidSubjectId"
+              ]
+            },
+            "StakingRates": {
+              "collatorStakingRate": "Perquintill",
+              "collatorRewardRate": "Perquintill",
+              "delegatorStakingRate": "Perquintill",
+              "delegatorRewardRate": "Perquintill"
+            },
+            "IdentityCommitmentVersion": "u16",
+            "DipProofRequest": {
+              "identifier": "AccountId32",
+              "version": "IdentityCommitmentVersion",
+              "proofKeys": "Vec<Hash>",
+              "accounts": "Vec<PalletDidLookupLinkableAccountLinkableAccountId>",
+              "shouldIncludeWeb3Name": "bool"
+            },
+            "CompleteMerkleProof": {
+              "root": "MerkleRoot",
+              "proof": "MerkleProof"
+            },
+            "MerkleRoot": "Hash",
+            "MerkleProof": {
+              "blinded": "BlindedLeaves",
+              "revealed": "RevealedLeaves"
+            },
+            "BlindedLeaves": "Vec<BlindedValue>",
+            "BlindedValue": "Bytes",
+            "RevealedLeaves": "Vec<RevealedLeaf>",
+            "RevealedLeaf": {
+              "_enum": {
+                "DidKey": "RevealedDidKey",
+                "Web3Name": "RevealedWeb3Name",
+                "LinkedAccount": "RevealedAccountId"
+              }
+            },
+            "RevealedDidKey": {
+              "id": "Hash",
+              "relationship": "KeyRelationship",
+              "details": "DidDidDetailsDidPublicKeyDetails"
+            },
+            "KeyRelationship": {
+              "_enum": {
+                "Encryption": "Null",
+                "Verification": "VerificationRelationship"
+              }
+            },
+            "VerificationRelationship": {
+              "_enum": [
+                "Authentication",
+                "CapabilityDelegation",
+                "CapabilityInvocation",
+                "AssertionMethod"
+              ]
+            },
+            "RevealedWeb3Name": {
+              "web3Name": "Text",
+              "claimedAt": "BlockNumber"
+            },
+            "RevealedAccountId": "PalletDidLookupLinkableAccountLinkableAccountId",
+            "RuntimeApiDipProofError": {
+              "_enum": {
+                "IdentityProvider": "LinkedDidIdentityProviderError",
+                "MerkleProof": "DidMerkleProofError"
+              }
+            },
+            "LinkedDidIdentityProviderError": {
+              "_enum": [
+                "DidNotFound",
+                "DidDeleted",
+                "Internal"
+              ]
+            },
+            "DidIdentityProviderError": {
+              "_enum": [
+                "DidNotFound",
+                "Internal"
+              ]
+            },
+            "DidMerkleProofError": {
+              "_enum": [
+                "UnsupportedVersion",
+                "KeyNotFound",
+                "LinkedAccountNotFound",
+                "Web3NameNotFound",
+                "Internal"
+              ]
+            },
+            "AssetSwitchApiError": {
+              "_enum": [
+                "InvalidInput",
+                "SwitchPoolNotFound",
+                "SwitchPoolNotSet",
+                "Internal"
+              ]
+            },
+            "BondedCurrencyError": {
+              "_enum": [
+                "PoolNotFound",
+                "CurrencyNotFound",
+                "BalanceConversion",
+                "CalculationError",
+                "Internal",
+                "InvalidInput"
+              ]
+            },
+            "MintBurnOperation": {
+              "_enum": {
+                "Mint": "BondedCurrenciesBalance",
+                "Burn": "BondedCurrenciesBalance"
+              }
+            },
+            "RoundingKind": {
+              "_enum": [
+                "Up",
+                "Down"
+              ]
+            },
+            "PoolId": "AccountId32",
+            "BondedCurrenciesId": "u32",
+            "BondedCurrenciesBalance": "u128",
+            "CollateralBalance": "u128",
+            "FixedPointBitsType": "I128",
+            "EncodedCoefficient": {
+              "representation": "Text",
+              "bits": "FixedPointBitsType"
+            },
+            "BondedCurrencyDetails": {
+              "id": "BondedCurrenciesId",
+              "name": "Text",
+              "symbol": "Text",
+              "supply": "BondedCurrenciesBalance"
+            },
+            "TextParametrizedPolynomialCurve": {
+              "m": "Text",
+              "n": "Text",
+              "o": "Text"
+            },
+            "TextParametrizedSquareRootCurve": {
+              "m": "Text",
+              "n": "Text"
+            },
+            "TextParametrizedLmsr": {
+              "m": "Text"
+            },
+            "TextParametrizedCurve": {
+              "_enum": {
+                "Polynomial": "TextParametrizedPolynomialCurve",
+                "SquareRoot": "TextParametrizedSquareRootCurve",
+                "Lmsr": "TextParametrizedLmsr"
+              }
+            },
+            "CollateralDetails": {
+              "id": "StagingXcmV4Location",
+              "name": "Text",
+              "symbol": "Text",
+              "denomination": "u8"
+            },
+            "HumanReadablePoolDetails": {
+              "poolId": "PoolId",
+              "owner": "AccountId32",
+              "manager": "Option<AccountId32>",
+              "curve": "TextParametrizedCurve",
+              "collateral": "CollateralDetails",
+              "bondedCurrencies": "Vec<BondedCurrencyDetails>",
+              "state": "PalletBondedCoinsPoolStatus",
+              "transferable": "bool",
+              "denomination": "u8",
+              "minOperationBalance": "BondedCurrenciesBalance",
+              "deposit": "Balance"
+            },
+            "AccountLookupResult": {
+              "name": "Text",
+              "extra": "Option<AccountId32>"
+            },
+            "NameLookupResult": {
+              "address": "DidApiAccountId",
+              "extra": "Option<AccountId32>"
+            }
+          }
+        },
+        {
+          "minmax": [
+            11502,
+            null
+          ],
+          "types": {
+            "DidApiAccountId": "PalletDidLookupLinkableAccountLinkableAccountId",
+            "RawDidLinkedInfo": {
+              "identifier": "AccountId32",
+              "accounts": "Vec<DidApiAccountId>",
+              "w3n": "Option<Text>",
+              "serviceEndpoints": "Vec<DidServiceEndpointsDidEndpoint>",
+              "details": "DidDidDetails"
+            },
+            "PublicCredentialFilter": {
+              "_enum": {
+                "ctypeHash": "Hash",
+                "attester": "AccountId32"
+              }
+            },
+            "PublicCredentialError": {
+              "_enum": [
+                "InvalidSubjectId"
+              ]
+            },
+            "StakingRates": {
+              "collatorStakingRate": "Perquintill",
+              "collatorRewardRate": "Perquintill",
+              "delegatorStakingRate": "Perquintill",
+              "delegatorRewardRate": "Perquintill"
+            },
+            "IdentityCommitmentVersion": "u16",
+            "DipProofRequest": {
+              "identifier": "AccountId32",
+              "version": "IdentityCommitmentVersion",
+              "proofKeys": "Vec<Hash>",
+              "accounts": "Vec<PalletDidLookupLinkableAccountLinkableAccountId>",
+              "shouldIncludeWeb3Name": "bool"
+            },
+            "CompleteMerkleProof": {
+              "root": "MerkleRoot",
+              "proof": "MerkleProof"
+            },
+            "MerkleRoot": "Hash",
+            "MerkleProof": {
+              "blinded": "BlindedLeaves",
+              "revealed": "RevealedLeaves"
+            },
+            "BlindedLeaves": "Vec<BlindedValue>",
+            "BlindedValue": "Bytes",
+            "RevealedLeaves": "Vec<RevealedLeaf>",
+            "RevealedLeaf": {
+              "_enum": {
+                "DidKey": "RevealedDidKey",
+                "Web3Name": "RevealedWeb3Name",
+                "LinkedAccount": "RevealedAccountId"
+              }
+            },
+            "RevealedDidKey": {
+              "id": "Hash",
+              "relationship": "KeyRelationship",
+              "details": "DidDidDetailsDidPublicKeyDetails"
+            },
+            "KeyRelationship": {
+              "_enum": {
+                "Encryption": "Null",
+                "Verification": "VerificationRelationship"
+              }
+            },
+            "VerificationRelationship": {
+              "_enum": [
+                "Authentication",
+                "CapabilityDelegation",
+                "CapabilityInvocation",
+                "AssertionMethod"
+              ]
+            },
+            "RevealedWeb3Name": {
+              "web3Name": "Text",
+              "claimedAt": "BlockNumber"
+            },
+            "RevealedAccountId": "PalletDidLookupLinkableAccountLinkableAccountId",
+            "RuntimeApiDipProofError": {
+              "_enum": {
+                "IdentityProvider": "LinkedDidIdentityProviderError",
+                "MerkleProof": "DidMerkleProofError"
+              }
+            },
+            "LinkedDidIdentityProviderError": {
+              "_enum": [
+                "DidNotFound",
+                "DidDeleted",
+                "Internal"
+              ]
+            },
+            "DidIdentityProviderError": {
+              "_enum": [
+                "DidNotFound",
+                "Internal"
+              ]
+            },
+            "DidMerkleProofError": {
+              "_enum": [
+                "UnsupportedVersion",
+                "KeyNotFound",
+                "LinkedAccountNotFound",
+                "Web3NameNotFound",
+                "Internal"
+              ]
+            },
+            "AssetSwitchApiError": {
+              "_enum": [
+                "InvalidInput",
+                "SwitchPoolNotFound",
+                "SwitchPoolNotSet",
+                "Internal"
+              ]
+            },
+            "BondedCurrencyError": {
+              "_enum": [
+                "PoolNotFound",
+                "CurrencyNotFound",
+                "BalanceConversion",
+                "CalculationError",
+                "Internal",
+                "InvalidInput"
+              ]
+            },
+            "MintBurnOperation": {
+              "_enum": {
+                "Mint": "BondedCurrenciesBalance",
+                "Burn": "BondedCurrenciesBalance"
+              }
+            },
+            "RoundingKind": {
+              "_enum": [
+                "Up",
+                "Down"
+              ]
+            },
+            "PoolId": "AccountId32",
+            "BondedCurrenciesId": "u32",
+            "BondedCurrenciesBalance": "u128",
+            "CollateralBalance": "u128",
+            "FixedPointBitsType": "I128",
+            "EncodedCoefficient": {
+              "representation": "Text",
+              "bits": "FixedPointBitsType"
+            },
+            "BondedCurrencyDetails": {
+              "id": "BondedCurrenciesId",
+              "name": "Text",
+              "symbol": "Text",
+              "supply": "BondedCurrenciesBalance"
+            },
+            "TextParametrizedPolynomialCurve": {
+              "m": "Text",
+              "n": "Text",
+              "o": "Text"
+            },
+            "TextParametrizedSquareRootCurve": {
+              "m": "Text",
+              "n": "Text"
+            },
+            "TextParametrizedLmsr": {
+              "m": "Text"
+            },
+            "TextParametrizedCurve": {
+              "_enum": {
+                "Polynomial": "TextParametrizedPolynomialCurve",
+                "SquareRoot": "TextParametrizedSquareRootCurve",
+                "Lmsr": "TextParametrizedLmsr"
+              }
+            },
+            "CollateralDetails": {
+              "id": "StagingXcmV4Location",
+              "name": "Text",
+              "symbol": "Text",
+              "denomination": "u8"
+            },
+            "HumanReadablePoolDetails": {
+              "poolId": "PoolId",
+              "owner": "AccountId32",
+              "manager": "Option<AccountId32>",
+              "curve": "TextParametrizedCurve",
+              "collateral": "CollateralDetails",
+              "bondedCurrencies": "Vec<BondedCurrencyDetails>",
+              "state": "PalletBondedCoinsPoolStatus",
+              "transferable": "bool",
+              "denomination": "u8",
+              "minOperationBalance": "BondedCurrenciesBalance",
+              "deposit": "Balance"
+            },
+            "AccountLookupResult": {
+              "name": "Text",
+              "extra": "Option<AccountId32>"
+            },
+            "NameLookupResult": {
+              "address": "DidApiAccountId",
+              "extra": "Option<AccountId32>"
+            },
+            "LinkedDidResource": {
+              "_enum": {
+                "Web3Name": "Text",
+                "Web3NameAccount": "PalletDidLookupLinkableAccountLinkableAccountId"
+              }
             }
           }
         }
@@ -38912,6 +40235,156 @@ export const typesBundle = {
               }
             },
             "version": 2
+          },
+          {
+            "methods": {
+              "query_by_web3_name": {
+                "description": "Return the information relative to the owner of the provided web3name, if any.",
+                "params": [
+                  {
+                    "name": "name",
+                    "type": "Text"
+                  }
+                ],
+                "type": "Option<RawDidLinkedInfo>"
+              },
+              "query_by_account": {
+                "description": "Return the information relative to the DID to which the provided account is linked, if any.",
+                "params": [
+                  {
+                    "name": "account",
+                    "type": "DidApiAccountId"
+                  }
+                ],
+                "type": "Option<RawDidLinkedInfo>"
+              },
+              "query": {
+                "description": "Return the information relative to the owner of the provided DID, if present.",
+                "params": [
+                  {
+                    "name": "did",
+                    "type": "AccountId32"
+                  }
+                ],
+                "type": "Option<RawDidLinkedInfo>"
+              },
+              "batch_query_by_web3_name": {
+                "description": "Batch multiple calls of `query_by_web3_name`.",
+                "params": [
+                  {
+                    "name": "names",
+                    "type": "Vec<Text>"
+                  }
+                ],
+                "type": "Vec<Option<RawDidLinkedInfo>>"
+              },
+              "batch_query_by_account": {
+                "description": "Batch multiple calls of `query_by_account`.",
+                "params": [
+                  {
+                    "name": "accounts",
+                    "type": "Vec<DidApiAccountId>"
+                  }
+                ],
+                "type": "Vec<Option<RawDidLinkedInfo>>"
+              },
+              "batch_query": {
+                "description": "Batch multiple calls of `query`.",
+                "params": [
+                  {
+                    "name": "dids",
+                    "type": "Vec<AccountId32>"
+                  }
+                ],
+                "type": "Vec<Option<RawDidLinkedInfo>>"
+              }
+            },
+            "version": 3
+          },
+          {
+            "methods": {
+              "query_by_web3_name": {
+                "description": "Return the information relative to the owner of the provided web3name, if any.",
+                "params": [
+                  {
+                    "name": "name",
+                    "type": "Text"
+                  }
+                ],
+                "type": "Option<RawDidLinkedInfo>"
+              },
+              "query_by_account": {
+                "description": "Return the information relative to the DID to which the provided account is linked, if any.",
+                "params": [
+                  {
+                    "name": "account",
+                    "type": "DidApiAccountId"
+                  }
+                ],
+                "type": "Option<RawDidLinkedInfo>"
+              },
+              "query": {
+                "description": "Return the information relative to the owner of the provided DID, if present.",
+                "params": [
+                  {
+                    "name": "did",
+                    "type": "AccountId32"
+                  }
+                ],
+                "type": "Option<RawDidLinkedInfo>"
+              },
+              "batch_query_by_web3_name": {
+                "description": "Batch multiple calls of `query_by_web3_name`.",
+                "params": [
+                  {
+                    "name": "names",
+                    "type": "Vec<Text>"
+                  }
+                ],
+                "type": "Vec<Option<RawDidLinkedInfo>>"
+              },
+              "batch_query_by_account": {
+                "description": "Batch multiple calls of `query_by_account`.",
+                "params": [
+                  {
+                    "name": "accounts",
+                    "type": "Vec<DidApiAccountId>"
+                  }
+                ],
+                "type": "Vec<Option<RawDidLinkedInfo>>"
+              },
+              "batch_query": {
+                "description": "Batch multiple calls of `query`.",
+                "params": [
+                  {
+                    "name": "dids",
+                    "type": "Vec<AccountId32>"
+                  }
+                ],
+                "type": "Vec<Option<RawDidLinkedInfo>>"
+              },
+              "linked_resources": {
+                "description": "Returns the list of linked resources for a given DID that must be deleted before the DID itself can be deleted.",
+                "params": [
+                  {
+                    "name": "did",
+                    "type": "AccountId32"
+                  }
+                ],
+                "type": "Vec<LinkedDidResource>"
+              },
+              "linked_resources_deletion_calls": {
+                "description": "Returns the list of calls that must be executed to delete the linked resources of a given DID, before deleting the DID itself.",
+                "params": [
+                  {
+                    "name": "did",
+                    "type": "AccountId32"
+                  }
+                ],
+                "type": "Vec<RuntimeCall>"
+              }
+            },
+            "version": 4
           }
         ],
         "PublicCredentials": [
@@ -42363,7 +43836,7 @@ export const typesBundle = {
         {
           "minmax": [
             11400,
-            null
+            11499
           ],
           "types": {
             "DidApiAccountId": "PalletDidLookupLinkableAccountLinkableAccountId",
@@ -42476,6 +43949,252 @@ export const typesBundle = {
                 "SwitchPoolNotFound",
                 "Internal"
               ]
+            }
+          }
+        },
+        {
+          "minmax": [
+            11500,
+            11501
+          ],
+          "types": {
+            "DidApiAccountId": "PalletDidLookupLinkableAccountLinkableAccountId",
+            "RawDidLinkedInfo": {
+              "identifier": "AccountId32",
+              "accounts": "Vec<DidApiAccountId>",
+              "w3n": "Option<Text>",
+              "serviceEndpoints": "Vec<DidServiceEndpointsDidEndpoint>",
+              "details": "DidDidDetails"
+            },
+            "PublicCredentialFilter": {
+              "_enum": {
+                "ctypeHash": "Hash",
+                "attester": "AccountId32"
+              }
+            },
+            "PublicCredentialError": {
+              "_enum": [
+                "InvalidSubjectId"
+              ]
+            },
+            "StakingRates": {
+              "collatorStakingRate": "Perquintill",
+              "collatorRewardRate": "Perquintill",
+              "delegatorStakingRate": "Perquintill",
+              "delegatorRewardRate": "Perquintill"
+            },
+            "IdentityCommitmentVersion": "u16",
+            "DipProofRequest": {
+              "identifier": "AccountId32",
+              "version": "IdentityCommitmentVersion",
+              "proofKeys": "Vec<Hash>",
+              "accounts": "Vec<PalletDidLookupLinkableAccountLinkableAccountId>",
+              "shouldIncludeWeb3Name": "bool"
+            },
+            "CompleteMerkleProof": {
+              "root": "MerkleRoot",
+              "proof": "MerkleProof"
+            },
+            "MerkleRoot": "Hash",
+            "MerkleProof": {
+              "blinded": "BlindedLeaves",
+              "revealed": "RevealedLeaves"
+            },
+            "BlindedLeaves": "Vec<BlindedValue>",
+            "BlindedValue": "Bytes",
+            "RevealedLeaves": "Vec<RevealedLeaf>",
+            "RevealedLeaf": {
+              "_enum": {
+                "DidKey": "RevealedDidKey",
+                "Web3Name": "RevealedWeb3Name",
+                "LinkedAccount": "RevealedAccountId"
+              }
+            },
+            "RevealedDidKey": {
+              "id": "Hash",
+              "relationship": "KeyRelationship",
+              "details": "DidDidDetailsDidPublicKeyDetails"
+            },
+            "KeyRelationship": {
+              "_enum": {
+                "Encryption": "Null",
+                "Verification": "VerificationRelationship"
+              }
+            },
+            "VerificationRelationship": {
+              "_enum": [
+                "Authentication",
+                "CapabilityDelegation",
+                "CapabilityInvocation",
+                "AssertionMethod"
+              ]
+            },
+            "RevealedWeb3Name": {
+              "web3Name": "Text",
+              "claimedAt": "BlockNumber"
+            },
+            "RevealedAccountId": "PalletDidLookupLinkableAccountLinkableAccountId",
+            "RuntimeApiDipProofError": {
+              "_enum": {
+                "IdentityProvider": "LinkedDidIdentityProviderError",
+                "MerkleProof": "DidMerkleProofError"
+              }
+            },
+            "LinkedDidIdentityProviderError": {
+              "_enum": [
+                "DidNotFound",
+                "DidDeleted",
+                "Internal"
+              ]
+            },
+            "DidIdentityProviderError": {
+              "_enum": [
+                "DidNotFound",
+                "Internal"
+              ]
+            },
+            "DidMerkleProofError": {
+              "_enum": [
+                "UnsupportedVersion",
+                "KeyNotFound",
+                "LinkedAccountNotFound",
+                "Web3NameNotFound",
+                "Internal"
+              ]
+            },
+            "AssetSwitchApiError": {
+              "_enum": [
+                "InvalidInput",
+                "SwitchPoolNotFound",
+                "SwitchPoolNotSet",
+                "Internal"
+              ]
+            }
+          }
+        },
+        {
+          "minmax": [
+            11502,
+            null
+          ],
+          "types": {
+            "DidApiAccountId": "PalletDidLookupLinkableAccountLinkableAccountId",
+            "RawDidLinkedInfo": {
+              "identifier": "AccountId32",
+              "accounts": "Vec<DidApiAccountId>",
+              "w3n": "Option<Text>",
+              "serviceEndpoints": "Vec<DidServiceEndpointsDidEndpoint>",
+              "details": "DidDidDetails"
+            },
+            "PublicCredentialFilter": {
+              "_enum": {
+                "ctypeHash": "Hash",
+                "attester": "AccountId32"
+              }
+            },
+            "PublicCredentialError": {
+              "_enum": [
+                "InvalidSubjectId"
+              ]
+            },
+            "StakingRates": {
+              "collatorStakingRate": "Perquintill",
+              "collatorRewardRate": "Perquintill",
+              "delegatorStakingRate": "Perquintill",
+              "delegatorRewardRate": "Perquintill"
+            },
+            "IdentityCommitmentVersion": "u16",
+            "DipProofRequest": {
+              "identifier": "AccountId32",
+              "version": "IdentityCommitmentVersion",
+              "proofKeys": "Vec<Hash>",
+              "accounts": "Vec<PalletDidLookupLinkableAccountLinkableAccountId>",
+              "shouldIncludeWeb3Name": "bool"
+            },
+            "CompleteMerkleProof": {
+              "root": "MerkleRoot",
+              "proof": "MerkleProof"
+            },
+            "MerkleRoot": "Hash",
+            "MerkleProof": {
+              "blinded": "BlindedLeaves",
+              "revealed": "RevealedLeaves"
+            },
+            "BlindedLeaves": "Vec<BlindedValue>",
+            "BlindedValue": "Bytes",
+            "RevealedLeaves": "Vec<RevealedLeaf>",
+            "RevealedLeaf": {
+              "_enum": {
+                "DidKey": "RevealedDidKey",
+                "Web3Name": "RevealedWeb3Name",
+                "LinkedAccount": "RevealedAccountId"
+              }
+            },
+            "RevealedDidKey": {
+              "id": "Hash",
+              "relationship": "KeyRelationship",
+              "details": "DidDidDetailsDidPublicKeyDetails"
+            },
+            "KeyRelationship": {
+              "_enum": {
+                "Encryption": "Null",
+                "Verification": "VerificationRelationship"
+              }
+            },
+            "VerificationRelationship": {
+              "_enum": [
+                "Authentication",
+                "CapabilityDelegation",
+                "CapabilityInvocation",
+                "AssertionMethod"
+              ]
+            },
+            "RevealedWeb3Name": {
+              "web3Name": "Text",
+              "claimedAt": "BlockNumber"
+            },
+            "RevealedAccountId": "PalletDidLookupLinkableAccountLinkableAccountId",
+            "RuntimeApiDipProofError": {
+              "_enum": {
+                "IdentityProvider": "LinkedDidIdentityProviderError",
+                "MerkleProof": "DidMerkleProofError"
+              }
+            },
+            "LinkedDidIdentityProviderError": {
+              "_enum": [
+                "DidNotFound",
+                "DidDeleted",
+                "Internal"
+              ]
+            },
+            "DidIdentityProviderError": {
+              "_enum": [
+                "DidNotFound",
+                "Internal"
+              ]
+            },
+            "DidMerkleProofError": {
+              "_enum": [
+                "UnsupportedVersion",
+                "KeyNotFound",
+                "LinkedAccountNotFound",
+                "Web3NameNotFound",
+                "Internal"
+              ]
+            },
+            "AssetSwitchApiError": {
+              "_enum": [
+                "InvalidInput",
+                "SwitchPoolNotFound",
+                "SwitchPoolNotSet",
+                "Internal"
+              ]
+            },
+            "LinkedDidResource": {
+              "_enum": {
+                "Web3Name": "Text",
+                "Web3NameAccount": "PalletDidLookupLinkableAccountLinkableAccountId"
+              }
             }
           }
         }
@@ -42625,6 +44344,156 @@ export const typesBundle = {
               }
             },
             "version": 2
+          },
+          {
+            "methods": {
+              "query_by_web3_name": {
+                "description": "Return the information relative to the owner of the provided web3name, if any.",
+                "params": [
+                  {
+                    "name": "name",
+                    "type": "Text"
+                  }
+                ],
+                "type": "Option<RawDidLinkedInfo>"
+              },
+              "query_by_account": {
+                "description": "Return the information relative to the DID to which the provided account is linked, if any.",
+                "params": [
+                  {
+                    "name": "account",
+                    "type": "DidApiAccountId"
+                  }
+                ],
+                "type": "Option<RawDidLinkedInfo>"
+              },
+              "query": {
+                "description": "Return the information relative to the owner of the provided DID, if present.",
+                "params": [
+                  {
+                    "name": "did",
+                    "type": "AccountId32"
+                  }
+                ],
+                "type": "Option<RawDidLinkedInfo>"
+              },
+              "batch_query_by_web3_name": {
+                "description": "Batch multiple calls of `query_by_web3_name`.",
+                "params": [
+                  {
+                    "name": "names",
+                    "type": "Vec<Text>"
+                  }
+                ],
+                "type": "Vec<Option<RawDidLinkedInfo>>"
+              },
+              "batch_query_by_account": {
+                "description": "Batch multiple calls of `query_by_account`.",
+                "params": [
+                  {
+                    "name": "accounts",
+                    "type": "Vec<DidApiAccountId>"
+                  }
+                ],
+                "type": "Vec<Option<RawDidLinkedInfo>>"
+              },
+              "batch_query": {
+                "description": "Batch multiple calls of `query`.",
+                "params": [
+                  {
+                    "name": "dids",
+                    "type": "Vec<AccountId32>"
+                  }
+                ],
+                "type": "Vec<Option<RawDidLinkedInfo>>"
+              }
+            },
+            "version": 3
+          },
+          {
+            "methods": {
+              "query_by_web3_name": {
+                "description": "Return the information relative to the owner of the provided web3name, if any.",
+                "params": [
+                  {
+                    "name": "name",
+                    "type": "Text"
+                  }
+                ],
+                "type": "Option<RawDidLinkedInfo>"
+              },
+              "query_by_account": {
+                "description": "Return the information relative to the DID to which the provided account is linked, if any.",
+                "params": [
+                  {
+                    "name": "account",
+                    "type": "DidApiAccountId"
+                  }
+                ],
+                "type": "Option<RawDidLinkedInfo>"
+              },
+              "query": {
+                "description": "Return the information relative to the owner of the provided DID, if present.",
+                "params": [
+                  {
+                    "name": "did",
+                    "type": "AccountId32"
+                  }
+                ],
+                "type": "Option<RawDidLinkedInfo>"
+              },
+              "batch_query_by_web3_name": {
+                "description": "Batch multiple calls of `query_by_web3_name`.",
+                "params": [
+                  {
+                    "name": "names",
+                    "type": "Vec<Text>"
+                  }
+                ],
+                "type": "Vec<Option<RawDidLinkedInfo>>"
+              },
+              "batch_query_by_account": {
+                "description": "Batch multiple calls of `query_by_account`.",
+                "params": [
+                  {
+                    "name": "accounts",
+                    "type": "Vec<DidApiAccountId>"
+                  }
+                ],
+                "type": "Vec<Option<RawDidLinkedInfo>>"
+              },
+              "batch_query": {
+                "description": "Batch multiple calls of `query`.",
+                "params": [
+                  {
+                    "name": "dids",
+                    "type": "Vec<AccountId32>"
+                  }
+                ],
+                "type": "Vec<Option<RawDidLinkedInfo>>"
+              },
+              "linked_resources": {
+                "description": "Returns the list of linked resources for a given DID that must be deleted before the DID itself can be deleted.",
+                "params": [
+                  {
+                    "name": "did",
+                    "type": "AccountId32"
+                  }
+                ],
+                "type": "Vec<LinkedDidResource>"
+              },
+              "linked_resources_deletion_calls": {
+                "description": "Returns the list of calls that must be executed to delete the linked resources of a given DID, before deleting the DID itself.",
+                "params": [
+                  {
+                    "name": "did",
+                    "type": "AccountId32"
+                  }
+                ],
+                "type": "Vec<RuntimeCall>"
+              }
+            },
+            "version": 4
           }
         ],
         "DipProvider": [
@@ -46062,7 +47931,7 @@ export const typesBundle = {
         {
           "minmax": [
             11400,
-            null
+            11499
           ],
           "types": {
             "DidApiAccountId": "PalletDidLookupLinkableAccountLinkableAccountId",
@@ -46175,6 +48044,252 @@ export const typesBundle = {
                 "SwitchPoolNotFound",
                 "Internal"
               ]
+            }
+          }
+        },
+        {
+          "minmax": [
+            11500,
+            11501
+          ],
+          "types": {
+            "DidApiAccountId": "PalletDidLookupLinkableAccountLinkableAccountId",
+            "RawDidLinkedInfo": {
+              "identifier": "AccountId32",
+              "accounts": "Vec<DidApiAccountId>",
+              "w3n": "Option<Text>",
+              "serviceEndpoints": "Vec<DidServiceEndpointsDidEndpoint>",
+              "details": "DidDidDetails"
+            },
+            "PublicCredentialFilter": {
+              "_enum": {
+                "ctypeHash": "Hash",
+                "attester": "AccountId32"
+              }
+            },
+            "PublicCredentialError": {
+              "_enum": [
+                "InvalidSubjectId"
+              ]
+            },
+            "StakingRates": {
+              "collatorStakingRate": "Perquintill",
+              "collatorRewardRate": "Perquintill",
+              "delegatorStakingRate": "Perquintill",
+              "delegatorRewardRate": "Perquintill"
+            },
+            "IdentityCommitmentVersion": "u16",
+            "DipProofRequest": {
+              "identifier": "AccountId32",
+              "version": "IdentityCommitmentVersion",
+              "proofKeys": "Vec<Hash>",
+              "accounts": "Vec<PalletDidLookupLinkableAccountLinkableAccountId>",
+              "shouldIncludeWeb3Name": "bool"
+            },
+            "CompleteMerkleProof": {
+              "root": "MerkleRoot",
+              "proof": "MerkleProof"
+            },
+            "MerkleRoot": "Hash",
+            "MerkleProof": {
+              "blinded": "BlindedLeaves",
+              "revealed": "RevealedLeaves"
+            },
+            "BlindedLeaves": "Vec<BlindedValue>",
+            "BlindedValue": "Bytes",
+            "RevealedLeaves": "Vec<RevealedLeaf>",
+            "RevealedLeaf": {
+              "_enum": {
+                "DidKey": "RevealedDidKey",
+                "Web3Name": "RevealedWeb3Name",
+                "LinkedAccount": "RevealedAccountId"
+              }
+            },
+            "RevealedDidKey": {
+              "id": "Hash",
+              "relationship": "KeyRelationship",
+              "details": "DidDidDetailsDidPublicKeyDetails"
+            },
+            "KeyRelationship": {
+              "_enum": {
+                "Encryption": "Null",
+                "Verification": "VerificationRelationship"
+              }
+            },
+            "VerificationRelationship": {
+              "_enum": [
+                "Authentication",
+                "CapabilityDelegation",
+                "CapabilityInvocation",
+                "AssertionMethod"
+              ]
+            },
+            "RevealedWeb3Name": {
+              "web3Name": "Text",
+              "claimedAt": "BlockNumber"
+            },
+            "RevealedAccountId": "PalletDidLookupLinkableAccountLinkableAccountId",
+            "RuntimeApiDipProofError": {
+              "_enum": {
+                "IdentityProvider": "LinkedDidIdentityProviderError",
+                "MerkleProof": "DidMerkleProofError"
+              }
+            },
+            "LinkedDidIdentityProviderError": {
+              "_enum": [
+                "DidNotFound",
+                "DidDeleted",
+                "Internal"
+              ]
+            },
+            "DidIdentityProviderError": {
+              "_enum": [
+                "DidNotFound",
+                "Internal"
+              ]
+            },
+            "DidMerkleProofError": {
+              "_enum": [
+                "UnsupportedVersion",
+                "KeyNotFound",
+                "LinkedAccountNotFound",
+                "Web3NameNotFound",
+                "Internal"
+              ]
+            },
+            "AssetSwitchApiError": {
+              "_enum": [
+                "InvalidInput",
+                "SwitchPoolNotFound",
+                "SwitchPoolNotSet",
+                "Internal"
+              ]
+            }
+          }
+        },
+        {
+          "minmax": [
+            11502,
+            null
+          ],
+          "types": {
+            "DidApiAccountId": "PalletDidLookupLinkableAccountLinkableAccountId",
+            "RawDidLinkedInfo": {
+              "identifier": "AccountId32",
+              "accounts": "Vec<DidApiAccountId>",
+              "w3n": "Option<Text>",
+              "serviceEndpoints": "Vec<DidServiceEndpointsDidEndpoint>",
+              "details": "DidDidDetails"
+            },
+            "PublicCredentialFilter": {
+              "_enum": {
+                "ctypeHash": "Hash",
+                "attester": "AccountId32"
+              }
+            },
+            "PublicCredentialError": {
+              "_enum": [
+                "InvalidSubjectId"
+              ]
+            },
+            "StakingRates": {
+              "collatorStakingRate": "Perquintill",
+              "collatorRewardRate": "Perquintill",
+              "delegatorStakingRate": "Perquintill",
+              "delegatorRewardRate": "Perquintill"
+            },
+            "IdentityCommitmentVersion": "u16",
+            "DipProofRequest": {
+              "identifier": "AccountId32",
+              "version": "IdentityCommitmentVersion",
+              "proofKeys": "Vec<Hash>",
+              "accounts": "Vec<PalletDidLookupLinkableAccountLinkableAccountId>",
+              "shouldIncludeWeb3Name": "bool"
+            },
+            "CompleteMerkleProof": {
+              "root": "MerkleRoot",
+              "proof": "MerkleProof"
+            },
+            "MerkleRoot": "Hash",
+            "MerkleProof": {
+              "blinded": "BlindedLeaves",
+              "revealed": "RevealedLeaves"
+            },
+            "BlindedLeaves": "Vec<BlindedValue>",
+            "BlindedValue": "Bytes",
+            "RevealedLeaves": "Vec<RevealedLeaf>",
+            "RevealedLeaf": {
+              "_enum": {
+                "DidKey": "RevealedDidKey",
+                "Web3Name": "RevealedWeb3Name",
+                "LinkedAccount": "RevealedAccountId"
+              }
+            },
+            "RevealedDidKey": {
+              "id": "Hash",
+              "relationship": "KeyRelationship",
+              "details": "DidDidDetailsDidPublicKeyDetails"
+            },
+            "KeyRelationship": {
+              "_enum": {
+                "Encryption": "Null",
+                "Verification": "VerificationRelationship"
+              }
+            },
+            "VerificationRelationship": {
+              "_enum": [
+                "Authentication",
+                "CapabilityDelegation",
+                "CapabilityInvocation",
+                "AssertionMethod"
+              ]
+            },
+            "RevealedWeb3Name": {
+              "web3Name": "Text",
+              "claimedAt": "BlockNumber"
+            },
+            "RevealedAccountId": "PalletDidLookupLinkableAccountLinkableAccountId",
+            "RuntimeApiDipProofError": {
+              "_enum": {
+                "IdentityProvider": "LinkedDidIdentityProviderError",
+                "MerkleProof": "DidMerkleProofError"
+              }
+            },
+            "LinkedDidIdentityProviderError": {
+              "_enum": [
+                "DidNotFound",
+                "DidDeleted",
+                "Internal"
+              ]
+            },
+            "DidIdentityProviderError": {
+              "_enum": [
+                "DidNotFound",
+                "Internal"
+              ]
+            },
+            "DidMerkleProofError": {
+              "_enum": [
+                "UnsupportedVersion",
+                "KeyNotFound",
+                "LinkedAccountNotFound",
+                "Web3NameNotFound",
+                "Internal"
+              ]
+            },
+            "AssetSwitchApiError": {
+              "_enum": [
+                "InvalidInput",
+                "SwitchPoolNotFound",
+                "SwitchPoolNotSet",
+                "Internal"
+              ]
+            },
+            "LinkedDidResource": {
+              "_enum": {
+                "Web3Name": "Text",
+                "Web3NameAccount": "PalletDidLookupLinkableAccountLinkableAccountId"
+              }
             }
           }
         }
@@ -61024,129 +63139,33 @@ export const typesBundle = {
     },
     "peerplays": {
       "rpc": {
-        "techcommitteemanager": {
-          "candiadtes": {
-            "description": "Get the list of technical committee candidates",
-            "params": [],
-            "type": "Vec<AccountId>"
-          },
-          "selectedCandidates": {
-            "description": "Get the list of selected technical committee candidates",
-            "params": [],
-            "type": "Vec<AccountId>"
-          }
-        },
-        "validatormanager": {
-          "activeValidators": {
-            "description": "Get the list of active validators",
-            "params": [],
-            "type": "Vec<AccountId>"
-          },
-          "currentMaintenanceIndex": {
-            "description": "Get current maintenance index",
-            "params": [],
-            "type": "MaintenanceIndex"
-          },
-          "nextMaintenanceIndex": {
-            "description": "Get next maintenance index",
-            "params": [],
-            "type": "MaintenanceIndex"
-          },
-          "offenceValidators": {
-            "description": "Get the list of active validators who made the offence",
-            "params": [],
-            "type": "Vec<(AccountId, AuthIndex)>"
-          },
-          "offlineValidators": {
-            "description": "Get the list of active validators who went offline",
-            "params": [],
-            "type": "Vec<(AccountId, AuthIndex)>"
-          },
-          "validatorsPool": {
-            "description": "Get the list of validator candidates",
-            "params": [],
-            "type": "Vec<AccountId>"
-          },
-          "validators": {
-            "description": "Get the list of validator candidates",
-            "params": [],
-            "type": "Vec<AccountId>"
-          },
-          "selectedValidators": {
-            "description": "Get the list of active validators",
-            "params": [],
-            "type": "Vec<AccountId>"
-          },
-          "nextValidators": {
-            "description": "Get the list of next session active validators",
-            "params": [],
-            "type": "Vec<AccountId>"
-          }
-        },
-        "potential": {
-          "getPotential": {
-            "description": "Get the potential of an account",
-            "params": [
-              {
-                "name": "account",
-                "type": "AccountId"
-              }
-            ],
-            "type": "Balance"
-          },
-          "getMaxSupply": {
-            "description": "Get the maximum supply",
-            "params": [],
-            "type": "BalanceOf"
-          },
-          "getTotalSupply": {
-            "description": "Get the total supply",
-            "params": [],
-            "type": "BalanceOf"
-          },
-          "getCurrentMonthSupply": {
-            "description": "Get the current month supply",
-            "params": [],
-            "type": "BalanceOf"
-          },
-          "getCurrentMonthNumber": {
-            "description": "Get the current month number",
-            "params": [],
-            "type": "MonthNumber"
-          },
-          "getCurrentCycleSupply": {
-            "description": "Get the current cycle supply",
-            "params": [],
-            "type": "BalanceOf"
-          },
-          "getCurrentCycleNumber": {
-            "description": "Get the current cycle number",
-            "params": [],
-            "type": "CycleNumber"
-          },
-          "defaultActiveReferralShare": {
-            "description": "Get the default active referral share",
-            "params": [],
-            "type": "ActiveReferralShareType"
-          },
-          "activeReferralShare": {
-            "description": "Get the active referral share of an account",
-            "params": [
-              {
-                "name": "account",
-                "type": "AccountId"
-              }
-            ],
-            "type": "ActiveReferralShareType"
-          }
-        },
         "fractionalNft": {
-          "collections": {
+          "wildcardThreshold": {
+            "description": "Get the wildcard threshold",
+            "params": [],
+            "type": "WildcardThresholdType"
+          },
+          "wildcardCollectionId": {
+            "description": "Get the wildcard threshold",
+            "params": [],
+            "type": "CollectionId"
+          },
+          "wildcardDistributionMap": {
+            "description": "Get the wildcard distribution map",
+            "params": [],
+            "type": "Vec<(BlockNumber, ItemId)>"
+          },
+          "totalFnftsMinted": {
+            "description": "Get the total fNFTs minted",
+            "params": [],
+            "type": "TotalfNFTsMintedType"
+          },
+          "collectionsCount": {
             "description": "Get the total number of collections",
             "params": [],
             "type": "CollectionId"
           },
-          "items": {
+          "itemsCount": {
             "description": "Get the total number of items in a collection",
             "params": [
               {
@@ -61181,6 +63200,120 @@ export const typesBundle = {
             "type": "Option<AccountId>"
           }
         },
+        "potential": {
+          "getPotential": {
+            "description": "Get the potential of an account",
+            "params": [
+              {
+                "name": "account",
+                "type": "AccountId"
+              }
+            ],
+            "type": "Balance"
+          },
+          "getMaxSupply": {
+            "description": "Get the maximum supply",
+            "params": [],
+            "type": "BalanceOf"
+          },
+          "getTotalPotentialMinted": {
+            "description": "Get the total potential minted",
+            "params": [],
+            "type": "BalanceOf"
+          },
+          "getMonthSupply": {
+            "description": "Get the month supply",
+            "params": [],
+            "type": "BalanceOf"
+          },
+          "getMonthPotentialMinted": {
+            "description": "Get the current month total potential minted",
+            "params": [],
+            "type": "BalanceOf"
+          },
+          "getMonthNumber": {
+            "description": "Get the current month number",
+            "params": [],
+            "type": "MonthNumber"
+          },
+          "getCycleSupply": {
+            "description": "Get the current cycle supply",
+            "params": [],
+            "type": "BalanceOf"
+          },
+          "getCyclePotentialMinted": {
+            "description": "Get the current cycle total potential minted",
+            "params": [],
+            "type": "BalanceOf"
+          },
+          "getCycleNumber": {
+            "description": "Get the current cycle number",
+            "params": [],
+            "type": "CycleNumber"
+          },
+          "defaultActiveReferralShare": {
+            "description": "Get the default active referral share",
+            "params": [],
+            "type": "ActiveReferralShareType"
+          },
+          "activeReferralShare": {
+            "description": "Get the active referral share of an account",
+            "params": [
+              {
+                "name": "account",
+                "type": "AccountId"
+              }
+            ],
+            "type": "ActiveReferralShareType"
+          }
+        },
+        "referral": {
+          "activeReferralsCount": {
+            "description": "Get count of active referrals for an account",
+            "params": [
+              {
+                "name": "account",
+                "type": "AccountId"
+              }
+            ],
+            "type": "u32"
+          },
+          "referrer": {
+            "description": "Get referrer of an account",
+            "params": [
+              {
+                "name": "account",
+                "type": "AccountId"
+              }
+            ],
+            "type": "Option<AccountId>"
+          },
+          "activeReferrals": {
+            "description": "Get active referrals of an account",
+            "params": [
+              {
+                "name": "account",
+                "type": "AccountId"
+              }
+            ],
+            "type": "Option<TreeNode<AccountId>>"
+          },
+          "blockProducers": {
+            "description": "Get block producers",
+            "params": [],
+            "type": "Vec<AccountId>"
+          },
+          "pendingReferrals": {
+            "description": "Get pending referrals of an account",
+            "params": [
+              {
+                "name": "account",
+                "type": "AccountId"
+              }
+            ],
+            "type": "Vec<AccountId>"
+          }
+        },
         "rewardPool": {
           "accountId": {
             "description": "Get the account ID of the reward pool",
@@ -61208,36 +63341,58 @@ export const typesBundle = {
             "type": "BTreeSet<ItemId>"
           }
         },
-        "referral": {
-          "activeReferralsCount": {
-            "description": "Get the count of active referrals for an account",
-            "params": [
-              {
-                "name": "account",
-                "type": "AccountId"
-              }
-            ],
-            "type": "u32"
+        "techcommitteemanager": {
+          "candidates": {
+            "description": "Get the list of technical committee candidates",
+            "params": [],
+            "type": "Vec<AccountId>"
           },
-          "referrer": {
-            "description": "Get the referrer of an account",
-            "params": [
-              {
-                "name": "account",
-                "type": "AccountId"
-              }
-            ],
-            "type": "Option<AccountId>"
+          "selectedCandidates": {
+            "description": "Get the list of selected technical committee candidates",
+            "params": [],
+            "type": "Vec<AccountId>"
+          }
+        },
+        "validatormanager": {
+          "validators": {
+            "description": "Get the list of validator candidates",
+            "params": [],
+            "type": "Vec<AccountId>"
           },
-          "activeReferrals": {
-            "description": "Get the active referrals of an account",
-            "params": [
-              {
-                "name": "account",
-                "type": "AccountId"
-              }
-            ],
-            "type": "Option<TreeNode<AccountId>>"
+          "selectedValidators": {
+            "description": "Get the list of selected validators",
+            "params": [],
+            "type": "Vec<AccountId>"
+          },
+          "activeValidators": {
+            "description": "Get the list of active validators",
+            "params": [],
+            "type": "Vec<AccountId>"
+          },
+          "offlineValidators": {
+            "description": "Get the list of active validators who went offline",
+            "params": [],
+            "type": "Vec<(AccountId, AuthIndex, SessionIndex)>"
+          },
+          "offenceValidators": {
+            "description": "Get the list of active validators who made the offence",
+            "params": [],
+            "type": "Vec<(AccountId, AuthIndex, SessionIndex)>"
+          },
+          "validatorNonce": {
+            "description": "Get validator nonce",
+            "params": [],
+            "type": "NonceType"
+          },
+          "lastMaintenanceIndex": {
+            "description": "Get last maintenance index",
+            "params": [],
+            "type": "MaintenanceIndex"
+          },
+          "nextMaintenanceIndex": {
+            "description": "Get next maintenance index",
+            "params": [],
+            "type": "MaintenanceIndex"
           }
         }
       },
@@ -61251,33 +63406,40 @@ export const typesBundle = {
             "AccountId": "EthereumAccountId",
             "AccountId20": "EthereumAccountId",
             "AccountId32": "EthereumAccountId",
+            "ActiveReferralShareType": "u32",
             "Address": "AccountId",
             "AuthIndex": "u32",
+            "Balance": "u128",
+            "BalanceOf": "Balance",
+            "BlockNumber": "u32",
+            "BTreeSet": "Vec",
+            "CollectionId": "u32",
+            "CycleNumber": "u32",
             "EthereumSignature": {
               "r": "H256",
               "s": "H256",
               "v": "U8"
             },
             "ExtrinsicSignature": "EthereumSignature",
+            "ItemId": "u32",
             "Lookup0": "AccountId",
             "LookupSource": "AccountId",
             "MaintenanceIndex": "u32",
-            "Balance": "u128",
-            "BalanceOf": "Balance",
+            "MaintenanceType": "u32",
+            "MaxWildcardEntriesType": "u32",
             "MonthNumber": "u32",
-            "CycleNumber": "u32",
-            "ActiveReferralShareType": "u32",
-            "CollectionId": "u32",
-            "ItemId": "u32",
             "NftInfo": {
               "address": "H160",
               "token_id": "U256"
             },
-            "BTreeSet": "Vec",
+            "NonceType": "u32",
+            "SessionIndex": "u32",
+            "TotalfNFTsMintedType": "u32",
             "TreeNode": {
               "parent": "Option<AccountId>",
               "children": "Vec<AccountId>"
-            }
+            },
+            "WildcardThresholdType": "u32"
           }
         }
       ]

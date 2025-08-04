@@ -1,13 +1,14 @@
 // Copyright 2017-2025 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Group } from './types.js';
+import type { Group, IFavoriteChainProps, IFavoriteChainsStorage } from './types.js';
 
 import React, { useCallback, useMemo } from 'react';
 
 import { Icon, styled } from '@polkadot/react-components';
 
 import Network from './Network.js';
+import { isFavoriteChain } from './utils.js';
 
 interface Props {
   affinities: Record<string, string>;
@@ -16,12 +17,14 @@ interface Props {
   className?: string;
   index: number;
   isSelected: boolean;
+  favoriteChains: IFavoriteChainsStorage,
+  toggleFavoriteChain: (chainInfo: IFavoriteChainProps) => void;
   setApiUrl: (network: string, apiUrl: string) => void;
   setGroup: (groupIndex: number) => void;
   value: Group;
 }
 
-function GroupDisplay ({ affinities, apiUrl, children, className = '', index, isSelected, setApiUrl, setGroup, value: { header, isSpaced, networks } }: Props): React.ReactElement<Props> {
+function GroupDisplay ({ affinities, apiUrl, children, className = '', favoriteChains, index, isSelected, setApiUrl, setGroup, toggleFavoriteChain, value: { header, isSpaced, networks } }: Props): React.ReactElement<Props> {
   const _setGroup = useCallback(
     () => setGroup(isSelected ? -1 : index),
     [index, isSelected, setGroup]
@@ -31,6 +34,10 @@ function GroupDisplay ({ affinities, apiUrl, children, className = '', index, is
     () => networks.filter(({ isUnreachable }) => !isUnreachable),
     [networks]
   );
+
+  if (header?.toString().includes('Favorite') && Object.keys(favoriteChains).length === 0) {
+    return <></>;
+  }
 
   return (
     <StyledDiv className={`${className}${isSelected ? ' isSelected' : ''}`}>
@@ -48,8 +55,14 @@ function GroupDisplay ({ affinities, apiUrl, children, className = '', index, is
               <Network
                 affinity={affinities[network.name]}
                 apiUrl={apiUrl}
+                isFavorite={isFavoriteChain(favoriteChains, {
+                  chainName: network.name,
+                  paraId: network.paraId,
+                  relay: network.nameRelay
+                })}
                 key={index}
                 setApiUrl={setApiUrl}
+                toggleFavoriteChain={toggleFavoriteChain}
                 value={network}
               />
             ))}

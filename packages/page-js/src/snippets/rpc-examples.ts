@@ -48,7 +48,7 @@ console.log('formatted: ' + JSON.stringify(metadata.asLatest.toHuman(), null, 2)
 `
 };
 
-export const rpcSysthemInfo: Snippet = {
+export const rpcSystemInfo: Snippet = {
   value: 'rpcSystemInfo',
   text: 'Get system information',
   label: { color: 'pink', children: 'RPC', size: 'tiny' },

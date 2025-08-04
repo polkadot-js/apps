@@ -85,14 +85,12 @@ function WorkInfoRow ({ data }: { data: InfoRow }): React.ReactElement {
       />
       <StyledTableCol hide={'mobile'}>
         <h5 style={{ opacity: '0.6' }}>type</h5>
-        {data.type &&
-          (
-            <Tag
-              color={colours[data.type] as FlagColor}
-              label={Object.values(CoreTimeTypes)[data.type]}
-            />
-          )
-        }
+        {typeof data.type === 'number' && data.type in CoreTimeTypes && (
+          <Tag
+            color={colours[data.type] as FlagColor}
+            label={Object.values(CoreTimeTypes)[data.type]}
+          />
+        )}
       </StyledTableCol>
       {data.owner
         ? <StyledTableCol hide='mobile'>

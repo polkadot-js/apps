@@ -51,6 +51,7 @@ function Pools ({ className, ids, ownPools, params }: Props): React.ReactElement
       [t('state'), 'media--1100'],
       [t('points')],
       [t('claimable'), 'media--1400'],
+      [t('commission')],
       [undefined, undefined, 3]
     ],
     [t]

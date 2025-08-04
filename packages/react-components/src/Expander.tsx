@@ -52,7 +52,7 @@ function formatMeta (meta?: Meta): [React.ReactNode, React.ReactNode] | null {
     firstEmpty === -1
       ? strings
       : strings.slice(0, firstEmpty)
-  ).join(' ').replace(/#(<weight>| <weight>).*<\/weight>/, '');
+  ).join(' ').replace(/# ?<weight>[^<]*<\/weight>/, '');
   const parts = splitParts(combined.replace(/\\/g, '').replace(/`/g, ''));
 
   return [

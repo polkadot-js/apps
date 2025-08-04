@@ -9,9 +9,7 @@ import { Dotreasury } from './dotreasury.js';
 import { Edgscan } from './edgscan.js';
 import { KodaDot } from './kodadot.js';
 import { MoonbeamApps } from './moonbeamApps.js';
-import { Polkascan } from './polkascan.js';
 import { PolkassemblyIo, PolkassemblyNetwork } from './polkassembly.js';
-import { Singular } from './singular.js';
 import { Statescan } from './statescan.js';
 import { SubId } from './subid.js';
 import { Subscan } from './subscan.js';
@@ -24,10 +22,8 @@ export const externalLinks: Record<string, ExternalDef> = {
   Edgscan,
   KodaDot,
   MoonbeamApps,
-  Polkascan,
   PolkassemblyIo,
   PolkassemblyNetwork,
-  'Singular (NFTs)': Singular,
   Statescan,
   SubId,
   Subscan,

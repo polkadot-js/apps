@@ -66,13 +66,13 @@ function PayWithAssetProvider ({ children }: Props): React.ReactElement<Props> {
   }, [completeAssetInfos]);
 
   const isEnabled = useMemo(() =>
-    api.registry.metadata.extrinsic.signedExtensions.some(
-      (a) => a.identifier.toString() === 'ChargeAssetTxPayment'
+    api.registry.signedExtensions.some(
+      (a) => a === 'ChargeAssetTxPayment'
     ) &&
     !!api.tx.assetConversion &&
     !!api.call.assetConversionApi &&
     completeAssetInfos.length > 0,
-  [api.call.assetConversionApi, api.registry.metadata.extrinsic.signedExtensions, api.tx.assetConversion, completeAssetInfos.length]
+  [api.call.assetConversionApi, api.registry.signedExtensions, api.tx.assetConversion, completeAssetInfos.length]
   );
 
   const values: PayWithAsset = useMemo(() => {

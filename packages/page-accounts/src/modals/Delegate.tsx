@@ -69,7 +69,7 @@ function Delegate ({ onClose, previousAmount, previousConviction, previousDelega
           <InputAddress
             label={t('delegated account')}
             onChange={setDelegatedAccount}
-            type='account'
+            type='allPlus'
             value={delegatedAccount}
           />
         </Modal.Columns>

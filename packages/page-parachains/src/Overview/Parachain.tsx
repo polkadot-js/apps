@@ -96,6 +96,7 @@ function Parachain ({ bestNumber, className = '', id, lastBacked, lastInclusion,
           ? (
             <Badge
               color='orange'
+              hover={t('The parachain can be modified, replaced, or removed - it\'s neither protected nor in a transitional state')}
               icon='unlock'
             />
           )

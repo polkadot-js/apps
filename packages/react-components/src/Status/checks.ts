@@ -5,7 +5,7 @@
 import '@polkadot/api-augment/substrate';
 
 import type { DispatchError, DispatchResult, Event, EventRecord } from '@polkadot/types/interfaces';
-import type { StagingXcmV4TraitsOutcome } from '@polkadot/types/lookup';
+import type { StagingXcmV5TraitsOutcome } from '@polkadot/types/lookup';
 
 type EventCheck = (event: Event) => string | null;
 
@@ -41,8 +41,8 @@ function dispatchResultMulti ({ data: [,,,, result] }: Event): string | null {
 function xcmAttempted ({ data: [outcome] }: Event): string | null {
   if (!outcome) {
     return INCOMPLETE;
-  } else if ((outcome as StagingXcmV4TraitsOutcome).isIncomplete) {
-    const error = (outcome as StagingXcmV4TraitsOutcome).asIncomplete.error;
+  } else if ((outcome as StagingXcmV5TraitsOutcome).isIncomplete) {
+    const error = (outcome as StagingXcmV5TraitsOutcome).asIncomplete.error;
 
     return `error: ${error.type}`;
   }

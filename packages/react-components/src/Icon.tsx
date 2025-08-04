@@ -16,7 +16,7 @@ interface Props {
   icon: IconName;
   isPadded?: boolean;
   isSpinning?: boolean;
-  onClick?: () => void;
+  onClick?: (e: React.MouseEvent<SVGSVGElement, MouseEvent>) => void;
   size?: '1x' | '2x';
   tooltip?: string;
 }

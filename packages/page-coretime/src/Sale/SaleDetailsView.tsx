@@ -98,7 +98,7 @@ const SaleDetailsView = ({ chosenSaleNumber, relayName, saleParams }: { salePara
         <div style={{ display: 'grid', gap: '1rem', gridTemplateRows: '1fr 1fr 1fr', minWidth: '200px' }}>
           {!saleParams?.phaseConfig &&
             <div>
-              <p>{t(`This sale is of unsual length of ${saleParams.currentRegion.end.ts - saleParams.currentRegion.start.ts} timeslices, hence the regular phases are not applicable.`)}</p>
+              <p>{t(`This sale is of unusual length of ${saleParams.currentRegion.end.ts - saleParams.currentRegion.start.ts} timeslices, hence the regular phases are not applicable.`)}</p>
               <p>{t(`Sale start timeslice: ${saleParams.currentRegion.start.ts}`)}</p>
               <p>{t(`Sale end timeslice: ${saleParams.currentRegion.end.ts}`)}</p>
             </div>

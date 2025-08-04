@@ -11,6 +11,10 @@ module.exports = merge(
   baseConfig(__dirname, 'development'),
   {
     devServer: {
+      headers: {
+        'Content-Security-Policy': "frame-ancestors 'none'",
+        'X-Frame-Options': 'DENY'
+      },
       hot: true,
       open: false,
       port: 3000,

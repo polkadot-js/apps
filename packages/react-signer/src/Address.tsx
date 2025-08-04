@@ -49,10 +49,6 @@ interface ProxyState {
   proxiesFilter: string[];
 }
 
-// true if we don't try to filter the list of proxies by type and
-// instead leave it up to the user
-const BYPASS_PROXY_CHECK = true;
-
 function findCall (tx: Call | SubmittableExtrinsic<'promise'>): { method: string; section: string } {
   try {
     const { method, section } = tx.registry.findMetaCall(tx.callIndex);
@@ -63,13 +59,18 @@ function findCall (tx: Call | SubmittableExtrinsic<'promise'>): { method: string
   }
 }
 
-function filterProxies (allAccounts: string[], tx: Call | SubmittableExtrinsic<'promise'>, proxies: [string, BN, KitchensinkRuntimeProxyType][]): string[] {
+function filterProxies (
+  allAccounts: string[],
+  tx: Call | SubmittableExtrinsic<'promise'>,
+  proxies: [string, BN, KitchensinkRuntimeProxyType][],
+  bypassProxyTypeCheck = false
+): string[] {
   // get the call info
   const { method, section } = findCall(tx);
 
   // check an array of calls to all have proxies as the address
   const checkCalls = (address: string, txs: Call[]): boolean =>
-    !txs.some((tx) => !filterProxies(allAccounts, tx, proxies).includes(address));
+    !txs.some((tx) => !filterProxies(allAccounts, tx, proxies, bypassProxyTypeCheck).includes(address));
 
   // inspect nested calls, e.g. batch, ensuring that the proxy address
   // is applicable to the containing calls
@@ -90,7 +91,7 @@ function filterProxies (allAccounts: string[], tx: Call | SubmittableExtrinsic<'
       // FIXME Change when we add support for delayed proxies
       if (!allAccounts.includes(address) || !delay.isZero()) {
         return false;
-      } else if (BYPASS_PROXY_CHECK) {
+      } else if (bypassProxyTypeCheck) {
         return true;
       }
 

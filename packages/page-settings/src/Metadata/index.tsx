@@ -9,6 +9,7 @@ import useChainInfo from '../useChainInfo.js';
 import useRawMetadata from '../useRawMetadata.js';
 import Extensions from './Extensions.js';
 import NetworkSpecs from './NetworkSpecs.js';
+import SystemVersion from './SystemVersion.js';
 
 export default function Metadata (): React.ReactElement {
   const { isDevelopment } = useApi();
@@ -24,6 +25,7 @@ export default function Metadata (): React.ReactElement {
         />
       )}
       <NetworkSpecs chainInfo={chainInfo} />
+      <SystemVersion />
     </>
   );
 }
