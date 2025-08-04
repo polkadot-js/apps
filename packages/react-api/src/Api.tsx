@@ -82,8 +82,6 @@ async function getInjectedAccounts (injectedPromise: Promise<InjectedExtension[]
 
     const accounts = await web3Accounts();
 
-    console.log('Accounts: ', accounts);
-
     return accounts.map(({ address, meta, type }, whenCreated): InjectedAccountExt => ({
       address,
       meta: objectSpread({}, meta, {
