@@ -630,8 +630,8 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    info: 'regionx',
     homepage: 'https://www.regionx.tech/',
+    info: 'regionx',
     paraId: 3422,
     providers: {
       RegionX: 'wss://regionx-kusama-rpc-lb.zeeve.net/ld940yl9c6/rpc'
