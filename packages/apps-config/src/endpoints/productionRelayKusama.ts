@@ -886,7 +886,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
       color: '#000000',
       logo: nodesZeroSVG
     }
-  },
+  }
 ];
 
 export const prodParasKusamaCommon: EndpointOption[] = [
