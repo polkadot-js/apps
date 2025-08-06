@@ -175,6 +175,7 @@ export { nodesUnitnetworkPNG } from './generated/unitnetworkPNG.js';
 export { nodesUnitvPNG } from './generated/unitvPNG.js';
 export { nodesValiuPNG } from './generated/valiuPNG.js';
 export { nodesVaraSVG } from './generated/varaSVG.js';
+export { nodesVFlowPNG } from './generated/VFlowPNG.js';
 export { nodesWeb3gamesSVG } from './generated/web3gamesSVG.js';
 export { nodesWestendColourSVG } from './generated/westend_colourSVG.js';
 export { nodesXodePNG } from './generated/xodePNG.js';
