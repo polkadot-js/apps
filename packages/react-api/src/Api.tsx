@@ -165,7 +165,6 @@ async function loadOnReady (api: ApiPromise, endpoint: LinkOption | null, fork: 
   });
   TokenUnit.setAbbr(tokenSymbol[0].toString());
 
-  console.log('Injected accounts: ', injectedAccounts);
   // finally load the keyring
   isKeyringLoaded() || keyring.loadAll({
     genesisHash: api.genesisHash,
