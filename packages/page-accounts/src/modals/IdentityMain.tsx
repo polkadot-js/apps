@@ -117,7 +117,7 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
   const [valDiscord, setValDiscord] = useState('');
   const [valWeb, setValWeb] = useState('');
   const [gotPreviousIdentity, setGotPreviousIdentity] = useState(false);
-  // HACK This ensures we can deal with legacy indentity information for chains while
+  // HACK This ensures we can deal with legacy identity information for chains while
   // also giving support for the new identity logic inside of the Peoples chain.
   // The new logic is specific to people system parachains.
   const [isLegacyIdentity, setIsLegacyIdentity] = useState<boolean>(!specName.includes('people-'));
