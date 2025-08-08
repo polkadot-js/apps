@@ -1,11 +1,11 @@
 // Copyright 2017-2025 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Network } from './types.js';
+import type { IFavoriteChainProps, Network } from './types.js';
 
 import React, { useCallback, useMemo } from 'react';
 
-import { ChainImg, styled } from '@polkadot/react-components';
+import { ChainImg, Icon, styled } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate.js';
 import Url from './Url.js';
@@ -16,9 +16,11 @@ interface Props {
   className?: string;
   setApiUrl: (network: string, apiUrl: string) => void;
   value: Network;
+  isFavorite: boolean;
+  toggleFavoriteChain: (chainInfo: IFavoriteChainProps) => void;
 }
 
-function NetworkDisplay ({ apiUrl, className = '', setApiUrl, value: { isChild, isRelay, isUnreachable, name, nameRelay: relay, paraId, providers, ui } }: Props): React.ReactElement<Props> {
+function NetworkDisplay ({ apiUrl, className = '', isFavorite, setApiUrl, toggleFavoriteChain, value: { isChild, isRelay, isUnreachable, name, nameRelay: relay, paraId, providers, ui } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const isSelected = useMemo(
     () => providers.some(({ url }) => url === apiUrl),
@@ -39,33 +41,46 @@ function NetworkDisplay ({ apiUrl, className = '', setApiUrl, value: { isChild, 
     [name, setApiUrl]
   );
 
+  const _toggleFavoriteChain = useCallback((e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    toggleFavoriteChain({ chainName: name, paraId, relay });
+  }, [name, paraId, relay, toggleFavoriteChain]);
+
   return (
     <StyledDiv className={`${className}${isSelected ? ' isSelected highlight--border' : ''}${isUnreachable ? ' isUnreachable' : ''}`}>
       <div
-        className={`endpointSection${isChild ? ' isChild' : ''}`}
+        className={`markFavoriteSection${isChild ? ' isChild' : ''}`}
         onClick={isUnreachable ? undefined : _selectUrl}
       >
-        <ChainImg
-          className='endpointIcon'
-          isInline
-          logo={ui.logo || 'empty'}
-          withoutHl
-        />
-        <div className='endpointValue'>
-          <div>{name}</div>
-          {isSelected && (isRelay || !!paraId) && (
-            <div className='endpointExtra'>
-              {isRelay
-                ? t('Relay chain')
-                : paraId && paraId < 1000
-                  ? t('{{relay}} System', { replace: { relay } })
-                  : paraId && paraId < 2000
-                    ? t('{{relay}} Common', { replace: { relay } })
-                    : t('{{relay}} Parachain', { replace: { relay } })
-              }
-            </div>
-          )}
+        <div className='endpointSection'>
+          <ChainImg
+            className='endpointIcon'
+            isInline
+            logo={ui.logo || 'empty'}
+            withoutHl
+          />
+          <div className='endpointValue'>
+            <div>{name}</div>
+            {isSelected && (isRelay || !!paraId) && (
+              <div className='endpointExtra'>
+                {isRelay
+                  ? t('Relay chain')
+                  : paraId && paraId < 1000
+                    ? t('{{relay}} System', { replace: { relay } })
+                    : paraId && paraId < 2000
+                      ? t('{{relay}} Common', { replace: { relay } })
+                      : t('{{relay}} Parachain', { replace: { relay } })
+                }
+              </div>
+            )}
+          </div>
         </div>
+        <Icon
+          className={isFavorite ? 'isFavorite' : ''}
+          icon='star'
+          onClick={_toggleFavoriteChain}
+        />
       </div>
       {isSelected && providers.map(({ name, url }): React.ReactNode => (
         <Url
@@ -92,6 +107,42 @@ const StyledDiv = styled.div`
     opacity: var(--opacity-light);
   }
 
+  &.isSelected {
+    .markFavoriteSection {
+      gap: 1rem;
+      padding-bottom: 1rem;
+    }
+  }
+
+  .markFavoriteSection {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+
+    &:hover .ui--Icon {
+      opacity: 0.5;
+    }
+
+    .ui--Icon {
+      scale: 1.1;
+      opacity: 0;
+      transition: color 0.2s ease;
+
+      &:hover {
+        opacity: 0.5;
+        stroke: darkorange;
+        color: darkorange;
+      }
+
+      &.isFavorite {
+        opacity: 1;
+        stroke: darkorange;
+        color: darkorange;
+      }
+    }
+  }
+
   &.isSelected,
   &:hover {
     background: var(--bg-table);
@@ -105,10 +156,6 @@ const StyledDiv = styled.div`
 
     &+.ui--Toggle {
       margin-top: 1rem;
-    }
-
-    &.isChild .endpointIcon {
-      margin-left: 1.25rem;
     }
 
     &+.endpointProvider {

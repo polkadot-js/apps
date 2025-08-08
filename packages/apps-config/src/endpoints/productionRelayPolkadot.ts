@@ -138,7 +138,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'centrifuge',
     paraId: 2031,
     providers: {
-      Centrifuge: 'wss://fullnode.centrifuge.io',
+      // Centrifuge: 'wss://fullnode.centrifuge.io', // https://github.com/polkadot-js/apps/issues/11745
       LuckyFriday: 'wss://rpc-centrifuge.luckyfriday.io',
       OnFinality: 'wss://centrifuge-parachain.api.onfinality.io/public-ws'
     },
@@ -180,7 +180,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'composable',
     paraId: 2019,
     providers: {
-      Composable: 'wss://rpc.composable.finance'
+      // Composable: 'wss://rpc.composable.finance' // https://github.com/polkadot-js/apps/issues/11745
       // OnFinality: 'wss://composable.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/9986
     },
     text: 'Composable Finance',
@@ -1029,6 +1029,7 @@ export const prodRelayPolkadot: EndpointOption = {
     'Permanence DAO EU': 'wss://polkadot.rpc.permanence.io',
     RadiumBlock: 'wss://polkadot.public.curie.radiumblock.co/ws',
     // RockX: 'wss://rockx-dot.w3node.com/polka-public-dot/ws', // https://github.com/polkadot-js/apps/issues/11439
+    'Simply Staking': 'wss://spectrum-01.simplystaking.xyz/cG9sa2Fkb3QtMDEtOTFkMmYwZGYtcG9sa2Fkb3Q/uj77qtNEPueW1w/polkadot/mainnet/',
     Stakeworld: 'wss://dot-rpc.stakeworld.io',
     SubQuery: 'wss://polkadot.rpc.subquery.network/public/ws',
     'light client': 'light://substrate-connect/polkadot'

@@ -3,6 +3,14 @@
 
 import type React from 'react';
 
+export interface IFavoriteChainProps {
+  chainName: string;
+  relay?: string;
+  paraId?: number;
+}
+
+export type IFavoriteChainsStorage = Record<string, {relay: string, paraId: number}[]>
+
 export interface Network {
   isChild?: boolean;
   isLightClient?: boolean;

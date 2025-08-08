@@ -324,7 +324,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'quantum-fusion-paseo',
     paraId: 4775,
     providers: {
-      'Quantum Fusion': 'wss://para-test.qfnetwork.xyz'
+      // 'Quantum Fusion': 'wss://para-test.qfnetwork.xyz' // https://github.com/polkadot-js/apps/issues/11745
     },
     text: 'Quantum Fusion (Paseo)',
     ui: {
