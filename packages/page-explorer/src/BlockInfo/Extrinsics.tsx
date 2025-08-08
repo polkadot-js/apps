@@ -10,7 +10,7 @@ import type { BN } from '@polkadot/util';
 
 import React, { useMemo } from 'react';
 
-import { Table, Toggle } from '@polkadot/react-components';
+import { styled, Table, Toggle } from '@polkadot/react-components';
 import { useAccounts, useToggle } from '@polkadot/react-hooks';
 import { isEventFromMyAccounts } from '@polkadot/react-hooks/utils/isEventFromMyAccounts';
 
@@ -88,14 +88,22 @@ const EventsToggle = ({ onToggleUserEvents, showOnlyUserEvents }: EventsTogglePr
   const { t } = useTranslation();
 
   return (
-    <>
+    <StyledDiv>
       <Toggle
         label={t('Show my events')}
         onChange={onToggleUserEvents}
         value={showOnlyUserEvents}
       />
-    </>
+    </StyledDiv>
   );
 };
+
+const StyledDiv = styled.div`
+  .ui--Toggle {
+    label{
+      font-size: var(--font-size-base);
+    }
+  }
+`;
 
 export default React.memo(Extrinsics);
