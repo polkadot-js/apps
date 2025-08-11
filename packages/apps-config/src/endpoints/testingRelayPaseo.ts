@@ -387,7 +387,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'paseoXode',
     paraId: 4607,
     providers: {
-      XodeCommunity: 'wss://testrpcnodea01.xode.net/aRoyklGrhl9m2LlhX8NP/rpc'
+      XodeCommunity: 'wss://paseo-rpcnode.xode.net'
     },
     text: 'Xode',
     ui: {
