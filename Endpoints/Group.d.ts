@@ -12,7 +12,8 @@ interface Props {
     setApiUrl: (network: string, apiUrl: string) => void;
     setGroup: (groupIndex: number) => void;
     value: Group;
+    highlightColor: string;
 }
-declare function GroupDisplay({ affinities, apiUrl, children, className, favoriteChains, index, isSelected, setApiUrl, setGroup, toggleFavoriteChain, value: { header, isSpaced, networks } }: Props): React.ReactElement<Props>;
+declare function GroupDisplay({ affinities, apiUrl, children, className, favoriteChains, highlightColor, index, isSelected, setApiUrl, setGroup, toggleFavoriteChain, value: { header, isSpaced, networks } }: Props): React.ReactElement<Props>;
 declare const _default: React.MemoExoticComponent<typeof GroupDisplay>;
 export default _default;
