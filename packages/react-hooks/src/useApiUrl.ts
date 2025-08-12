@@ -30,10 +30,10 @@ function useApiUrlImpl (url?: null | string | string[]): ApiPromise | null {
     const map = new Map<string, string>();
 
     for (const endpoint of endpoints) {
-      const val = endpoint.textBy;
+      const rpcProvider = endpoint.textBy;
 
-      if (typeof val === 'string' && val.length > 0 && val !== 'Placeholder') {
-        map.set(endpoint.value, val);
+      if (typeof rpcProvider === 'string' && rpcProvider.length > 0 && rpcProvider !== 'Placeholder') {
+        map.set(endpoint.value, rpcProvider);
       }
     }
 
