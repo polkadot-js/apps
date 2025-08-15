@@ -14,7 +14,7 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.162.2-12-x",
+  "version": "0.163.1",
   "dependencies": {
     "@polkadot/api-contract": "16.4.4",
     "eventemitter3": "^5.0.1"

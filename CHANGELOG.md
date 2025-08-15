@@ -1,5 +1,27 @@
 # CHANGELOG
 
+## 0.163.1 Aug 15, 2025
+
+Contributed:
+
+- Update Tanssi Endpoints ([#11738](https://github.com/polkadot-js/apps/pull/11738)) (Thanks to https://github.com/albertov19)
+- Fix typos in comment ([#11733](https://github.com/polkadot-js/apps/pull/11733)) (Thanks to https://github.com/seun556)
+- Add Autonomys EVM mainnet endpoint ([#11750](https://github.com/polkadot-js/apps/pull/11750)) (Thanks to https://github.com/jfrank-summit)
+- Add RegionX Kusama ([#11752](https://github.com/polkadot-js/apps/pull/11752)) (Thanks to https://github.com/Szegoo)
+- Update: Change XODE rpc on Kusama and Paseo ([#11761](https://github.com/polkadot-js/apps/pull/11761)) (Thanks to https://github.com/ArneilPaulPolican)
+- Add VFlow Testnet ([#11754](https://github.com/polkadot-js/apps/pull/11754)) (Thanks to https://github.com/drgora)
+
+
+Changes:
+
+- Mark Chains as Favorites ([#11718](https://github.com/polkadot-js/apps/pull/11718))
+- fix: disable unreachable endpoints ([#11746](https://github.com/polkadot-js/apps/pull/11746))
+- Accumulate proof size for block details page ([#11748](https://github.com/polkadot-js/apps/pull/11748))
+- Simplified Chain Endpoint Selection ([#11742](https://github.com/polkadot-js/apps/pull/11742) [#11762](https://github.com/polkadot-js/apps/pull/11762))
+- Avoid embedding of UI in iframe ([#11769](https://github.com/polkadot-js/apps/pull/11769)) 
+- Upgraded polkadot dependencies ([#11771](https://github.com/polkadot-js/apps/pull/11771))
+
+
 ## 0.162.1 July 31, 2025
 
 Contributed:
