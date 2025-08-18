@@ -77,6 +77,17 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
+    info: 'autonomys-mainnet-evm',
+    providers: {
+      Labs: 'wss://auto-evm.mainnet.autonomys.xyz/ws'
+    },
+    text: 'Autonomys EVM',
+    ui: {
+      color: '#5870B3',
+      logo: nodesAutonomysPNG
+    }
+  },
+  {
     info: 'thebifrost-mainnet',
     providers: {
       'Pilab #1': 'wss://public-01.mainnet.bifrostnetwork.com/wss',
@@ -592,7 +603,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'tanssi',
     providers: {
-      'Tanssi Foundation': 'wss://tanssi.tanssi-mainnet.network'
+      'Tanssi Foundation': 'wss://services.tanssi-mainnet.network/tanssi'
     },
     text: 'Tanssi',
     ui: {
