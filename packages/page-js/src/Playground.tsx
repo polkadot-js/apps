@@ -196,7 +196,7 @@ function Playground ({ basePath, className = '' }: Props): React.ReactElement<Pr
             const bridgeScript = iframeDoc.createElement('script');
 
             // eslint-disable-next-line no-new-func, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-implied-eval, @typescript-eslint/no-unsafe-assignment
-            bridgeScript.innerHTML = new Function('injected', exec).bind({}, iframeRef.current.contentWindow.injected)();
+            bridgeScript.innerText = new Function('injected', exec).bind({}, iframeRef.current.contentWindow.injected)();
 
             iframeRef.current.contentWindow.document.body.appendChild(bridgeScript);
           } else {
@@ -300,7 +300,7 @@ function Playground ({ basePath, className = '' }: Props): React.ReactElement<Pr
           />
           <iframe
             ref={iframeRef}
-            // sandbox='allow-scripts allow-same-origin'
+            sandbox='allow-scripts allow-same-origin'
             style={{ display: 'none' }}
           />
           <Editor
