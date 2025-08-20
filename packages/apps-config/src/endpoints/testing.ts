@@ -15,10 +15,10 @@ export const testZkVerifyParas: Omit<EndpointOption, 'teleport'>[] = [
     info: 'VFlow',
     paraId: 1,
     providers: {
-      zkVerify: 'wss://vflow-rpc.zkverify.io'
+      zkVerify: 'wss://vflow-volta-rpc.zkverify.io'
     },
     relayName: 'zkVerify-testnet',
-    text: 'VFlow Testnet',
+    text: 'VFlow Volta Testnet',
     ui: {
       color: '#628eff',
       logo: nodesVFlowPNG
@@ -1155,7 +1155,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
       ...testZkVerifyParas
     ],
     providers: {
-      zkVerify: 'wss://volta-rpc.zkverify.io'
+      zkVerify: 'wss://zkverify-volta-rpc.zkverify.io'
     },
     text: 'zkVerify Volta Testnet',
     ui: {
