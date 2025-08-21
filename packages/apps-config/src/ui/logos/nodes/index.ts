@@ -54,6 +54,7 @@ export { nodesElysiumPNG } from './generated/elysiumPNG.js';
 export { nodesEncointerBlueSVG } from './generated/encointer-blueSVG.js';
 export { nodesEwxSVG } from './generated/ewxSVG.js';
 export { nodesFantourPNG } from './generated/fantourPNG.js';
+export { nodesFintraSVG } from './generated/fintraSVG.js';
 export { nodesGalitalLogoPNG } from './generated/galital-logoPNG.js';
 export { nodesGamepowerSVG } from './generated/gamepowerSVG.js';
 export { nodesGeekSVG } from './generated/geekSVG.js';
