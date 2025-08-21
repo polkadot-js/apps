@@ -1125,6 +1125,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
+    homepage: 'https://fintradex.io/',
     info: 'Fintra',
     providers: {
       FINTRA: 'wss://testnet.fintra.network'

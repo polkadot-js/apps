@@ -464,6 +464,7 @@ export const testParasPaseoCommon: EndpointOption[] = [
     }
   },
   {
+    homepage: 'https://fintradex.io/',
     info: 'Fintra',
     isPeopleForIdentity: true,
     paraId: 4910,
