@@ -473,7 +473,7 @@ export const testParasPaseoCommon: EndpointOption[] = [
     },
     relayName: 'paseo',
     teleport: [-1],
-    text: 'fintradex (Paseo)',
+    text: 'Fintra',
     ui: {
       color: '#113911',
       logo: nodesFintraSVG
