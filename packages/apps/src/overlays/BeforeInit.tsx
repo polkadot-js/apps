@@ -1,15 +1,18 @@
-// Copyright 2017-2025 @polkadot/react-api authors & contributors
+// Copyright 2017-2025 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
 
-import BaseOverlay from '@polkadot/apps/overlays/Base';
 import { Spinner, styled } from '@polkadot/react-components';
 import GlobalStyle from '@polkadot/react-components/styles';
 import { useTheme } from '@polkadot/react-hooks';
 
+import { useTranslation } from '../translate.js';
+import BaseOverlay from './Base.js';
+
 const BeforeApiInit = () => {
   const { themeClassName } = useTheme();
+  const { t } = useTranslation();
 
   return (
     <>
@@ -19,9 +22,7 @@ const BeforeApiInit = () => {
           icon='globe'
           type='info'
         >
-          <div>
-              Waiting to establish a connection with the remote endpoint.
-          </div>
+          <div>{t('Waiting to establish a connection with the remote endpoint.')}</div>
         </BaseOverlay>
         <div className='connecting'>
           <Spinner label='Initializing connection' />

@@ -27,7 +27,6 @@ import { formatBalance, isNumber, isTestChain, objectSpread, stringify } from '@
 import { defaults as addressDefaults } from '@polkadot/util-crypto/address/defaults';
 
 import { lightSpecs, relaySpecs } from './light/index.js';
-import BeforeApiInit from './beforeInit.js';
 import { statics } from './statics.js';
 import { decodeUrlTypes } from './urlTypes.js';
 
@@ -36,6 +35,7 @@ interface Props {
   apiUrl: string;
   isElectron: boolean;
   store?: KeyringStore;
+  beforeApiInit?: React.ReactNode
 }
 
 interface ChainData {
@@ -288,7 +288,7 @@ async function createApi (apiUrl: string, signer: ApiSigner, isLocalFork: boolea
   return { fork: chopsticksFork, types };
 }
 
-export function ApiCtxRoot ({ apiUrl, children, isElectron, store: keyringStore }: Props): React.ReactElement<Props> | null {
+export function ApiCtxRoot ({ apiUrl, beforeApiInit, children, isElectron, store: keyringStore }: Props): React.ReactElement<Props> | null {
   const { queuePayload, queueSetTxStatus } = useQueue();
   const [state, setState] = useState<ApiState>(EMPTY_STATE);
   const [isApiConnected, setIsApiConnected] = useState(false);
@@ -374,7 +374,7 @@ export function ApiCtxRoot ({ apiUrl, children, isElectron, store: keyringStore 
   }, [apiEndpoint, apiUrl, queuePayload, queueSetTxStatus, keyringStore, isLocalFork]);
 
   if (!value.isApiInitialized) {
-    return <BeforeApiInit />;
+    return <>{beforeApiInit}</>;
   }
 
   return (
