@@ -686,10 +686,10 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'opal',
     providers: {
-      'Geo Load Balancer': 'wss://ws-opal.unique.network',
-      'Unique America': 'wss://us-ws-opal.unique.network',
-      'Unique Asia': 'wss://asia-ws-opal.unique.network',
-      'Unique Europe': 'wss://eu-ws-opal.unique.network'
+      // 'Geo Load Balancer': 'wss://ws-opal.unique.network', // https://github.com/polkadot-js/apps/issues/11791
+      // 'Unique America': 'wss://us-ws-opal.unique.network', // https://github.com/polkadot-js/apps/issues/11791
+      // 'Unique Asia': 'wss://asia-ws-opal.unique.network', // https://github.com/polkadot-js/apps/issues/11791
+      // 'Unique Europe': 'wss://eu-ws-opal.unique.network' // https://github.com/polkadot-js/apps/issues/11791
     },
     text: 'OPAL by UNIQUE',
     ui: {
