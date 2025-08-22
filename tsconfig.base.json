@@ -12,6 +12,7 @@
 		"paths": {
       "@polkadot/apps": ["apps/src/index.tsx"],
       "@polkadot/apps/Root": ["apps/src/Root.tsx"],
+      "@polkadot/apps/overlays/Base": ["apps/src/overlays/Base.tsx"],
       "@polkadot/apps-config": ["apps-config/src/index.ts"],
       "@polkadot/apps-config/endpoints": ["apps-config/src/endpoints/index.ts"],
       "@polkadot/apps-config/endpoints/*": ["apps-config/src/endpoints/*.ts"],

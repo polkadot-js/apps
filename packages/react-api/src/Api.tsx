@@ -27,6 +27,7 @@ import { formatBalance, isNumber, isTestChain, objectSpread, stringify } from '@
 import { defaults as addressDefaults } from '@polkadot/util-crypto/address/defaults';
 
 import { lightSpecs, relaySpecs } from './light/index.js';
+import BeforeApiInit from './beforeInit.js';
 import { statics } from './statics.js';
 import { decodeUrlTypes } from './urlTypes.js';
 
@@ -373,7 +374,7 @@ export function ApiCtxRoot ({ apiUrl, children, isElectron, store: keyringStore 
   }, [apiEndpoint, apiUrl, queuePayload, queueSetTxStatus, keyringStore, isLocalFork]);
 
   if (!value.isApiInitialized) {
-    return null;
+    return <BeforeApiInit />;
   }
 
   return (
