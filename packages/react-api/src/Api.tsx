@@ -35,6 +35,7 @@ interface Props {
   apiUrl: string;
   isElectron: boolean;
   store?: KeyringStore;
+  beforeApiInit?: React.ReactNode
 }
 
 interface ChainData {
@@ -287,14 +288,14 @@ async function createApi (apiUrl: string, signer: ApiSigner, isLocalFork: boolea
   return { fork: chopsticksFork, types };
 }
 
-export function ApiCtxRoot ({ apiUrl, children, isElectron, store: keyringStore }: Props): React.ReactElement<Props> | null {
+export function ApiCtxRoot ({ apiUrl, beforeApiInit, children, isElectron, store: keyringStore }: Props): React.ReactElement<Props> | null {
   const { queuePayload, queueSetTxStatus } = useQueue();
   const [state, setState] = useState<ApiState>(EMPTY_STATE);
   const [isApiConnected, setIsApiConnected] = useState(false);
   const [isApiInitialized, setIsApiInitialized] = useState(false);
   const [apiError, setApiError] = useState<null | string>(null);
   const [extensions, setExtensions] = useState<InjectedExtension[] | undefined>();
-  const [isLocalFork] = useState(store.get('localFork') === apiUrl);
+  const isLocalFork = useMemo(() => store.get('localFork') === apiUrl, [apiUrl]);
   const apiEndpoint = useEndpoint(apiUrl);
   const peopleEndpoint = usePeopleEndpoint(apiEndpoint?.relayName || apiEndpoint?.info);
   const coreTimeEndpoint = useCoretimeEndpoint(apiEndpoint?.relayName || apiEndpoint?.info);
@@ -373,7 +374,7 @@ export function ApiCtxRoot ({ apiUrl, children, isElectron, store: keyringStore 
   }, [apiEndpoint, apiUrl, queuePayload, queueSetTxStatus, keyringStore, isLocalFork]);
 
   if (!value.isApiInitialized) {
-    return null;
+    return <>{beforeApiInit}</>;
   }
 
   return (
