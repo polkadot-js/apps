@@ -475,7 +475,7 @@ export const testParasPaseoCommon: EndpointOption[] = [
     teleport: [-1],
     text: 'Fintra',
     ui: {
-      color: '#113911',
+      color: '#2596be',
       logo: nodesFintraSVG
     }
   },
