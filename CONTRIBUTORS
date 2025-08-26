@@ -538,6 +538,7 @@
        1	Rusinskiy Vsevolod            	Add RPC endpoints for Quantum Fusion testnet (replaces #11454) (#11687)
        1	RXRD                          	Octopus Provider for Myriad and Debio (#10110)
        1	Saad                          	Reskinning Composable Finance/Picasso Portal Colors (#7696)
+       1	Saka-Aiyedun Segun            	Update productionRelayPolkadot.ts (#11797)
        1	Sam Hellawell                 	Fix dock logos being blurry/low res (#4427)
        1	Sasha Gryaznov                	Add Yerba Network to Kusama (#10203)
        1	Satyam Agrawal                	Add Polymesh ITN Provider (#5242)
