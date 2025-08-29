@@ -12,10 +12,12 @@ import { ZERO_ACCOUNT } from '@polkadot/react-hooks/useWeight';
 import { unwrapStorageType } from '@polkadot/types/util';
 import { assert, BN_ONE } from '@polkadot/util';
 
+const PASEO_RELAY_GENESIS = '0x77afd6190f1554ad45fd0d31aee62aacc33c6db0ea801129acb813f913e0764f';
+
 function needsApiCheck (api: ApiPromise): boolean {
   try {
     // Hide it always for Westend relay
-    if (api.genesisHash.toHex() === getGenesis('westend')) {
+    if ([getGenesis('westend'), PASEO_RELAY_GENESIS].includes(api.genesisHash.toHex())) {
       return false;
     }
 
