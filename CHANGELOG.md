@@ -1,5 +1,29 @@
 # CHANGELOG
 
+## 0.164.1 Aug 29, 2025
+
+Contributed:
+
+- Updated Simply Staking endpoint for Polkadot in productionRelayPolkadot.ts ([#11778](https://github.com/polkadot-js/apps/pull/11778)) (Thanks to https://github.com/DanielMagro97)
+- Update RPC endpoints for zkVerify and VFlow ([#11783](https://github.com/polkadot-js/apps/pull/11783)) (Thanks to https://github.com/DanieleDiBenedetto)
+- fintra logo setting ([#11785](https://github.com/polkadot-js/apps/pull/11785)) (Thanks to https://github.com/wasif1024)
+- Fintra ([#11788](https://github.com/polkadot-js/apps/pull/11788)) (Thanks to https://github.com/wasif1024)
+- Add ideal network consumer chain  ([#11790](https://github.com/polkadot-js/apps/pull/11790)) (Thanks to https://github.com/juangirini)
+- Fix: Rename 'Quantum Fusion' to 'QF Network' ([#11789](https://github.com/polkadot-js/apps/pull/11789)) (Thanks to https://github.com/AlexLgn)
+- remove public endpoint support update polkadot-assethub ([#11797](https://github.com/polkadot-js/apps/pull/11797)) (Thanks to https://github.com/segunjkf)
+- Fintra Logo Updates ([#11800](https://github.com/polkadot-js/apps/pull/11800)) (Thanks to https://github.com/wasif1024)
+
+
+Changes:
+
+- Prioritize Selected Chain RPC Provider for System Chains ([#11764](https://github.com/polkadot-js/apps/pull/11764))
+- Run playground code in iframe ([#11780](https://github.com/polkadot-js/apps/pull/11780))
+- White screen issue on forking chain ([#11787](https://github.com/polkadot-js/apps/pull/11787))
+- Disable unreachable endpoints ([#11792](https://github.com/polkadot-js/apps/pull/11792))
+- Filter events by user accounts ([#11728](https://github.com/polkadot-js/apps/pull/11728))
+- Bump  @polkadot-api/merkleize-metadata, @polkadot/api, @polkadot/common, @polkadot/phishing, @polkadot/wasm, @polkadot/ui, @polkadot/extension dependencies ([#11805](https://github.com/polkadot-js/apps/pull/11805))
+
+
 ## 0.163.1 Aug 15, 2025
 
 Contributed:
