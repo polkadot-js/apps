@@ -322,7 +322,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'Pop Network',
     paraId: 4001,
     providers: {
-      'R0GUE-RPC1': 'wss://rpc1.paseo.popnetwork.xyz'
+      // 'R0GUE-RPC1': 'wss://rpc1.paseo.popnetwork.xyz' // https://github.com/polkadot-js/apps/issues/11809
       // 'R0GUE-RPC2': 'wss://rpc2.paseo.popnetwork.xyz', // https://github.com/polkadot-js/apps/issues/11629
       // 'R0GUE-RPC3': 'wss://rpc3.paseo.popnetwork.xyz' // https://github.com/polkadot-js/apps/issues/11657
     },
@@ -488,7 +488,7 @@ export const testParasPaseoCommon: EndpointOption[] = [
     teleport: [-1],
     text: 'Fintra',
     ui: {
-      color: '#113911',
+      color: '#2596be',
       logo: nodesFintraSVG
     }
   },
