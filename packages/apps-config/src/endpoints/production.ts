@@ -126,7 +126,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'centrifuge',
     providers: {
-      Centrifuge: 'wss://fullnode.centrifuge.io'
+      // Centrifuge: 'wss://fullnode.centrifuge.io' // Duplicate with Polkadot parachain
     },
     text: 'Centrifuge Standalone [Archived]',
     ui: {
