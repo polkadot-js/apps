@@ -191,7 +191,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'integritee',
     paraId: 2039,
     providers: {
-      Integritee: 'wss://paseo.api.integritee.network'
+      // Integritee: 'wss://paseo.api.integritee.network' // https://github.com/polkadot-js/apps/issues/11817
     },
     text: 'Integritee Network (Paseo)',
     ui: {
