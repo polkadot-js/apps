@@ -124,17 +124,6 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    info: 'centrifuge',
-    providers: {
-      // Centrifuge: 'wss://fullnode.centrifuge.io' // Duplicate with Polkadot parachain
-    },
-    text: 'Centrifuge Standalone [Archived]',
-    ui: {
-      color: '#fcc367',
-      logo: nodesCentrifugePNG
-    }
-  },
-  {
     info: 'cere',
     providers: {
       'Cere Network': 'wss://archive.mainnet.cere.network/ws'
