@@ -378,6 +378,7 @@
        1	Burnww                        	WeTEE added to Paseo (#11254)
        1	Carl                          	Update Subscan link config (#6194)
        1	CCBro                         	add `armonia-eva` and `armonia-wall-e` for ethereumChains (#7732)
+       1	Charly                        	docs(readme): install dependencies faster (#11822)
        1	CherryLiang                   	show play/stop button (#1804)
        1	chiefbiiko                    	Add t0rn Rococo parachain (#7443)
        1	Chralt                        	add zeitgeist onfinality provider to production relay polkadot (#11558)
