@@ -6,7 +6,7 @@ import type { IFavoriteChainProps, IFavoriteChainsStorage } from './types.js';
 import { createWsEndpoints } from '@polkadot/apps-config';
 
 export const FAVORITE_CHAINS_KEY = 'polkadot-app-favorite-chains';
-const endPoints = createWsEndpoints((k, v) => v?.toString() || k);
+const chainsConfig = createWsEndpoints((k, v) => v?.toString() || k);
 
 export const toggleFavoriteChain = (
   chainInfo: IFavoriteChainProps
@@ -62,7 +62,7 @@ export const getFavoriteChains = (): IFavoriteChainsStorage => {
 
     const result: IFavoriteChainsStorage = {};
 
-    for (const [key, value] of Object.entries(parsed)) {
+    for (const [key, value] of Object.entries(parsed) as [string, IFavoriteChainsStorage[string]][]) {
       if (!Array.isArray(value)) {
         throw new Error(`Invalid value for key "${key}": not an array`);
       }
@@ -79,8 +79,14 @@ export const getFavoriteChains = (): IFavoriteChainsStorage => {
         throw new Error(`Invalid entries under key "${key}"`);
       }
 
-      if (endPoints.find((e) => e.text === key)) {
-        result[key] = value as IFavoriteChainsStorage[string];
+      // Make sure key exists in chain config
+      if (chainsConfig.find((e) => e.text === key)) {
+        // Make sure "relay" value also exists in chain config
+        const matchingFavorites = value.filter((v) => v.relay === 'Unknown' ? true : !!chainsConfig.find((e) => e.text === v.relay));
+
+        if (matchingFavorites.length > 0) {
+          result[key] = matchingFavorites;
+        }
       }
     }
 
