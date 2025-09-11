@@ -508,7 +508,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
       Allnodes: 'wss://moonriver-rpc.publicnode.com',
       // Blast: 'wss://moonriver.public.blastapi.io', // https://github.com/polkadot-js/apps/issues/11608
       Dwellir: 'wss://moonriver-rpc.n.dwellir.com',
-      'Moonbeam Foundation': 'wss://wss.api.moonriver.moonbeam.network',
+      // 'Moonbeam Foundation': 'wss://wss.api.moonriver.moonbeam.network', // https://github.com/polkadot-js/apps/issues/11827
       OnFinality: 'wss://moonriver.api.onfinality.io/public-ws',
       RadiumBlock: 'wss://moonriver.public.curie.radiumblock.co/ws',
       UnitedBloc: 'wss://moonriver.unitedbloc.com'
