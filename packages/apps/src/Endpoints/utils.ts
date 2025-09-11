@@ -3,7 +3,10 @@
 
 import type { IFavoriteChainProps, IFavoriteChainsStorage } from './types.js';
 
+import { createWsEndpoints } from '@polkadot/apps-config';
+
 export const FAVORITE_CHAINS_KEY = 'polkadot-app-favorite-chains';
+const endPoints = createWsEndpoints((k, v) => v?.toString() || k);
 
 export const toggleFavoriteChain = (
   chainInfo: IFavoriteChainProps
@@ -76,8 +79,13 @@ export const getFavoriteChains = (): IFavoriteChainsStorage => {
         throw new Error(`Invalid entries under key "${key}"`);
       }
 
-      result[key] = value as IFavoriteChainsStorage[string];
+      if (endPoints.find((e) => e.text === key)) {
+        result[key] = value as IFavoriteChainsStorage[string];
+      }
     }
+
+    // Set filtered result to localStorage
+    localStorage.setItem(FAVORITE_CHAINS_KEY, JSON.stringify(result));
 
     return result;
   } catch (e) {
