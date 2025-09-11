@@ -907,7 +907,7 @@ export const prodParasKusamaCommon: EndpointOption[] = [
     },
     relayName: 'kusama',
     teleport: [-1, 1002, 1005, 1001, 1004],
-    text: 'AssetHub',
+    text: 'Asset Hub',
     ui: {
       color: '#113911',
       logo: chainsAssethubKusamaSVG
@@ -930,7 +930,7 @@ export const prodParasKusamaCommon: EndpointOption[] = [
     },
     relayName: 'kusama',
     teleport: [-1, 1000],
-    text: 'BridgeHub',
+    text: 'Bridge Hub',
     ui: {
       logo: nodesBridgeHubBlackSVG
     }
@@ -1032,7 +1032,7 @@ export const prodRelayKusama: EndpointOption = {
     'light client': 'light://substrate-connect/kusama'
   },
   teleport: getTeleports(prodParasKusamaCommon),
-  text: 'Kusama',
+  text: 'Kusama Relay',
   ui: {
     color: '#000000',
     identityIcon: 'polkadot',

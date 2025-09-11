@@ -909,7 +909,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
     },
     relayName: 'polkadot',
     teleport: [-1, 1002, 1001, 1005, 1004],
-    text: 'AssetHub',
+    text: 'Asset Hub',
     ui: {
       color: '#86e62a',
       logo: nodesAssetHubSVG
@@ -932,7 +932,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
     },
     relayName: 'polkadot',
     teleport: [-1, 1000],
-    text: 'BridgeHub',
+    text: 'Bridge Hub',
     ui: {
       logo: nodesBridgeHubSVG
     }
@@ -1034,7 +1034,7 @@ export const prodRelayPolkadot: EndpointOption = {
     'light client': 'light://substrate-connect/polkadot'
   },
   teleport: getTeleports(prodParasPolkadotCommon),
-  text: 'Polkadot',
+  text: 'Polkadot Relay',
   ui: {
     color: '#e6007a',
     identityIcon: 'polkadot',

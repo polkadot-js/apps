@@ -48,7 +48,7 @@ function combineEndpoints (endpoints: LinkOption[]): Group[] {
   const favoriteChains = getFavoriteChains();
   let favoriteGroupIndex = -1;
 
-  return endpoints.reduce((result: Group[], e): Group[] => {
+  const combinedEndpoints = endpoints.reduce((result: Group[], e): Group[] => {
     if (e.isHeader) {
       const isFavoriteHeader =
         typeof e.text === 'string' && e.text.includes('Favorite chains');
@@ -103,6 +103,15 @@ function combineEndpoints (endpoints: LinkOption[]): Group[] {
 
     return result;
   }, []);
+
+  // Swap first two items in `networks` if first item is relay chain
+  combinedEndpoints.forEach((r) => {
+    if (r.networks.length >= 2 && r.networks[0].isRelay && r.header?.toString().includes('parachains')) {
+      [r.networks[0], r.networks[1]] = [r.networks[1], r.networks[0]];
+    }
+  });
+
+  return combinedEndpoints;
 }
 
 function getCustomEndpoints (): string[] {
