@@ -372,28 +372,15 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    homepage: 'https://dot.crowdloan.integritee.network/',
+    homepage: 'https://integritee.network',
     info: 'integritee',
-    paraId: 3359,
+    paraId: 2039,
     providers: {
       Integritee: 'wss://polkadot.api.integritee.network'
     },
     text: 'Integritee Network',
     ui: {
       color: '#658ea9',
-      logo: nodesIntegriteeSVG
-    }
-  },
-  {
-    homepage: 'https://integritee.network',
-    info: 'integritee',
-    paraId: 2039,
-    providers: {
-      // Integritee: 'wss://polkadot.api.integritee.network'
-    },
-    text: 'Integritee Network',
-    ui: {
-      color: '#2e154b',
       logo: nodesIntegriteeSVG
     }
   },
