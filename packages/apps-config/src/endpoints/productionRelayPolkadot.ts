@@ -372,7 +372,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    homepage: 'https://dot.crowdloan.integritee.network/',
+    homepage: 'https://integritee.network',
     info: 'integritee',
     paraId: 2039,
     providers: {
