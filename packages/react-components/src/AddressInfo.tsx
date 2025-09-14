@@ -281,9 +281,9 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
           }
           value={deriveBalances.vestedBalance}
         >
-          <Tooltip trigger={`${address}-vested-trigger`}>
-            <div>
-              {formatBalance(deriveBalances.vestedClaimable, { forceUnit: '-' })}
+          <StyledTooltip trigger={`${address}-vested-trigger`}>
+            <div className='tooltip-header'>
+              {formatBalance(deriveBalances.vestedClaimable.abs(), { forceUnit: '-' })}
               <div className='faded'>{t('available to be unlocked')}</div>
             </div>
             {allVesting.map(({ endBlock, locked, perBlock, vested }, index) => (
@@ -292,20 +292,19 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
                 key={`item:${index}`}
               >
                 <div>
-                  {formatBalance(vested, { forceUnit: '-' })}
-                  <div className='faded'>{t('of {{locked}} vested', { replace: { locked: formatBalance(locked, { forceUnit: '-' }) } })}</div>
-                </div>
-                <div>
+                  <p>{formatBalance(locked, { forceUnit: '-' })} {t('fully vested in')}</p>
                   <BlockToTime value={endBlock.sub(bestNumber)} />
-                  <div className='faded'>{t('until block')} {formatNumber(endBlock)}</div>
+                </div>
+                <div className='middle'>
+                  (Block {formatNumber(endBlock)} @ {formatBalance(perBlock)}/block)
                 </div>
                 <div>
-                  {formatBalance(perBlock)}
-                  <div className='faded'>{t('per block')}</div>
+                  {formatBalance(vested, { forceUnit: '-' })}
+                  <div>{t('already vested')}</div>
                 </div>
               </div>
             ))}
-          </Tooltip>
+          </StyledTooltip>
         </FormatBalance>
       </React.Fragment>
     );
@@ -602,6 +601,40 @@ function AddressInfo (props: Props): React.ReactElement<Props> {
     </div>
   );
 }
+
+const StyledTooltip = styled(Tooltip)`
+  min-width: 26rem;
+  text-align: left;
+  word-wrap: break-word;
+
+  .ui--BlockToTime {
+    margin-top: -1rem;
+  }
+
+  .tooltip-header {
+    padding-bottom: 0.75rem;
+    margin-bottom: 0.75rem;
+    border-bottom: 1px solid #eeeeee50;
+  }
+
+  .inner {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-block: 1.5rem;
+  }
+
+  .middle {
+    margin-top: -1rem;
+  }
+
+  .inner > div {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    word-wrap: break-word;
+  }
+`;
 
 export default withMulti(
   styled(AddressInfo)`

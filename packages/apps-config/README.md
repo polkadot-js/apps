@@ -14,7 +14,7 @@ The API config can be done in one of two ways -
 - [chain](./src/api/chain) - Here we are mapping to a specific chain name. Generally the next type would be preferred, however if you are supporting multiple chains with individual configs, you would probably want to add the chain-specific information in here.
 - [spec](./src/api/spec) - Here we are mapping from the runtime spec name of the chain to specific types. This means that when connected to a specific spec, these types will be injected.
 
-The actual type definitions you should be familiar with, it is exactly the same as you would upload via the settings page in JSON, or as detailed in the [API types pages](https://polkadot.js.org/api/start/types.extend.html#extending-types).
+The actual type definitions you should be familiar with, it is exactly the same as you would upload via the settings page in JSON, or as detailed in the [API types pages](https://polkadot.js.org/docs/api/start/types.extend).
 
 
 ## Endpoints

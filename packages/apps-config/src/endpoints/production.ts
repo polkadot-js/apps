@@ -77,6 +77,17 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
+    info: 'autonomys-mainnet-evm',
+    providers: {
+      Labs: 'wss://auto-evm.mainnet.autonomys.xyz/ws'
+    },
+    text: 'Autonomys EVM',
+    ui: {
+      color: '#5870B3',
+      logo: nodesAutonomysPNG
+    }
+  },
+  {
     info: 'thebifrost-mainnet',
     providers: {
       'Pilab #1': 'wss://public-01.mainnet.bifrostnetwork.com/wss',
@@ -92,6 +103,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     info: 'bittensor',
     providers: {
       'Latent Holdings (Lite)': 'wss://lite.sub.latent.to:443',
+      'OnFinality (Archive)': 'wss://bittensor-finney.api.onfinality.io/public-ws',
       'Opentensor Fdn (Archive)': 'wss://entrypoint-finney.opentensor.ai:443'
     },
     text: 'Bittensor',
@@ -242,10 +254,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     info: 'edgeware',
     providers: {
       // 'Commonwealth Labs': 'wss://mainnet2.edgewa.re', // https://github.com/polkadot-js/apps/issues/10373
-      'JelliedOwl Bangalore': 'wss://edgeware-rpc3.jelliedowl.net',
-      'JelliedOwl London': 'wss://edgeware-rpc1.jelliedowl.net',
-      'JelliedOwl New York': 'wss://edgeware-rpc0.jelliedowl.net',
-      'JelliedOwl Singapore': 'wss://edgeware-rpc2.jelliedowl.net'
+      'JelliedOwl Bangalore': 'wss://edgeware-rpc3.jelliedowl.net'
       // OnFinality: 'wss://edgeware.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/9795
     },
     text: 'Edgeware',
@@ -456,6 +465,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'polkadex',
     providers: {
+      OnFinality: 'wss://polkadex.api.onfinality.io/public-ws',
       PolkadexSup: 'wss://so.polkadex.ee',
       RadiumBlock: 'wss://polkadex.public.curie.radiumblock.co/ws'
     },
@@ -593,7 +603,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'tanssi',
     providers: {
-      'Tanssi Foundation': 'wss://tanssi.tanssi-mainnet.network'
+      'Tanssi Foundation': 'wss://services.tanssi-mainnet.network/tanssi'
     },
     text: 'Tanssi',
     ui: {

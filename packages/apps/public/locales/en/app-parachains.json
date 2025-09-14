@@ -77,6 +77,7 @@
   "The hex-encoded verifier signature should be provided to you by the team running the crowdloan (based on the information you provide).": "The hex-encoded verifier signature should be provided to you by the team running the crowdloan (based on the information you provide).",
   "The id of this parachain as known on the network": "The id of this parachain as known on the network",
   "The name for this parachain, the id and the allocated/requested balance.": "The name for this parachain, the id and the allocated/requested balance.",
+  "The parachain can be modified, replaced, or removed - it's neither protected nor in a transitional state": "The parachain can be modified, replaced, or removed - it's neither protected nor in a transitional state",
   "The parachain id is associated with the selected account via parathread registration.": "The parachain id is associated with the selected account via parathread registration.",
   "The reservation fee for this Id": "The reservation fee for this Id",
   "The reservation fee for this parachain, including base fee and per-byte fees": "The reservation fee for this parachain, including base fee and per-byte fees",

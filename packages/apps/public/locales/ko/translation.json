@@ -730,6 +730,7 @@
   "The new account password. Once set, all future account unlocks will be performed with this new password.": "새로운 계정 비밀번호가 설정되면, 모든 계정이 새로운 비밀번호로 해제됩니다.",
   "The on-chain percentage for the treasury": "자금의 온체인 퍼센트",
   "The operation type to apply. For approvals both non-final and final approvals are supported.": "승인할 오퍼레이션 타입. 중간 승인과 최종 승인을 지원합니다.",
+  "The parachain can be modified, replaced, or removed - it's neither protected nor in a transitional state": "파라체인은 수정, 교체 또는 제거될 수 있습니다. 파라체인은 보호되지 않으며 전환 상태도 아닙니다",
   "The password and password confirmation for this account. This is required to authenticate any transactions made and to encrypt the keypair.": "계정의 비밀번호와 비밀번호 확인은 트랜잭션 생성과 키페어의 암호화 시, 인증에 필요합니다.",
   "The password previously used to encrypt this account.": "이 비밀번호는 이전에 계정을 암호화할 때 사용되었습니다.",
   "The password to unlock the selected account.": "선택된 계정의 잠금을 해제 할 비밀번호.",

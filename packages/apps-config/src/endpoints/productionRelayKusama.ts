@@ -5,7 +5,7 @@ import type { EndpointOption } from './types.js';
 
 import { KUSAMA_GENESIS } from '../api/constants.js';
 import { chainsAbandPNG, chainsAcurastPNG, chainsAltairSVG, chainsAmplitudeSVG, chainsAssethubKusamaSVG, chainsCoretimeKusamaSVG, chainsDorafactoryPNG, chainsGenshiroSVG, chainsGmJPEG, chainsKaruraSVG, chainsKicoPNG, chainsKintsugiPNG, chainsKreivoSVG, chainsKusamaSVG, chainsListenPNG, chainsMangataPNG, chainsPeopleKusamaSVG, chainsQpnPNG, chainsRiodefiPNG, chainsShidenPNG, chainsTinkerPNG, chainsTuringPNG, chainsUnorthodoxPNG } from '../ui/logos/chains/index.js';
-import { nodesApronPNG, nodesAresMarsPNG, nodesBajunPNG, nodesBasiliskPNG, nodesBifrostSVG, nodesBitcountryPNG, nodesBridgeHubBlackSVG, nodesCalamariPNG, nodesCrabSVG, nodesCurioSVG, nodesDatahighwayPNG, nodesEncointerBlueSVG, nodesHyperbridgePNG, nodesImbuePNG, nodesIntegriteeSVG, nodesIpciSVG, nodesKabochaSVG, nodesKhalaSVG, nodesKrestPNG, nodesLoomNetworkPNG, nodesMoonriverSVG, nodesParallelSVG, nodesPicassoPNG, nodesPichiuPNG, nodesPolkasmithSVG, nodesQuartzPNG, nodesRobonomicsSVG, nodesSakuraSVG, nodesShadowSVG, nodesSnowPNG, nodesSoraSubstrateSVG, nodesSubgameSVG, nodesSubsocialXSVG, nodesT1rnPNG, nodesTrustbasePNG, nodesXodePNG, nodesYerbanetworkPNG, nodesZeroSVG } from '../ui/logos/nodes/index.js';
+import { nodesApronPNG, nodesAresMarsPNG, nodesBajunPNG, nodesBasiliskPNG, nodesBifrostSVG, nodesBitcountryPNG, nodesBridgeHubBlackSVG, nodesCalamariPNG, nodesCrabSVG, nodesCurioSVG, nodesDatahighwayPNG, nodesEncointerBlueSVG, nodesHyperbridgePNG, nodesImbuePNG, nodesIntegriteeSVG, nodesIpciSVG, nodesKabochaSVG, nodesKhalaSVG, nodesKrestPNG, nodesLoomNetworkPNG, nodesMoonriverSVG, nodesParallelSVG, nodesPicassoPNG, nodesPichiuPNG, nodesPolkasmithSVG, nodesQuartzPNG, nodesRegionxPNG, nodesRobonomicsSVG, nodesSakuraSVG, nodesShadowSVG, nodesSnowPNG, nodesSoraSubstrateSVG, nodesSubgameSVG, nodesSubsocialXSVG, nodesT1rnPNG, nodesTrustbasePNG, nodesXodePNG, nodesYerbanetworkPNG, nodesZeroSVG } from '../ui/logos/nodes/index.js';
 import { getTeleports } from './util.js';
 
 // The available endpoints that will show in the dropdown. For the most part (with the exception of
@@ -176,7 +176,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     info: 'curio',
     paraId: 3339,
     providers: {
-      Curio: 'wss://parachain.curioinvest.com/'
+      // Curio: 'wss://parachain.curioinvest.com/' // https://github.com/polkadot-js/apps/issues/11809
     },
     text: 'Curio',
     ui: {
@@ -630,6 +630,19 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
+    homepage: 'https://www.regionx.tech/',
+    info: 'regionx',
+    paraId: 3422,
+    providers: {
+      RegionX: 'wss://regionx-kusama-rpc-lb.zeeve.net/ld940yl9c6/rpc'
+    },
+    text: 'RegionX',
+    ui: {
+      color: '#0CC184',
+      logo: nodesRegionxPNG
+    }
+  },
+  {
     homepage: 'https://riodefi.com',
     info: 'riodefi',
     paraId: 2227,
@@ -841,7 +854,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     info: 'xode',
     paraId: 3344,
     providers: {
-      XodeCommunity: 'wss://rpcnodea01.xode.net/n7yoxCmcIrCF6VziCcDmYTwL8R03a/rpc'
+      XodeCommunity: 'wss://kusama-rpcnode.xode.net'
     },
     text: 'Xode',
     ui: {
@@ -893,7 +906,7 @@ export const prodParasKusamaCommon: EndpointOption[] = [
       Stakeworld: 'wss://ksm-rpc.stakeworld.io/assethub'
     },
     relayName: 'kusama',
-    teleport: [-1],
+    teleport: [-1, 1002, 1005, 1001, 1004],
     text: 'AssetHub',
     ui: {
       color: '#113911',
@@ -916,7 +929,7 @@ export const prodParasKusamaCommon: EndpointOption[] = [
       Stakeworld: 'wss://ksm-rpc.stakeworld.io/bridgehub'
     },
     relayName: 'kusama',
-    teleport: [-1],
+    teleport: [-1, 1000],
     text: 'BridgeHub',
     ui: {
       logo: nodesBridgeHubBlackSVG
@@ -936,7 +949,7 @@ export const prodParasKusamaCommon: EndpointOption[] = [
       Stakeworld: 'wss://ksm-rpc.stakeworld.io/coretime'
     },
     relayName: 'kusama',
-    teleport: [-1],
+    teleport: [-1, 1000],
     text: 'Coretime',
     ui: {
       color: '#113911',
@@ -958,7 +971,7 @@ export const prodParasKusamaCommon: EndpointOption[] = [
       // Stakeworld: 'wss://ksm-rpc.stakeworld.io/encointer'
     },
     relayName: 'kusama',
-    teleport: [-1],
+    teleport: [-1, 1000],
     text: 'Encointer Network',
     ui: {
       color: '#0000cc',
@@ -981,7 +994,7 @@ export const prodParasKusamaCommon: EndpointOption[] = [
       Stakeworld: 'wss://ksm-rpc.stakeworld.io/people'
     },
     relayName: 'kusama',
-    teleport: [-1],
+    teleport: [-1, 1000],
     text: 'People',
     ui: {
       color: '#36454F',
@@ -1004,6 +1017,7 @@ export const prodRelayKusama: EndpointOption = {
     // 'Geometry Labs': 'wss://kusama.geometry.io/websockets', // https://github.com/polkadot-js/apps/pull/6746
     // 'Automata 1RPC': 'wss://1rpc.io/ksm',
     Allnodes: 'wss://kusama-rpc.publicnode.com',
+    Blockops: 'wss://kusama-public-rpc.blockops.network/ws',
     Dwellir: 'wss://kusama-rpc.n.dwellir.com',
     'Dwellir Tunisia': 'wss://kusama-rpc-tn.dwellir.com',
     Helixstreet: 'wss://rpc-kusama.helixstreet.io',

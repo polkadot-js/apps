@@ -124,7 +124,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'bitgreen',
     paraId: 2048,
     providers: {
-      Bitgreen: 'wss://mainnet.bitgreen.org'
+      // Bitgreen: 'wss://mainnet.bitgreen.org' // https://github.com/polkadot-js/apps/issues/11760
       // OnFinality: 'wss://bitgreen.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/9993
     },
     text: 'Bitgreen',
@@ -138,7 +138,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'centrifuge',
     paraId: 2031,
     providers: {
-      Centrifuge: 'wss://fullnode.centrifuge.io',
+      // Centrifuge: 'wss://fullnode.centrifuge.io', // https://github.com/polkadot-js/apps/issues/11745
       LuckyFriday: 'wss://rpc-centrifuge.luckyfriday.io',
       OnFinality: 'wss://centrifuge-parachain.api.onfinality.io/public-ws'
     },
@@ -180,7 +180,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'composable',
     paraId: 2019,
     providers: {
-      Composable: 'wss://rpc.composable.finance'
+      // Composable: 'wss://rpc.composable.finance' // https://github.com/polkadot-js/apps/issues/11745
       // OnFinality: 'wss://composable.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/9986
     },
     text: 'Composable Finance',
@@ -897,7 +897,6 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
     isPeopleForIdentity: true,
     paraId: 1000,
     providers: {
-      Blockops: 'wss://polkadot-assethub-rpc.blockops.network/ws',
       Dwellir: 'wss://asset-hub-polkadot-rpc.n.dwellir.com',
       'Dwellir Tunisia': 'wss://statemint-rpc-tn.dwellir.com',
       IBP1: 'wss://sys.ibp.network/asset-hub-polkadot',
@@ -909,7 +908,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       Stakeworld: 'wss://dot-rpc.stakeworld.io/assethub'
     },
     relayName: 'polkadot',
-    teleport: [-1],
+    teleport: [-1, 1002, 1001, 1005, 1004],
     text: 'AssetHub',
     ui: {
       color: '#86e62a',
@@ -932,7 +931,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       Stakeworld: 'wss://dot-rpc.stakeworld.io/bridgehub'
     },
     relayName: 'polkadot',
-    teleport: [-1],
+    teleport: [-1, 1000],
     text: 'BridgeHub',
     ui: {
       logo: nodesBridgeHubSVG
@@ -954,7 +953,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       Stakeworld: 'wss://dot-rpc.stakeworld.io/collectives'
     },
     relayName: 'polkadot',
-    teleport: [-1],
+    teleport: [-1, 1000],
     text: 'Collectives',
     ui: {
       color: '#e6777a',
@@ -975,7 +974,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       Stakeworld: 'wss://dot-rpc.stakeworld.io/coretime'
     },
     relayName: 'polkadot',
-    teleport: [-1],
+    teleport: [-1, 1000],
     text: 'Coretime',
     ui: {}
   },
@@ -991,11 +990,11 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       LuckyFriday: 'wss://rpc-people-polkadot.luckyfriday.io',
       OnFinality: 'wss://people-polkadot.api.onfinality.io/public-ws',
       Parity: 'wss://polkadot-people-rpc.polkadot.io',
-      RadiumBlock: 'wss://people-polkadot.public.curie.radiumblock.co/ws',
+      // RadiumBlock: 'wss://people-polkadot.public.curie.radiumblock.co/ws', // https://github.com/polkadot-js/apps/issues/11791
       Stakeworld: 'wss://dot-rpc.stakeworld.io/people'
     },
     relayName: 'polkadot',
-    teleport: [-1],
+    teleport: [-1, 1000],
     text: 'People',
     ui: {
       color: '#e84366',
@@ -1029,6 +1028,7 @@ export const prodRelayPolkadot: EndpointOption = {
     'Permanence DAO EU': 'wss://polkadot.rpc.permanence.io',
     RadiumBlock: 'wss://polkadot.public.curie.radiumblock.co/ws',
     // RockX: 'wss://rockx-dot.w3node.com/polka-public-dot/ws', // https://github.com/polkadot-js/apps/issues/11439
+    'Simply Staking': 'wss://spectrum-03.simplystaking.xyz/cG9sa2Fkb3QtMDMtOTFkMmYwZGYtcG9sa2Fkb3Q/LjwBJpV3dIKyWQ/polkadot/mainnet/',
     Stakeworld: 'wss://dot-rpc.stakeworld.io',
     SubQuery: 'wss://polkadot.rpc.subquery.network/public/ws',
     'light client': 'light://substrate-connect/polkadot'

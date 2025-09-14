@@ -771,6 +771,7 @@
   "The new account password. Once set, all future account unlocks will be performed with this new password.": "Kata sandi akun baru. Setelah disetel, semua pembukaan akun di masa mendatang akan dilakukan dengan kata sandi baru ini.",
   "The on-chain percentage for the treasury": "Persentase on-chain untuk bendahara",
   "The operation type to apply. For approvals both non-final and final approvals are supported.": "Jenis operasi yang akan diterapkan. Untuk persetujuan, persetujuan non-final dan dukungan final.",
+  "The parachain can be modified, replaced, or removed - it's neither protected nor in a transitional state": "Parachain dapat dimodifikasi, diganti, atau dihapus - tidak dilindungi atau dalam keadaan transisi",
   "The password and password confirmation for this account. This is required to authenticate any transactions made and to encrypt the keypair.": "Konfirmasi kata sandi dan kata sandi untuk akun ini. Ini diperlukan untuk mengotentikasi setiap transaksi yang dilakukan dan untuk mengenkripsi keypair.",
   "The password previously used to encrypt this account.": "Kata sandi yang sebelumnya digunakan untuk mengenkripsi akun ini.",
   "The password to unlock the selected account.": "Kata sandi untuk membuka akun yang dipilih.",

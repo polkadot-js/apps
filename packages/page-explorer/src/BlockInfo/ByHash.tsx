@@ -5,6 +5,7 @@ import type { HeaderExtended } from '@polkadot/api-derive/types';
 import type { KeyedEvent } from '@polkadot/react-hooks/ctx/types';
 import type { V2Weight } from '@polkadot/react-hooks/useWeight';
 import type { EventRecord, Hash, RuntimeVersionPartial, SignedBlock } from '@polkadot/types/interfaces';
+import type { FrameSupportDispatchPerDispatchClassWeight } from '@polkadot/types/lookup';
 
 import React, { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -29,6 +30,7 @@ interface Props {
 
 interface State {
   events?: KeyedEvent[] | null;
+  blockWeight?: FrameSupportDispatchPerDispatchClassWeight | null;
   getBlock?: SignedBlock;
   getHeader?: HeaderExtended;
   nextBlockHash?: Hash | null;
@@ -37,8 +39,9 @@ interface State {
 
 const EMPTY_HEADER: [React.ReactNode?, string?, number?][] = [['...', 'start', 6]];
 
-function transformResult ([[runtimeVersion, events], getBlock, getHeader]: [[RuntimeVersionPartial, EventRecord[] | null], SignedBlock, HeaderExtended?]): State {
+function transformResult ([[runtimeVersion, events, blockWeight], getBlock, getHeader]: [[RuntimeVersionPartial, EventRecord[] | null, FrameSupportDispatchPerDispatchClassWeight|null], SignedBlock, HeaderExtended?]): State {
   return {
+    blockWeight,
     events: events?.map((record, index) => ({
       indexes: [index],
       key: `${Date.now()}-${index}-${record.hash.toHex()}`,
@@ -54,7 +57,7 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
   const { t } = useTranslation();
   const { api } = useApi();
   const mountedRef = useIsMountedRef();
-  const [{ events, getBlock, getHeader, nextBlockHash, runtimeVersion }, setState] = useState<State>({});
+  const [{ blockWeight, events, getBlock, getHeader, nextBlockHash, runtimeVersion }, setState] = useState<State>({});
   const [blkError, setBlkError] = useState<Error | null | undefined>(error);
   const [evtError, setEvtError] = useState<Error | null | undefined>();
 
@@ -88,6 +91,11 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
                 .catch((error: Error) => {
                   mountedRef.current && setEvtError(error);
 
+                  return null;
+                }),
+              apiAt.query.system
+                .blockWeight()
+                .catch(() => {
                   return null;
                 })
             ])
@@ -166,6 +174,7 @@ function BlockByHash ({ className = '', error, value }: Props): React.ReactEleme
   return (
     <div className={className}>
       <Summary
+        blockWeight={blockWeight}
         events={events}
         maxBlockWeight={(maxBlockWeight as V2Weight).refTime.toBn()}
         maxProofSize={isBn(maxBlockWeight.proofSize) ? maxBlockWeight.proofSize : (maxBlockWeight as V2Weight).proofSize.toBn()}

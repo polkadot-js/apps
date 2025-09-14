@@ -1,5 +1,109 @@
 # CHANGELOG
 
+## 0.164.1 Aug 29, 2025
+
+Contributed:
+
+- Updated Simply Staking endpoint for Polkadot in productionRelayPolkadot.ts ([#11778](https://github.com/polkadot-js/apps/pull/11778)) (Thanks to https://github.com/DanielMagro97)
+- Update RPC endpoints for zkVerify and VFlow ([#11783](https://github.com/polkadot-js/apps/pull/11783)) (Thanks to https://github.com/DanieleDiBenedetto)
+- fintra logo setting ([#11785](https://github.com/polkadot-js/apps/pull/11785)) (Thanks to https://github.com/wasif1024)
+- Fintra ([#11788](https://github.com/polkadot-js/apps/pull/11788)) (Thanks to https://github.com/wasif1024)
+- Add ideal network consumer chain  ([#11790](https://github.com/polkadot-js/apps/pull/11790)) (Thanks to https://github.com/juangirini)
+- Fix: Rename 'Quantum Fusion' to 'QF Network' ([#11789](https://github.com/polkadot-js/apps/pull/11789)) (Thanks to https://github.com/AlexLgn)
+- remove public endpoint support update polkadot-assethub ([#11797](https://github.com/polkadot-js/apps/pull/11797)) (Thanks to https://github.com/segunjkf)
+- Fintra Logo Updates ([#11800](https://github.com/polkadot-js/apps/pull/11800)) (Thanks to https://github.com/wasif1024)
+
+
+Changes:
+
+- Prioritize Selected Chain RPC Provider for System Chains ([#11764](https://github.com/polkadot-js/apps/pull/11764))
+- Run playground code in iframe ([#11780](https://github.com/polkadot-js/apps/pull/11780))
+- White screen issue on forking chain ([#11787](https://github.com/polkadot-js/apps/pull/11787))
+- Disable unreachable endpoints ([#11792](https://github.com/polkadot-js/apps/pull/11792))
+- Filter events by user accounts ([#11728](https://github.com/polkadot-js/apps/pull/11728))
+- Bump  @polkadot-api/merkleize-metadata, @polkadot/api, @polkadot/common, @polkadot/phishing, @polkadot/wasm, @polkadot/ui, @polkadot/extension dependencies ([#11805](https://github.com/polkadot-js/apps/pull/11805))
+
+
+## 0.163.1 Aug 15, 2025
+
+Contributed:
+
+- Update Tanssi Endpoints ([#11738](https://github.com/polkadot-js/apps/pull/11738)) (Thanks to https://github.com/albertov19)
+- Fix typos in comment ([#11733](https://github.com/polkadot-js/apps/pull/11733)) (Thanks to https://github.com/seun556)
+- Add Autonomys EVM mainnet endpoint ([#11750](https://github.com/polkadot-js/apps/pull/11750)) (Thanks to https://github.com/jfrank-summit)
+- Add RegionX Kusama ([#11752](https://github.com/polkadot-js/apps/pull/11752)) (Thanks to https://github.com/Szegoo)
+- Update: Change XODE rpc on Kusama and Paseo ([#11761](https://github.com/polkadot-js/apps/pull/11761)) (Thanks to https://github.com/ArneilPaulPolican)
+- Add VFlow Testnet ([#11754](https://github.com/polkadot-js/apps/pull/11754)) (Thanks to https://github.com/drgora)
+
+
+Changes:
+
+- Mark Chains as Favorites ([#11718](https://github.com/polkadot-js/apps/pull/11718))
+- fix: disable unreachable endpoints ([#11746](https://github.com/polkadot-js/apps/pull/11746))
+- Accumulate proof size for block details page ([#11748](https://github.com/polkadot-js/apps/pull/11748))
+- Simplified Chain Endpoint Selection ([#11742](https://github.com/polkadot-js/apps/pull/11742) [#11762](https://github.com/polkadot-js/apps/pull/11762))
+- Avoid embedding of UI in iframe ([#11769](https://github.com/polkadot-js/apps/pull/11769)) 
+- Upgraded polkadot dependencies ([#11771](https://github.com/polkadot-js/apps/pull/11771))
+
+
+## 0.162.1 July 31, 2025
+
+Contributed:
+
+- Update peerplays types bundle ([#11712](https://github.com/polkadot-js/apps/pull/11712)) (Thanks to https://github.com/serkixenos)
+- Remove IBP endpoints on westend ([#11711](https://github.com/polkadot-js/apps/pull/11711)) (Thanks to https://github.com/senseless)
+- Update peerplays types bundle, hotfix ([#11715](https://github.com/polkadot-js/apps/pull/11715)) (Thanks to https://github.com/serkixenos)
+- Activate IBP2 Passet Hub Paseo ([#11722](https://github.com/polkadot-js/apps/pull/11722)) (Thanks to https://github.com/senseless)
+- Added Simply Staking endpoint for Polkadot in productionRelayPolkadot.ts ([#11731](https://github.com/polkadot-js/apps/pull/11731)) (Thanks to https://github.com/DanielMagro97)
+
+
+Changes:
+
+- Teleport Feature Enhancement ([#11699](https://github.com/polkadot-js/apps/pull/11699))
+- Remove pools warning for staking ([#11730](https://github.com/polkadot-js/apps/pull/11730))
+- fix: disable unreachable endpoints ([#11714](https://github.com/polkadot-js/apps/pull/11714))
+- Upgraded polkadot dependencies ([#11736](https://github.com/polkadot-js/apps/pull/11736))
+
+
+## 0.161.1 July 17, 2025
+
+Contributed:
+
+- chore: Bump Kilt dep ([#11679](https://github.com/polkadot-js/apps/pull/11679)) (Thanks to https://github.com/abdulmth)
+- re-add IDN node provider to Paseo ([#11688](https://github.com/polkadot-js/apps/pull/11688)) (Thanks to https://github.com/juangirini)
+- Remove some JelliedOwl node - cutting costs ([#11686](https://github.com/polkadot-js/apps/pull/11686)) (Thanks to https://github.com/JelliedOwl)
+- Add RPC endpoints for Quantum Fusion testnet (replaces #11454) ([#11687](https://github.com/polkadot-js/apps/pull/11687)) (Thanks to https://github.com/Vsevolod-Rusinskiy)
+
+
+Changes:
+
+- fix(ui): resolve apps version caching issue ([#11678](https://github.com/polkadot-js/apps/pull/11678))
+- feat: add hover tooltip to Badge on Parachain page for unlock icon ([#11683](https://github.com/polkadot-js/apps/pull/11683))
+- fix: disable unreachable endpoints ([#11693](https://github.com/polkadot-js/apps/pull/11693))
+- Handle Import/Export of In-browser accounts gracefully ([#11669](https://github.com/polkadot-js/apps/pull/11669))
+- Upgraded polkadot dependencies ([#11702](https://github.com/polkadot-js/apps/pull/11702))
+
+
+## 0.160.1 July 7, 2025
+
+Contributed:
+
+- Fix radiumblock bifrost endpoint ([#11642](https://github.com/polkadot-js/apps/pull/11642)) (Thanks to https://github.com/TomatoAres)
+- Polkadex updated end point ([#11635](https://github.com/polkadot-js/apps/pull/11635)) (Thanks to https://github.com/charanks030)
+- Updated Onfinality endpoints ([#11647](https://github.com/polkadot-js/apps/pull/11647)) (Thanks to https://github.com/FiveKG)
+- docs: fix dead link in apps-config/README.md ([#11672](https://github.com/polkadot-js/apps/pull/11672)) (Thanks to https://github.com/seun556)
+- Added onfinality endpoints ([#11664](https://github.com/polkadot-js/apps/pull/11664)) (Thanks to https://github.com/FiveKG)
+- chore: fix spelling issues ([#11656](https://github.com/polkadot-js/apps/pull/11656)) (Thanks to https://github.com/Bvegas882)
+
+
+Changes:
+
+- Improve regex for weight formatting in formatMeta function ([#11640](https://github.com/polkadot-js/apps/pull/11640))
+- fix: disable unreachable endpoints ([#11644](https://github.com/polkadot-js/apps/pull/11644) [#11658](https://github.com/polkadot-js/apps/pull/11658))
+- Preserve referenda with missing info during grouping ([#11651](https://github.com/polkadot-js/apps/pull/11651))
+- Upgraded polkadot dependencies ([#11676](https://github.com/polkadot-js/apps/pull/11676))
+
+
 ## 0.159.1 Jun 19, 2025
 
 Contributed:

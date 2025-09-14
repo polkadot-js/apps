@@ -685,6 +685,7 @@
   "The note that will be added to the transaction. It won't be stored on chain": "Эта заметка будет добавлена в транзакция. Однако не будет сохранена в сети",
   "The number of decimals for this token. Max allowed via the UI is set to 20.": "Количество знаков после запятой для этого токена. Максимально разрешенный UI размер - 20",
   "The on-chain percentage for the treasury": "Процент для казначейства",
+  "The parachain can be modified, replaced, or removed - it's neither protected nor in a transitional state": "Параллельная цепь может быть изменена, заменена или удалена - она не защищена и не находится в переходном состоянии",
   "The password and password confirmation for this account. This is required to authenticate any transactions made and to encrypt the keypair.": "Пароль и подтверждение пароля для этой учетной записи. Это необходимо для проверки подлинности всех совершенных транзакций и шифрования ключевой пары.",
   "The password previously used to encrypt this account.": "Пароль, который ранее использовался для шифрования этой учетной записи.",
   "The password to unlock the selected account.": "Пароль для разблокирования выбранного аккаунта.",

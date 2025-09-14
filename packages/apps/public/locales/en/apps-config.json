@@ -6,6 +6,7 @@
   "rpc.dev.custom.own": "Custom",
   "rpc.dev.local": "Local Node",
   "rpc.header.dev": "Development",
+  "rpc.header.favorite": "Favorite chains",
   "rpc.header.kusama.relay": "Kusama & parachains",
   "rpc.header.live": "Live networks",
   "rpc.header.paseo.relay": "Test Paseo & parachains",

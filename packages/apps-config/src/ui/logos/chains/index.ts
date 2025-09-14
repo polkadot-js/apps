@@ -65,6 +65,7 @@ export { chainsPeoplePolkadotSVG } from './generated/people-polkadotSVG.js';
 export { chainsPicassoSVG } from './generated/picassoSVG.js';
 export { chainsPolkadotCircleSVG } from './generated/polkadot-circleSVG.js';
 export { chainsPopNetworkSVG } from './generated/pop-networkSVG.js';
+export { chainsQfNetworkPNG } from './generated/qf-networkPNG.js';
 export { chainsQpnPNG } from './generated/qpnPNG.js';
 export { chainsRiodefiPNG } from './generated/riodefiPNG.js';
 export { chainsRococoSVG } from './generated/rococoSVG.js';

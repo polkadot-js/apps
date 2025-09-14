@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { LinkOption } from '@polkadot/apps-config/endpoints/types';
-import type { Group } from './types.js';
+import type { Group, IFavoriteChainProps } from './types.js';
 
 // ok, this seems to be an eslint bug, this _is_ a package import
 import punycode from 'punycode/';
@@ -11,12 +11,14 @@ import store from 'store';
 
 import { createWsEndpoints, CUSTOM_ENDPOINT_KEY } from '@polkadot/apps-config';
 import { Button, Input, Sidebar, styled } from '@polkadot/react-components';
+import { defaultHighlight } from '@polkadot/react-components/styles';
 import { useApi } from '@polkadot/react-hooks';
 import { settings } from '@polkadot/ui-settings';
 import { isAscii } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
 import GroupDisplay from './Group.js';
+import { getFavoriteChains, isFavoriteChain, toggleFavoriteChain } from './utils.js';
 
 interface Props {
   className?: string;
@@ -43,12 +45,46 @@ function isValidUrl (url: string): boolean {
 }
 
 function combineEndpoints (endpoints: LinkOption[]): Group[] {
+  const favoriteChains = getFavoriteChains();
+  let favoriteGroupIndex = -1;
+
   return endpoints.reduce((result: Group[], e): Group[] => {
     if (e.isHeader) {
+      const isFavoriteHeader =
+        typeof e.text === 'string' && e.text.includes('Favorite chains');
+
       result.push({ header: e.text, isDevelopment: e.isDevelopment, isSpaced: e.isSpaced, networks: [] });
+
+      if (isFavoriteHeader) {
+        favoriteGroupIndex = result.length - 1;
+      }
     } else {
       const prev = result[result.length - 1];
       const prov = { isLightClient: e.isLightClient, name: e.textBy, url: e.value };
+
+      const isFavorite = isFavoriteChain(favoriteChains,
+        { chainName: e.text?.toString() ?? '',
+          paraId: e.paraId,
+          relay: e.textRelay?.toString() });
+
+      if (isFavorite && favoriteGroupIndex !== -1 && !e.isUnreachable) {
+        const favGroup = result[favoriteGroupIndex];
+        const lastFav = favGroup.networks[favGroup.networks.length - 1];
+
+        if (lastFav && lastFav.name === e.text && lastFav.nameRelay === e.textRelay && lastFav.paraId === e.paraId) {
+          lastFav.providers.push(prov);
+        } else {
+          favGroup.networks.push({
+            isChild: e.isChild,
+            isRelay: !!e.genesisHash,
+            name: e.text as string,
+            nameRelay: e.textRelay as string,
+            paraId: e.paraId,
+            providers: [prov],
+            ui: e.ui
+          });
+        }
+      }
 
       if (prev.networks[prev.networks.length - 1] && e.text === prev.networks[prev.networks.length - 1].name) {
         prev.networks[prev.networks.length - 1].providers.push(prov);
@@ -154,7 +190,8 @@ function isLocalForkDisabled (hasUrlChanged: boolean, apiUrl: string, isUrlValid
 function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const linkOptions = createWsEndpoints(t);
-  const { isLocalFork } = useApi();
+  const { apiEndpoint, isLocalFork } = useApi();
+  const [favoriteChains, setFavoriteChains] = useState(() => getFavoriteChains());
   const [groups, setGroups] = useState(() => combineEndpoints(linkOptions));
   const [{ apiUrl, groupIndex, hasUrlChanged, isUrlValid }, setApiUrl] = useState<UrlState>(() => extractUrlState(settings.get().apiUrl, groups));
   const [storedCustomEndpoints, setStoredCustomEndpoints] = useState<string[]>(() => getCustomEndpoints());
@@ -198,6 +235,12 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
     []
   );
 
+  const _toggleFavoriteChain = useCallback((chainInfo: IFavoriteChainProps) => {
+    toggleFavoriteChain(chainInfo);
+    setFavoriteChains(getFavoriteChains());
+    setGroups(combineEndpoints(createWsEndpoints(t)));
+  }, [t]);
+
   const _removeApiEndpoint = useCallback(
     (): void => {
       if (!isSavedCustomEndpoint) {
@@ -227,7 +270,7 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
 
         return newValue;
       });
-      setApiUrl(extractUrlState(apiUrl, groups));
+      setApiUrl((state) => ({ ...extractUrlState(apiUrl, groups), groupIndex: state.groupIndex }));
     },
     [groups]
   );
@@ -238,7 +281,7 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
         apiUrl = punycode.toASCII(apiUrl);
       }
 
-      setApiUrl(extractUrlState(apiUrl, groups));
+      setApiUrl((state) => ({ ...extractUrlState(apiUrl, groups), groupIndex: state.groupIndex }));
     },
     [groups]
   );
@@ -325,11 +368,14 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
         <GroupDisplay
           affinities={affinities}
           apiUrl={apiUrl}
+          favoriteChains={favoriteChains}
+          highlightColor={apiEndpoint?.ui.color || defaultHighlight}
           index={index}
           isSelected={groupIndex === index}
           key={index}
           setApiUrl={_setApiUrl}
           setGroup={_changeGroup}
+          toggleFavoriteChain={_toggleFavoriteChain}
           value={group}
         >
           {group.isDevelopment && (

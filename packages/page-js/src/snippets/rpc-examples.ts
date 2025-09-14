@@ -52,7 +52,7 @@ export const rpcSystemInfo: Snippet = {
   value: 'rpcSystemInfo',
   text: 'Get system information',
   label: { color: 'pink', children: 'RPC', size: 'tiny' },
-  code: `// Retrieve the chain & node information information via rpc calls
+  code: `// Retrieve the chain & node information via rpc calls
 const [chain, nodeName, nodeVersion, properties] = await Promise.all([
   api.rpc.system.chain(),
   api.rpc.system.name(),

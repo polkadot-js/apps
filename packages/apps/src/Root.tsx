@@ -12,6 +12,7 @@ import { ApiCtxRoot } from '@polkadot/react-api';
 import { ApiStatsCtxRoot, BlockAuthorsCtxRoot, BlockEventsCtxRoot, KeyringCtxRoot, PayWithAssetCtxRoot, QueueCtxRoot, WindowSizeCtxRoot } from '@polkadot/react-hooks';
 import { settings } from '@polkadot/ui-settings';
 
+import BeforeApiInit from './overlays/BeforeInit.js';
 import Apps from './Apps.js';
 
 interface Props {
@@ -44,6 +45,7 @@ function Root ({ isElectron, store }: Props): React.ReactElement<Props> {
         <QueueCtxRoot>
           <ApiCtxRoot
             apiUrl={settings.apiUrl}
+            beforeApiInit={<BeforeApiInit />}
             isElectron={isElectron}
             store={store}
           >
