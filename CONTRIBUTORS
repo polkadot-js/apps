@@ -9,7 +9,7 @@
       39	Joakim Nyman                  	Clean up and renaming of Dwellir endpoints (#11609)
       39	RadiumBlock                   	Re-adding RadiumBlock as Shiden and Bifrost Polkadot Endpoint provider (#11112)
       34	Yongfeng LI                   	Update subsquare and statescan external links (#11295)
-      31	brenzi                        	fix Integritee Polkadot paraid (#11832)
+      32	brenzi                        	reactivate Integritee Paseo endpoint (#11831)
       31	Stefanie Doll                 	Set higher default gas limit, switch from bitlength u32 to u128 for input fields (#2743)
       29	Ewa Kowalska                  	Style badges in accounts list (#6208)
       28	Daria                         	CoretimeTypes is an enum, and Reservation type has index 0 (#11567)
