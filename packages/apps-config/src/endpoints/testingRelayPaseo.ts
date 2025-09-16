@@ -61,7 +61,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'paseoAventus',
     paraId: 2056,
     providers: {
-      Aventus: 'wss://public-rpc.testnet.aventus.io'
+      // Aventus: 'wss://public-rpc.testnet.aventus.io' // https://github.com/polkadot-js/apps/issues/11827
     },
     text: 'Aventus',
     ui: {

@@ -75,7 +75,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     paraId: 2006,
     providers: {
       Astar: 'wss://rpc.astar.network',
-      'Automata 1RPC': 'wss://1rpc.io/astr',
+      // 'Automata 1RPC': 'wss://1rpc.io/astr', // https://github.com/polkadot-js/apps/issues/11827
       Blast: 'wss://astar.public.blastapi.io',
       Dwellir: 'wss://astar-rpc.n.dwellir.com',
       OnFinality: 'wss://astar.api.onfinality.io/public-ws',
@@ -109,9 +109,9 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
       IBP1: 'wss://bifrost-polkadot.ibp.network',
       IBP2: 'wss://bifrost-polkadot.dotters.network',
       Liebi: 'wss://hk.p.bifrost-rpc.liebi.com/ws',
-      LiebiEU: 'wss://eu.bifrost-polkadot-rpc.liebi.com/ws',
+      LiebiEU: 'wss://eu.bifrost-polkadot-rpc.liebi.com/ws'
       // OnFinality: 'wss://bifrost-polkadot.api.onfinality.io/public-ws',
-      RadiumBlock: 'wss://bifrost.public.curie.radiumblock.co/ws' // https://github.com/polkadot-js/apps/issues/11098
+      // RadiumBlock: 'wss://bifrost.public.curie.radiumblock.co/ws' // https://github.com/polkadot-js/apps/issues/11827
     },
     text: 'Bifrost',
     ui: {

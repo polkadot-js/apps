@@ -127,7 +127,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'autonomys-taurus-evm',
     providers: {
-      Labs: 'wss://auto-evm.taurus.autonomys.xyz/ws'
+      // Labs: 'wss://auto-evm.taurus.autonomys.xyz/ws' // https://github.com/polkadot-js/apps/issues/11827
     },
     text: 'Autonomys Taurus EVM',
     ui: {
@@ -138,8 +138,8 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'autonomys-taurus-testnet',
     providers: {
-      'Labs 1': 'wss://rpc-0.taurus.subspace.network/ws',
-      'Labs 2': 'wss://rpc-1.taurus.subspace.network/ws'
+      'Labs 1': 'wss://rpc-0.taurus.subspace.network/ws'
+      // 'Labs 2': 'wss://rpc-1.taurus.subspace.network/ws' // https://github.com/polkadot-js/apps/issues/11827
     },
     text: 'Autonomys Taurus Testnet',
     ui: {
