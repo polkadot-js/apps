@@ -125,23 +125,24 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    info: 'autonomys-taurus-evm',
+    info: 'autonomys-chronos-evm',
     providers: {
-      // Labs: 'wss://auto-evm.taurus.autonomys.xyz/ws' // https://github.com/polkadot-js/apps/issues/11827
+      'Labs 1': 'wss://auto-evm.chronos.autonomys.xyz/ws',
+      'Labs 2': 'wss://auto-evm-1.chronos.autonomys.xyz/ws'
     },
-    text: 'Autonomys Taurus EVM',
+    text: 'Autonomys Chronos EVM',
     ui: {
       color: '#5870B3',
       logo: nodesAutonomysPNG
     }
   },
   {
-    info: 'autonomys-taurus-testnet',
+    info: 'autonomys-chronos-testnet',
     providers: {
-      'Labs 1': 'wss://rpc-0.taurus.subspace.network/ws'
-      // 'Labs 2': 'wss://rpc-1.taurus.subspace.network/ws' // https://github.com/polkadot-js/apps/issues/11827
+      'Labs 1': 'wss://rpc.chronos.autonomys.xyz/ws',
+      'Labs 2': 'wss://rpc-1.chronos.autonomys.xyz/ws'
     },
-    text: 'Autonomys Taurus Testnet',
+    text: 'Autonomys Chronos Testnet',
     ui: {
       color: '#5870B3',
       logo: nodesAutonomysPNG
