@@ -372,28 +372,15 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    homepage: 'https://dot.crowdloan.integritee.network/',
+    homepage: 'https://integritee.network',
     info: 'integritee',
-    paraId: 3359,
+    paraId: 2039,
     providers: {
       Integritee: 'wss://polkadot.api.integritee.network'
     },
     text: 'Integritee Network',
     ui: {
       color: '#658ea9',
-      logo: nodesIntegriteeSVG
-    }
-  },
-  {
-    homepage: 'https://integritee.network',
-    info: 'integritee',
-    paraId: 2039,
-    providers: {
-      // Integritee: 'wss://polkadot.api.integritee.network'
-    },
-    text: 'Integritee Network',
-    ui: {
-      color: '#2e154b',
       logo: nodesIntegriteeSVG
     }
   },
@@ -897,7 +884,6 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
     isPeopleForIdentity: true,
     paraId: 1000,
     providers: {
-      Blockops: 'wss://polkadot-assethub-rpc.blockops.network/ws',
       Dwellir: 'wss://asset-hub-polkadot-rpc.n.dwellir.com',
       'Dwellir Tunisia': 'wss://statemint-rpc-tn.dwellir.com',
       IBP1: 'wss://sys.ibp.network/asset-hub-polkadot',
