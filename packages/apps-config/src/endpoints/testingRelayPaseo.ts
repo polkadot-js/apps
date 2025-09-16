@@ -437,7 +437,7 @@ export const testParasPaseoCommon: EndpointOption[] = [
     },
     relayName: 'paseo',
     teleport: [-1, 1002, 1111],
-    text: 'AssetHub',
+    text: 'Asset Hub',
     ui: {
       color: '#77bb77',
       logo: nodesAssetHubSVG
@@ -453,7 +453,7 @@ export const testParasPaseoCommon: EndpointOption[] = [
     },
     relayName: 'paseo',
     teleport: [-1, 1000],
-    text: 'BridgeHub',
+    text: 'Bridge Hub',
     ui: {
       color: '#AAADD7',
       logo: nodesBridgeHubSVG
@@ -549,7 +549,7 @@ export const testRelayPaseo: EndpointOption = {
     // 'light client': 'light://substrate-connect/paseo'
   },
   teleport: getTeleports(testParasPaseoCommon),
-  text: 'Paseo',
+  text: 'Paseo Relay',
   ui: {
     color: '#38393F',
     identityIcon: 'polkadot',
