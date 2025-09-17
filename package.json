@@ -91,6 +91,7 @@
     "source-map-explorer": "^2.5.3"
   },
   "resolutions": {
+    "@zondax/ledger-substrate": "1.1.1",
     "@polkadot/api": "^16.4.6",
     "@polkadot/api-augment": "^16.4.6",
     "@polkadot/api-base": "^16.4.6",

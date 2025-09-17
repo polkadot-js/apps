@@ -7,6 +7,7 @@ import type { ApiPromise } from '@polkadot/api';
 import type { SubmittableExtrinsicFunction } from '@polkadot/api/promise/types';
 import type { LinkOption } from '@polkadot/apps-config/endpoints/types';
 import type { InjectedExtension } from '@polkadot/extension-inject/types';
+import type { KeypairType } from '@polkadot/util-crypto/types';
 
 // helpers for HOC props
 export type OmitProps<T, K> = Pick<T, Exclude<keyof T, K>>;
@@ -23,6 +24,7 @@ export interface InjectedAccountExt {
     source: string;
     whenCreated: number;
   };
+  type: KeypairType;
 }
 
 export interface ApiState {
