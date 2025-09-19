@@ -478,8 +478,8 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     info: 'mangata',
     paraId: 2110,
     providers: {
-      'Mangata Archive': 'wss://kusama-archive.mangata.online',
-      'Mangata RPC': 'wss://kusama-rpc.mangata.online'
+      // 'Mangata Archive': 'wss://kusama-archive.mangata.online', // https://github.com/polkadot-js/apps/issues/11846
+      // 'Mangata RPC': 'wss://kusama-rpc.mangata.online' // https://github.com/polkadot-js/apps/issues/11846
     },
     text: 'Mangata',
     ui: {
