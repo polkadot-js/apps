@@ -49,8 +49,6 @@ export { chainsLaosPNG } from './generated/laosPNG.js';
 export { chainsLiberlandPNG } from './generated/liberlandPNG.js';
 export { chainsListenPNG } from './generated/listenPNG.js';
 export { chainsLogionPNG } from './generated/logionPNG.js';
-export { chainsMangataPNG } from './generated/mangataPNG.js';
-export { chainsMangataxPNG } from './generated/mangataxPNG.js';
 export { chainsMoonsamaPNG } from './generated/moonsamaPNG.js';
 export { chainsMyriadPNG } from './generated/myriadPNG.js';
 export { chainsMyxcavPNG } from './generated/myxcavPNG.js';
