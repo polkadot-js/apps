@@ -52,7 +52,7 @@ export interface ApiProps extends ApiState {
    */
   apiIdentity: ApiPromise;
   /**
-   * Used for checking if tx.idenitity.* should be used. Can be used for other scenarios as well.
+   * Used for checking if tx.identity.* should be used. Can be used for other scenarios as well.
    */
   enableIdentity: boolean;
   apiCoretime: ApiPromise;
