@@ -1,5 +1,30 @@
 # CHANGELOG
 
+## 0.165.1 Sep 25, 2025
+
+Contributed:
+
+- chore: remove redundant word ([#11802](https://github.com/polkadot-js/apps/pull/11802)) (Thanks to https://github.com/tzchenxixi)
+- chore: add blockops kusama endpoint ([#11811](https://github.com/polkadot-js/apps/pull/11811)) (Thanks to https://github.com/segunjkf)
+- docs(readme): install dependencies faster ([#11822](https://github.com/polkadot-js/apps/pull/11822)) (Thanks to https://github.com/0xsecaas)
+- fix Integritee Polkadot paraid ([#11832](https://github.com/polkadot-js/apps/pull/11832)) (Thanks to https://github.com/brenzi)
+- reactivate Integritee Paseo endpoint ([#11831](https://github.com/polkadot-js/apps/pull/11831)) (Thanks to https://github.com/brenzi)
+- Add Autonomys Chronos testnet and Autonomys Chronos EVM testnet endpoints ([#11839](https://github.com/polkadot-js/apps/pull/11839)) (Thanks to https://github.com/EmilFattakhov)
+- Fix Moonriver URL Remove Mangata ([#11848](https://github.com/polkadot-js/apps/pull/11848)) (Thanks to https://github.com/albertov19)
+- chore: fix some typos in comment ([#11844](https://github.com/polkadot-js/apps/pull/11844)) (Thanks to https://github.com/quantpoet)
+- Add zkVerify and its VFlow parachain mainnet entries ([#11852](https://github.com/polkadot-js/apps/pull/11852)) (Thanks to https://github.com/la10736)
+
+
+Changes:
+
+- Disable unreachable endpoints ([#11810](https://github.com/polkadot-js/apps/pull/11810) [#11818](https://github.com/polkadot-js/apps/pull/11818) [#11828](https://github.com/polkadot-js/apps/pull/11828) [#11847](https://github.com/polkadot-js/apps/pull/11847))
+- Enhance tooltip styling and content in Vesting component ([#11815](https://github.com/polkadot-js/apps/pull/11815))
+- Modify chain names and order in the side menu ([#11829](https://github.com/polkadot-js/apps/pull/11829))
+- Staking Async Feedback ([#11681](https://github.com/polkadot-js/apps/pull/11681))
+- Support for Extension Ethereum Signing ([#11592](https://github.com/polkadot-js/apps/pull/11592))
+- Bump  @polkadot-api/merkleize-metadata, @polkadot/api, @polkadot/phishing, @polkadot/extension dependencies ([#11860](https://github.com/polkadot-js/apps/pull/11860))
+
+
 ## 0.164.1 Aug 29, 2025
 
 Contributed:
