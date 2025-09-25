@@ -2,9 +2,9 @@ import axios from 'axios';
 
 export async function axiosXAgereRpc(method: string, params: any, systemChain?: string): Promise<any> {
   let url = 'https://api.bevm.io';
-  if (systemChain === 'GEB') {
+  if (systemChain === 'GEB' || systemChain?.includes('Mainnet')) {
     url = 'https://api.bevm.io';
-  } else if (systemChain === 'GEB Testnet') {
+  } else if (systemChain?.includes('Testnet') || systemChain?.includes('Signet')) {
     url = 'https://api-pre.bevm.io';
   }
 
