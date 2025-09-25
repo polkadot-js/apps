@@ -4,7 +4,7 @@ export async function axiosXAgereRpc(method: string, params: any, systemChain?: 
   let url = 'https://api.bevm.io';
   if (systemChain === 'GEB') {
     url = 'https://api.bevm.io';
-  } else if (systemChain === 'GEB Signet') {
+  } else if (systemChain === 'GEB Testnet') {
     url = 'https://api-pre.bevm.io';
   }
 
