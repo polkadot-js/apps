@@ -491,6 +491,7 @@
        1	Matthew Orris                 	Update Frequency Mainnet RPC Node 0 (#9254)
        1	Maxim Surkov                  	Update sora library version (#4918)
        1	Meghashyam Kodmad             	updated react-dropzone to 10.1.9 (#1682)
+       1	Michele d'Amico               	Add zkVerify and its VFlow parachain mainnet entries (#11852)
        1	Mickaël Canu                  	fix error on validator word (#7110)
        1	Mickael Faust                 	Added TerraBioDAO to the GM nodes list (#8010)
        1	Mike Godenzi                  	Acurast added to Rococo (#8546)
