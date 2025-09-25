@@ -12,7 +12,7 @@ export * from './testingRelayWestend.js';
 
 export const testZkVerifyParas: Omit<EndpointOption, 'teleport'>[] = [
   {
-    info: 'VFlow',
+    info: 'VFlow-Volta',
     paraId: 1,
     providers: {
       zkVerify: 'wss://vflow-volta-rpc.zkverify.io'
