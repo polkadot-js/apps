@@ -16,7 +16,7 @@
   "type": "module",
   "version": "0.164.2-16-x",
   "dependencies": {
-    "@polkadot-api/merkleize-metadata": "^1.1.22",
+    "@polkadot-api/merkleize-metadata": "^1.1.25",
     "@polkadot/hw-ledger": "^13.5.6",
     "@polkadot/react-components": "^0.164.2-16-x"
   },
