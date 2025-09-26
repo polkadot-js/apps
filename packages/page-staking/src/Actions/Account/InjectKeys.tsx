@@ -6,7 +6,7 @@ import type { KeypairType } from '@polkadot/util-crypto/types';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { Button, Dropdown, Input, MarkWarning, Modal } from '@polkadot/react-components';
-import { useQueue } from '@polkadot/react-hooks';
+import { useQueue, useStakingAsyncApis } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 import { assert, u8aToHex } from '@polkadot/util';
 import { keyExtractSuri, mnemonicValidate } from '@polkadot/util-crypto';
@@ -30,6 +30,8 @@ const EMPTY_KEY = '0x';
 function InjectKeys ({ onClose }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { queueRpc } = useQueue();
+  const { isStakingAsyncPage, rcApi } = useStakingAsyncApis();
+
   // this needs to align with what is set as the first value in `type`
   const [crypto, setCrypto] = useState<KeypairType>('sr25519');
   const [publicKey, setPublicKey] = useState(EMPTY_KEY);
@@ -61,12 +63,14 @@ function InjectKeys ({ onClose }: Props): React.ReactElement<Props> | null {
   }, [crypto, suri]);
 
   const _onSubmit = useCallback(
-    (): void => queueRpc({
+    (): void => isStakingAsyncPage
+      ? rcApi?.rpc.author.insertKey(keyType, suri, publicKey) as void
+      : queueRpc({
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      rpc: { method: 'insertKey', section: 'author' } as any,
-      values: [keyType, suri, publicKey]
-    }),
-    [keyType, publicKey, queueRpc, suri]
+        rpc: { method: 'insertKey', section: 'author' } as any,
+        values: [keyType, suri, publicKey]
+      }),
+    [isStakingAsyncPage, keyType, publicKey, queueRpc, rcApi?.rpc.author, suri]
   );
 
   const _cryptoOptions = useMemo(
@@ -86,6 +90,9 @@ function InjectKeys ({ onClose }: Props): React.ReactElement<Props> | null {
       size='large'
     >
       <Modal.Content>
+        <Modal.Columns>
+          <MarkWarning content={t('This operation will be performed on the relay chain.')} />
+        </Modal.Columns>
         <Modal.Columns hint={t('The seed and derivation path will be submitted to the validator node. this is an advanced operation, only to be performed when you are sure of the security and connection risks.')}>
           <Input
             autoFocus
