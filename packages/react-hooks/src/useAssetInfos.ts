@@ -59,12 +59,15 @@ function useAssetInfosImpl (ids?: BN[]): AssetInfo[] | undefined {
   const [state, setState] = useState<AssetInfo[] | undefined>();
 
   useEffect((): void => {
-    details && metadata && (details[0][0].length === metadata[0][0].length) &&
-      setState(
-        details[0][0].map((id, index) =>
-          extractInfo(allAccounts, id, details[1][index], metadata[1][index])
+    if (details && metadata) {
+      (details[0][0].length === metadata[0][0].length)
+        ? setState(
+          details[0][0].map((id, index) =>
+            extractInfo(allAccounts, id, details[1][index], metadata[1][index])
+          )
         )
-      );
+        : setState((prev) => prev || []);
+    }
   }, [allAccounts, details, ids, metadata]);
 
   return state;
