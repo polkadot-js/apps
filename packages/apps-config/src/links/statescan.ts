@@ -22,7 +22,6 @@ export const Statescan: ExternalDef = {
     'Kusama People': 'people-kusama',
     'Laos Network': 'laos',
     'Paseo Testnet': 'paseo',
-    'Polimec Polkadot': 'polimec',
     Polkadot: 'polkadot',
     'Polkadot Asset Hub': 'assethub-polkadot',
     'Polkadot BridgeHub': 'bridgehub-polkadot',

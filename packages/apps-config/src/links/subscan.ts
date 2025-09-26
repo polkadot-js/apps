@@ -79,7 +79,6 @@ export const Subscan: ExternalDef = {
     'Phala Network': 'phala',
     Picasso: 'picasso',
     'Pioneer Network': 'pioneer',
-    Polimec: 'polimec',
     Polkadex: 'polkadex-parachain',
     Polkadot: 'polkadot',
     'Polkadot Asset Hub': 'assethub-polkadot',
