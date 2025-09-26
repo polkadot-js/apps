@@ -83,6 +83,7 @@ export { useRegions } from './useRegions.js';
 export { useRegistrars } from './useRegistrars.js';
 export { useSavedFlags } from './useSavedFlags.js';
 export { useScroll } from './useScroll.js';
+export { useStakingAsyncApis } from './useStakingAsyncApis.js';
 export { useStakingInfo } from './useStakingInfo.js';
 export { useStepper } from './useStepper.js';
 export { useSubidentities } from './useSubidentities.js';
