@@ -373,6 +373,7 @@
        1	Bojian Ho                     	Added fantour network config (#5764)
        1	Boyquotes                     	Fix FR translation (#7817)
        1	Brandon Kite                  	Support for optional usage of pallet_balance (#2578)
+       1	Branislav Kontur              	Add Bulletin chain (#11865)
        1	Brendon Votteler              	feat: add derives mapping and spec records for testnet-interlay and testnet-kintsugi (#8000)
        1	Brian Wu                      	Add additional RPC endpoints for Crust Mainnet, Crust-Parachain, Crust-Shadow (#10703)
        1	BuddyGlas                     	Re-add Asia and Geo balancer endpoints for Unique (#10022)
