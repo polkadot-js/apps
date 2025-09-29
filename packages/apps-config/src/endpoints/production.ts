@@ -133,6 +133,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     info: 'bulletin',
     providers: {
       Amforc: 'wss://bulletin.rpc.amforc.com',
+      Interweb: 'wss://rpc.interweb-it.com/bulletin',
       TurboFlakes: 'wss://bulletin.rpc.turboflakes.io',
       'Web3 Foundation': 'wss://bulletin-rpc.w3f.community'
     },
