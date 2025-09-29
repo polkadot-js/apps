@@ -132,8 +132,8 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'bulletin',
     providers: {
-      'Web3 Foundation': 'wss://bulletin-rpc.w3f.community',
-      'Amforc': 'wss://bulletin.rpc.amforc.com'
+      'Amforc': 'wss://bulletin.rpc.amforc.com',
+      'Web3 Foundation': 'wss://bulletin-rpc.w3f.community'
     },
     text: 'Bulletin',
     ui: {
