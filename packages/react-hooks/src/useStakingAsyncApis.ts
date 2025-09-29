@@ -20,24 +20,41 @@ export const getApi = async (url: string[]|string) => {
 const allEndPoints = createWsEndpoints((k, v) => v?.toString() || k);
 
 function useStakingAsyncApisImpl () {
-  const { api, apiEndpoint } = useApi();
-
+  const { api, apiEndpoint, isApiReady } = useApi(); // <- check readiness
   const [ahApi, setAhApi] = useState<ApiPromise>();
   const [rcApi, setRcApi] = useState<ApiPromise>();
 
-  const isRelayChain = useMemo(() => !!api.tx.stakingAhClient, [api.tx.stakingAhClient]);
+  const isRelayChain = useMemo(() => {
+    if (!isApiReady) {
+      return false;
+    }
+
+    return !!api.tx.stakingAhClient;
+  }, [isApiReady, api]);
 
   const isStakingAsyncPage = useMemo(() => {
+    if (!isApiReady) {
+      return false;
+    }
+
     return !!((api.tx.stakingAhClient) || (api.tx.staking && api.tx.stakingRcClient));
-  }, [api.tx.staking, api.tx.stakingAhClient, api.tx.stakingRcClient]);
+  }, [isApiReady, api]);
 
   const rcEndPoints = useMemo(() => {
+    if (!isApiReady) {
+      return [];
+    }
+
     return (isRelayChain
       ? apiEndpoint?.providers
       : apiEndpoint?.valueRelay) || [];
-  }, [apiEndpoint?.providers, apiEndpoint?.valueRelay, isRelayChain]);
+  }, [isApiReady, apiEndpoint, isRelayChain]);
 
   const ahEndPoints: string[] = useMemo(() => {
+    if (!isApiReady) {
+      return [];
+    }
+
     if (isRelayChain) {
       return allEndPoints.find(({ genesisHashRelay, paraId }) =>
         paraId === 1000 && genesisHashRelay === api.genesisHash.toHex()
@@ -45,21 +62,23 @@ function useStakingAsyncApisImpl () {
     }
 
     return apiEndpoint?.providers || [];
-  }, [api.genesisHash, apiEndpoint?.providers, isRelayChain]);
+  }, [isApiReady, api, apiEndpoint, isRelayChain]);
 
   useEffect(() => {
+    if (!isApiReady) {
+      return;
+    }
+
     if (isRelayChain) {
-      // Pick random endpoint
       const ahUrl = ahEndPoints.at(Math.floor(Math.random() * ahEndPoints.length));
 
-      !!ahUrl && getApi(ahUrl).then((ahApi) => setAhApi(ahApi)).catch(console.log);
+      !!ahUrl && getApi(ahUrl).then(setAhApi).catch(console.error);
     } else {
-      // Pick random endpoint
       const rcUrl = rcEndPoints.at(Math.floor(Math.random() * rcEndPoints.length));
 
-      !!rcUrl && getApi(rcUrl).then((rcApi) => setRcApi(rcApi)).catch(console.log);
+      !!rcUrl && getApi(rcUrl).then(setRcApi).catch(console.error);
     }
-  }, [ahEndPoints, isRelayChain, rcEndPoints]);
+  }, [ahEndPoints, isApiReady, isRelayChain, rcEndPoints]);
 
   return {
     ahApi,
