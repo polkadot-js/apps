@@ -74,7 +74,6 @@
       "@polkadot/app-staking/Bags": ["page-staking/src/Bags/index.tsx"],
       "@polkadot/app-staking/Filtering": ["page-staking/src/Filtering.tsx"],
       "@polkadot/app-staking/MaxBadge": ["page-staking/src/MaxBadge.tsx"],
-      "@polkadot/app-staking/Actions": ["page-staking/src/Actions/index.tsx"],
       "@polkadot/app-staking/Targets": ["page-staking/src/Targets/index.tsx"],
       "@polkadot/app-staking/Slashes": ["page-staking/src/Slashes/index.tsx"],
       "@polkadot/app-staking/Query": ["page-staking/src/Query/index.tsx"],

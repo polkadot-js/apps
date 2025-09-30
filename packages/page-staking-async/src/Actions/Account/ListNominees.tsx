@@ -8,7 +8,7 @@ import React, { useMemo } from 'react';
 
 import { AddressMini, ExpanderScroll, MarkWarning, Spinner } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
-import { isFunction, isToBn } from '@polkadot/util';
+import { isToBn } from '@polkadot/util';
 
 import { useTranslation } from '../../translate.js';
 import useInactives from '../useInactives.js';
@@ -68,16 +68,34 @@ function renderNominators (stashId: string, all: string[] = [], eraExposure?: De
 function ListNominees ({ nominating, stashId }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const sessionInfo = useCall<DeriveSessionIndexes>(api.query.staking && api.derive.session?.indexes);
-  const eraExposure = useCall<DeriveEraExposure>(isFunction(api.query.staking.erasStakers) && api.derive.staking.eraExposure, [sessionInfo?.activeEra]);
-  const { nomsActive, nomsChilled, nomsInactive, nomsOver, nomsWaiting } = useInactives(stashId, nominating, eraExposure);
 
-  const [renActive, renChilled, renInactive, renOver, renWaiting] = useMemo(
-    () => [renderNominators(stashId, nomsActive, eraExposure), renderNominators(stashId, nomsChilled), renderNominators(stashId, nomsInactive), renderNominators(stashId, nomsOver), renderNominators(stashId, nomsWaiting)],
-    [eraExposure, nomsActive, nomsChilled, nomsInactive, nomsOver, nomsWaiting, stashId]
+  // 1. Fetch session info first. It's the primary dependency.
+  const sessionInfo = useCall<DeriveSessionIndexes>(api.query.staking && api.derive.session?.indexes);
+
+  // 2. CORRECTED: Fetch eraExposure only when sessionInfo.activeEra is available.
+  //    Removed the broken check for 'erasStakers'.
+  const eraExposure = useCall<DeriveEraExposure>(sessionInfo && api.derive.staking.eraExposure, [sessionInfo?.activeEra]);
+
+  // 3. The useInactives hook is self-contained and fetches its own data.
+  const { nomsActive, nomsAtRisk, nomsInactive, nomsOver, nomsWaiting } = useInactives(stashId, nominating);
+
+  const [renActive, renAtRisk, renInactive, renOver, renWaiting] = useMemo(
+    () => [
+      renderNominators(stashId, nomsActive, eraExposure),
+      // eraExposure is not needed for at-risk, as it's not about rewards
+      renderNominators(stashId, nomsAtRisk),
+      renderNominators(stashId, nomsInactive),
+      renderNominators(stashId, nomsOver),
+      renderNominators(stashId, nomsWaiting)
+    ],
+    [eraExposure, nomsActive, nomsAtRisk, nomsInactive, nomsOver, nomsWaiting, stashId]
   );
 
-  if (!nomsInactive && !nomsWaiting) {
+  const isLoading = useMemo(() =>
+    !eraExposure || !nominating || nomsActive === undefined,
+  [eraExposure, nominating, nomsActive]);
+
+  if (isLoading) {
     return (
       <Spinner
         label='Checking validators'
@@ -107,10 +125,10 @@ function ListNominees ({ nominating, stashId }: Props): React.ReactElement<Props
           summary={t('Inactive nominations ({{count}})', { replace: { count: renInactive[0] } })}
         />
       )}
-      {renChilled && (
+      {renAtRisk && (
         <ExpanderScroll
-          renderChildren={renChilled[1]}
-          summary={t('Renomination required ({{count}})', { replace: { count: renChilled[0] } })}
+          renderChildren={renAtRisk[1]}
+          summary={t('Renomination required ({{count}})', { replace: { count: renAtRisk[0] } })}
         />
       )}
       {renWaiting && (
