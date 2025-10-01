@@ -8,7 +8,7 @@ import type { HeaderExtended } from '@polkadot/api-derive/types';
 import type { LinkOption } from '@polkadot/apps-config/endpoints/types';
 import type { InjectedExtension } from '@polkadot/extension-inject/types';
 import type { ProviderStats } from '@polkadot/rpc-provider/types';
-import type { BlockNumber, EventRecord } from '@polkadot/types/interfaces';
+import type { BlockNumber, EventRecord, Moment } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
 import type { AssetInfoComplete } from '../types.js';
 
@@ -75,13 +75,19 @@ export interface PayWithAsset {
   selectedFeeAsset: AssetInfoComplete | null;
 }
 
+interface BlockTime {
+  readonly timestamp: Moment;
+}
+
+export type AugmentedBlockHeader = HeaderExtended & BlockTime;
+
 export interface BlockAuthors {
   byAuthor: Record<string, string>;
   eraPoints: Record<string, string>;
   lastBlockAuthors: string[];
   lastBlockNumber?: string;
-  lastHeader?: HeaderExtended;
-  lastHeaders: HeaderExtended[];
+  lastHeader?: AugmentedBlockHeader;
+  lastHeaders: AugmentedBlockHeader[];
 }
 
 export interface BlockEvents {
