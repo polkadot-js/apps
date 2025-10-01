@@ -1,7 +1,7 @@
 // Copyright 2017-2025 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { HeaderExtended } from '@polkadot/api-derive/types';
+import type { AugmentedBlockHeader } from '@polkadot/react-hooks/ctx/types';
 
 import React, { useRef } from 'react';
 
@@ -11,14 +11,14 @@ import BlockHeader from './BlockHeader.js';
 import { useTranslation } from './translate.js';
 
 interface Props {
-  headers: HeaderExtended[];
+  headers: AugmentedBlockHeader[];
 }
 
 function BlockHeaders ({ headers }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
-    [t('recent blocks'), 'start', 3]
+    [t('recent blocks'), 'start', 4]
   ]);
 
   return (
@@ -28,8 +28,9 @@ function BlockHeaders ({ headers }: Props): React.ReactElement<Props> {
     >
       {headers
         .filter((header) => !!header)
-        .map((header): React.ReactNode => (
+        .map((header, index): React.ReactNode => (
           <BlockHeader
+            isLast = {index === headers.length - 1}
             key={header.number.toString()}
             value={header}
           />

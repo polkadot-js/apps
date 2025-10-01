@@ -1,19 +1,36 @@
 // Copyright 2017-2025 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { HeaderExtended } from '@polkadot/api-derive/types';
+import type { AugmentedBlockHeader } from '@polkadot/react-hooks/ctx/types';
 
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { AddressSmall } from '@polkadot/react-components';
+import { AddressSmall, styled } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
 
 interface Props {
-  value: HeaderExtended;
+  isLast: boolean
+  value: AugmentedBlockHeader;
 }
 
-function BlockHeader ({ value }: Props): React.ReactElement<Props> | null {
+function formatValue (value: number, type = 's', withDecimal = false): React.ReactNode {
+  const [pre, post] = value.toLocaleString('fullwide', { useGrouping: false }).split('.');
+
+  return withDecimal && post?.trim()?.length > 0
+    ? <>{pre}.{post}<span className='timeUnit'>{type}</span></>
+    : <>{pre}<span className='timeUnit'>{type}</span></>;
+}
+
+function getDisplayValue (elapsed: number): React.ReactNode {
+  return (elapsed < 60)
+    ? formatValue(elapsed, 's', elapsed < 15)
+    : (elapsed < 3600)
+      ? formatValue(elapsed / 60, 'min')
+      : formatValue(elapsed / 3600, 'hr');
+}
+
+function BlockHeader ({ isLast, value }: Props): React.ReactElement<Props> | null {
   if (!value) {
     return null;
   }
@@ -33,8 +50,19 @@ function BlockHeader ({ value }: Props): React.ReactElement<Props> | null {
           <AddressSmall value={value.author} />
         )}
       </td>
+      <StyledTd className='ui--Elapsed --digits'>
+        {isLast
+          ? '-----'
+          : getDisplayValue(value.blockTime.toNumber() / 1000)}
+      </StyledTd>
     </tr>
   );
 }
+
+const StyledTd = styled.td`
+  .timeUnit {
+    font-size: var(--font-percent-tiny);
+  }
+`;
 
 export default React.memo(BlockHeader);

@@ -34,13 +34,23 @@ export function BlockAuthorsCtxRoot ({ children }: Props): React.ReactElement<Pr
       let lastHeaders: AugmentedBlockHeader[] = [];
       let lastBlockAuthors: string[] = [];
       let lastBlockNumber = '';
+      let lastBlockTime = Date.now();
 
       // subscribe to new headers
       api.derive.chain.subscribeNewHeads(async (header: HeaderExtended): Promise<void> => {
         if (header?.number) {
-          const currentTimestamp = await ((await api.at(header.hash)).query.timestamp.now());
+          const currentTimestamp = Date.now();
+          const onChainTimestamp = await ((await api.at(header.hash)).query.timestamp.now());
 
-          const lastHeader = Object.assign(header, { timestamp: currentTimestamp }) as AugmentedBlockHeader;
+          // Note: if multiple blocks are produced in the same slot, the on-chain timestamp
+          // will not change. In that case, we must compute the time difference off-chain.
+          // Since we are only tracking the difference itself, it remains consistent whether
+          // derived from on-chain or off-chain data, so this approach is reliable.
+
+          // Store the difference between the previous block time and the current one.
+          const blockTime = api.registry.createType('u64', currentTimestamp - lastBlockTime);
+
+          const lastHeader = Object.assign(header, { blockTime, timestamp: onChainTimestamp }) as AugmentedBlockHeader;
           const blockNumber = lastHeader.number.unwrap();
           let thisBlockAuthor = '';
 
@@ -56,6 +66,7 @@ export function BlockAuthorsCtxRoot ({ children }: Props): React.ReactElement<Pr
             if (thisBlockNumber !== lastBlockNumber) {
               lastBlockNumber = thisBlockNumber;
               lastBlockAuthors = [thisBlockAuthor];
+              lastBlockTime = currentTimestamp;
             } else {
               lastBlockAuthors.push(thisBlockAuthor);
             }

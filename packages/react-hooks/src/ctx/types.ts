@@ -77,6 +77,7 @@ export interface PayWithAsset {
 
 interface BlockTime {
   readonly timestamp: Moment;
+  readonly blockTime: Moment;
 }
 
 export type AugmentedBlockHeader = HeaderExtended & BlockTime;
