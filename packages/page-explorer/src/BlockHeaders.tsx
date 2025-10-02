@@ -3,7 +3,7 @@
 
 import type { AugmentedBlockHeader } from '@polkadot/react-hooks/ctx/types';
 
-import React, { useRef } from 'react';
+import React, { useMemo, useRef } from 'react';
 
 import { Table } from '@polkadot/react-components';
 
@@ -21,19 +21,35 @@ function BlockHeaders ({ headers }: Props): React.ReactElement<Props> {
     [t('recent blocks'), 'start', 4]
   ]);
 
+  const groupedByTimestamp = useMemo(() => {
+    return headers.reduce((acc, product) => {
+      const timestamp = product.timestamp.toString();
+
+      if (!acc[timestamp]) {
+        acc[timestamp] = [];
+      }
+
+      acc[timestamp].push(product);
+
+      return acc;
+    }, {} as Record<string, AugmentedBlockHeader[]>);
+  }, [headers]);
+
   return (
     <Table
       empty={t('No blocks available')}
       header={headerRef.current}
     >
-      {headers
-        .filter((header) => !!header)
-        .map((header): React.ReactNode => (
-          <BlockHeader
-            key={header.number.toString()}
-            value={header}
-          />
-        ))}
+      {Object
+        .entries(groupedByTimestamp)
+        .map(([timestamp, headers]): React.ReactNode => {
+          return (
+            <BlockHeader
+              headers={headers.filter((e) => !!e)}
+              key={timestamp}
+            />
+          );
+        })}
     </Table>
   );
 }

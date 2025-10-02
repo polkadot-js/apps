@@ -10,7 +10,7 @@ import { AddressSmall, styled } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
 
 interface Props {
-  value: AugmentedBlockHeader;
+  headers: AugmentedBlockHeader[];
 }
 
 function formatValue (value: number, type = 's', withDecimal = false): React.ReactNode {
@@ -29,36 +29,62 @@ function getDisplayValue (elapsed: number): React.ReactNode {
       : formatValue(elapsed / 3600, 'hr');
 }
 
-function BlockHeader ({ value }: Props): React.ReactElement<Props> | null {
-  if (!value) {
-    return null;
-  }
-
-  const hashHex = value.hash.toHex();
-
+function BlockHeader ({ headers }: Props): React.ReactElement<Props> | null {
   return (
-    <tr>
-      <td className='number'>
-        <h4 className='--digits'>
-          <Link to={`/explorer/query/${hashHex}`}>{formatNumber(value.number)}</Link>
-        </h4>
-      </td>
-      <td className='all hash overflow'>{hashHex}</td>
-      <td className='address'>
-        {value.author && (
-          <AddressSmall value={value.author} />
-        )}
-      </td>
-      <StyledTd className='ui--Elapsed --digits'>
-        {getDisplayValue(value.blockTime.toNumber() / 1000)}
-      </StyledTd>
-    </tr>
+    <>
+      {headers.map((value, index) => {
+        const hashHex = value.hash.toHex();
+
+        return (
+          <StyledTr
+            className='isExpanded'
+            isFirstItem={index === 0}
+            isLastItem={index === headers.length - 1}
+            key={value.number.toString()}
+          >
+            <td className='number'>
+              <h4 className='--digits'>
+                <Link to={`/explorer/query/${hashHex}`}>{formatNumber(value.number)}</Link>
+              </h4>
+            </td>
+            <td className='all hash overflow'>{hashHex}</td>
+            <td className='address'>
+              {value.author && (
+                <AddressSmall value={value.author} />
+              )}
+            </td>
+            <td className='ui--Elapsed --digits'>
+              {getDisplayValue(value.blockTime.toNumber() / 1000)}
+            </td>
+          </StyledTr>
+        );
+      })}
+    </>
   );
 }
 
-const StyledTd = styled.td`
-  .timeUnit {
-    font-size: var(--font-percent-tiny);
+const BASE_BORDER = 0.125;
+const BORDER_TOP = `${BASE_BORDER * 3}rem solid var(--bg-page)`;
+const BORDER_RADIUS = `${BASE_BORDER * 4}rem`;
+
+const StyledTr = styled.tr<{isFirstItem: boolean; isLastItem: boolean}>`
+  td {
+    border-top: ${(props) => props.isFirstItem && BORDER_TOP};
+    border-radius: 0rem !important;
+    
+    &:first-child {
+      border-top-left-radius: ${(props) => props.isFirstItem ? BORDER_RADIUS : '0rem'}!important;
+      border-bottom-left-radius: ${(props) => props.isLastItem ? BORDER_RADIUS : '0rem'}!important;
+    }
+
+    &:last-child {
+      border-top-right-radius: ${(props) => props.isFirstItem ? BORDER_RADIUS : '0rem'}!important;
+      border-bottom-right-radius: ${(props) => props.isLastItem ? BORDER_RADIUS : '0rem'}!important;
+    }
+
+    .timeUnit {
+      font-size: var(--font-percent-tiny);
+    }
   }
 `;
 
