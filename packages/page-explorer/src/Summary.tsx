@@ -33,7 +33,7 @@ function Summary ({ eventCount, headers }: Props): React.ReactElement {
             </CardSummary>
             <CardSummary
               className='media--800'
-              label={t('target')}
+              label={t('slot')}
             >
               <BlockToTime value={BN_ONE} />
             </CardSummary>

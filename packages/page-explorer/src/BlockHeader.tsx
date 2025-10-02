@@ -10,7 +10,6 @@ import { AddressSmall, styled } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
 
 interface Props {
-  isLast: boolean
   value: AugmentedBlockHeader;
 }
 
@@ -30,7 +29,7 @@ function getDisplayValue (elapsed: number): React.ReactNode {
       : formatValue(elapsed / 3600, 'hr');
 }
 
-function BlockHeader ({ isLast, value }: Props): React.ReactElement<Props> | null {
+function BlockHeader ({ value }: Props): React.ReactElement<Props> | null {
   if (!value) {
     return null;
   }
@@ -51,9 +50,7 @@ function BlockHeader ({ isLast, value }: Props): React.ReactElement<Props> | nul
         )}
       </td>
       <StyledTd className='ui--Elapsed --digits'>
-        {isLast
-          ? '-----'
-          : getDisplayValue(value.blockTime.toNumber() / 1000)}
+        {getDisplayValue(value.blockTime.toNumber() / 1000)}
       </StyledTd>
     </tr>
   );

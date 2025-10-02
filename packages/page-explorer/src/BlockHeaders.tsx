@@ -28,9 +28,8 @@ function BlockHeaders ({ headers }: Props): React.ReactElement<Props> {
     >
       {headers
         .filter((header) => !!header)
-        .map((header, index): React.ReactNode => (
+        .map((header): React.ReactNode => (
           <BlockHeader
-            isLast = {index === headers.length - 1}
             key={header.number.toString()}
             value={header}
           />
