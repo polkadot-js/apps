@@ -10,7 +10,6 @@ import type { BN } from '@polkadot/util';
 import React, { useCallback, useMemo, useState } from 'react';
 import { Route, Routes } from 'react-router';
 
-import Actions from '@polkadot/app-staking/Actions';
 import Bags from '@polkadot/app-staking/Bags';
 import Payouts from '@polkadot/app-staking/Payouts';
 import Query from '@polkadot/app-staking/Query';
@@ -24,6 +23,7 @@ import { Tabs } from '@polkadot/react-components';
 import { useAccounts, useApi, useAvailableSlashes, useCall, useCallMulti, useFavorites, useOwnStashInfos } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
 
+import Actions from '../Actions/index.js';
 import CommandCenter from '../CommandCenter/index.js';
 import { STORE_FAVS_BASE } from '../constants.js';
 import { useTranslation } from '../translate.js';
