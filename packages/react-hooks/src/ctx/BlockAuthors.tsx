@@ -3,7 +3,7 @@
 
 import type { HeaderExtended } from '@polkadot/api-derive/types';
 import type { EraRewardPoints } from '@polkadot/types/interfaces';
-import type { BlockAuthors } from './types.js';
+import type { AugmentedBlockHeader, BlockAuthors } from './types.js';
 
 import React, { useEffect, useState } from 'react';
 
@@ -31,13 +31,16 @@ export function BlockAuthorsCtxRoot ({ children }: Props): React.ReactElement<Pr
   // No unsub, global context - destroyed on app close
   useEffect((): void => {
     api.isReady.then((): void => {
-      let lastHeaders: HeaderExtended[] = [];
+      let lastHeaders: AugmentedBlockHeader[] = [];
       let lastBlockAuthors: string[] = [];
       let lastBlockNumber = '';
 
       // subscribe to new headers
-      api.derive.chain.subscribeNewHeads((lastHeader: HeaderExtended): void => {
-        if (lastHeader?.number) {
+      api.derive.chain.subscribeNewHeads(async (header: HeaderExtended): Promise<void> => {
+        if (header?.number) {
+          const timestamp = await ((await api.at(header.hash)).query.timestamp.now());
+
+          const lastHeader = Object.assign(header, { timestamp }) as AugmentedBlockHeader;
           const blockNumber = lastHeader.number.unwrap();
           let thisBlockAuthor = '';
 
@@ -60,7 +63,7 @@ export function BlockAuthorsCtxRoot ({ children }: Props): React.ReactElement<Pr
 
           lastHeaders = lastHeaders
             .filter((old, index) => index < MAX_HEADERS && old.number.unwrap().lt(blockNumber))
-            .reduce((next, header): HeaderExtended[] => {
+            .reduce((next, header): AugmentedBlockHeader[] => {
               next.push(header);
 
               return next;

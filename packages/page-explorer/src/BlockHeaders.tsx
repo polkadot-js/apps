@@ -1,9 +1,9 @@
 // Copyright 2017-2025 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { HeaderExtended } from '@polkadot/api-derive/types';
+import type { AugmentedBlockHeader } from '@polkadot/react-hooks/ctx/types';
 
-import React, { useRef } from 'react';
+import React, { useMemo, useRef } from 'react';
 
 import { Table } from '@polkadot/react-components';
 
@@ -11,29 +11,45 @@ import BlockHeader from './BlockHeader.js';
 import { useTranslation } from './translate.js';
 
 interface Props {
-  headers: HeaderExtended[];
+  headers: AugmentedBlockHeader[];
 }
 
 function BlockHeaders ({ headers }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const headerRef = useRef<([React.ReactNode?, string?, number?] | false)[]>([
-    [t('recent blocks'), 'start', 3]
+    [t('recent blocks'), 'start', 4]
   ]);
+
+  const groupedByTimestamp = useMemo(() => {
+    return headers.reduce((acc, product) => {
+      const timestamp = product.timestamp.toString();
+
+      if (!acc[timestamp]) {
+        acc[timestamp] = [];
+      }
+
+      acc[timestamp].push(product);
+
+      return acc;
+    }, {} as Record<string, AugmentedBlockHeader[]>);
+  }, [headers]);
 
   return (
     <Table
       empty={t('No blocks available')}
       header={headerRef.current}
     >
-      {headers
-        .filter((header) => !!header)
-        .map((header): React.ReactNode => (
-          <BlockHeader
-            key={header.number.toString()}
-            value={header}
-          />
-        ))}
+      {Object
+        .entries(groupedByTimestamp)
+        .map(([timestamp, headers]): React.ReactNode => {
+          return (
+            <BlockHeader
+              headers={headers.filter((e) => !!e)}
+              key={timestamp}
+            />
+          );
+        })}
     </Table>
   );
 }

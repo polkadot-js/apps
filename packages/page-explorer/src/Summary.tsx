@@ -1,6 +1,8 @@
 // Copyright 2017-2025 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { AugmentedBlockHeader } from '@polkadot/react-hooks/ctx/types';
+
 import React from 'react';
 
 import { CardSummary, SummaryBox } from '@polkadot/react-components';
@@ -13,9 +15,10 @@ import { useTranslation } from './translate.js';
 
 interface Props {
   eventCount: number;
+  headers: AugmentedBlockHeader[];
 }
 
-function Summary ({ eventCount }: Props): React.ReactElement {
+function Summary ({ eventCount, headers }: Props): React.ReactElement {
   const { t } = useTranslation();
   const { api } = useApi();
 
@@ -25,11 +28,12 @@ function Summary ({ eventCount }: Props): React.ReactElement {
         {api.query.timestamp && (
           <>
             <CardSummary label={t('last block')}>
-              <TimeNow />
+              {/* Restart timer on key change */}
+              <TimeNow key={headers.at(0)?.hash.toHex()} />
             </CardSummary>
             <CardSummary
               className='media--800'
-              label={t('target')}
+              label={t('slot')}
             >
               <BlockToTime value={BN_ONE} />
             </CardSummary>

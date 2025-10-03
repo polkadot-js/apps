@@ -1,8 +1,7 @@
 // Copyright 2017-2025 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { HeaderExtended } from '@polkadot/api-derive/types';
-import type { KeyedEvent } from '@polkadot/react-hooks/ctx/types';
+import type { AugmentedBlockHeader, KeyedEvent } from '@polkadot/react-hooks/ctx/types';
 
 import React from 'react';
 
@@ -16,14 +15,17 @@ import Summary from './Summary.js';
 interface Props {
   eventCount: number;
   events: KeyedEvent[];
-  headers: HeaderExtended[];
+  headers: AugmentedBlockHeader[];
 }
 
 function Main ({ eventCount, events, headers }: Props): React.ReactElement<Props> {
   return (
     <>
       <Query />
-      <Summary eventCount={eventCount} />
+      <Summary
+        eventCount={eventCount}
+        headers={headers}
+      />
       <Columar>
         <Columar.Column>
           <BlockHeaders headers={headers} />
