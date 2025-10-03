@@ -14,19 +14,19 @@ interface Props {
 }
 
 function formatValue (value: number, type = 's', withDecimal = false): React.ReactNode {
-  const [pre, post] = value.toLocaleString('fullwide', { useGrouping: false }).split('.');
+  const [pre, post] = value.toFixed().split('.');
 
   return withDecimal && post?.trim()?.length > 0
-    ? <>{pre}.{post}<span className='timeUnit'>{type}</span></>
-    : <>{pre}<span className='timeUnit'>{type}</span></>;
+    ? <>{pre}.{post} <span className='timeUnit'>{type} ago</span></>
+    : <>{pre} <span className='timeUnit'>{type} ago</span></>;
 }
 
 function getDisplayValue (elapsed: number): React.ReactNode {
   return (elapsed < 60)
-    ? formatValue(elapsed, 's', elapsed < 15)
+    ? formatValue(elapsed, 'secs', elapsed < 15)
     : (elapsed < 3600)
-      ? formatValue(elapsed / 60, 'min')
-      : formatValue(elapsed / 3600, 'hr');
+      ? formatValue(elapsed / 60, 'mins')
+      : formatValue(elapsed / 3600, 'hrs');
 }
 
 function BlockHeader ({ headers }: Props): React.ReactElement<Props> | null {
@@ -53,8 +53,11 @@ function BlockHeader ({ headers }: Props): React.ReactElement<Props> | null {
                 <AddressSmall value={value.author} />
               )}
             </td>
-            <td className='ui--Elapsed --digits'>
-              {getDisplayValue(value.blockTime.toNumber() / 1000)}
+            <td
+              className='all --digits blockTime'
+              key={Date.now()}
+            >
+              {getDisplayValue((Date.now() - value.timestamp.toNumber()) / 1000)}
             </td>
           </StyledTr>
         );
@@ -68,6 +71,11 @@ const BORDER_TOP = `${BASE_BORDER * 3}rem solid var(--bg-page)`;
 const BORDER_RADIUS = `${BASE_BORDER * 4}rem`;
 
 const StyledTr = styled.tr<{isFirstItem: boolean; isLastItem: boolean}>`
+  .blockTime {
+    text-align: right;
+    font-style: italic;
+  }
+
   td {
     border-top: ${(props) => props.isFirstItem && BORDER_TOP};
     border-radius: 0rem !important;
@@ -83,7 +91,7 @@ const StyledTr = styled.tr<{isFirstItem: boolean; isLastItem: boolean}>`
     }
 
     .timeUnit {
-      font-size: var(--font-percent-tiny);
+      font-size: var(--font-percent-small);
     }
   }
 `;
