@@ -174,7 +174,7 @@ async function loadOnReady (api: ApiPromise, endpoint: LinkOption | null, fork: 
     isDevelopment,
     ss58Format,
     store,
-    type: 'ed25519'
+    type: isEthereum ? 'ethereum' : 'ed25519'
   },
   isEthereum
     ? injectedAccounts.map((account) => {
