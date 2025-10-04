@@ -343,7 +343,6 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: '#2E2E5C',
       logo: chainsQfNetworkPNG
-
     }
   },
   {
