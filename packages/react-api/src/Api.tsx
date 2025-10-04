@@ -175,7 +175,17 @@ async function loadOnReady (api: ApiPromise, endpoint: LinkOption | null, fork: 
     ss58Format,
     store,
     type: isEthereum ? 'ethereum' : 'ed25519'
-  }, injectedAccounts);
+  },
+  isEthereum
+    ? injectedAccounts.map((account) => {
+      const copy = { ...account };
+
+      copy.type = 'ethereum';
+
+      return copy;
+    })
+    : injectedAccounts
+  );
 
   const defaultSection = Object.keys(api.tx)[0];
   const defaultMethod = Object.keys(api.tx[defaultSection])[0];
