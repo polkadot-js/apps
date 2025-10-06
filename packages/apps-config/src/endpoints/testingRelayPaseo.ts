@@ -528,8 +528,8 @@ export const testParasPaseoCommon: EndpointOption[] = [
     }
   },
   {
-    info: 'PaseoShibuyaChain',
     homepage: 'https://astar.network',
+    info: 'PaseoShibuyaChain',
     paraId: 2000,
     providers: {
       Astar: 'wss://rpc.shibuya.astar.network'
