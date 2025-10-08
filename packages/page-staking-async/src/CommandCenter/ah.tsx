@@ -3,12 +3,13 @@
 
 import type { ReactNode } from 'react';
 import type { ApiPromise } from '@polkadot/api';
+import type { Event } from '@polkadot/types/interfaces';
 import type { IAhOutput } from './index.js';
 
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { CardSummary, Expander, Icon, MarkWarning, Spinner, styled, Tooltip } from '@polkadot/react-components';
+import { CardSummary, Expander, Spinner, styled } from '@polkadot/react-components';
 import { Event as EventDisplay } from '@polkadot/react-params';
 import { formatNumber } from '@polkadot/util';
 
@@ -17,196 +18,233 @@ import { useTranslation } from '../translate.js';
 interface Props {
   children: ReactNode;
   ahApi?: ApiPromise;
-  ahOutput: IAhOutput[];
+  ahOutput?: IAhOutput;
+  ahEvents: Event[];
   ahUrl: string;
   isRelayChain: boolean
 }
 
-function AssetHubSection ({ ahApi, ahOutput, ahUrl, children, isRelayChain }: Props) {
+function AssetHubSection ({ ahApi, ahEvents, ahOutput, ahUrl, children, isRelayChain }: Props) {
   const { t } = useTranslation();
 
   return (
-    <div>
-      <h1
-        style={{
-          alignItems: 'center',
-          display: 'flex',
-          textTransform: 'capitalize'
-        }}
-      >
-        {t('Asset Hub chain')}
-        {children}
-      </h1>
-      {!ahApi && <Spinner label='Connecting to Asset Hub' />}
-      <StyledSection>
-        {ahOutput.map((ah) => {
-          const uniquePages = Array.from(new Set(ah.multiblock.snapshotRange.map((p) => Number(p.toString())))).sort((a, b) => a - b);
-          const [minPage, maxPage] = [uniquePages[0], uniquePages[uniquePages.length - 1]];
+    <StyledColumn>
+      <StyledInfoBox>
+        <h2>
+          {t('Asset Hub')}
+          {children}
+        </h2>
+        {!ahApi && <Spinner label={t('Connecting to Asset Hub')} />}
+        {ahOutput && (
+          <div className='info-content'>
+            <div className='block-info'>
+              {!isRelayChain
+                ? <Link to={`/explorer/query/${ahOutput.finalizedBlock}`}>#{formatNumber(ahOutput.finalizedBlock)}</Link>
+                : (
+                  <Link
+                    target='_blank'
+                    to={`${window.location.origin}/?rpc=${ahUrl}#/explorer/query/${ahOutput.finalizedBlock}`}
+                  >
+                    #{formatNumber(ahOutput.finalizedBlock)}
+                  </Link>)
+              }
+            </div>
 
-          return (
-            <div
-              className='assethub__chain'
-              key={ah.finalizedBlock}
-            >
-              <div className='details'>
-                <div className='session__summary'>
-                  <h4 className='--digits'>
-                    {!isRelayChain
-                      ? <Link to={`/explorer/query/${ah.finalizedBlock}`}>#{formatNumber(ah.finalizedBlock)}</Link>
-                      : (
-                        <Link
-                          target='_blank'
-                          to={`${window.location.origin}/?rpc=${ahUrl}#/explorer/query/${ah.finalizedBlock}`}
-                        >
-                          #{formatNumber(ah.finalizedBlock)}
-                        </Link>)
-                    }
-
-                  </h4>
-                </div>
-                <div>
-                  <div className='staking__summary'>
-                    <CardSummary label={t('current era')}>
-                      {ah.staking.currentEra}
-                    </CardSummary>
-                    <CardSummary label={t('Relay Session Index')}>
-                      {ah.staking.erasStartSessionIndex}
-                    </CardSummary>
-                    <CardSummary label={t('Relay Active Era Index')}>
-                      {ah.staking.activeEra.index}
-                    </CardSummary>
-                  </div>
-                  <div className='multiblock__summary'>
-                    <CardSummary label={t('multiblock phase')}>
-                      {ah.multiblock.phase}
-                    </CardSummary>
-                    {ah.multiblock.queuedScore &&
-                    <CardSummary label={t('multiblock queued score')}>
-                      {ah.multiblock.queuedScore}
-                    </CardSummary>}
-                    <CardSummary label={t('signed submissions')}>
-                      {ah.multiblock.signedSubmissions}
-                    </CardSummary>
-                    {!!ah.multiblock.snapshotRange.length &&
-                    <CardSummary label={t('snapshot range')}>
-                      {`${minPage} → ${maxPage}`}
-                    </CardSummary>}
-                  </div>
-                  <div className='rcClient__summary'>
-                    <CardSummary label={t('Last Session Report End Index')}>
-                      {ah.rcClient.lastSessionReportEndIndex}
-                    </CardSummary>
-                  </div>
-                </div>
-              </div>
-              <div className='events__summary'>
-                <h3>{t('events')}</h3>
-                {ah.events.map((event) => {
-                  const eventName = `${event.section}.${event.method}`;
-
-                  return (
-                    <Expander
-                      isLeft
-                      key={event.index.toString()}
-                      summary={eventName}
-                      summaryMeta={event.meta}
-                    >
-                      <EventDisplay
-                        className='details'
-                        eventName={eventName}
-                        value={event}
-                        withExpander
-                      />
-                    </Expander>
-
-                  );
-                })}
-                {ah.events.length === 0 &&
-                  <div className='warning__tooltip'>
-                    <MarkWarning content={t('No events available')} />
-                    <Icon
-                      icon='info-circle'
-                      tooltip={`${ah.finalizedBlock}-ah-no-events`}
-                    />
-                    <Tooltip
-                      text={'No relevant events found for multiBlockElection, multiBlockElectionVerifier, multiBlockElectionUnsigned, stakingRcClient or staking in the current block.'}
-                      trigger={`${ah.finalizedBlock}-ah-no-events`}
-                    />
-                  </div>
+            <div className='section'>
+              <h4>{t('Staking')}</h4>
+              <div className='stats'>
+                <CardSummary label={t('current era')}>
+                  {ahOutput.staking.currentEra}
+                </CardSummary>
+                <CardSummary label={t('active era')}>
+                  {ahOutput.staking.activeEra.index}
+                </CardSummary>
+                {ahOutput.staking.erasStartSessionIndex &&
+                  <CardSummary label={t('era start session')}>
+                    {ahOutput.staking.erasStartSessionIndex}
+                  </CardSummary>
                 }
               </div>
             </div>
+
+            <div className='section'>
+              <h4>{t('Validators/Nominators')}</h4>
+              <div className='stats'>
+                {ahOutput.staking.validatorCount &&
+                  <CardSummary label={t('validator count')}>
+                    {ahOutput.staking.validatorCount}
+                  </CardSummary>
+                }
+                {ahOutput.staking.maxValidatorsCount &&
+                  <CardSummary label={t('max validators')}>
+                    {ahOutput.staking.maxValidatorsCount}
+                  </CardSummary>
+                }
+                {ahOutput.staking.maxNominatorsCount &&
+                  <CardSummary label={t('max nominators')}>
+                    {ahOutput.staking.maxNominatorsCount}
+                  </CardSummary>
+                }
+                {ahOutput.staking.minValidatorBond &&
+                  <CardSummary label={t('min validator bond')}>
+                    {ahOutput.staking.minValidatorBond}
+                  </CardSummary>
+                }
+                {ahOutput.staking.minNominatorBond &&
+                  <CardSummary label={t('min nominator bond')}>
+                    {ahOutput.staking.minNominatorBond}
+                  </CardSummary>
+                }
+              </div>
+            </div>
+
+            <div className='section'>
+              <h4>{t('RC Client')}</h4>
+              <div className='stats'>
+                <CardSummary label={t('last session report')}>
+                  {ahOutput.rcClient.lastSessionReportEndIndex}
+                </CardSummary>
+              </div>
+            </div>
+
+            <div className='section'>
+              <h4>{t('Election')}</h4>
+              <div className='stats'>
+                <CardSummary label={t('phase')}>
+                  {ahOutput.multiblock.phase}
+                </CardSummary>
+                <CardSummary label={t('round')}>
+                  {ahOutput.multiblock.round}
+                </CardSummary>
+                <CardSummary label={t('signed submissions')}>
+                  {ahOutput.multiblock.signedSubmissions}
+                </CardSummary>
+                {ahOutput.multiblock.queuedScore &&
+                  <CardSummary label={t('queued score')}>
+                    {ahOutput.multiblock.queuedScore}
+                  </CardSummary>
+                }
+                {ahOutput.multiblock.snapshotRange.length > 0 && (() => {
+                  const uniquePages = Array.from(new Set(ahOutput.multiblock.snapshotRange.map((p) => Number(p.toString())))).sort((a, b) => a - b);
+                  const [minPage, maxPage] = [uniquePages[0], uniquePages[uniquePages.length - 1]];
+
+                  return (
+                    <CardSummary label={t('snapshot range')}>
+                      {`${minPage} → ${maxPage}`}
+                    </CardSummary>
+                  );
+                })()}
+              </div>
+            </div>
+          </div>
+        )}
+      </StyledInfoBox>
+      <StyledEventsBox>
+        <h3>{t('Asset Hub Events')}</h3>
+        {ahEvents.length === 0 && (
+          <div className='no-events'>
+            {t('No relevant events in recent blocks')}
+          </div>
+        )}
+        {ahEvents.map((event, index) => {
+          const eventName = `${event.section}.${event.method}`;
+
+          return (
+            <Expander
+              isLeft
+              key={`${event.index.toString()}-${index}`}
+              summary={eventName}
+              summaryMeta={event.meta}
+            >
+              <EventDisplay
+                className='details'
+                eventName={eventName}
+                value={event}
+                withExpander
+              />
+            </Expander>
           );
         })}
-      </StyledSection>
-    </div>);
+      </StyledEventsBox>
+    </StyledColumn>
+  );
 }
 
-const StyledSection = styled.section`
-  margin-block: 1rem;
-  overflow: auto;
-  white-space: nowrap;
+const StyledColumn = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`;
 
-  .warning {
-    max-width: fit-content;
-    margin-left: 0;
+const StyledInfoBox = styled.div`
+  background: var(--bg-table);
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+
+  h2 {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    font-size: var(--font-size-h2);
+    font-weight: 500;
+  }
+
+  .info-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    .block-info {
+      font-size: var(--font-size-h3);
+      font-weight: 600;
+    }
+
+    .section {
+      h4 {
+        font-size: var(--font-size-small);
+        font-weight: 600;
+        color: var(--color-text-secondary);
+        text-transform: uppercase;
+        margin-bottom: 0.5rem;
+        letter-spacing: 0.05em;
+      }
+    }
+
+    .stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
   }
 
   .ui--Labelled-content {
     font-size: var(--font-size-h3);
-    font-weight: var(--font-weight-normal);
+  }
+`;
+
+const StyledEventsBox = styled.div`
+  background: var(--bg-table);
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  max-height: 500px;
+  overflow-y: auto;
+
+  h3 {
+    margin-bottom: 1rem;
+    font-size: var(--font-size-h3);
+    font-weight: 500;
   }
 
-  .assethub__chain {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    place-items: start;
-    background: var(--bg-table);
-    margin-bottom: 0.35rem;
-    padding: 0.8rem 1rem;
-    border-radius: 0.5rem;
+  .no-events {
+    color: var(--color-text-secondary);
+    font-style: italic;
+    padding: 1rem;
+    text-align: center;
+  }
 
-    .details {
-      display: flex;
-      align-items: center;
-      gap: 0.8rem;
-
-      .session__summary {
-        display: flex;
-        align-items: center;
-
-        h4 {
-          font-weight: 400;
-          font-size: medium;
-        }
-      }
-
-      .staking__summary {
-        display: flex;
-        justify-content: end;
-      }
-
-      .multiblock__summary, .rcClient__summary {
-        display: flex;
-        justify-content: end;
-        margin-top: 1.5rem;
-      }
-    }
-
-    .events__summary {
-      display: grid;
-      gap: 1rem;
-      justify-self: center;
-      h3 {
-        font-weight: 500;
-        font-size: var(--font-size-h2);
-      }
-      .warning__tooltip {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-      }
-    }
+  .ui--Expander {
+    margin-bottom: 0.5rem;
   }
 `;
 

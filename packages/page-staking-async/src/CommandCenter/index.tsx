@@ -15,8 +15,6 @@ import { getApi } from '@polkadot/react-hooks/useStakingAsyncApis';
 import AssetHubSection from './ah.js';
 import RelaySection from './relay.js';
 
-const MAX_EVENTS = 25;
-
 export interface IRcOutput {
   finalizedBlock: number,
   session: {
@@ -29,7 +27,10 @@ export interface IRcOutput {
     hasNextActiveId?: number,
     hasQueuedInClient?: [number, AccountId32[]]
   },
-  events: Event[]
+  staking: {
+    forceEra?: string,
+    validatorCount?: number
+  }
 }
 
 export interface IAhOutput {
@@ -38,7 +39,12 @@ export interface IAhOutput {
     currentEra: number,
     activeEra: {index: number, start: string},
     erasStartSessionIndex?: number,
-    bondedEras: Vec<ITuple<[u32, u32]>>
+    bondedEras: Vec<ITuple<[u32, u32]>>,
+    validatorCount?: number,
+    maxValidatorsCount?: number,
+    maxNominatorsCount?: number,
+    minNominatorBond?: string,
+    minValidatorBond?: string
   },
   rcClient: {
     lastSessionReportEndIndex: string
@@ -49,15 +55,16 @@ export interface IAhOutput {
     snapshotRange: string[]
     queuedScore: string|null,
     signedSubmissions: number
-  },
-  events: Event[]
+  }
 }
 
 const commandCenterHandler = async (
   rcApi: ApiPromise,
   ahApi: ApiPromise,
-  setRcOutout: React.Dispatch<React.SetStateAction<IRcOutput[]>>,
-  setAhOutout: React.Dispatch<React.SetStateAction<IAhOutput[]>>
+  setRcOutput: React.Dispatch<React.SetStateAction<IRcOutput | undefined>>,
+  setAhOutput: React.Dispatch<React.SetStateAction<IAhOutput | undefined>>,
+  setRcEvents: React.Dispatch<React.SetStateAction<Event[]>>,
+  setAhEvents: React.Dispatch<React.SetStateAction<Event[]>>
 ): Promise<void> => {
   await rcApi.rpc.chain.subscribeFinalizedHeads(async (header) => {
     // --- RC:
@@ -77,6 +84,10 @@ const commandCenterHandler = async (
     // Operating mode of the client.
     const mode = await rcApi.query.stakingAhClient.mode();
 
+    // Staking info from RC if available
+    const forceEra = rcApi.query.staking?.forceEra ? await rcApi.query.staking.forceEra() : undefined;
+    const validatorCount = rcApi.query.staking?.validatorCount ? await rcApi.query.staking.validatorCount() : undefined;
+
     // Events that we are interested in from RC:
     const eventsOfInterest = (await (await rcApi.at(header.hash.toHex())).query.system.events())
       .map((e) => e.event)
@@ -89,40 +100,35 @@ const commandCenterHandler = async (
         return ahClientEvents(e.data) || sessionEvents(e.data);
       });
 
-    setRcOutout((prev) => {
-      const newItem = {
-        events: eventsOfInterest,
-        finalizedBlock: header.number.toNumber(),
-        session: {
-          hasQueuedInSession: hasQueuedInSession.isTrue,
-          historicalRange: historicalRange.isSome
-            ? [historicalRange.unwrap()[0].toNumber(), historicalRange.unwrap()[1].toNumber()] as [number, number]
-            : undefined,
-          index: index.toNumber()
-        },
-        stakingAhClient: {
-          hasNextActiveId: hasNextActiveId.isEmpty
-            ? undefined
-            : rcApi.createType('Option<u32>', hasNextActiveId).unwrap().toNumber(),
-          hasQueuedInClient: (() => {
-            const parsed = rcApi.createType('Option<(u32,Vec<AccountId32>)>', hasQueuedInClient);
+    setRcOutput({
+      finalizedBlock: header.number.toNumber(),
+      session: {
+        hasQueuedInSession: hasQueuedInSession.isTrue,
+        historicalRange: historicalRange.isSome
+          ? [historicalRange.unwrap()[0].toNumber(), historicalRange.unwrap()[1].toNumber()] as [number, number]
+          : undefined,
+        index: index.toNumber()
+      },
+      stakingAhClient: {
+        hasNextActiveId: hasNextActiveId.isEmpty
+          ? undefined
+          : rcApi.createType('Option<u32>', hasNextActiveId).unwrap().toNumber(),
+        hasQueuedInClient: (() => {
+          const parsed = rcApi.createType('Option<(u32,Vec<AccountId32>)>', hasQueuedInClient);
 
-            return parsed.isNone ? undefined : [parsed.unwrap()[0].toNumber(), parsed.unwrap()[1]] as [number, AccountId32[]];
-          })(),
-          mode: mode.toString()
-        }
-      };
-
-      return [newItem, ...prev]
-        .reduce((acc, curr) => {
-          if (!acc.find((item) => item.finalizedBlock === curr.finalizedBlock)) {
-            acc.push(curr);
-          }
-
-          return acc;
-        }, [] as typeof prev)
-        .slice(0, MAX_EVENTS);
+          return parsed.isNone ? undefined : [parsed.unwrap()[0].toNumber(), parsed.unwrap()[1]] as [number, AccountId32[]];
+        })(),
+        mode: mode.toString()
+      },
+      staking: {
+        forceEra: forceEra?.toString(),
+        validatorCount: validatorCount?.toNumber()
+      }
     });
+
+    if (eventsOfInterest.length > 0) {
+      setRcEvents(eventsOfInterest);
+    }
   });
 
   await ahApi.rpc.chain.subscribeFinalizedHeads(async (header) => {
@@ -133,8 +139,13 @@ const commandCenterHandler = async (
     // the starting index of the active era
     const bondedEras = await ahApi.query.staking.bondedEras();
     const activeEraStartSessionIndex = bondedEras.find(([e]) => e.eq(activeEra.index))?.[1];
-    // the starting index of the active era
-    // const erasStartSessionIndex = await ahApi.query.staking.erasStartSessionIndex(activeEra.unwrap().index);
+
+    // Additional staking info
+    const validatorCount = ahApi.query.staking.validatorCount ? await ahApi.query.staking.validatorCount() : undefined;
+    const maxValidatorsCount = ahApi.query.staking.maxValidatorsCount ? await ahApi.query.staking.maxValidatorsCount() : undefined;
+    const maxNominatorsCount = ahApi.query.staking.maxNominatorsCount ? await ahApi.query.staking.maxNominatorsCount() : undefined;
+    const minNominatorBond = ahApi.query.staking.minNominatorBond ? await ahApi.query.staking.minNominatorBond() : undefined;
+    const minValidatorBond = ahApi.query.staking.minValidatorBond ? await ahApi.query.staking.minValidatorBond() : undefined;
 
     // the basic state of the election provider
     const phase = await ahApi.query.multiBlockElection.currentPhase();
@@ -152,7 +163,7 @@ const commandCenterHandler = async (
     // The client
     const lastSessionReportEndIndex = await ahApi.query.stakingRcClient.lastSessionReportEndingIndex();
 
-    // Events that we are interested in from RC:
+    // Events that we are interested in from AH:
     const eventsOfInterest = (await (await ahApi.at(header.hash.toHex())).query.system.events())
       .map((e) => e.event)
       .filter((e) => {
@@ -163,44 +174,40 @@ const commandCenterHandler = async (
         return election(e.data) || rcClient(e.data) || staking(e.data);
       });
 
-    setAhOutout((prev) => {
-      const parsedQueuedScore = ahApi.createType('Option<SpNposElectionsElectionScore>', queuedScore);
+    const parsedQueuedScore = ahApi.createType('Option<SpNposElectionsElectionScore>', queuedScore);
 
-      const newItem = {
-        events: eventsOfInterest,
-        finalizedBlock: header.number.toNumber(),
-        multiblock: {
-          phase: phase.toString(),
-          queuedScore: parsedQueuedScore.isSome ? parsedQueuedScore.unwrap().toString() : null,
-          round: ahApi.createType('u32', round).toNumber(),
-          signedSubmissions: ahApi.createType(
-            'Vec<(AccountId32,SpNposElectionsElectionScore)>',
-            signedSubmissions
-          ).length,
-          snapshotRange: snapshotRange.map((a) => a.toString())
+    setAhOutput({
+      finalizedBlock: header.number.toNumber(),
+      multiblock: {
+        phase: phase.toString(),
+        queuedScore: parsedQueuedScore.isSome ? parsedQueuedScore.unwrap().toString() : null,
+        round: ahApi.createType('u32', round).toNumber(),
+        signedSubmissions: ahApi.createType(
+          'Vec<(AccountId32,SpNposElectionsElectionScore)>',
+          signedSubmissions
+        ).length,
+        snapshotRange: snapshotRange.map((a) => a.toString())
+      },
+      rcClient: { lastSessionReportEndIndex: lastSessionReportEndIndex.toString() },
+      staking: {
+        activeEra: {
+          index: activeEra.index.toNumber(),
+          start: activeEra.toString()
         },
-        rcClient: { lastSessionReportEndIndex: lastSessionReportEndIndex.toString() },
-        staking: {
-          activeEra: {
-            index: activeEra.index.toNumber(),
-            start: activeEra.toString()
-          },
-          bondedEras,
-          currentEra: currentEra.toNumber(),
-          erasStartSessionIndex: activeEraStartSessionIndex?.toNumber()
-        }
-      };
-
-      return [newItem, ...prev]
-        .reduce((acc, curr) => {
-          if (!acc.find((item) => item.finalizedBlock === curr.finalizedBlock)) {
-            acc.push(curr);
-          }
-
-          return acc;
-        }, [] as typeof prev)
-        .slice(0, MAX_EVENTS);
+        bondedEras,
+        currentEra: currentEra.toNumber(),
+        erasStartSessionIndex: activeEraStartSessionIndex?.toNumber(),
+        validatorCount: validatorCount?.toNumber(),
+        maxValidatorsCount: maxValidatorsCount?.isSome ? maxValidatorsCount.unwrap().toNumber() : undefined,
+        maxNominatorsCount: maxNominatorsCount?.isSome ? maxNominatorsCount.unwrap().toNumber() : undefined,
+        minNominatorBond: minNominatorBond?.toString(),
+        minValidatorBond: minValidatorBond?.toString()
+      }
     });
+
+    if (eventsOfInterest.length > 0) {
+      setAhEvents(eventsOfInterest);
+    }
   });
 };
 
@@ -215,8 +222,10 @@ interface Props {
 function CommandCenter ({ ahApi: initialAhApi, ahEndPoints, isRelayChain, rcApi: initialRcApi, rcEndPoints }: Props) {
   const { api, apiUrl } = useApi();
 
-  const [rcOutput, setRcOutput] = useState<IRcOutput[]>([]);
-  const [ahOutput, setAhOutput] = useState<IAhOutput[]>([]);
+  const [rcOutput, setRcOutput] = useState<IRcOutput | undefined>(undefined);
+  const [ahOutput, setAhOutput] = useState<IAhOutput | undefined>(undefined);
+  const [rcEvents, setRcEvents] = useState<Event[]>([]);
+  const [ahEvents, setAhEvents] = useState<Event[]>([]);
 
   const [rcUrl, setRcUrl] = useState<string|undefined>(undefined);
   const [ahUrl, setAhUrl] = useState<string|undefined>(undefined);
@@ -258,8 +267,10 @@ function CommandCenter ({ ahApi: initialAhApi, ahEndPoints, isRelayChain, rcApi:
   useEffect(() => {
     setRcApi(undefined);
     setAhApi(undefined);
-    setRcOutput([]);
-    setAhOutput([]);
+    setRcOutput(undefined);
+    setAhOutput(undefined);
+    setRcEvents([]);
+    setAhEvents([]);
 
     if (isRelayChain) {
       setRcApi(api);
@@ -277,7 +288,7 @@ function CommandCenter ({ ahApi: initialAhApi, ahEndPoints, isRelayChain, rcApi:
   }, [ahUrl, api, isRelayChain, rcUrl]);
 
   useEffect(() => {
-    ahApi && rcApi && commandCenterHandler(rcApi, ahApi, setRcOutput, setAhOutput).catch(console.log);
+    ahApi && rcApi && commandCenterHandler(rcApi, ahApi, setRcOutput, setAhOutput, setRcEvents, setAhEvents).catch(console.log);
   }, [ahApi, rcApi]);
 
   return (
@@ -285,6 +296,7 @@ function CommandCenter ({ ahApi: initialAhApi, ahEndPoints, isRelayChain, rcApi:
       <RelaySection
         isRelayChain={!!isRelayChain}
         rcApi={rcApi}
+        rcEvents={rcEvents}
         rcOutput={rcOutput}
         rcUrl={rcUrl || ''}
       >
@@ -298,6 +310,7 @@ function CommandCenter ({ ahApi: initialAhApi, ahEndPoints, isRelayChain, rcApi:
       </RelaySection>
       <AssetHubSection
         ahApi={ahApi}
+        ahEvents={ahEvents}
         ahOutput={ahOutput}
         ahUrl={ahUrl || ''}
         isRelayChain={!!isRelayChain}
@@ -322,7 +335,7 @@ const StyledDiv = styled.div`
   .dropdown {
     min-width: max-content !important;
   }
-  
+
   @media screen and (max-width: 1200px){
     grid-template-columns: repeat(1, 1fr);
   }
