@@ -189,7 +189,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     info: 'ipci',
     paraId: 2222,
     providers: {
-      Airalab: 'wss://ipci.rpc.robonomics.network'
+      // Airalab: 'wss://ipci.rpc.robonomics.network' // https://github.com/polkadot-js/apps/issues/11882
     },
     text: 'DAO IPCI',
     ui: {
