@@ -25,7 +25,7 @@ export const getApi = async (url: string[]|string) => {
 const EMPTY_STATE: StakingAsyncApis = {
   ahEndPoints: [],
   isRelayChain: false,
-  isStakingAsyncPage: false,
+  isStakingAsync: false,
   rcEndPoints: []
 };
 
@@ -49,7 +49,7 @@ export const StakingAsyncProvider = ({ children }: PropsWithChildren) => {
     return !!api.tx.stakingAhClient;
   }, [api]);
 
-  const isStakingAsyncPage = useMemo(() => {
+  const isStakingAsync = useMemo(() => {
     return !!((api.tx.stakingAhClient) || (api.tx.staking && api.tx.stakingRcClient));
   }, [api]);
 
@@ -85,10 +85,10 @@ export const StakingAsyncProvider = ({ children }: PropsWithChildren) => {
     ahApi,
     ahEndPoints,
     isRelayChain,
-    isStakingAsyncPage,
+    isStakingAsync,
     rcApi,
     rcEndPoints
-  }), [ahApi, ahEndPoints, isRelayChain, isStakingAsyncPage, rcApi, rcEndPoints]);
+  }), [ahApi, ahEndPoints, isRelayChain, isStakingAsync, rcApi, rcEndPoints]);
 
   return <StakingAsyncApisCtx.Provider value={state}>
     {children}

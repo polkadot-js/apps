@@ -120,6 +120,6 @@ export interface StakingAsyncApis {
   ahApi?: ApiPromise,
   ahEndPoints: string[],
   isRelayChain: boolean,
-  isStakingAsyncPage: boolean,
+  isStakingAsync: boolean,
   rcEndPoints: string[]
 }
