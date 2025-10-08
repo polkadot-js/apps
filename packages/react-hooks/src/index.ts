@@ -18,7 +18,7 @@ export { useAssetInfos } from './useAssetInfos.js';
 export { useAvailableSlashes } from './useAvailableSlashes.js';
 export { useBalancesAll } from './useBalancesAll.js';
 export { useBestHash } from './useBestHash.js';
-export { useBestNumber } from './useBestNumber.js';
+export { useBestNumber, useBestNumberRelay } from './useBestNumber.js';
 export { useBlockAuthors } from './useBlockAuthors.js';
 export { useBlockEvents } from './useBlockEvents.js';
 export { useBlockInterval } from './useBlockInterval.js';

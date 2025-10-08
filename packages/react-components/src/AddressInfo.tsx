@@ -10,7 +10,7 @@ import type { BN } from '@polkadot/util';
 import React, { useRef } from 'react';
 
 import { withCalls, withMulti } from '@polkadot/react-api/hoc';
-import { useBestNumber } from '@polkadot/react-hooks';
+import { useBestNumberRelay } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { BN_MAX_INTEGER, BN_ZERO, bnMax, formatBalance, formatNumber, isObject } from '@polkadot/util';
 
@@ -550,7 +550,7 @@ function renderBalances (props: Props, lookup: Record<string, string>, bestNumbe
 
 function AddressInfo (props: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const bestNumber = useBestNumber();
+  const bestNumber = useBestNumberRelay();
   const { children, className = '', extraInfo, withBalanceToggle, withHexSessionId } = props;
 
   const lookup = useRef<Record<string, string>>({
