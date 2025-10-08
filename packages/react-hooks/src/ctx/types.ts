@@ -114,3 +114,12 @@ export interface WindowSize {
   height: number;
   width: number;
 }
+
+export interface StakingAsyncApis {
+  rcApi?: ApiPromise,
+  ahApi?: ApiPromise,
+  ahEndPoints: string[],
+  isRelayChain: boolean,
+  isStakingAsyncPage: boolean,
+  rcEndPoints: string[]
+}
