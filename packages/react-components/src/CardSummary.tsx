@@ -1,6 +1,7 @@
 // Copyright 2017-2025 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiPromise } from '@polkadot/api';
 import type { UInt } from '@polkadot/types';
 import type { BN } from '@polkadot/util';
 
@@ -28,9 +29,10 @@ interface Props {
   className?: string;
   label: React.ReactNode;
   progress?: ProgressProps;
+  apiOverride?: ApiPromise;
 }
 
-function CardSummary ({ children, className = '', label, progress }: Props): React.ReactElement<Props> | null {
+function CardSummary ({ apiOverride, children, className = '', label, progress }: Props): React.ReactElement<Props> | null {
   const value = progress?.value;
   const total = progress?.total;
   const left = progress && !isUndefined(value) && !isUndefined(total) && value.gten(0) && total.gtn(0)
@@ -73,6 +75,7 @@ function CardSummary ({ children, className = '', label, progress }: Props): Rea
             <>
               {isTimed && !children && (
                 <BlockToTime
+                  api={apiOverride}
                   className={progress.isBlurred ? '--tmp' : ''}
                   value={progress.total}
                 />
@@ -88,6 +91,7 @@ function CardSummary ({ children, className = '', label, progress }: Props): Rea
                     }`
                     : (
                       <BlockToTime
+                        api={apiOverride}
                         className={`${progress.isBlurred ? '--tmp' : ''} timer`}
                         value={progress.total.sub(progress.value)}
                       />

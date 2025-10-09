@@ -56,7 +56,7 @@ export const StakingAsyncProvider = ({ children }: PropsWithChildren) => {
   const rcEndPoints = useMemo(() => {
     return (isRelayChain
       ? apiEndpoint?.providers
-      : apiEndpoint?.valueRelay) || [];
+      : apiEndpoint?.valueRelay)?.filter((e) => e.startsWith('wss://')) || [];
   }, [apiEndpoint, isRelayChain]);
 
   const ahEndPoints: string[] = useMemo(() => {
@@ -66,7 +66,7 @@ export const StakingAsyncProvider = ({ children }: PropsWithChildren) => {
       )?.providers || [];
     }
 
-    return apiEndpoint?.providers || [];
+    return apiEndpoint?.providers?.filter((e) => e.startsWith('wss://')) || [];
   }, [api, apiEndpoint, isRelayChain]);
 
   useEffect(() => {
