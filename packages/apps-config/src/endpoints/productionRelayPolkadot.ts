@@ -486,7 +486,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'logion',
     paraId: 3354,
     providers: {
-      'Logion 1': 'wss://para-rpc01.logion.network'
+      // 'Logion 1': 'wss://para-rpc01.logion.network' // https://github.com/polkadot-js/apps/issues/11882
       // 'Logion 2': 'wss://para-rpc02.logion.network' // https://github.com/polkadot-js/apps/issues/10890
     },
     text: 'Logion',

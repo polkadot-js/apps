@@ -10,7 +10,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { Button, Dropdown, Input, MarkWarning, styled } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
-import { getApi } from '@polkadot/react-hooks/useStakingAsyncApis';
+import { getApi } from '@polkadot/react-hooks/ctx/StakingAsync';
 import { formatBalance } from '@polkadot/util';
 
 import AssetHubSection from './ah.js';

@@ -24,6 +24,7 @@ export const Subsquare: ExternalDef = {
     Karura: 'karura',
     Khala: 'khala',
     Kusama: 'kusama',
+    'Kusama Asset Hub': 'kusama',
     'Paseo Testnet': 'paseo',
     Phala: 'phala',
     Polkadot: 'polkadot',
