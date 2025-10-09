@@ -4,12 +4,11 @@
 import type { DeriveSessionProgress } from '@polkadot/api-derive/types';
 import type { Forcing } from '@polkadot/types/interfaces';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import { CardSummary } from '@polkadot/react-components';
-import { useCall, useStakingAsyncApis } from '@polkadot/react-hooks';
-import { Elapsed } from '@polkadot/react-query';
-import { BN_THREE, BN_TWO, formatNumber } from '@polkadot/util';
+import { useApi, useBlockInterval, useCall, useStakingAsyncApis } from '@polkadot/react-hooks';
+import { BN, BN_THREE, BN_TWO, BN_ZERO, formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
 
@@ -21,8 +20,11 @@ interface Props {
 
 function SummarySession ({ className, withEra = true, withSession = true }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { api } = useApi();
+  const blockTime = useBlockInterval();
   const { rcApi } = useStakingAsyncApis();
   const sessionInfo = useCall<DeriveSessionProgress>(rcApi?.derive.session?.progress);
+  const ahSessionInfo = useCall<DeriveSessionProgress>(api?.derive.session?.progress);
   const forcing = useCall<Forcing>(rcApi?.query.staking?.forceEra);
 
   const eraLabel = t('era');
@@ -30,6 +32,32 @@ function SummarySession ({ className, withEra = true, withSession = true }: Prop
     ? t('epoch')
     : t('session');
   const activeEraStart = sessionInfo?.activeEraStart.unwrapOr(null);
+
+  const eraProgress = useMemo(() => {
+    if (!ahSessionInfo) {
+      return BN_ZERO;
+    }
+
+    const currentEraStart = ahSessionInfo.activeEraStart.unwrapOrDefault();
+
+    if (currentEraStart.isZero()) {
+      return BN_ZERO;
+    }
+
+    const currentTimestamp = new BN(Math.floor(Date.now()));
+
+    const elapsed = currentTimestamp.sub(currentEraStart);
+
+    return elapsed.div(blockTime);
+  }, [ahSessionInfo, blockTime]);
+
+  const eraDuration = useMemo(
+    () => {
+      // default to 1800 blocks i.e. 6 hours
+      return new BN(6 * 60 * 60 * 1000).div(blockTime);
+    },
+    [blockTime]
+  );
 
   return (
     <>
@@ -62,49 +90,24 @@ function SummarySession ({ className, withEra = true, withSession = true }: Prop
                 </CardSummary>
               )
           )}
-          {withEra && (
-            rcApi?.query.babe
-              ? (
-                <CardSummary
-                  apiOverride={rcApi}
-                  className={className}
-                  label={eraLabel}
-                  progress={{
-                    isBlurred: !(sessionInfo && forcing),
-                    total: sessionInfo && forcing
-                      ? forcing.isForceAlways
-                        ? sessionInfo.sessionLength
-                        : sessionInfo.eraLength
-                      : BN_THREE,
-                    value: sessionInfo && forcing
-                      ? forcing.isForceAlways
-                        ? sessionInfo.sessionProgress
-                        : sessionInfo.eraProgress
-                      : BN_TWO,
-                    withTime: true
-                  }}
-                />
-              )
-              : (
-                <CardSummary
-                  apiOverride={rcApi}
-                  className={className}
-                  label={eraLabel}
-                >
-                  #{sessionInfo
-                    ? formatNumber(sessionInfo.activeEra)
-                    : <span className='--tmp'>123</span>}
-                  {activeEraStart && (
-                    <Elapsed
-                      className={`${sessionInfo ? '' : '--tmp'} isSecondary`}
-                      value={activeEraStart}
-                    >
-                      &nbsp;{t('elapsed')}
-                    </Elapsed>
-                  )}
-                </CardSummary>
-              )
-          )}
+          <CardSummary
+            className={className}
+            label={eraLabel}
+            progress={{
+              isBlurred: !(sessionInfo && forcing),
+              total: sessionInfo && forcing
+                ? forcing.isForceAlways
+                  ? sessionInfo.sessionLength
+                  : eraDuration
+                : BN_THREE,
+              value: sessionInfo && forcing
+                ? forcing.isForceAlways
+                  ? sessionInfo.sessionProgress
+                  : eraProgress
+                : BN_TWO,
+              withTime: true
+            }}
+          />
         </>
       )}
     </>
