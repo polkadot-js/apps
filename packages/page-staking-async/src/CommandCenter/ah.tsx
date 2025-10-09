@@ -58,10 +58,30 @@ function AssetHubSection ({ ahApi, ahEvents, ahOutput, ahUrl, children, isRelayC
                 </CardSummary>
                 <CardSummary label={t('active era')}>
                   {ahOutput.staking.activeEra.index}
+                  {ahOutput.staking.activeEra.duration && ` (${ahOutput.staking.activeEra.duration})`}
                 </CardSummary>
                 {ahOutput.staking.erasStartSessionIndex &&
                   <CardSummary label={t('era start session')}>
                     {ahOutput.staking.erasStartSessionIndex}
+                    {ahOutput.rcClient.eraDepth && `, Era-depth: ${ahOutput.rcClient.eraDepth} sessions`}
+                  </CardSummary>
+                }
+                {ahOutput.staking.bondedEras && ahOutput.staking.bondedEras.length > 0 && (() => {
+                  const firstEra = ahOutput.staking.bondedEras[0];
+                  const lastEra = ahOutput.staking.bondedEras[ahOutput.staking.bondedEras.length - 1];
+
+                  return (
+                    <CardSummary label={t('bonded eras')}>
+                      {`(${firstEra[0]} @ ${firstEra[1]}), (${lastEra[0]} @ ${lastEra[1]})`}
+                    </CardSummary>
+                  );
+                })()}
+                <CardSummary label={t('unpruned eras')}>
+                  {ahOutput.staking.unprunedEras}
+                </CardSummary>
+                {ahOutput.staking.forcing &&
+                  <CardSummary label={t('forcing')}>
+                    {ahOutput.staking.forcing}
                   </CardSummary>
                 }
               </div>
@@ -71,28 +91,27 @@ function AssetHubSection ({ ahApi, ahEvents, ahOutput, ahUrl, children, isRelayC
               <h4>{t('Validators/Nominators')}</h4>
               <div className='stats'>
                 {ahOutput.staking.validatorCount &&
-                  <CardSummary label={t('validator count')}>
+                  <CardSummary label={t('wanted validators')}>
                     {ahOutput.staking.validatorCount}
                   </CardSummary>
                 }
-                {ahOutput.staking.maxValidatorsCount &&
-                  <CardSummary label={t('max validators')}>
-                    {ahOutput.staking.maxValidatorsCount}
+                {ahOutput.staking.validatorCandidates &&
+                  <CardSummary label={t('validator candidates')}>
+                    {ahOutput.staking.validatorCandidates}
+                    {ahOutput.staking.maxValidatorsCount && ` (max: ${ahOutput.staking.maxValidatorsCount})`}
                   </CardSummary>
                 }
-                {ahOutput.staking.maxNominatorsCount &&
-                  <CardSummary label={t('max nominators')}>
-                    {ahOutput.staking.maxNominatorsCount}
+                {ahOutput.staking.nominatorCandidates &&
+                  <CardSummary label={t('nominator candidates')}>
+                    {ahOutput.staking.nominatorCandidates}
+                    {ahOutput.staking.maxNominatorsCount && ` (max: ${ahOutput.staking.maxNominatorsCount})`}
                   </CardSummary>
                 }
-                {ahOutput.staking.minValidatorBond &&
-                  <CardSummary label={t('min validator bond')}>
-                    {ahOutput.staking.minValidatorBond}
-                  </CardSummary>
-                }
-                {ahOutput.staking.minNominatorBond &&
-                  <CardSummary label={t('min nominator bond')}>
-                    {ahOutput.staking.minNominatorBond}
+                {(ahOutput.staking.minNominatorBond || ahOutput.staking.minValidatorBond || ahOutput.staking.minNominatorActiveStake) &&
+                  <CardSummary label={t('min bonds')}>
+                    {ahOutput.staking.minNominatorBond && `N: ${ahOutput.staking.minNominatorBond}`}
+                    {ahOutput.staking.minValidatorBond && ` / V: ${ahOutput.staking.minValidatorBond}`}
+                    {ahOutput.staking.minNominatorActiveStake && ` / Active: ${ahOutput.staking.minNominatorActiveStake}`}
                   </CardSummary>
                 }
               </div>
@@ -102,7 +121,7 @@ function AssetHubSection ({ ahApi, ahEvents, ahOutput, ahUrl, children, isRelayC
               <h4>{t('RC Client')}</h4>
               <div className='stats'>
                 <CardSummary label={t('last session report')}>
-                  {ahOutput.rcClient.lastSessionReportEndIndex}
+                  End={ahOutput.rcClient.lastSessionReportEndIndex}, Start={ahOutput.rcClient.lastSessionIndex}
                 </CardSummary>
               </div>
             </div>
@@ -136,6 +155,20 @@ function AssetHubSection ({ ahApi, ahEvents, ahOutput, ahUrl, children, isRelayC
                 })()}
               </div>
             </div>
+
+            {ahOutput.bagsList && (
+              <div className='section'>
+                <h4>{t('Bags List')}</h4>
+                <div className='stats'>
+                  <CardSummary label={t('all nodes')}>
+                    {ahOutput.bagsList.allNodes}
+                  </CardSummary>
+                  <CardSummary label={t('lock')}>
+                    {ahOutput.bagsList.lock}
+                  </CardSummary>
+                </div>
+              </div>
+            )}
           </div>
         )}
       </StyledInfoBox>

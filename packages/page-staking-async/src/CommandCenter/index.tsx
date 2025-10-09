@@ -25,11 +25,17 @@ export interface IRcOutput {
   stakingAhClient: {
     mode: string
     hasNextActiveId?: number,
-    hasQueuedInClient?: [number, AccountId32[]]
+    hasQueuedInClient?: [number, AccountId32[]],
+    validatorPoints: number
   },
   staking: {
     forceEra?: string,
-    validatorCount?: number
+    validatorCount?: number,
+    electionPhase?: string
+  },
+  parachainConfig?: {
+    maxDownwardMessageSize: number,
+    maxUpwardMessageSize: number
   }
 }
 
@@ -37,17 +43,24 @@ export interface IAhOutput {
   finalizedBlock: number,
   staking: {
     currentEra: number,
-    activeEra: {index: number, start: string},
+    activeEra: {index: number, start: string, duration?: string},
     erasStartSessionIndex?: number,
     bondedEras: Vec<ITuple<[u32, u32]>>,
+    unprunedEras: string,
     validatorCount?: number,
+    validatorCandidates?: number,
+    nominatorCandidates?: number,
     maxValidatorsCount?: number,
     maxNominatorsCount?: number,
     minNominatorBond?: string,
-    minValidatorBond?: string
+    minValidatorBond?: string,
+    minNominatorActiveStake?: string,
+    forcing?: string
   },
   rcClient: {
-    lastSessionReportEndIndex: string
+    lastSessionReportEndIndex: string,
+    lastSessionIndex: number,
+    eraDepth?: number
   },
   multiblock: {
     phase: string,
@@ -55,6 +68,10 @@ export interface IAhOutput {
     snapshotRange: string[]
     queuedScore: string|null,
     signedSubmissions: number
+  },
+  bagsList?: {
+    allNodes: number,
+    lock: string
   }
 }
 
@@ -87,6 +104,24 @@ const commandCenterHandler = async (
     // Staking info from RC if available
     const forceEra = rcApi.query.staking?.forceEra ? await rcApi.query.staking.forceEra() : undefined;
     const validatorCount = rcApi.query.staking?.validatorCount ? await rcApi.query.staking.validatorCount() : undefined;
+    const electionPhase = rcApi.query.electionProviderMultiPhase?.currentPhase ? await rcApi.query.electionProviderMultiPhase.currentPhase() : undefined;
+
+    // Validator points
+    const validatorPointsKeys = await rcApi.query.stakingAhClient.validatorPoints.keys();
+
+    // Parachain config
+    let parachainConfig;
+
+    try {
+      const configuration = await rcApi.query.configuration.activeConfig();
+
+      parachainConfig = {
+        maxDownwardMessageSize: configuration.maxDownwardMessageSize?.toNumber() || 0,
+        maxUpwardMessageSize: configuration.maxUpwardMessageSize?.toNumber() || 0
+      };
+    } catch {
+      parachainConfig = undefined;
+    }
 
     // Events that we are interested in from RC:
     const eventsOfInterest = (await (await rcApi.at(header.hash.toHex())).query.system.events())
@@ -118,12 +153,15 @@ const commandCenterHandler = async (
 
           return parsed.isNone ? undefined : [parsed.unwrap()[0].toNumber(), parsed.unwrap()[1]] as [number, AccountId32[]];
         })(),
-        mode: mode.toString()
+        mode: mode.toString(),
+        validatorPoints: validatorPointsKeys.length
       },
       staking: {
+        electionPhase: electionPhase?.toString(),
         forceEra: forceEra?.toString(),
         validatorCount: validatorCount?.toNumber()
-      }
+      },
+      parachainConfig
     });
 
     if (eventsOfInterest.length > 0) {
@@ -136,16 +174,37 @@ const commandCenterHandler = async (
     const currentEra = await rcApi.query.session.currentIndex();
     // the active era
     const activeEra = (await ahApi.query.staking.activeEra()).unwrap();
+    const activeEraDuration = activeEra.start.isSome
+      ? (() => {
+        const startTime = activeEra.start.unwrap().toNumber();
+        const durationMs = Date.now() - startTime;
+        const hours = Math.floor(durationMs / 3600000);
+        const minutes = Math.floor((durationMs % 3600000) / 60000);
+        const seconds = Math.floor((durationMs % 60000) / 1000);
+
+        return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+      })()
+      : undefined;
+
     // the starting index of the active era
     const bondedEras = await ahApi.query.staking.bondedEras();
     const activeEraStartSessionIndex = bondedEras.find(([e]) => e.eq(activeEra.index))?.[1];
 
+    // Unpruned eras
+    const unprunedEras = ahApi.query.staking.eraPruningState
+      ? (await ahApi.query.staking.eraPruningState.entries()).map(([k]) => k.args[0]).sort().join(', ')
+      : 'unimplemented!';
+
     // Additional staking info
     const validatorCount = ahApi.query.staking.validatorCount ? await ahApi.query.staking.validatorCount() : undefined;
+    const validatorCandidates = ahApi.query.staking.counterForValidators ? await ahApi.query.staking.counterForValidators() : undefined;
+    const nominatorCandidates = ahApi.query.staking.counterForNominators ? await ahApi.query.staking.counterForNominators() : undefined;
     const maxValidatorsCount = ahApi.query.staking.maxValidatorsCount ? await ahApi.query.staking.maxValidatorsCount() : undefined;
     const maxNominatorsCount = ahApi.query.staking.maxNominatorsCount ? await ahApi.query.staking.maxNominatorsCount() : undefined;
     const minNominatorBond = ahApi.query.staking.minNominatorBond ? await ahApi.query.staking.minNominatorBond() : undefined;
     const minValidatorBond = ahApi.query.staking.minValidatorBond ? await ahApi.query.staking.minValidatorBond() : undefined;
+    const minNominatorActiveStake = ahApi.query.staking.minimumActiveStake ? await ahApi.query.staking.minimumActiveStake() : undefined;
+    const forcing = ahApi.query.staking.forceEra ? await ahApi.query.staking.forceEra() : undefined;
 
     // the basic state of the election provider
     const phase = await ahApi.query.multiBlockElection.currentPhase();
@@ -161,7 +220,25 @@ const commandCenterHandler = async (
       await ahApi.query.multiBlockElectionSigned.sortedScores(round);
 
     // The client
-    const lastSessionReportEndIndex = await ahApi.query.stakingRcClient.lastSessionReportEndingIndex();
+    const lastSessionReportEndIndexRaw = await ahApi.query.stakingRcClient.lastSessionReportEndingIndex();
+    const lastSessionReportEndIndex = ahApi.createType('Option<BlockNumber>', lastSessionReportEndIndexRaw);
+    const lastSessionIndex = lastSessionReportEndIndex.isSome ? lastSessionReportEndIndex.unwrap().toNumber() + 1 : 0;
+    const eraDepth = activeEraStartSessionIndex ? lastSessionIndex - activeEraStartSessionIndex.toNumber() : undefined;
+
+    // Bags list
+    let bagsList;
+
+    try {
+      const allNodes = await ahApi.query.voterList.counterForListNodes();
+      const lock = await ahApi.query.voterList.lock();
+
+      bagsList = {
+        allNodes: allNodes.toNumber(),
+        lock: lock.toU8a().toString()
+      };
+    } catch {
+      bagsList = undefined;
+    }
 
     // Events that we are interested in from AH:
     const eventsOfInterest = (await (await ahApi.at(header.hash.toHex())).query.system.events())
@@ -188,21 +265,32 @@ const commandCenterHandler = async (
         ).length,
         snapshotRange: snapshotRange.map((a) => a.toString())
       },
-      rcClient: { lastSessionReportEndIndex: lastSessionReportEndIndex.toString() },
+      rcClient: {
+        eraDepth,
+        lastSessionIndex,
+        lastSessionReportEndIndex: lastSessionReportEndIndex.isSome ? lastSessionReportEndIndex.unwrap().toString() : '0'
+      },
       staking: {
         activeEra: {
+          duration: activeEraDuration,
           index: activeEra.index.toNumber(),
           start: activeEra.toString()
         },
         bondedEras,
         currentEra: currentEra.toNumber(),
         erasStartSessionIndex: activeEraStartSessionIndex?.toNumber(),
-        validatorCount: validatorCount?.toNumber(),
-        maxValidatorsCount: maxValidatorsCount?.isSome ? maxValidatorsCount.unwrap().toNumber() : undefined,
+        forcing: forcing?.toString(),
         maxNominatorsCount: maxNominatorsCount?.isSome ? maxNominatorsCount.unwrap().toNumber() : undefined,
+        maxValidatorsCount: maxValidatorsCount?.isSome ? maxValidatorsCount.unwrap().toNumber() : undefined,
+        minNominatorActiveStake: minNominatorActiveStake?.toString(),
         minNominatorBond: minNominatorBond?.toString(),
-        minValidatorBond: minValidatorBond?.toString()
-      }
+        minValidatorBond: minValidatorBond?.toString(),
+        nominatorCandidates: nominatorCandidates?.toNumber(),
+        unprunedEras,
+        validatorCandidates: validatorCandidates?.toNumber(),
+        validatorCount: validatorCount?.toNumber()
+      },
+      bagsList
     });
 
     if (eventsOfInterest.length > 0) {

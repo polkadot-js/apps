@@ -78,6 +78,9 @@ function RelaySection ({ children, isRelayChain, rcApi, rcEvents, rcOutput, rcUr
                     {rcOutput.stakingAhClient.hasNextActiveId}
                   </CardSummary>
                 }
+                <CardSummary label={t('validator points')}>
+                  {rcOutput.stakingAhClient.validatorPoints}
+                </CardSummary>
               </div>
               {rcOutput.stakingAhClient.hasQueuedInClient &&
                 <div className='warning-section'>
@@ -92,7 +95,7 @@ function RelaySection ({ children, isRelayChain, rcApi, rcEvents, rcOutput, rcUr
               }
             </div>
 
-            {(rcOutput.staking.forceEra || rcOutput.staking.validatorCount) && (
+            {(rcOutput.staking.forceEra || rcOutput.staking.validatorCount || rcOutput.staking.electionPhase) && (
               <div className='section'>
                 <h4>{t('Staking/Elections')}</h4>
                 <div className='stats'>
@@ -101,11 +104,30 @@ function RelaySection ({ children, isRelayChain, rcApi, rcEvents, rcOutput, rcUr
                       {rcOutput.staking.forceEra}
                     </CardSummary>
                   }
+                  {rcOutput.staking.electionPhase &&
+                    <CardSummary label={t('election phase')}>
+                      {rcOutput.staking.electionPhase}
+                    </CardSummary>
+                  }
                   {rcOutput.staking.validatorCount &&
                     <CardSummary label={t('validator count')}>
                       {rcOutput.staking.validatorCount}
                     </CardSummary>
                   }
+                </div>
+              </div>
+            )}
+
+            {rcOutput.parachainConfig && (
+              <div className='section'>
+                <h4>{t('Parachain Config')}</h4>
+                <div className='stats'>
+                  <CardSummary label={t('max downward msg size')}>
+                    {formatNumber(rcOutput.parachainConfig.maxDownwardMessageSize)}
+                  </CardSummary>
+                  <CardSummary label={t('max upward msg size')}>
+                    {formatNumber(rcOutput.parachainConfig.maxUpwardMessageSize)}
+                  </CardSummary>
                 </div>
               </div>
             )}
