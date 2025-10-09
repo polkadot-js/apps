@@ -8,7 +8,7 @@ import type { EnhancedEvent, IRcOutput } from './index.js';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { CardSummary, Expander, MarkWarning, Spinner, styled } from '@polkadot/react-components';
+import { CardSummary, Expander, Spinner, styled } from '@polkadot/react-components';
 import { Event as EventDisplay } from '@polkadot/react-params';
 import { formatNumber } from '@polkadot/util';
 
@@ -60,7 +60,7 @@ function RelaySection ({ children, isRelayChain, rcApi, rcEvents, rcOutput, rcUr
                 </CardSummary>
                 {rcOutput.session.historicalRange &&
                   <CardSummary label={t('historical range')}>
-                    {`${rcOutput.session.historicalRange[0]} → ${rcOutput.session.historicalRange[1]}`}
+                    {`#${formatNumber(rcOutput.session.historicalRange[0])} → #${formatNumber(rcOutput.session.historicalRange[1])}`}
                   </CardSummary>
                 }
               </div>
@@ -72,64 +72,49 @@ function RelaySection ({ children, isRelayChain, rcApi, rcEvents, rcOutput, rcUr
                 <CardSummary label={t('mode')}>
                   {rcOutput.stakingAhClient.mode}
                 </CardSummary>
-                {rcOutput.stakingAhClient.hasNextActiveId !== undefined &&
-                  <CardSummary label={t('next active id')}>
-                    {rcOutput.stakingAhClient.hasNextActiveId}
-                  </CardSummary>
-                }
-                <CardSummary label={t('validator points')}>
+                <CardSummary label={t('next active id')}>
+                  {rcOutput.stakingAhClient.hasNextActiveId !== undefined ? rcOutput.stakingAhClient.hasNextActiveId : 'None'}
+                </CardSummary>
+                <CardSummary label={t('queued validator points')}>
                   {rcOutput.stakingAhClient.validatorPoints}
                 </CardSummary>
               </div>
-              {rcOutput.stakingAhClient.hasQueuedInClient &&
-                <div className='warning-section'>
-                  <MarkWarning content={t('Validator set queued')} />
-                  <CardSummary label={t('id')}>
-                    {rcOutput.stakingAhClient.hasQueuedInClient[0]}
-                  </CardSummary>
-                  <CardSummary label={t('validators')}>
-                    {rcOutput.stakingAhClient.hasQueuedInClient[1].length}
-                  </CardSummary>
-                </div>
-              }
+              <div className='info-section'>
+                <CardSummary label={t('queued validator set id')}>
+                  {rcOutput.stakingAhClient.hasQueuedInClient ? rcOutput.stakingAhClient.hasQueuedInClient[0] : 'None'}
+                </CardSummary>
+                <CardSummary label={t('queued validators')}>
+                  {rcOutput.stakingAhClient.hasQueuedInClient ? rcOutput.stakingAhClient.hasQueuedInClient[1].length : 'None'}
+                </CardSummary>
+              </div>
             </div>
 
-            {(rcOutput.staking.forceEra || rcOutput.staking.validatorCount || rcOutput.staking.electionPhase) && (
-              <div className='section'>
-                <h4>{t('Staking/Elections')}</h4>
-                <div className='stats'>
-                  {rcOutput.staking.forceEra &&
-                    <CardSummary label={t('force era')}>
-                      {rcOutput.staking.forceEra}
-                    </CardSummary>
-                  }
-                  {rcOutput.staking.electionPhase &&
-                    <CardSummary label={t('election phase')}>
-                      {rcOutput.staking.electionPhase}
-                    </CardSummary>
-                  }
-                  {rcOutput.staking.validatorCount &&
-                    <CardSummary label={t('validator count')}>
-                      {rcOutput.staking.validatorCount}
-                    </CardSummary>
-                  }
-                </div>
+            <div className='section'>
+              <h4>{t('Staking/Elections')}</h4>
+              <div className='stats'>
+                <CardSummary label={t('force era')}>
+                  {rcOutput.staking.forceEra || 'None'}
+                </CardSummary>
+                <CardSummary label={t('election phase')}>
+                  {rcOutput.staking.electionPhase || 'None'}
+                </CardSummary>
+                <CardSummary label={t('validator count')}>
+                  {rcOutput.staking.validatorCount || 'None'}
+                </CardSummary>
               </div>
-            )}
+            </div>
 
-            {rcOutput.parachainConfig && (
-              <div className='section'>
-                <h4>{t('Parachain Config')}</h4>
-                <div className='stats'>
-                  <CardSummary label={t('max downward msg size')}>
-                    {formatNumber(rcOutput.parachainConfig.maxDownwardMessageSize)}
-                  </CardSummary>
-                  <CardSummary label={t('max upward msg size')}>
-                    {formatNumber(rcOutput.parachainConfig.maxUpwardMessageSize)}
-                  </CardSummary>
-                </div>
+            <div className='section'>
+              <h4>{t('Parachain Config')}</h4>
+              <div className='stats'>
+                <CardSummary label={t('max downward msg size')}>
+                  {rcOutput.parachainConfig ? formatNumber(rcOutput.parachainConfig.maxDownwardMessageSize) : 'None'}
+                </CardSummary>
+                <CardSummary label={t('max upward msg size')}>
+                  {rcOutput.parachainConfig ? formatNumber(rcOutput.parachainConfig.maxUpwardMessageSize) : 'None'}
+                </CardSummary>
               </div>
-            )}
+            </div>
           </div>
         )}
       </StyledInfoBox>
@@ -149,19 +134,21 @@ function RelaySection ({ children, isRelayChain, rcApi, rcEvents, rcOutput, rcUr
               isLeft
               key={`${event.index.toString()}-${index}`}
               summary={
-                <div className='event-summary'>
-                  <span>{eventName}</span>
-                  {isRelayChain
-                    ? <Link to={`/explorer/query/${blockNumber}`}>#{formatNumber(blockNumber)}</Link>
-                    : (
-                      <Link
-                        target='_blank'
-                        to={`${window.location.origin}/?rpc=${rcUrl}#/explorer/query/${blockNumber}`}
-                      >
-                        #{formatNumber(blockNumber)}
-                      </Link>)
-                  }
-                </div>
+                <>
+                  {eventName}
+                  <div className='absolute --digits'>
+                    {isRelayChain
+                      ? <Link to={`/explorer/query/${blockNumber}`}>#{formatNumber(blockNumber)}</Link>
+                      : (
+                        <Link
+                          target='_blank'
+                          to={`${window.location.origin}/?rpc=${rcUrl}#/explorer/query/${blockNumber}`}
+                        >
+                          #{formatNumber(blockNumber)}
+                        </Link>)
+                    }
+                  </div>
+                </>
               }
               summaryMeta={event.meta}
             >
@@ -211,7 +198,7 @@ const StyledInfoBox = styled.div`
 
     .section {
       h4 {
-        font-size: var(--font-size-small);
+        font-size: var(--font-size-base);
         font-weight: 600;
         color: var(--color-text-secondary);
         text-transform: uppercase;
@@ -224,9 +211,22 @@ const StyledInfoBox = styled.div`
       display: flex;
       flex-wrap: wrap;
       gap: 1rem;
+
+      .ui--CardSummary {
+        text-align: left;
+
+        .ui--CardSummary-label {
+          font-size: var(--font-size-small);
+        }
+
+        .ui--CardSummary-content {
+          font-size: var(--font-size-base);
+        }
+      }
     }
 
-    .warning-section {
+    .warning-section,
+    .info-section {
       display: flex;
       align-items: center;
       gap: 1rem;
@@ -237,6 +237,18 @@ const StyledInfoBox = styled.div`
 
       .warning {
         margin: 0;
+      }
+
+      .ui--CardSummary {
+        text-align: left;
+
+        .ui--CardSummary-label {
+          font-size: var(--font-size-small);
+        }
+
+        .ui--CardSummary-content {
+          font-size: var(--font-size-base);
+        }
       }
     }
   }
@@ -268,18 +280,12 @@ const StyledEventsBox = styled.div`
 
   .ui--Expander {
     margin-bottom: 0.5rem;
-  }
+    position: relative;
 
-  .event-summary {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    gap: 1rem;
-
-    a {
-      color: var(--color-link);
-      font-weight: 500;
+    .absolute {
+      position: absolute;
+      right: 0.5rem;
+      top: 0.72rem;
       white-space: nowrap;
     }
   }

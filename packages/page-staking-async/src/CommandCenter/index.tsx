@@ -8,9 +8,10 @@ import type { u32, Vec } from '@polkadot/types-codec';
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
-import { Button, Dropdown, styled } from '@polkadot/react-components';
+import { Button, Dropdown, Input, MarkWarning, styled } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { getApi } from '@polkadot/react-hooks/useStakingAsyncApis';
+import { formatBalance } from '@polkadot/util';
 
 import AssetHubSection from './ah.js';
 import RelaySection from './relay.js';
@@ -207,7 +208,7 @@ const commandCenterHandler = async (
 
   await ahApi.rpc.chain.subscribeFinalizedHeads(async (header) => {
     // the current planned era
-    const currentEra = await rcApi.query.session.currentIndex();
+    const currentEra = (await ahApi.query.staking.currentEra()).unwrap().toNumber();
     // the active era
     const activeEra = (await ahApi.query.staking.activeEra()).unwrap();
     const activeEraDuration = activeEra.start.isSome
@@ -306,12 +307,36 @@ const commandCenterHandler = async (
     }));
 
     const parsedQueuedScore = ahApi.createType('Option<SpNposElectionsElectionScore>', queuedScore);
+    const formattedQueuedScore = parsedQueuedScore.isSome
+      ? (() => {
+        const score = parsedQueuedScore.unwrap();
+        const minimalStake = score.minimalStake?.toString() || '0';
+        const formattedMinStake = formatBalance(minimalStake, { withSi: true, forceUnit: '-' });
+        return `minStake: ${formattedMinStake}, ...`;
+      })()
+      : null;
+
+    // Format phase to be more readable (e.g., "Unsigned(1)" instead of {"unsigned":1})
+    const formattedPhase = (() => {
+      const phaseStr = phase.toString();
+      try {
+        const phaseJson = JSON.parse(phaseStr);
+        if (typeof phaseJson === 'object' && phaseJson !== null) {
+          const key = Object.keys(phaseJson)[0];
+          const value = phaseJson[key];
+          return `${key.charAt(0).toUpperCase() + key.slice(1)}(${value})`;
+        }
+      } catch {
+        // If not JSON, return as is
+      }
+      return phaseStr;
+    })();
 
     setAhOutput({
       finalizedBlock: header.number.toNumber(),
       multiblock: {
-        phase: phase.toString(),
-        queuedScore: parsedQueuedScore.isSome ? parsedQueuedScore.unwrap().toString() : null,
+        phase: formattedPhase,
+        queuedScore: formattedQueuedScore,
         round: ahApi.createType('u32', round).toNumber(),
         signedSubmissions: ahApi.createType(
           'Vec<(AccountId32,SpNposElectionsElectionScore)>',
@@ -331,7 +356,7 @@ const commandCenterHandler = async (
           start: activeEra.toString()
         },
         bondedEras,
-        currentEra: currentEra.toNumber(),
+        currentEra: currentEra,
         erasStartSessionIndex: activeEraStartSessionIndex?.toNumber(),
         forcing: forcing?.toString(),
         maxNominatorsCount: maxNominatorsCount?.isSome ? maxNominatorsCount.unwrap().toNumber() : undefined,
@@ -380,8 +405,14 @@ function CommandCenter ({ ahApi: initialAhApi, ahEndPoints, isRelayChain, rcApi:
   const [ahLowestBlock, setAhLowestBlock] = useState<number | null>(null);
   const [loadingProgress, setLoadingProgress] = useState<{ rc: number; ah: number } | null>(null);
 
-  const rcEndPointOptions = useRef(rcEndPoints.map((e) => ({ text: e, value: e })));
-  const ahEndPointOptions = useRef(ahEndPoints.map((e) => ({ text: e, value: e })));
+  const [customRcUrl, setCustomRcUrl] = useState<string>('ws://127.0.0.1:9944');
+  const [customAhUrl, setCustomAhUrl] = useState<string>('ws://127.0.0.1:9944');
+  const [showCustomRcInput, setShowCustomRcInput] = useState(false);
+  const [showCustomAhInput, setShowCustomAhInput] = useState(false);
+
+  const CUSTOM_OPTION = 'custom';
+  const rcEndPointOptions = useRef([...rcEndPoints.map((e) => ({ text: e, value: e })), { text: 'Custom endpoint...', value: CUSTOM_OPTION }]);
+  const ahEndPointOptions = useRef([...ahEndPoints.map((e) => ({ text: e, value: e })), { text: 'Custom endpoint...', value: CUSTOM_OPTION }]);
 
   // Load historical events from RC
   const loadRcHistoricalEvents = useCallback(async (blocksToLoad: number) => {
@@ -543,18 +574,48 @@ function CommandCenter ({ ahApi: initialAhApi, ahEndPoints, isRelayChain, rcApi:
   }, [isLoadingHistory, rcApi, ahApi, loadRcHistoricalEvents, loadAhHistoricalEvents]);
 
   const _onSelectAhUrl = useCallback((newAhUrl: string) => {
-    if (newAhUrl !== ahUrl) {
+    if (newAhUrl === CUSTOM_OPTION) {
+      setShowCustomAhInput(true);
+    } else if (newAhUrl !== ahUrl) {
       ahApi?.disconnect().catch(console.log);
+      setShowCustomAhInput(false);
       setAhUrl(newAhUrl);
     }
   }, [ahApi, ahUrl]);
 
   const _onSelectRcUrl = useCallback((newRcUrl: string) => {
-    if (newRcUrl !== rcUrl) {
+    if (newRcUrl === CUSTOM_OPTION) {
+      setShowCustomRcInput(true);
+    } else if (newRcUrl !== rcUrl) {
       rcApi?.disconnect().catch(console.log);
+      setShowCustomRcInput(false);
       setRcUrl(newRcUrl);
     }
   }, [rcApi, rcUrl]);
+
+  const _onCustomRcUrlChange = useCallback((value: string) => {
+    setCustomRcUrl(value);
+  }, []);
+
+  const _onCustomAhUrlChange = useCallback((value: string) => {
+    setCustomAhUrl(value);
+  }, []);
+
+  const _onApplyCustomRcUrl = useCallback(() => {
+    if (customRcUrl && customRcUrl.trim()) {
+      rcApi?.disconnect().catch(console.log);
+      setRcUrl(customRcUrl.trim());
+      setShowCustomRcInput(false);
+    }
+  }, [customRcUrl, rcApi]);
+
+  const _onApplyCustomAhUrl = useCallback(() => {
+    if (customAhUrl && customAhUrl.trim()) {
+      ahApi?.disconnect().catch(console.log);
+      setAhUrl(customAhUrl.trim());
+      setShowCustomAhInput(false);
+    }
+  }, [customAhUrl, ahApi]);
 
   useEffect(() => {
     if (isRelayChain) {
@@ -606,6 +667,9 @@ function CommandCenter ({ ahApi: initialAhApi, ahEndPoints, isRelayChain, rcApi:
 
   return (
     <StyledDiv>
+      <StyledWarningBanner>
+        <MarkWarning content='This page is for developer debugging only.' />
+      </StyledWarningBanner>
       <StyledButtonContainer>
         <Button
           icon='history'
@@ -633,13 +697,30 @@ function CommandCenter ({ ahApi: initialAhApi, ahEndPoints, isRelayChain, rcApi:
         rcOutput={rcOutput}
         rcUrl={rcUrl || ''}
       >
-        <Dropdown
-          defaultValue={rcUrl}
-          isButton
-          isDisabled={!!isRelayChain}
-          onChange={_onSelectRcUrl}
-          options={rcEndPointOptions.current}
-        />
+        <StyledEndpointControls>
+          <Dropdown
+            defaultValue={rcUrl}
+            isButton
+            isDisabled={!!isRelayChain}
+            onChange={_onSelectRcUrl}
+            options={rcEndPointOptions.current}
+          />
+          {showCustomRcInput && !isRelayChain && (
+            <StyledCustomInput>
+              <Input
+                autoFocus
+                label='Custom RC Endpoint'
+                onChange={_onCustomRcUrlChange}
+                placeholder='wss://your-relay-chain-endpoint.com'
+                value={customRcUrl}
+              />
+              <Button
+                label='Connect'
+                onClick={_onApplyCustomRcUrl}
+              />
+            </StyledCustomInput>
+          )}
+        </StyledEndpointControls>
       </RelaySection>
       <AssetHubSection
         ahApi={ahApi}
@@ -648,17 +729,71 @@ function CommandCenter ({ ahApi: initialAhApi, ahEndPoints, isRelayChain, rcApi:
         ahUrl={ahUrl || ''}
         isRelayChain={!!isRelayChain}
       >
-        <Dropdown
-          defaultValue={ahUrl}
-          isButton
-          isDisabled={!isRelayChain}
-          onChange={_onSelectAhUrl}
-          options={ahEndPointOptions.current}
-        />
+        <StyledEndpointControls>
+          <Dropdown
+            defaultValue={ahUrl}
+            isButton
+            isDisabled={!isRelayChain}
+            onChange={_onSelectAhUrl}
+            options={ahEndPointOptions.current}
+          />
+          {showCustomAhInput && isRelayChain && (
+            <StyledCustomInput>
+              <Input
+                autoFocus
+                label='Custom AH Endpoint'
+                onChange={_onCustomAhUrlChange}
+                placeholder='wss://your-asset-hub-endpoint.com'
+                value={customAhUrl}
+              />
+              <Button
+                label='Connect'
+                onClick={_onApplyCustomAhUrl}
+              />
+            </StyledCustomInput>
+          )}
+        </StyledEndpointControls>
       </AssetHubSection>
     </StyledDiv>
   );
 }
+
+const StyledEndpointControls = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+`;
+
+const StyledCustomInput = styled.div`
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-end;
+
+  > div {
+    flex: 1;
+  }
+
+  button {
+    margin-bottom: 0.25rem;
+  }
+`;
+
+const StyledWarningBanner = styled.div`
+  grid-column: 1 / -1;
+  padding: 1rem 1.5rem;
+  background: var(--bg-table);
+  border-radius: 0.5rem;
+  border: 2px solid var(--color-warning);
+
+  .ui--MarkWarning {
+    margin: 0;
+    font-size: var(--font-size-h3);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+`;
 
 const StyledButtonContainer = styled.div`
   grid-column: 1 / -1;

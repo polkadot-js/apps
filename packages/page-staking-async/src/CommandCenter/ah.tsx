@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom';
 
 import { CardSummary, Expander, Spinner, styled } from '@polkadot/react-components';
 import { Event as EventDisplay } from '@polkadot/react-params';
-import { formatNumber } from '@polkadot/util';
+import { formatBalance, formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
 
@@ -59,60 +59,23 @@ function AssetHubSection ({ ahApi, ahEvents, ahOutput, ahUrl, children, isRelayC
                   {ahOutput.staking.activeEra.index}
                   {ahOutput.staking.activeEra.duration && ` (${ahOutput.staking.activeEra.duration})`}
                 </CardSummary>
-                {ahOutput.staking.erasStartSessionIndex &&
-                  <CardSummary label={t('era start session')}>
-                    {ahOutput.staking.erasStartSessionIndex}
-                    {ahOutput.rcClient.eraDepth && `, Era-depth: ${ahOutput.rcClient.eraDepth} sessions`}
-                  </CardSummary>
-                }
-                {ahOutput.staking.bondedEras && ahOutput.staking.bondedEras.length > 0 && (() => {
-                  const firstEra = ahOutput.staking.bondedEras[0];
-                  const lastEra = ahOutput.staking.bondedEras[ahOutput.staking.bondedEras.length - 1];
-
-                  return (
-                    <CardSummary label={t('bonded eras')}>
-                      {`(${firstEra[0]} @ ${firstEra[1]}), (${lastEra[0]} @ ${lastEra[1]})`}
-                    </CardSummary>
-                  );
-                })()}
+                <CardSummary label={t('era start session')}>
+                  {ahOutput.staking.erasStartSessionIndex || 'None'}
+                  {ahOutput.rcClient.eraDepth && `, Era-depth: ${ahOutput.rcClient.eraDepth} sessions`}
+                </CardSummary>
+                <CardSummary label={t('bonded eras')}>
+                  {ahOutput.staking.bondedEras && ahOutput.staking.bondedEras.length > 0 ? (() => {
+                    const firstEra = ahOutput.staking.bondedEras[0];
+                    const lastEra = ahOutput.staking.bondedEras[ahOutput.staking.bondedEras.length - 1];
+                    return `[(${firstEra[0]}@${firstEra[1]}) -> (${lastEra[0]}@${lastEra[1]})]`;
+                  })() : 'None'}
+                </CardSummary>
                 <CardSummary label={t('unpruned eras')}>
                   {ahOutput.staking.unprunedEras}
                 </CardSummary>
-                {ahOutput.staking.forcing &&
-                  <CardSummary label={t('forcing')}>
-                    {ahOutput.staking.forcing}
-                  </CardSummary>
-                }
-              </div>
-            </div>
-
-            <div className='section'>
-              <h4>{t('Validators/Nominators')}</h4>
-              <div className='stats'>
-                {ahOutput.staking.validatorCount &&
-                  <CardSummary label={t('wanted validators')}>
-                    {ahOutput.staking.validatorCount}
-                  </CardSummary>
-                }
-                {ahOutput.staking.validatorCandidates &&
-                  <CardSummary label={t('validator candidates')}>
-                    {ahOutput.staking.validatorCandidates}
-                    {ahOutput.staking.maxValidatorsCount && ` (max: ${ahOutput.staking.maxValidatorsCount})`}
-                  </CardSummary>
-                }
-                {ahOutput.staking.nominatorCandidates &&
-                  <CardSummary label={t('nominator candidates')}>
-                    {ahOutput.staking.nominatorCandidates}
-                    {ahOutput.staking.maxNominatorsCount && ` (max: ${ahOutput.staking.maxNominatorsCount})`}
-                  </CardSummary>
-                }
-                {(ahOutput.staking.minNominatorBond || ahOutput.staking.minValidatorBond || ahOutput.staking.minNominatorActiveStake) &&
-                  <CardSummary label={t('min bonds')}>
-                    {ahOutput.staking.minNominatorBond && `N: ${ahOutput.staking.minNominatorBond}`}
-                    {ahOutput.staking.minValidatorBond && ` / V: ${ahOutput.staking.minValidatorBond}`}
-                    {ahOutput.staking.minNominatorActiveStake && ` / Active: ${ahOutput.staking.minNominatorActiveStake}`}
-                  </CardSummary>
-                }
+                <CardSummary label={t('forcing')}>
+                  {ahOutput.staking.forcing || 'None'}
+                </CardSummary>
               </div>
             </div>
 
@@ -137,37 +100,54 @@ function AssetHubSection ({ ahApi, ahEvents, ahOutput, ahUrl, children, isRelayC
                 <CardSummary label={t('signed submissions')}>
                   {ahOutput.multiblock.signedSubmissions}
                 </CardSummary>
-                {ahOutput.multiblock.queuedScore &&
-                  <CardSummary label={t('queued score')}>
-                    {ahOutput.multiblock.queuedScore}
-                  </CardSummary>
-                }
-                {ahOutput.multiblock.snapshotRange.length > 0 && (() => {
-                  const uniquePages = Array.from(new Set(ahOutput.multiblock.snapshotRange.map((p) => Number(p.toString())))).sort((a, b) => a - b);
-                  const [minPage, maxPage] = [uniquePages[0], uniquePages[uniquePages.length - 1]];
-
-                  return (
-                    <CardSummary label={t('snapshot range')}>
-                      {`${minPage} → ${maxPage}`}
-                    </CardSummary>
-                  );
-                })()}
+                <CardSummary label={t('queued score')}>
+                  {ahOutput.multiblock.queuedScore || 'None'}
+                </CardSummary>
+                <CardSummary label={t('snapshot range')}>
+                  {ahOutput.multiblock.snapshotRange.length > 0 ? (() => {
+                    const uniquePages = Array.from(new Set(ahOutput.multiblock.snapshotRange.map((p) => Number(p.toString())))).sort((a, b) => a - b);
+                    const [minPage, maxPage] = [uniquePages[0], uniquePages[uniquePages.length - 1]];
+                    return `${minPage} → ${maxPage}`;
+                  })() : 'None'}
+                </CardSummary>
               </div>
             </div>
 
-            {ahOutput.bagsList && (
-              <div className='section'>
-                <h4>{t('Bags List')}</h4>
-                <div className='stats'>
-                  <CardSummary label={t('all nodes')}>
-                    {ahOutput.bagsList.allNodes}
-                  </CardSummary>
-                  <CardSummary label={t('lock')}>
-                    {ahOutput.bagsList.lock}
-                  </CardSummary>
-                </div>
+            <div className='section'>
+              <h4>{t('Validators/Nominators')}</h4>
+              <div className='stats'>
+                <CardSummary label={t('wanted validators')}>
+                  {ahOutput.staking.validatorCount || 'None'}
+                </CardSummary>
+                <CardSummary label={t('validator candidates')}>
+                  {ahOutput.staking.validatorCandidates
+                    ? `${ahOutput.staking.validatorCandidates}${ahOutput.staking.maxValidatorsCount ? ` (max: ${ahOutput.staking.maxValidatorsCount})` : ''}`
+                    : 'None'}
+                </CardSummary>
+                <CardSummary label={t('nominator candidates')}>
+                  {ahOutput.staking.nominatorCandidates
+                    ? `${ahOutput.staking.nominatorCandidates}${ahOutput.staking.maxNominatorsCount ? ` (max: ${ahOutput.staking.maxNominatorsCount})` : ''}`
+                    : 'None'}
+                </CardSummary>
+                <CardSummary label={t('min bonds')}>
+                  {ahOutput.staking.minNominatorBond || ahOutput.staking.minValidatorBond || ahOutput.staking.minNominatorActiveStake
+                    ? `${ahOutput.staking.minNominatorBond ? `N: ${formatBalance(ahOutput.staking.minNominatorBond, { withSi: true, forceUnit: '-' })}` : ''}${ahOutput.staking.minValidatorBond ? ` / V: ${formatBalance(ahOutput.staking.minValidatorBond, { withSi: true, forceUnit: '-' })}` : ''}${ahOutput.staking.minNominatorActiveStake ? ` / Active: ${formatBalance(ahOutput.staking.minNominatorActiveStake, { withSi: true, forceUnit: '-' })}` : ''}`
+                    : 'None'}
+                </CardSummary>
               </div>
-            )}
+            </div>
+
+            <div className='section'>
+              <h4>{t('Bags List')}</h4>
+              <div className='stats'>
+                <CardSummary label={t('all nodes')}>
+                  {ahOutput.bagsList ? ahOutput.bagsList.allNodes : 'None'}
+                </CardSummary>
+                <CardSummary label={t('lock')}>
+                  {ahOutput.bagsList ? ahOutput.bagsList.lock : 'None'}
+                </CardSummary>
+              </div>
+            </div>
           </div>
         )}
       </StyledInfoBox>
@@ -187,9 +167,9 @@ function AssetHubSection ({ ahApi, ahEvents, ahOutput, ahUrl, children, isRelayC
               isLeft
               key={`${event.index.toString()}-${index}`}
               summary={
-                <div className='event-summary'>
-                  <span>{eventName}</span>
-                  <div className='event-meta'>
+                <>
+                  {eventName}
+                  <div className='absolute --digits'>
                     {weight && <span className='weight'>[{weight}]</span>}
                     {!isRelayChain
                       ? <Link to={`/explorer/query/${blockNumber}`}>#{formatNumber(blockNumber)}</Link>
@@ -202,7 +182,7 @@ function AssetHubSection ({ ahApi, ahEvents, ahOutput, ahUrl, children, isRelayC
                         </Link>)
                     }
                   </div>
-                </div>
+                </>
               }
               summaryMeta={event.meta}
             >
@@ -252,7 +232,7 @@ const StyledInfoBox = styled.div`
 
     .section {
       h4 {
-        font-size: var(--font-size-small);
+        font-size: var(--font-size-base);
         font-weight: 600;
         color: var(--color-text-secondary);
         text-transform: uppercase;
@@ -265,6 +245,18 @@ const StyledInfoBox = styled.div`
       display: flex;
       flex-wrap: wrap;
       gap: 1rem;
+
+      .ui--CardSummary {
+        text-align: left;
+
+        .ui--CardSummary-label {
+          font-size: var(--font-size-small);
+        }
+
+        .ui--CardSummary-content {
+          font-size: var(--font-size-base);
+        }
+      }
     }
   }
 
@@ -295,29 +287,18 @@ const StyledEventsBox = styled.div`
 
   .ui--Expander {
     margin-bottom: 0.5rem;
-  }
+    position: relative;
 
-  .event-summary {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    gap: 1rem;
-
-    .event-meta {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
+    .absolute {
+      position: absolute;
+      right: 0.5rem;
+      top: 0.72rem;
+      white-space: nowrap;
 
       .weight {
         color: var(--color-text-secondary);
         font-size: var(--font-size-small);
-      }
-
-      a {
-        color: var(--color-link);
-        font-weight: 500;
-        white-space: nowrap;
+        margin-right: 0.5rem;
       }
     }
   }
