@@ -80,7 +80,7 @@ function AssetHubSection ({ ahApi, ahEvents, ahOutput, ahUrl, children, isRelayC
             </div>
 
             <div className='section'>
-              <h4>{t('RC Client')}</h4>
+              <h4>{t('Staking RC Client')}</h4>
               <div className='stats'>
                 <CardSummary label={t('last session report')}>
                   End={ahOutput.rcClient.lastSessionReportEndIndex}, Start={ahOutput.rcClient.lastSessionIndex}
@@ -245,23 +245,19 @@ const StyledInfoBox = styled.div`
       display: flex;
       flex-wrap: wrap;
       gap: 1rem;
+    }
 
-      .ui--CardSummary {
-        text-align: left;
+    .ui--Labelled {
+      label {
+        font-size: medium !important;
+        text-align: left !important;
+      }
 
-        .ui--CardSummary-label {
-          font-size: var(--font-size-small);
-        }
-
-        .ui--CardSummary-content {
-          font-size: var(--font-size-base);
-        }
+      .ui--Labelled-content {
+        font-size: small !important;
+        text-align: left !important;
       }
     }
-  }
-
-  .ui--Labelled-content {
-    font-size: var(--font-size-h3);
   }
 `;
 

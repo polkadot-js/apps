@@ -79,7 +79,7 @@ function RelaySection ({ children, isRelayChain, rcApi, rcEvents, rcOutput, rcUr
                   {rcOutput.stakingAhClient.validatorPoints}
                 </CardSummary>
               </div>
-              <div className='info-section'>
+              <div className='stats'>
                 <CardSummary label={t('queued validator set id')}>
                   {rcOutput.stakingAhClient.hasQueuedInClient ? rcOutput.stakingAhClient.hasQueuedInClient[0] : 'None'}
                 </CardSummary>
@@ -211,51 +211,20 @@ const StyledInfoBox = styled.div`
       display: flex;
       flex-wrap: wrap;
       gap: 1rem;
-
-      .ui--CardSummary {
-        text-align: left;
-
-        .ui--CardSummary-label {
-          font-size: var(--font-size-small);
-        }
-
-        .ui--CardSummary-content {
-          font-size: var(--font-size-base);
-        }
-      }
-    }
-
-    .warning-section,
-    .info-section {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      padding: 0.5rem;
-      background: var(--bg-page);
-      border-radius: 0.25rem;
-      margin-top: 0.5rem;
-
-      .warning {
-        margin: 0;
-      }
-
-      .ui--CardSummary {
-        text-align: left;
-
-        .ui--CardSummary-label {
-          font-size: var(--font-size-small);
-        }
-
-        .ui--CardSummary-content {
-          font-size: var(--font-size-base);
-        }
-      }
     }
   }
 
-  .ui--Labelled-content {
-    font-size: var(--font-size-h3);
-  }
+  .ui--Labelled {
+      label {
+        font-size: medium !important;
+        text-align: left !important;
+      }
+
+      .ui--Labelled-content {
+        font-size: small !important;
+        text-align: left !important;
+      }
+    }
 `;
 
 const StyledEventsBox = styled.div`
