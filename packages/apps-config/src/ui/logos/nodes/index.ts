@@ -127,7 +127,6 @@ export { nodesPhykenNetworkPNG } from './generated/phyken-networkPNG.js';
 export { nodesPicassoPNG } from './generated/picassoPNG.js';
 export { nodesPichiuPNG } from './generated/pichiuPNG.js';
 export { nodesPlasmPNG } from './generated/plasmPNG.js';
-export { nodesPolimecSVG } from './generated/polimecSVG.js';
 export { nodesPolkadexSVG } from './generated/polkadexSVG.js';
 export { nodesPolkafoundrySVG } from './generated/polkafoundrySVG.js';
 export { nodesPolkasmithSVG } from './generated/polkasmithSVG.js';

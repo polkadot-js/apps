@@ -94,7 +94,7 @@ function Signer ({ children, className = '' }: Props): React.ReactElement<Props>
   const { t } = useTranslation();
   const { queueSetTxStatus, txqueue } = useQueue();
   const [isQueueSubmit, setIsQueueSubmit] = useState(false);
-  const { isStakingAsyncPage, rcApi } = useStakingAsyncApis();
+  const { isStakingAsync, rcApi } = useStakingAsyncApis();
 
   const { currentItem, isRpc, isVisible, queueSize, requestAddress } = useMemo(
     () => extractCurrent(txqueue),
@@ -107,14 +107,14 @@ function Signer ({ children, className = '' }: Props): React.ReactElement<Props>
 
   useEffect((): void => {
     if (isRpc && currentItem) {
-      const apiForCall = isStakingAsyncPage
+      const apiForCall = isStakingAsync
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         ? STAKING_RELAY_CHAIN_RPC.includes(`${currentItem?.rpc.section}.${currentItem?.rpc.method}`) ? (rcApi!) : api
         : api;
 
       sendRpc(apiForCall, queueSetTxStatus, currentItem).catch(console.error);
     }
-  }, [api, currentItem, isRpc, isStakingAsyncPage, queueSetTxStatus, rcApi]);
+  }, [api, currentItem, isRpc, isStakingAsync, queueSetTxStatus, rcApi]);
 
   const _onCancel = useCallback(
     (): void => {

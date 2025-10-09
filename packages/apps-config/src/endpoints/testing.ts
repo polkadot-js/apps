@@ -48,7 +48,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'aleph-testnet',
     providers: {
-      'Aleph Zero Foundation': 'wss://ws.test.azero.dev'
+      // 'Aleph Zero Foundation': 'wss://ws.test.azero.dev' // https://github.com/polkadot-js/apps/issues/11882
       // OnFinality: 'wss://aleph-zero.api.onfinality.io/public-ws'
     },
     text: 'Aleph Zero Testnet',
@@ -581,7 +581,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'logion',
     providers: {
-      Logion: 'wss://test-para-rpc01.logion.network'
+      // Logion: 'wss://test-para-rpc01.logion.network' // https://github.com/polkadot-js/apps/issues/11882
     },
     text: 'Logion Testnet',
     ui: {

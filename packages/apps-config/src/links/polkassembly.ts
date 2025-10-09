@@ -25,6 +25,7 @@ export const PolkassemblyIo: ExternalDef = {
     Khala: 'khala',
     Kintsugi: 'kintsugi',
     Kusama: 'kusama',
+    'Kusama Asset Hub': 'kusama',
     'Kusama CC3': 'kusama',
     'Kusama People': 'kusama',
     Parallel: 'parallel',
