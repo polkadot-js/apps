@@ -73,13 +73,17 @@ export const StakingAsyncProvider = ({ children }: PropsWithChildren) => {
     if (isRelayChain) {
       const ahUrl = ahEndPoints.at(Math.floor(Math.random() * ahEndPoints.length));
 
+      setRcApi(api);
+
       !!ahUrl && getApi(ahUrl).then(setAhApi).catch(console.error);
     } else {
       const rcUrl = rcEndPoints.at(Math.floor(Math.random() * rcEndPoints.length));
 
+      setAhApi(api);
+
       !!rcUrl && getApi(rcUrl).then(setRcApi).catch(console.error);
     }
-  }, [ahEndPoints, isRelayChain, rcEndPoints]);
+  }, [ahEndPoints, api, isRelayChain, rcEndPoints]);
 
   const state = useMemo(() => ({
     ahApi,
