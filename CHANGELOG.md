@@ -1,5 +1,25 @@
 # CHANGELOG
 
+## 0.166.1 Oct 9, 2025
+
+Contributed:
+
+- feat: remove Polimec ([#11864](https://github.com/polkadot-js/apps/pull/11864)) (Thanks to https://github.com/lrazovic)
+- Add Bulletin chain ([#11865](https://github.com/polkadot-js/apps/pull/11865)) (Thanks to https://github.com/bkontur)
+- Added one more Bulletin ([#11869](https://github.com/polkadot-js/apps/pull/11869)) (Thanks to https://github.com/bkontur)
+
+
+Changes:
+
+- Fixed Assets loading screen ([#11854](https://github.com/polkadot-js/apps/pull/11854))
+- mproved Validator DX for set_keys in staking POST AHM ([#11863](https://github.com/polkadot-js/apps/pull/11863))
+- Improve block time handling for chains with elastic scaling ([#11876](https://github.com/polkadot-js/apps/pull/11876))
+- fix: filter-out non eth accounts from eth chains ([#11877](https://github.com/polkadot-js/apps/pull/11877))
+- Disable unreachable endpoints ([#11883](https://github.com/polkadot-js/apps/pull/11883))
+- Refactor: Move Relay and Asset Hub API Connections to Context ([#11891](https://github.com/polkadot-js/apps/pull/11891))
+- Bump  @polkadot/phishing & @polkadot/extension dependencies ([#11902](https://github.com/polkadot-js/apps/pull/11902))
+
+
 ## 0.165.1 Sep 25, 2025
 
 Contributed:
