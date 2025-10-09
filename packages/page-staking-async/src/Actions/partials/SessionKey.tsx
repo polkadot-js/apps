@@ -26,20 +26,20 @@ const EMPTY_PROOF = new Uint8Array();
 function SessionKey ({ className = '', controllerId, onChange, stashId, withFocus, withSenders }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const { isStakingAsyncPage, rcApi } = useStakingAsyncApis();
+  const { isStakingAsync, rcApi } = useStakingAsyncApis();
   const [keys, setKeys] = useState<string | null>(null);
 
   useEffect((): void => {
     try {
       onChange({
         sessionTx: isHex(keys)
-          ? (isStakingAsyncPage ? rcApi : api)?.tx.session.setKeys(keys, EMPTY_PROOF)
+          ? (isStakingAsync ? rcApi : api)?.tx.session.setKeys(keys, EMPTY_PROOF)
           : null
       });
     } catch {
       onChange({ sessionTx: null });
     }
-  }, [api, isStakingAsyncPage, keys, onChange, rcApi]);
+  }, [api, isStakingAsync, keys, onChange, rcApi]);
 
   return (
     <div className={className}>
