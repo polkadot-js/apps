@@ -3,8 +3,7 @@
 
 import type { ReactNode } from 'react';
 import type { ApiPromise } from '@polkadot/api';
-import type { Event } from '@polkadot/types/interfaces';
-import type { IRcOutput } from './index.js';
+import type { EnhancedEvent, IRcOutput } from './index.js';
 
 import React from 'react';
 import { Link } from 'react-router-dom';
@@ -19,7 +18,7 @@ interface Props {
   children: ReactNode;
   rcApi?: ApiPromise;
   rcOutput?: IRcOutput;
-  rcEvents: Event[];
+  rcEvents: EnhancedEvent[];
   rcUrl: string;
   isRelayChain: boolean
 }
@@ -141,14 +140,29 @@ function RelaySection ({ children, isRelayChain, rcApi, rcEvents, rcOutput, rcUr
             {t('No relevant events in recent blocks')}
           </div>
         )}
-        {rcEvents.map((event, index) => {
+        {rcEvents.map((enhancedEvent, index) => {
+          const { blockNumber, event } = enhancedEvent;
           const eventName = `${event.section}.${event.method}`;
 
           return (
             <Expander
               isLeft
               key={`${event.index.toString()}-${index}`}
-              summary={eventName}
+              summary={
+                <div className='event-summary'>
+                  <span>{eventName}</span>
+                  {isRelayChain
+                    ? <Link to={`/explorer/query/${blockNumber}`}>#{formatNumber(blockNumber)}</Link>
+                    : (
+                      <Link
+                        target='_blank'
+                        to={`${window.location.origin}/?rpc=${rcUrl}#/explorer/query/${blockNumber}`}
+                      >
+                        #{formatNumber(blockNumber)}
+                      </Link>)
+                  }
+                </div>
+              }
               summaryMeta={event.meta}
             >
               <EventDisplay
@@ -254,6 +268,20 @@ const StyledEventsBox = styled.div`
 
   .ui--Expander {
     margin-bottom: 0.5rem;
+  }
+
+  .event-summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    gap: 1rem;
+
+    a {
+      color: var(--color-link);
+      font-weight: 500;
+      white-space: nowrap;
+    }
   }
 `;
 

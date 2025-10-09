@@ -2,18 +2,26 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
-import type { AccountId32, Event } from '@polkadot/types/interfaces';
+import type { AccountId32, Event, Hash } from '@polkadot/types/interfaces';
 import type { IEventData, ITuple } from '@polkadot/types/types';
 import type { u32, Vec } from '@polkadot/types-codec';
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
-import { Dropdown, styled } from '@polkadot/react-components';
+import { Button, Dropdown, styled } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { getApi } from '@polkadot/react-hooks/useStakingAsyncApis';
 
 import AssetHubSection from './ah.js';
 import RelaySection from './relay.js';
+
+// Enhanced event type with metadata
+export interface EnhancedEvent {
+  event: Event;
+  blockNumber: number;
+  blockHash: string;
+  weight?: string;
+}
 
 export interface IRcOutput {
   finalizedBlock: number,
@@ -75,13 +83,39 @@ export interface IAhOutput {
   }
 }
 
+// Filter functions for relevant events
+const filterRcEvents = (e: IEventData): boolean => {
+  const ahClientEvents = (e: IEventData) =>
+    e.section === 'stakingAhClient';
+  const sessionEvents = (e: IEventData) =>
+    e.section === 'session' || e.section === 'historical';
+
+  return ahClientEvents(e) || sessionEvents(e);
+};
+
+const filterAhEvents = (e: IEventData): boolean => {
+  const election = (e: IEventData) =>
+    e.section === 'multiBlockElection' ||
+    e.section === 'multiBlockElectionVerifier' ||
+    e.section === 'multiBlockElectionSigned' ||
+    e.section === 'multiBlockElectionUnsigned';
+  const rcClient = (e: IEventData) => e.section === 'stakingRcClient';
+  const staking = (e: IEventData) =>
+    e.section === 'staking' &&
+    (e.method === 'EraPaid' ||
+      e.method === 'SessionRotated' ||
+      e.method === 'PagedElectionProceeded');
+
+  return election(e) || rcClient(e) || staking(e);
+};
+
 const commandCenterHandler = async (
   rcApi: ApiPromise,
   ahApi: ApiPromise,
   setRcOutput: React.Dispatch<React.SetStateAction<IRcOutput | undefined>>,
   setAhOutput: React.Dispatch<React.SetStateAction<IAhOutput | undefined>>,
-  setRcEvents: React.Dispatch<React.SetStateAction<Event[]>>,
-  setAhEvents: React.Dispatch<React.SetStateAction<Event[]>>
+  setRcEvents: React.Dispatch<React.SetStateAction<EnhancedEvent[]>>,
+  setAhEvents: React.Dispatch<React.SetStateAction<EnhancedEvent[]>>
 ): Promise<void> => {
   await rcApi.rpc.chain.subscribeFinalizedHeads(async (header) => {
     // --- RC:
@@ -116,7 +150,9 @@ const commandCenterHandler = async (
       const configuration = await rcApi.query.configuration.activeConfig();
 
       parachainConfig = {
+        // @ts-ignore
         maxDownwardMessageSize: configuration.maxDownwardMessageSize?.toNumber() || 0,
+        // @ts-ignore
         maxUpwardMessageSize: configuration.maxUpwardMessageSize?.toNumber() || 0
       };
     } catch {
@@ -126,14 +162,14 @@ const commandCenterHandler = async (
     // Events that we are interested in from RC:
     const eventsOfInterest = (await (await rcApi.at(header.hash.toHex())).query.system.events())
       .map((e) => e.event)
-      .filter((e) => {
-        const ahClientEvents = (e: IEventData) =>
-          e.section === 'stakingAhClient';
-        const sessionEvents = (e: IEventData) =>
-          e.section === 'session' || e.section === 'historical';
+      .filter((e) => filterRcEvents(e.data));
 
-        return ahClientEvents(e.data) || sessionEvents(e.data);
-      });
+    // Wrap events with metadata
+    const enhancedEvents: EnhancedEvent[] = eventsOfInterest.map((event) => ({
+      blockHash: header.hash.toString(),
+      blockNumber: header.number.toNumber(),
+      event
+    }));
 
     setRcOutput({
       finalizedBlock: header.number.toNumber(),
@@ -164,8 +200,8 @@ const commandCenterHandler = async (
       parachainConfig
     });
 
-    if (eventsOfInterest.length > 0) {
-      setRcEvents(eventsOfInterest);
+    if (enhancedEvents.length > 0) {
+      setRcEvents(enhancedEvents);
     }
   });
 
@@ -243,13 +279,31 @@ const commandCenterHandler = async (
     // Events that we are interested in from AH:
     const eventsOfInterest = (await (await ahApi.at(header.hash.toHex())).query.system.events())
       .map((e) => e.event)
-      .filter((e) => {
-        const election = (e: IEventData) => e.section === 'multiBlockElection' || e.section === 'multiBlockElectionVerifier' || e.section === 'multiBlockElectionSigned' || e.section === 'multiBlockElectionUnsigned';
-        const rcClient = (e: IEventData) => e.section === 'stakingRcClient';
-        const staking = (e: IEventData) => e.section === 'staking' && (e.method === 'EraPaid' || e.method === 'SessionRotated' || e.method === 'PagedElectionProceeded');
+      .filter((e) => filterAhEvents(e.data));
 
-        return election(e.data) || rcClient(e.data) || staking(e.data);
-      });
+    // Get block weight
+    const weight = await ahApi.query.system.blockWeight.at(header.hash);
+    const formatWeight = (w: any) => {
+      const normalRef = w.normal?.refTime?.toBigInt() || 0n;
+      const operationalRef = w.operational?.refTime?.toBigInt() || 0n;
+      const mandatoryRef = w.mandatory?.refTime?.toBigInt() || 0n;
+      const totalRef = normalRef + operationalRef + mandatoryRef;
+
+      const normalProof = w.normal?.proofSize?.toBigInt() || 0n;
+      const operationalProof = w.operational?.proofSize?.toBigInt() || 0n;
+      const mandatoryProof = w.mandatory?.proofSize?.toBigInt() || 0n;
+      const totalProof = normalProof + operationalProof + mandatoryProof;
+
+      return `${(Number(totalRef) / 1_000_000_000_000).toFixed(2)}s / ${(Number(totalProof) / 1024).toFixed(0)}KB`;
+    };
+
+    // Wrap events with metadata including weight
+    const enhancedEvents: EnhancedEvent[] = eventsOfInterest.map((event) => ({
+      blockHash: header.hash.toString(),
+      blockNumber: header.number.toNumber(),
+      event,
+      weight: formatWeight(weight)
+    }));
 
     const parsedQueuedScore = ahApi.createType('Option<SpNposElectionsElectionScore>', queuedScore);
 
@@ -293,8 +347,8 @@ const commandCenterHandler = async (
       bagsList
     });
 
-    if (eventsOfInterest.length > 0) {
-      setAhEvents(eventsOfInterest);
+    if (enhancedEvents.length > 0) {
+      setAhEvents(enhancedEvents);
     }
   });
 };
@@ -312,8 +366,8 @@ function CommandCenter ({ ahApi: initialAhApi, ahEndPoints, isRelayChain, rcApi:
 
   const [rcOutput, setRcOutput] = useState<IRcOutput | undefined>(undefined);
   const [ahOutput, setAhOutput] = useState<IAhOutput | undefined>(undefined);
-  const [rcEvents, setRcEvents] = useState<Event[]>([]);
-  const [ahEvents, setAhEvents] = useState<Event[]>([]);
+  const [rcEvents, setRcEvents] = useState<EnhancedEvent[]>([]);
+  const [ahEvents, setAhEvents] = useState<EnhancedEvent[]>([]);
 
   const [rcUrl, setRcUrl] = useState<string|undefined>(undefined);
   const [ahUrl, setAhUrl] = useState<string|undefined>(undefined);
@@ -321,8 +375,172 @@ function CommandCenter ({ ahApi: initialAhApi, ahEndPoints, isRelayChain, rcApi:
   const [ahApi, setAhApi] = useState<ApiPromise|undefined>(initialAhApi);
   const [rcApi, setRcApi] = useState<ApiPromise|undefined>(initialRcApi);
 
+  const [isLoadingHistory, setIsLoadingHistory] = useState(false);
+  const [rcLowestBlock, setRcLowestBlock] = useState<number | null>(null);
+  const [ahLowestBlock, setAhLowestBlock] = useState<number | null>(null);
+  const [loadingProgress, setLoadingProgress] = useState<{ rc: number; ah: number } | null>(null);
+
   const rcEndPointOptions = useRef(rcEndPoints.map((e) => ({ text: e, value: e })));
   const ahEndPointOptions = useRef(ahEndPoints.map((e) => ({ text: e, value: e })));
+
+  // Load historical events from RC
+  const loadRcHistoricalEvents = useCallback(async (blocksToLoad: number) => {
+    if (!rcApi) return;
+
+    let currentBlockHash: Hash;
+
+    if (rcLowestBlock === null) {
+      const finalizedHead = await rcApi.rpc.chain.getFinalizedHead();
+      currentBlockHash = finalizedHead;
+    } else if (rcLowestBlock === 0) {
+      return;
+    } else {
+      currentBlockHash = await rcApi.rpc.chain.getBlockHash(rcLowestBlock);
+    }
+
+    let blocksProcessed = 0;
+
+    while (blocksProcessed < blocksToLoad) {
+      try {
+        const block = await rcApi.rpc.chain.getBlock(currentBlockHash);
+        const blockNumber = block.block.header.number.toNumber();
+
+        if (blockNumber === 0) {
+          setRcLowestBlock(0);
+          break;
+        }
+
+        const events = await rcApi.query.system.events.at(currentBlockHash);
+        const relevantEvents = events
+          .map((e) => e.event)
+          .filter((e) => filterRcEvents(e.data));
+
+        if (relevantEvents.length > 0) {
+          const enhancedEvents: EnhancedEvent[] = relevantEvents.map((event) => ({
+            blockHash: currentBlockHash.toString(),
+            blockNumber,
+            event
+          }));
+
+          setRcEvents((prev) => {
+            // Insert new events and sort by block number (highest first)
+            const combined = [...prev, ...enhancedEvents];
+            return combined.sort((a, b) => b.blockNumber - a.blockNumber);
+          });
+        }
+
+        setRcLowestBlock(blockNumber - 1);
+        currentBlockHash = block.block.header.parentHash;
+        blocksProcessed++;
+
+        // Update progress
+        const remaining = blocksToLoad - blocksProcessed;
+        setLoadingProgress((prev) => ({ rc: remaining, ah: prev?.ah ?? 0 }));
+      } catch (error) {
+        console.error(`RC: Error at block ${currentBlockHash}:`, error);
+        break;
+      }
+    }
+  }, [rcApi, rcLowestBlock]);
+
+  // Load historical events from AH
+  const loadAhHistoricalEvents = useCallback(async (blocksToLoad: number) => {
+    if (!ahApi) return;
+
+    let currentBlockHash: Hash;
+
+    if (ahLowestBlock === null) {
+      const finalizedHead = await ahApi.rpc.chain.getFinalizedHead();
+      currentBlockHash = finalizedHead;
+    } else if (ahLowestBlock === 0) {
+      return;
+    } else {
+      currentBlockHash = await ahApi.rpc.chain.getBlockHash(ahLowestBlock);
+    }
+
+    let blocksProcessed = 0;
+
+    while (blocksProcessed < blocksToLoad) {
+      try {
+        const block = await ahApi.rpc.chain.getBlock(currentBlockHash);
+        const blockNumber = block.block.header.number.toNumber();
+
+        if (blockNumber === 0) {
+          setAhLowestBlock(0);
+          break;
+        }
+
+        const events = await ahApi.query.system.events.at(currentBlockHash);
+        const relevantEvents = events
+          .map((e) => e.event)
+          .filter((e) => filterAhEvents(e.data));
+
+        if (relevantEvents.length > 0) {
+          // Get block weight
+          const weight = await ahApi.query.system.blockWeight.at(currentBlockHash);
+          const formatWeight = (w: any) => {
+            const normalRef = w.normal?.refTime?.toBigInt() || 0n;
+            const operationalRef = w.operational?.refTime?.toBigInt() || 0n;
+            const mandatoryRef = w.mandatory?.refTime?.toBigInt() || 0n;
+            const totalRef = normalRef + operationalRef + mandatoryRef;
+
+            const normalProof = w.normal?.proofSize?.toBigInt() || 0n;
+            const operationalProof = w.operational?.proofSize?.toBigInt() || 0n;
+            const mandatoryProof = w.mandatory?.proofSize?.toBigInt() || 0n;
+            const totalProof = normalProof + operationalProof + mandatoryProof;
+
+            return `${(Number(totalRef) / 1_000_000_000_000).toFixed(2)}s / ${(Number(totalProof) / 1024).toFixed(0)}KB`;
+          };
+
+          const enhancedEvents: EnhancedEvent[] = relevantEvents.map((event) => ({
+            blockHash: currentBlockHash.toString(),
+            blockNumber,
+            event,
+            weight: formatWeight(weight)
+          }));
+
+          setAhEvents((prev) => {
+            // Insert new events and sort by block number (highest first)
+            const combined = [...prev, ...enhancedEvents];
+            return combined.sort((a, b) => b.blockNumber - a.blockNumber);
+          });
+        }
+
+        setAhLowestBlock(blockNumber - 1);
+        currentBlockHash = block.block.header.parentHash;
+        blocksProcessed++;
+
+        // Update progress
+        const remaining = blocksToLoad - blocksProcessed;
+        setLoadingProgress((prev) => ({ rc: prev?.rc ?? 0, ah: remaining }));
+      } catch (error) {
+        console.error(`AH: Error at block ${currentBlockHash}:`, error);
+        break;
+      }
+    }
+  }, [ahApi, ahLowestBlock]);
+
+  // Load historical events (600 blocks at a time)
+  const _loadHistoricalEvents = useCallback(async () => {
+    if (isLoadingHistory || (!rcApi && !ahApi)) return;
+
+    setIsLoadingHistory(true);
+    setLoadingProgress({ rc: 600, ah: 600 });
+
+    try {
+      await Promise.all([
+        loadRcHistoricalEvents(600),
+        loadAhHistoricalEvents(600)
+      ]);
+
+      console.log('Historical events loaded');
+    } catch (error) {
+      console.error('Error loading historical events:', error);
+    } finally {
+      setIsLoadingHistory(false);
+      setLoadingProgress(null);
+    }
+  }, [isLoadingHistory, rcApi, ahApi, loadRcHistoricalEvents, loadAhHistoricalEvents]);
 
   const _onSelectAhUrl = useCallback((newAhUrl: string) => {
     if (newAhUrl !== ahUrl) {
@@ -379,8 +597,35 @@ function CommandCenter ({ ahApi: initialAhApi, ahEndPoints, isRelayChain, rcApi:
     ahApi && rcApi && commandCenterHandler(rcApi, ahApi, setRcOutput, setAhOutput, setRcEvents, setAhEvents).catch(console.log);
   }, [ahApi, rcApi]);
 
+  // Auto-load 600 blocks on page load
+  useEffect(() => {
+    if (ahApi && rcApi && rcLowestBlock === null && ahLowestBlock === null) {
+      _loadHistoricalEvents().catch(console.error);
+    }
+  }, [ahApi, rcApi, rcLowestBlock, ahLowestBlock, _loadHistoricalEvents]);
+
   return (
     <StyledDiv>
+      <StyledButtonContainer>
+        <Button
+          icon='history'
+          isDisabled={isLoadingHistory || (!rcApi && !ahApi)}
+          label='Load 600 Blocks History'
+          onClick={_loadHistoricalEvents}
+        />
+        {loadingProgress && (
+          <div className='history-info progress'>
+            Loading historical events... RC: {loadingProgress.rc} blocks left | AH: {loadingProgress.ah} blocks left
+          </div>
+        )}
+        {!loadingProgress && (rcLowestBlock !== null || ahLowestBlock !== null) && (
+          <div className='history-info'>
+            {rcLowestBlock !== null && `RC: Indexed to Block #${rcLowestBlock}`}
+            {rcLowestBlock !== null && ahLowestBlock !== null && ' | '}
+            {ahLowestBlock !== null && `AH: Indexed to Block #${ahLowestBlock}`}
+          </div>
+        )}
+      </StyledButtonContainer>
       <RelaySection
         isRelayChain={!!isRelayChain}
         rcApi={rcApi}
@@ -414,6 +659,26 @@ function CommandCenter ({ ahApi: initialAhApi, ahEndPoints, isRelayChain, rcApi:
     </StyledDiv>
   );
 }
+
+const StyledButtonContainer = styled.div`
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: var(--bg-table);
+  border-radius: 0.5rem;
+
+  .history-info {
+    font-size: var(--font-size-small);
+    color: var(--color-text-secondary);
+
+    &.progress {
+      color: var(--color-text);
+      font-weight: 500;
+    }
+  }
+`;
 
 const StyledDiv = styled.div`
   display: grid;

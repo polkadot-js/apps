@@ -3,8 +3,7 @@
 
 import type { ReactNode } from 'react';
 import type { ApiPromise } from '@polkadot/api';
-import type { Event } from '@polkadot/types/interfaces';
-import type { IAhOutput } from './index.js';
+import type { EnhancedEvent, IAhOutput } from './index.js';
 
 import React from 'react';
 import { Link } from 'react-router-dom';
@@ -19,7 +18,7 @@ interface Props {
   children: ReactNode;
   ahApi?: ApiPromise;
   ahOutput?: IAhOutput;
-  ahEvents: Event[];
+  ahEvents: EnhancedEvent[];
   ahUrl: string;
   isRelayChain: boolean
 }
@@ -179,14 +178,32 @@ function AssetHubSection ({ ahApi, ahEvents, ahOutput, ahUrl, children, isRelayC
             {t('No relevant events in recent blocks')}
           </div>
         )}
-        {ahEvents.map((event, index) => {
+        {ahEvents.map((enhancedEvent, index) => {
+          const { blockNumber, event, weight } = enhancedEvent;
           const eventName = `${event.section}.${event.method}`;
 
           return (
             <Expander
               isLeft
               key={`${event.index.toString()}-${index}`}
-              summary={eventName}
+              summary={
+                <div className='event-summary'>
+                  <span>{eventName}</span>
+                  <div className='event-meta'>
+                    {weight && <span className='weight'>[{weight}]</span>}
+                    {!isRelayChain
+                      ? <Link to={`/explorer/query/${blockNumber}`}>#{formatNumber(blockNumber)}</Link>
+                      : (
+                        <Link
+                          target='_blank'
+                          to={`${window.location.origin}/?rpc=${ahUrl}#/explorer/query/${blockNumber}`}
+                        >
+                          #{formatNumber(blockNumber)}
+                        </Link>)
+                    }
+                  </div>
+                </div>
+              }
               summaryMeta={event.meta}
             >
               <EventDisplay
@@ -278,6 +295,31 @@ const StyledEventsBox = styled.div`
 
   .ui--Expander {
     margin-bottom: 0.5rem;
+  }
+
+  .event-summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    gap: 1rem;
+
+    .event-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+
+      .weight {
+        color: var(--color-text-secondary);
+        font-size: var(--font-size-small);
+      }
+
+      a {
+        color: var(--color-link);
+        font-weight: 500;
+        white-space: nowrap;
+      }
+    }
   }
 `;
 
