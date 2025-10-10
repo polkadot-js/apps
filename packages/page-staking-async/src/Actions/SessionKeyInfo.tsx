@@ -18,7 +18,7 @@ function SessionKeyInfo ({ children, className = '', withIcon = true }: Props): 
       The <strong>session pallet</strong> in Asset Hub is specifically for <strong>collator selection</strong>. You can no longer set session keys <strong> for your relay chain validators </strong> here.
       <br />
       <br />
-      <p>To manage your session keys, please navigate to the Relay Chain, set your session keys there, and then return here to continue with your staking actions.</p>
+      <p>As a validator, to manage your relay session keys, please navigate to the Relay Chain, set your session keys there, and then return here to continue with your staking actions.</p>
       {children}
     </StyledArticle>
 
