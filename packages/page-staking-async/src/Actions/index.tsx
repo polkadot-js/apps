@@ -11,7 +11,7 @@ import React, { useMemo, useRef, useState } from 'react';
 
 import ElectionBanner from '@polkadot/app-staking/ElectionBanner';
 import { Button, ToggleGroup } from '@polkadot/react-components';
-import { useApi, useAvailableSlashes } from '@polkadot/react-hooks';
+import { useAvailableSlashes, useStakingAsyncApis } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { BN, BN_ZERO } from '@polkadot/util';
 
@@ -117,8 +117,8 @@ function formatTotal (stashTypeIndex: number, state: State): React.ReactNode {
 
 function Actions ({ className = '', isInElection, minCommission, ownPools, ownStashes, targets }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { api } = useApi();
-  const allSlashes = useAvailableSlashes();
+  const { ahApi, isRelayChain } = useStakingAsyncApis();
+  const allSlashes = useAvailableSlashes(ahApi);
   const [accTypeIndex, setAccTypeIndex] = useState(0);
   const [stashTypeIndex, setStashTypeIndex] = useState(0);
 
@@ -141,7 +141,7 @@ function Actions ({ className = '', isInElection, minCommission, ownPools, ownSt
 
   const [filtered, footer] = useMemo(
     () => [
-      state.foundStashes && filterStashes(stashTypeIndex, state.foundStashes),
+      ahApi && state.foundStashes && filterStashes(stashTypeIndex, state.foundStashes),
       (
         <tr key='footer'>
           <td colSpan={4} />
@@ -150,13 +150,13 @@ function Actions ({ className = '', isInElection, minCommission, ownPools, ownSt
         </tr>
       )
     ],
-    [state, stashTypeIndex]
+    [ahApi, state, stashTypeIndex]
   );
 
   return (
     <div className={className}>
       <Button.Group>
-        {api.consts.nominationPools && (
+        {ahApi?.consts.nominationPools && !isRelayChain && (
           <ToggleGroup
             onChange={setAccTypeIndex}
             options={accTypes.current}
@@ -170,16 +170,20 @@ function Actions ({ className = '', isInElection, minCommission, ownPools, ownSt
               options={stashTypes.current}
               value={stashTypeIndex}
             />
-            <NewNominator
-              isInElection={isInElection}
-              targets={targets}
-            />
-            <NewValidator
-              isInElection={isInElection}
-              minCommission={minCommission}
-              targets={targets}
-            />
-            <NewStash />
+            {!isRelayChain &&
+              <>
+                <NewNominator
+                  isInElection={isInElection}
+                  targets={targets}
+                />
+                <NewValidator
+                  isInElection={isInElection}
+                  minCommission={minCommission}
+                  targets={targets}
+                />
+                <NewStash />
+              </>
+            }
           </>
         )}
       </Button.Group>

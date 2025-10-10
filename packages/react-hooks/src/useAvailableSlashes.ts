@@ -1,12 +1,13 @@
 // Copyright 2017-2025 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiPromise } from '@polkadot/api';
 import type { DeriveSessionIndexes } from '@polkadot/api-derive/types';
 import type { Option } from '@polkadot/types';
 import type { EraIndex } from '@polkadot/types/interfaces';
 import type { PalletStakingUnappliedSlash } from '@polkadot/types/lookup';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { BN, BN_HUNDRED, BN_ONE, BN_ZERO } from '@polkadot/util';
 
@@ -17,8 +18,9 @@ import { useIsMountedRef } from './useIsMountedRef.js';
 
 type Unsub = () => void;
 
-function useAvailableSlashesImpl (): [BN, PalletStakingUnappliedSlash[]][] {
-  const { api } = useApi();
+function useAvailableSlashesImpl (apiOverride?: ApiPromise): [BN, PalletStakingUnappliedSlash[]][] {
+  const { api: connectedApi } = useApi();
+  const api = useMemo(() => apiOverride ?? connectedApi, [apiOverride, connectedApi]);
   const indexes = useCall<DeriveSessionIndexes>(api.derive.session?.indexes);
   const earliestSlash = useCall<Option<EraIndex>>(api.query.staking?.earliestUnappliedSlash);
   const mountedRef = useIsMountedRef();
