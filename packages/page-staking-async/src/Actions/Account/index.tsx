@@ -256,6 +256,7 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
                 <Button.Group>
                   {(!sessionIds.length || hexSessionIdNext === '0x')
                     ? (
+                      isRelayChain &&
                       <Button
                         icon='sign-in-alt'
                         isDisabled={!isOwnController || isDisabled}
@@ -264,7 +265,8 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
                         onClick={toggleSetSession}
                       />
                     )
-                    : (!isRelayChain &&
+                    : (
+                      !isRelayChain &&
                      <Button
                        icon='certificate'
                        isDisabled={!isOwnController || isDisabled || !hasBonded}
@@ -361,24 +363,11 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
                         </>
                       )}
                       <Menu.Divider />
-                      {!isStashNominating && (
-                        <Menu.Item
-                          isDisabled={!isOwnController}
-                          label={t('Change session keys')}
-                          onClick={toggleSetSession}
-                        />
-                      )}
                       {isStashNominating && (
                         <Menu.Item
                           isDisabled={!isOwnController || !targets.validators?.length}
                           label={t('Set nominees')}
                           onClick={toggleNominate}
-                        />
-                      )}
-                      {!isStashNominating && (
-                        <Menu.Item
-                          label={t('Inject session keys (advanced)')}
-                          onClick={toggleInject}
                         />
                       )}
                     </Menu>
