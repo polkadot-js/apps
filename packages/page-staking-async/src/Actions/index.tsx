@@ -21,6 +21,7 @@ import NewNominator from './NewNominator.js';
 import NewStash from './NewStash.js';
 import NewValidator from './NewValidator.js';
 import Pools from './Pools.js';
+import SessionKeyInfo from './SessionKeyInfo.js';
 
 interface Props {
   className?: string;
@@ -155,6 +156,7 @@ function Actions ({ className = '', isInElection, minCommission, ownPools, ownSt
 
   return (
     <div className={className}>
+      {!isRelayChain && <SessionKeyInfo />}
       <Button.Group>
         {ahApi?.consts.nominationPools && !isRelayChain && (
           <ToggleGroup
