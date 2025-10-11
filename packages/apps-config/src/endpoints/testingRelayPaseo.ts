@@ -550,9 +550,9 @@ export const testRelayPaseo: EndpointOption = {
   isPeopleForIdentity: true,
   isRelay: true,
   linked: [
-    ...testParasPaseoCommon,
-    ...testParasPaseo
-  ],
+    ...testParasPaseo,
+    ...testParasPaseoCommon
+  ].sort((a, b) => a.text.localeCompare(b.text)),
   providers: {
     Amforc: 'wss://paseo.rpc.amforc.com',
     Dwellir: 'wss://paseo-rpc.n.dwellir.com',
