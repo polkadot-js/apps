@@ -9,7 +9,7 @@ import type { EraIndex, Exposure, Nominations, UnappliedSlash } from '@polkadot/
 
 import { useEffect, useState } from 'react';
 
-import { createNamedHook, useApi, useCall, useIsMountedRef } from '@polkadot/react-hooks';
+import { createNamedHook, useCall, useIsMountedRef, useStakingAsyncApis } from '@polkadot/react-hooks';
 import { BN } from '@polkadot/util';
 
 /**
@@ -36,7 +36,7 @@ interface NominationInfo {
 }
 
 interface ExtractStateParams {
-  api: ApiPromise;
+  api?: ApiPromise;
   stashId: string;
   unappliedSlashes: string[];
   nominationsInfo: NominationInfo[];
@@ -56,7 +56,7 @@ function extractState (params: ExtractStateParams): Inactives {
   const { activeEra, activeValidators, api, nominationsInfo, stashId, submittedIn, unappliedSlashes } = params;
 
   // The maximum number of nominators that can be rewarded for a single validator.
-  const max = api.consts.staking?.maxNominatorRewardedPerValidator as u32 || new BN(512);
+  const max = api?.consts.staking?.maxNominatorRewardedPerValidator as u32 || new BN(512);
 
   const atRiskSet = new Set(unappliedSlashes);
 
@@ -121,7 +121,7 @@ function extractState (params: ExtractStateParams): Inactives {
 }
 
 function useInactivesImpl (stashId: string, nominees?: string[]): Inactives {
-  const { api } = useApi();
+  const { ahApi: api } = useStakingAsyncApis();
   const mountedRef = useIsMountedRef();
   const [state, setState] = useState<Inactives>({});
 
@@ -131,11 +131,11 @@ function useInactivesImpl (stashId: string, nominees?: string[]): Inactives {
   // A list of the user's nominees who have pending slashes.
   const [unappliedSlashes, setUnappliedSlashes] = useState<string[]>([]);
 
-  const indexes = useCall<DeriveSessionIndexes>(api.derive.session?.indexes);
+  const indexes = useCall<DeriveSessionIndexes>(api?.derive.session?.indexes);
 
   // Fetches the current version of the staking pallet.
-  const version = useCall<u16>(api.query.staking.palletVersion)?.toNumber();
-  const eraExposure = useCall<DeriveEraExposure>(indexes && api.derive.staking.eraExposure, [indexes?.activeEra]);
+  const version = useCall<u16>(api?.query.staking.palletVersion)?.toNumber();
+  const eraExposure = useCall<DeriveEraExposure>(indexes && api?.derive.staking.eraExposure, [indexes?.activeEra]);
 
   /**
    * @description Effect for fetching primary chain data.
@@ -145,10 +145,10 @@ function useInactivesImpl (stashId: string, nominees?: string[]): Inactives {
     let unsub: (() => void) | undefined;
 
     if (mountedRef.current && nominees?.length && stashId && indexes) {
-      api.queryMulti<[Option<Nominations>, Option<Vec<UnappliedSlash>>]>(
+      api?.queryMulti<[Option<Nominations>, Option<Vec<UnappliedSlash>>]>(
         [
-          [api.query.staking.nominators, stashId] as QueryableStorageMultiArg<'promise'>,
-          [api.query.staking.unappliedSlashes, [indexes.activeEra, null]]
+          [api?.query.staking.nominators, stashId] as QueryableStorageMultiArg<'promise'>,
+          [api?.query.staking.unappliedSlashes, [indexes.activeEra, null]]
         ],
         ([optNominators, eraSlashes]) => {
           if (optNominators.isSome) {

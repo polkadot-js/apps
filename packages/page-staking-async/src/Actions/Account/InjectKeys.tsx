@@ -87,9 +87,6 @@ function InjectKeys ({ onClose }: Props): React.ReactElement<Props> | null {
       size='large'
     >
       <Modal.Content>
-        <Modal.Columns>
-          <MarkWarning content={t('This operation will be performed on the relay chain.')} />
-        </Modal.Columns>
         <Modal.Columns hint={t('The seed and derivation path will be submitted to the validator node. this is an advanced operation, only to be performed when you are sure of the security and connection risks.')}>
           <Input
             autoFocus

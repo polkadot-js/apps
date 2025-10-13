@@ -6,16 +6,16 @@ import type { BN } from '@polkadot/util';
 
 import { useMemo } from 'react';
 
-import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
-import { BN_ONE } from '@polkadot/util';
+import { createNamedHook, useCall, useStakingAsyncApis } from '@polkadot/react-hooks';
+import { BN_ONE, BN_ZERO } from '@polkadot/util';
 
 function useUnbondDurationImpl (): BN | undefined {
-  const { api } = useApi();
-  const sessionInfo = useCall<DeriveSessionInfo>(api.derive.session.info);
+  const { ahApi: api } = useStakingAsyncApis();
+  const sessionInfo = useCall<DeriveSessionInfo>(api?.derive.session.info);
 
   return useMemo(
     () => (sessionInfo && sessionInfo.sessionLength.gt(BN_ONE))
-      ? sessionInfo.eraLength.mul(api.consts.staking.bondingDuration)
+      ? sessionInfo.eraLength.mul(api?.consts.staking.bondingDuration ?? BN_ZERO)
       : undefined,
     [api, sessionInfo]
   );
