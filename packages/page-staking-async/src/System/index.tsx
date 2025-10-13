@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
-import type { DeriveStakingOverview } from '@polkadot/api-derive/types';
+import type { DeriveStakingOverview, DeriveStakingValidators } from '@polkadot/api-derive/types';
 import type { AppProps } from '@polkadot/react-components/types';
 import type { ElectionStatus, ParaValidatorIndex, ValidatorId } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
@@ -71,7 +71,17 @@ function StakingApp ({ ahApi, ahEndPoints, basePath, isRelayChain, rcApi, rcEndP
   ], OPT_MULTI);
   const nominatedBy = useNominations(loadNominations);
   const ownPools = useOwnPools();
-  const stakingOverview = useCall<DeriveStakingOverview>(rcApi?.derive.staking.overview);
+  const ahStakingOverview = useCall<DeriveStakingOverview>(api?.derive.staking.overview);
+  const validatorsInfo = useCall<DeriveStakingValidators>(rcApi?.derive.staking.validators);
+
+  const stakingOverview = useMemo(() => (
+    !!ahStakingOverview && !!validatorsInfo
+      ? {
+        ...ahStakingOverview,
+        ...validatorsInfo
+      }
+      : undefined
+  ), [ahStakingOverview, validatorsInfo]);
 
   const toggleNominatedBy = useCallback(
     () => setLoadNominations(true),
@@ -201,7 +211,6 @@ function StakingApp ({ ahApi, ahEndPoints, basePath, isRelayChain, rcApi, rcEndP
                 isInElection={isInElection}
                 nominatedBy={nominatedBy}
                 ownStashes={ownStashes}
-                stakingOverview={stakingOverview}
                 targets={targets}
                 toggleFavorite={toggleFavorite}
                 toggleLedger={toggleLedger}

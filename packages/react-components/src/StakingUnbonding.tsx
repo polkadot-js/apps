@@ -5,7 +5,7 @@ import type { DeriveSessionProgress, DeriveStakingAccount } from '@polkadot/api-
 
 import React, { useMemo } from 'react';
 
-import { useApi, useCall } from '@polkadot/react-hooks';
+import { useApi, useCall, useStakingAsyncApis } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { BN, BN_ONE, BN_ZERO, formatBalance, formatNumber } from '@polkadot/util';
 
@@ -66,8 +66,10 @@ function extractTotals (stakingInfo?: DeriveStakingAccountPartial, progress?: De
 }
 
 function StakingUnbonding ({ className = '', iconPosition = 'left', stakingInfo }: Props): React.ReactElement<Props> | null {
-  const { api } = useApi();
-  const progress = useCall<DeriveSessionProgress>(api.derive.session.progress);
+  const { api: connectedApi } = useApi();
+  const { isStakingAsync, rcApi } = useStakingAsyncApis();
+  const api = useMemo(() => (isStakingAsync ? rcApi : connectedApi), [connectedApi, isStakingAsync, rcApi]);
+  const progress = useCall<DeriveSessionProgress>(api?.derive.session.progress);
   const { t } = useTranslation();
 
   const [mapped, total, isStalled] = useMemo(
@@ -99,9 +101,10 @@ function StakingUnbonding ({ className = '', iconPosition = 'left', stakingInfo 
           >
             <div>{t('Unbonding {{value}}', { replace: { value: formatBalance(value, { forceUnit: '-' }) } })}</div>
             <div className='faded'>
-              {api.consts.babe?.epochDuration
+              {api?.consts.babe?.epochDuration
                 ? (
                   <BlockToTime
+                    api={api}
                     label={`${t('{{blocks}} blocks', { replace: { blocks: formatNumber(blocks) } })}, `}
                     value={blocks}
                   />

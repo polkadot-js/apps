@@ -7,7 +7,7 @@ import type { ScheduledExt } from './types.js';
 import React from 'react';
 
 import Hash from '@polkadot/app-preimages/Preimages/Hash';
-import { usePreimage } from '@polkadot/react-hooks';
+import { usePreimage, useStakingAsyncApis } from '@polkadot/react-hooks';
 import { CallExpander } from '@polkadot/react-params';
 import { BlockToTime } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
@@ -19,6 +19,7 @@ interface Props {
 }
 
 function Scheduled ({ bestNumber, className = '', value: { blockNumber, call, maybeId, maybePeriodic, preimageHash } }: Props): React.ReactElement<Props> {
+  const { isStakingAsync, rcApi } = useStakingAsyncApis();
   const preimage = usePreimage(preimageHash);
   const period = maybePeriodic.unwrapOr(null);
   const name = maybeId.unwrapOr(null);
@@ -37,7 +38,10 @@ function Scheduled ({ bestNumber, className = '', value: { blockNumber, call, ma
       <td className='number together'>
         {bestNumber && (
           <>
-            <BlockToTime value={blockNumber.sub(bestNumber)} />
+            <BlockToTime
+              api={isStakingAsync ? rcApi : undefined}
+              value={blockNumber.sub(bestNumber)}
+            />
             #{formatNumber(blockNumber)}
           </>
         )}
