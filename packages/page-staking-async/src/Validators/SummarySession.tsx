@@ -20,7 +20,7 @@ interface Props {
 
 function SummarySession ({ className, withEra = true, withSession = true }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { api } = useApi();
+  const { api } = useApi(); // Asset Hub API
   const blockTime = useBlockInterval();
   const { rcApi } = useStakingAsyncApis();
   const sessionInfo = useCall<DeriveSessionProgress>(rcApi?.derive.session?.progress);
