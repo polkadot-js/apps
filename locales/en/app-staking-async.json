@@ -160,6 +160,8 @@
   "crypto type to use": "crypto type to use",
   "current era": "current era",
   "ed25519, Edwards": "ed25519, Edwards",
+  "epoch": "epoch",
+  "era": "era",
   "era session index": "era session index",
   "events": "events",
   "existing/active nominators": "existing/active nominators",
