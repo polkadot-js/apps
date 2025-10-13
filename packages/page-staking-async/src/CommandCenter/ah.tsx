@@ -236,7 +236,7 @@ const StyledInfoBox = styled.div`
     .section {
       h4 {
         font-size: var(--font-size-base);
-        font-weight: 600;
+        font-weight: 500;
         color: var(--color-text-secondary);
         text-transform: uppercase;
         margin-bottom: 0.5rem;
