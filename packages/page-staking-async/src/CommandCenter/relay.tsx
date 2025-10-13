@@ -48,7 +48,6 @@ function RelaySection ({ children, isRelayChain, rcApi, rcEvents, rcOutput, rcUr
                   </Link>)
               }
             </div>
-
             <div className='section'>
               <h4>{t('Session Info')}</h4>
               <div className='stats'>
@@ -65,7 +64,6 @@ function RelaySection ({ children, isRelayChain, rcApi, rcEvents, rcOutput, rcUr
                 }
               </div>
             </div>
-
             <div className='section'>
               <h4>{t('Staking AH Client')}</h4>
               <div className='stats'>
@@ -88,7 +86,6 @@ function RelaySection ({ children, isRelayChain, rcApi, rcEvents, rcOutput, rcUr
                 </CardSummary>
               </div>
             </div>
-
             <div className='section'>
               <h4>{t('Staking/Elections')}</h4>
               <div className='stats'>
@@ -103,7 +100,6 @@ function RelaySection ({ children, isRelayChain, rcApi, rcEvents, rcOutput, rcUr
                 </CardSummary>
               </div>
             </div>
-
             <div className='section'>
               <h4>{t('Parachain Config')}</h4>
               <div className='stats'>

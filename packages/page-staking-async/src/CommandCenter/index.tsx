@@ -3,6 +3,7 @@
 
 import type { ApiPromise } from '@polkadot/api';
 import type { AccountId32, Event, Hash } from '@polkadot/types/interfaces';
+import type { FrameSupportDispatchPerDispatchClassWeight, PolkadotRuntimeParachainsConfigurationHostConfiguration } from '@polkadot/types/lookup';
 import type { IEventData, ITuple } from '@polkadot/types/types';
 import type { u32, Vec } from '@polkadot/types-codec';
 
@@ -148,12 +149,10 @@ const commandCenterHandler = async (
     let parachainConfig;
 
     try {
-      const configuration = await rcApi.query.configuration.activeConfig();
+      const configuration = await rcApi.query.configuration.activeConfig() as PolkadotRuntimeParachainsConfigurationHostConfiguration;
 
       parachainConfig = {
-        // @ts-ignore
         maxDownwardMessageSize: configuration.maxDownwardMessageSize?.toNumber() || 0,
-        // @ts-ignore
         maxUpwardMessageSize: configuration.maxUpwardMessageSize?.toNumber() || 0
       };
     } catch {
@@ -174,12 +173,18 @@ const commandCenterHandler = async (
 
     setRcOutput({
       finalizedBlock: header.number.toNumber(),
+      parachainConfig,
       session: {
         hasQueuedInSession: hasQueuedInSession.isTrue,
         historicalRange: historicalRange.isSome
           ? [historicalRange.unwrap()[0].toNumber(), historicalRange.unwrap()[1].toNumber()] as [number, number]
           : undefined,
         index: index.toNumber()
+      },
+      staking: {
+        electionPhase: electionPhase?.toString(),
+        forceEra: forceEra?.toString(),
+        validatorCount: validatorCount?.toNumber()
       },
       stakingAhClient: {
         hasNextActiveId: hasNextActiveId.isEmpty
@@ -192,13 +197,7 @@ const commandCenterHandler = async (
         })(),
         mode: mode.toString(),
         validatorPoints: validatorPointsKeys.length
-      },
-      staking: {
-        electionPhase: electionPhase?.toString(),
-        forceEra: forceEra?.toString(),
-        validatorCount: validatorCount?.toNumber()
-      },
-      parachainConfig
+      }
     });
 
     if (enhancedEvents.length > 0) {
@@ -283,8 +282,9 @@ const commandCenterHandler = async (
       .filter((e) => filterAhEvents(e.data));
 
     // Get block weight
-    const weight = await ahApi.query.system.blockWeight.at(header.hash);
-    const formatWeight = (w: any) => {
+    const weight = await (await ahApi.at(header.hash)).query.system.blockWeight();
+
+    const formatWeight = (w: FrameSupportDispatchPerDispatchClassWeight) => {
       const normalRef = w.normal?.refTime?.toBigInt() || 0n;
       const operationalRef = w.operational?.refTime?.toBigInt() || 0n;
       const mandatoryRef = w.mandatory?.refTime?.toBigInt() || 0n;
@@ -311,7 +311,8 @@ const commandCenterHandler = async (
       ? (() => {
         const score = parsedQueuedScore.unwrap();
         const minimalStake = score.minimalStake?.toString() || '0';
-        const formattedMinStake = formatBalance(minimalStake, { withSi: true, forceUnit: '-' });
+        const formattedMinStake = formatBalance(minimalStake, { forceUnit: '-', withSi: true });
+
         return `minStake: ${formattedMinStake}, ...`;
       })()
       : null;
@@ -319,20 +320,25 @@ const commandCenterHandler = async (
     // Format phase to be more readable (e.g., "Unsigned(1)" instead of {"unsigned":1})
     const formattedPhase = (() => {
       const phaseStr = phase.toString();
+
       try {
-        const phaseJson = JSON.parse(phaseStr);
+        const phaseJson = JSON.parse(phaseStr) as Record<string, string>;
+
         if (typeof phaseJson === 'object' && phaseJson !== null) {
           const key = Object.keys(phaseJson)[0];
           const value = phaseJson[key];
+
           return `${key.charAt(0).toUpperCase() + key.slice(1)}(${value})`;
         }
       } catch {
         // If not JSON, return as is
       }
+
       return phaseStr;
     })();
 
     setAhOutput({
+      bagsList,
       finalizedBlock: header.number.toNumber(),
       multiblock: {
         phase: formattedPhase,
@@ -356,7 +362,7 @@ const commandCenterHandler = async (
           start: activeEra.toString()
         },
         bondedEras,
-        currentEra: currentEra,
+        currentEra,
         erasStartSessionIndex: activeEraStartSessionIndex?.toNumber(),
         forcing: forcing?.toString(),
         maxNominatorsCount: maxNominatorsCount?.isSome ? maxNominatorsCount.unwrap().toNumber() : undefined,
@@ -368,8 +374,7 @@ const commandCenterHandler = async (
         unprunedEras,
         validatorCandidates: validatorCandidates?.toNumber(),
         validatorCount: validatorCount?.toNumber()
-      },
-      bagsList
+      }
     });
 
     if (enhancedEvents.length > 0) {
@@ -416,12 +421,15 @@ function CommandCenter ({ ahApi: initialAhApi, ahEndPoints, isRelayChain, rcApi:
 
   // Load historical events from RC
   const loadRcHistoricalEvents = useCallback(async (blocksToLoad: number) => {
-    if (!rcApi) return;
+    if (!rcApi) {
+      return;
+    }
 
     let currentBlockHash: Hash;
 
     if (rcLowestBlock === null) {
       const finalizedHead = await rcApi.rpc.chain.getFinalizedHead();
+
       currentBlockHash = finalizedHead;
     } else if (rcLowestBlock === 0) {
       return;
@@ -441,7 +449,7 @@ function CommandCenter ({ ahApi: initialAhApi, ahEndPoints, isRelayChain, rcApi:
           break;
         }
 
-        const events = await rcApi.query.system.events.at(currentBlockHash);
+        const events = await (await rcApi.at(currentBlockHash)).query.system.events();
         const relevantEvents = events
           .map((e) => e.event)
           .filter((e) => filterRcEvents(e.data));
@@ -456,6 +464,7 @@ function CommandCenter ({ ahApi: initialAhApi, ahEndPoints, isRelayChain, rcApi:
           setRcEvents((prev) => {
             // Insert new events and sort by block number (highest first)
             const combined = [...prev, ...enhancedEvents];
+
             return combined.sort((a, b) => b.blockNumber - a.blockNumber);
           });
         }
@@ -466,9 +475,10 @@ function CommandCenter ({ ahApi: initialAhApi, ahEndPoints, isRelayChain, rcApi:
 
         // Update progress
         const remaining = blocksToLoad - blocksProcessed;
-        setLoadingProgress((prev) => ({ rc: remaining, ah: prev?.ah ?? 0 }));
+
+        setLoadingProgress((prev) => ({ ah: prev?.ah ?? 0, rc: remaining }));
       } catch (error) {
-        console.error(`RC: Error at block ${currentBlockHash}:`, error);
+        console.error(`RC: Error at block ${currentBlockHash.toHex()}:`, error);
         break;
       }
     }
@@ -476,12 +486,15 @@ function CommandCenter ({ ahApi: initialAhApi, ahEndPoints, isRelayChain, rcApi:
 
   // Load historical events from AH
   const loadAhHistoricalEvents = useCallback(async (blocksToLoad: number) => {
-    if (!ahApi) return;
+    if (!ahApi) {
+      return;
+    }
 
     let currentBlockHash: Hash;
 
     if (ahLowestBlock === null) {
       const finalizedHead = await ahApi.rpc.chain.getFinalizedHead();
+
       currentBlockHash = finalizedHead;
     } else if (ahLowestBlock === 0) {
       return;
@@ -501,15 +514,16 @@ function CommandCenter ({ ahApi: initialAhApi, ahEndPoints, isRelayChain, rcApi:
           break;
         }
 
-        const events = await ahApi.query.system.events.at(currentBlockHash);
+        const events = await (await ahApi.at(currentBlockHash)).query.system.events();
         const relevantEvents = events
           .map((e) => e.event)
           .filter((e) => filterAhEvents(e.data));
 
         if (relevantEvents.length > 0) {
           // Get block weight
-          const weight = await ahApi.query.system.blockWeight.at(currentBlockHash);
-          const formatWeight = (w: any) => {
+          const weight = await (await ahApi.at(currentBlockHash)).query.system.blockWeight();
+
+          const formatWeight = (w: FrameSupportDispatchPerDispatchClassWeight) => {
             const normalRef = w.normal?.refTime?.toBigInt() || 0n;
             const operationalRef = w.operational?.refTime?.toBigInt() || 0n;
             const mandatoryRef = w.mandatory?.refTime?.toBigInt() || 0n;
@@ -533,6 +547,7 @@ function CommandCenter ({ ahApi: initialAhApi, ahEndPoints, isRelayChain, rcApi:
           setAhEvents((prev) => {
             // Insert new events and sort by block number (highest first)
             const combined = [...prev, ...enhancedEvents];
+
             return combined.sort((a, b) => b.blockNumber - a.blockNumber);
           });
         }
@@ -543,9 +558,10 @@ function CommandCenter ({ ahApi: initialAhApi, ahEndPoints, isRelayChain, rcApi:
 
         // Update progress
         const remaining = blocksToLoad - blocksProcessed;
-        setLoadingProgress((prev) => ({ rc: prev?.rc ?? 0, ah: remaining }));
+
+        setLoadingProgress((prev) => ({ ah: remaining, rc: prev?.rc ?? 0 }));
       } catch (error) {
-        console.error(`AH: Error at block ${currentBlockHash}:`, error);
+        console.error(`AH: Error at block ${currentBlockHash.toHex()}:`, error);
         break;
       }
     }
@@ -553,10 +569,12 @@ function CommandCenter ({ ahApi: initialAhApi, ahEndPoints, isRelayChain, rcApi:
 
   // Load historical events (600 blocks at a time)
   const _loadHistoricalEvents = useCallback(async () => {
-    if (isLoadingHistory || (!rcApi && !ahApi)) return;
+    if (isLoadingHistory || (!rcApi && !ahApi)) {
+      return;
+    }
 
     setIsLoadingHistory(true);
-    setLoadingProgress({ rc: 600, ah: 600 });
+    setLoadingProgress({ ah: 600, rc: 600 });
 
     try {
       await Promise.all([
@@ -602,7 +620,7 @@ function CommandCenter ({ ahApi: initialAhApi, ahEndPoints, isRelayChain, rcApi:
   }, []);
 
   const _onApplyCustomRcUrl = useCallback(() => {
-    if (customRcUrl && customRcUrl.trim()) {
+    if (customRcUrl?.trim()) {
       rcApi?.disconnect().catch(console.log);
       setRcUrl(customRcUrl.trim());
       setShowCustomRcInput(false);
@@ -610,7 +628,7 @@ function CommandCenter ({ ahApi: initialAhApi, ahEndPoints, isRelayChain, rcApi:
   }, [customRcUrl, rcApi]);
 
   const _onApplyCustomAhUrl = useCallback(() => {
-    if (customAhUrl && customAhUrl.trim()) {
+    if (customAhUrl?.trim()) {
       ahApi?.disconnect().catch(console.log);
       setAhUrl(customAhUrl.trim());
       setShowCustomAhInput(false);
