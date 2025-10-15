@@ -44,7 +44,7 @@ export function createWindow (environment: string): Promise<unknown> {
     }
   });
 
-  const mainFilePath = path.resolve(__dirname, 'index.html');
+  const mainFilePath = 'app://index.html';
 
-  return win.loadFile(mainFilePath);
+  return win.loadURL(mainFilePath);
 }
