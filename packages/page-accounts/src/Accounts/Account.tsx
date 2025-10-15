@@ -20,7 +20,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import useAccountLocks from '@polkadot/app-referenda/useAccountLocks';
 import { AddressInfo, AddressSmall, Badge, Button, ChainLock, Columar, CryptoType, Forget, LinkExternal, Menu, Popup, styled, Table, Tags, TransferModal } from '@polkadot/react-components';
-import { useAccountInfo, useApi, useBalancesAll, useBestNumber, useCall, useLedger, useQueue, useStakingInfo, useToggle } from '@polkadot/react-hooks';
+import { useAccountInfo, useApi, useBalancesAll, useBestNumberRelay, useCall, useLedger, useQueue, useStakingInfo, useToggle } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 import { settings } from '@polkadot/ui-settings';
 import { BN, BN_ZERO, formatBalance, formatNumber, isFunction } from '@polkadot/util';
@@ -165,7 +165,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
   const { queueExtrinsic } = useQueue();
   const { api, apiIdentity, enableIdentity, isDevelopment: isDevelopmentApiProps, isEthereum: isEthereumApiProps } = useApi();
   const { getLedger } = useLedger();
-  const bestNumber = useBestNumber();
+  const bestNumber = useBestNumberRelay();
   const balancesAll = useBalancesAll(address);
   const stakingInfo = useStakingInfo(address);
   const democracyLocks = useCall<DeriveDemocracyLock[]>(api.derive.democracy?.locks, [address]);
