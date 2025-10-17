@@ -358,6 +358,20 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
+    homepage: 'https://astar.network',
+    info: 'PaseoShibuyaChain',
+    paraId: 2000,
+    providers: {
+      Astar: 'wss://rpc.shibuya.astar.network'
+    },
+    relayName: 'paseo',
+    text: 'Shibuya Testnet (Astar)',
+    ui: {
+      color: '#e84366',
+      logo: chainsShibuyaSVG
+    }
+  },
+  {
     info: 'paseoWatr',
     paraId: 2058,
     providers: {
@@ -526,20 +540,6 @@ export const testParasPaseoCommon: EndpointOption[] = [
       color: '#e84366',
       logo: chainsPeoplePolkadotSVG
     }
-  },
-  {
-    homepage: 'https://astar.network',
-    info: 'PaseoShibuyaChain',
-    paraId: 2000,
-    providers: {
-      Astar: 'wss://rpc.shibuya.astar.network'
-    },
-    relayName: 'paseo',
-    text: 'Shibuya Testnet (Astar)',
-    ui: {
-      color: '#e84366',
-      logo: chainsShibuyaSVG
-    }
   }
 ];
 
@@ -550,9 +550,9 @@ export const testRelayPaseo: EndpointOption = {
   isPeopleForIdentity: true,
   isRelay: true,
   linked: [
-    ...testParasPaseo,
-    ...testParasPaseoCommon
-  ].sort((a, b) => a.text.localeCompare(b.text)),
+    ...testParasPaseoCommon,
+    ...testParasPaseo
+  ],
   providers: {
     Amforc: 'wss://paseo.rpc.amforc.com',
     Dwellir: 'wss://paseo-rpc.n.dwellir.com',
