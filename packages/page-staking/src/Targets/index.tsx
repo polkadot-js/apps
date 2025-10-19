@@ -1,7 +1,7 @@
 // Copyright 2017-2025 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DeriveHasIdentity, DeriveStakingOverview } from '@polkadot/api-derive/types';
+import type { DeriveHasIdentity } from '@polkadot/api-derive/types';
 import type { StakerState } from '@polkadot/react-hooks/types';
 import type { u32 } from '@polkadot/types-codec';
 import type { BN } from '@polkadot/util';
@@ -29,7 +29,6 @@ interface Props {
   isInElection: boolean;
   nominatedBy?: NominatedByMap;
   ownStashes?: StakerState[];
-  stakingOverview?: DeriveStakingOverview;
   targets: SortedTargets;
   toggleFavorite: (address: string) => void;
   toggleLedger: () => void;

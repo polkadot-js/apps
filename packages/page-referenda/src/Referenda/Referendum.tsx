@@ -9,7 +9,7 @@ import type { CurveGraph, ReferendumProps as Props } from '../types.js';
 import React, { useMemo } from 'react';
 
 import { Chart, Columar, LinkExternal, styled, Table } from '@polkadot/react-components';
-import { useBestNumber, useBlockInterval, useToggle } from '@polkadot/react-hooks';
+import { useBestNumberRelay, useBlockInterval, useStakingAsyncApis, useToggle } from '@polkadot/react-hooks';
 import { calcBlockTime } from '@polkadot/react-hooks/useBlockTime';
 import { BN_MILLION, BN_THOUSAND, bnMax, bnToBn, formatNumber, objectSpread } from '@polkadot/util';
 
@@ -347,8 +347,9 @@ function extractInfo (info: PalletReferendaReferendumInfoConvictionVotingTally |
 
 function Referendum (props: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const bestNumber = useBestNumber();
-  const blockInterval = useBlockInterval();
+  const { isStakingAsync, rcApi } = useStakingAsyncApis();
+  const bestNumber = useBestNumberRelay();
+  const blockInterval = useBlockInterval(isStakingAsync ? rcApi : undefined);
   const { activeIssuance, className = '', palletReferenda, value: { id, info, isConvictionVote, track, trackGraph } } = props;
   const [isExpanded, toggleExpanded] = useToggle(false);
 

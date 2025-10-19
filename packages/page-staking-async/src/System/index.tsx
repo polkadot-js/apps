@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
-import type { DeriveStakingOverview } from '@polkadot/api-derive/types';
+import type { DeriveStakingOverview, DeriveStakingValidators } from '@polkadot/api-derive/types';
 import type { AppProps } from '@polkadot/react-components/types';
 import type { ElectionStatus, ParaValidatorIndex, ValidatorId } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
@@ -10,7 +10,6 @@ import type { BN } from '@polkadot/util';
 import React, { useCallback, useMemo, useState } from 'react';
 import { Route, Routes } from 'react-router';
 
-import Actions from '@polkadot/app-staking/Actions';
 import Bags from '@polkadot/app-staking/Bags';
 import Payouts from '@polkadot/app-staking/Payouts';
 import Query from '@polkadot/app-staking/Query';
@@ -24,6 +23,7 @@ import { Tabs } from '@polkadot/react-components';
 import { useAccounts, useApi, useAvailableSlashes, useCall, useCallMulti, useFavorites, useOwnStashInfos } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
 
+import Actions from '../Actions/index.js';
 import CommandCenter from '../CommandCenter/index.js';
 import { STORE_FAVS_BASE } from '../constants.js';
 import { useTranslation } from '../translate.js';
@@ -71,7 +71,17 @@ function StakingApp ({ ahApi, ahEndPoints, basePath, isRelayChain, rcApi, rcEndP
   ], OPT_MULTI);
   const nominatedBy = useNominations(loadNominations);
   const ownPools = useOwnPools();
-  const stakingOverview = useCall<DeriveStakingOverview>(rcApi?.derive.staking.overview);
+  const ahStakingOverview = useCall<DeriveStakingOverview>(api?.derive.staking.overview);
+  const validatorsInfo = useCall<DeriveStakingValidators>(rcApi?.derive.staking.validators);
+
+  const stakingOverview = useMemo(() => (
+    !!ahStakingOverview && !!validatorsInfo
+      ? {
+        ...ahStakingOverview,
+        ...validatorsInfo
+      }
+      : undefined
+  ), [ahStakingOverview, validatorsInfo]);
 
   const toggleNominatedBy = useCallback(
     () => setLoadNominations(true),
@@ -201,7 +211,6 @@ function StakingApp ({ ahApi, ahEndPoints, basePath, isRelayChain, rcApi, rcEndP
                 isInElection={isInElection}
                 nominatedBy={nominatedBy}
                 ownStashes={ownStashes}
-                stakingOverview={stakingOverview}
                 targets={targets}
                 toggleFavorite={toggleFavorite}
                 toggleLedger={toggleLedger}

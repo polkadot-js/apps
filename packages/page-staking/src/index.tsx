@@ -185,7 +185,6 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
                 isInElection={isInElection}
                 nominatedBy={nominatedBy}
                 ownStashes={ownStashes}
-                stakingOverview={stakingOverview}
                 targets={targets}
                 toggleFavorite={toggleFavorite}
                 toggleLedger={toggleLedger}

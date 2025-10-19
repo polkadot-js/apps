@@ -5,7 +5,7 @@ import type { BN } from '@polkadot/util';
 
 import React from 'react';
 
-import { useBestNumber } from '@polkadot/react-hooks';
+import { useBestNumberRelay } from '@polkadot/react-hooks';
 import { BlockToTime } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
@@ -16,7 +16,7 @@ interface Props {
 }
 
 function RefEnd ({ className = '', label, when }: Props): React.ReactElement<Props> {
-  const bestNumber = useBestNumber();
+  const bestNumber = useBestNumberRelay();
 
   return (
     <td className={`${className} number`}>

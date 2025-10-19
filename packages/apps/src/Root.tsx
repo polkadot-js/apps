@@ -9,7 +9,7 @@ import { HashRouter } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 
 import { ApiCtxRoot } from '@polkadot/react-api';
-import { ApiStatsCtxRoot, BlockAuthorsCtxRoot, BlockEventsCtxRoot, KeyringCtxRoot, PayWithAssetCtxRoot, QueueCtxRoot, WindowSizeCtxRoot } from '@polkadot/react-hooks';
+import { ApiStatsCtxRoot, BlockAuthorsCtxRoot, BlockEventsCtxRoot, KeyringCtxRoot, PayWithAssetCtxRoot, QueueCtxRoot, StakingAsyncApisCtxRoot, WindowSizeCtxRoot } from '@polkadot/react-hooks';
 import { settings } from '@polkadot/ui-settings';
 
 import BeforeApiInit from './overlays/BeforeInit.js';
@@ -56,7 +56,9 @@ function Root ({ isElectron, store }: Props): React.ReactElement<Props> {
                     <HashRouter>
                       <WindowSizeCtxRoot>
                         <PayWithAssetCtxRoot>
-                          <Apps />
+                          <StakingAsyncApisCtxRoot>
+                            <Apps />
+                          </StakingAsyncApisCtxRoot>
                         </PayWithAssetCtxRoot>
                       </WindowSizeCtxRoot>
                     </HashRouter>

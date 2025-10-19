@@ -8,12 +8,12 @@ import type { BN } from '@polkadot/util';
 
 import React, { useEffect, useState } from 'react';
 
-import SummarySession from '@polkadot/app-explorer/SummarySession';
 import { CardSummary, styled, SummaryBox } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
+import SummarySession from './SummarySession.js';
 
 interface Props {
   className?: string;
