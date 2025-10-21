@@ -13,6 +13,8 @@ export const ethereumChains = [
   'Darwinia Koi',
   'Darwinia2',
   'datahaven-stagenet',
+  'datahaven-testnet',
+  'datahaven-mainnet',
   'dracones',
   'dracones-dwarf',
   'ferrum-parachain',
