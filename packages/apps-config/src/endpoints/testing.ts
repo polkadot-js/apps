@@ -638,7 +638,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
     info: 'moonbaseAlpha',
     providers: {
       // Blast: 'wss://moonbase-alpha.public.blastapi.io', // https://github.com/polkadot-js/apps/issues/11608
-      Dwellir: 'wss://moonbase-rpc.n.dwellir.com',
+      // Dwellir: 'wss://moonbase-rpc.n.dwellir.com', // https://github.com/polkadot-js/apps/issues/11935
       'Moonbeam Foundation': 'wss://wss.api.moonbase.moonbeam.network',
       OnFinality: 'wss://moonbeam-alpha.api.onfinality.io/public-ws',
       RadiumBlock: 'wss://moonbase.public.curie.radiumblock.co/ws',
@@ -854,7 +854,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'sora-substrate',
     providers: {
-      'Soramitsu #1': 'wss://ws.framenode-7.s4.stg1.sora2.soramitsu.co.jp',
+      // 'Soramitsu #1': 'wss://ws.framenode-7.s4.stg1.sora2.soramitsu.co.jp', // https://github.com/polkadot-js/apps/issues/11935
       'Soramitsu #2': 'wss://ws.framenode-8.s5.stg1.sora2.soramitsu.co.jp'
     },
     text: 'SORA-staging',
