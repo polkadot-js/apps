@@ -789,7 +789,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
       // Dwellir: 'wss://unique-rpc.n.dwellir.com', // https://github.com/polkadot-js/apps/issues/11531
       'Geo Load Balancer': 'wss://ws.unique.network',
       IBP1: 'wss://unique.ibp.network',
-      IBP2: 'wss://unique.dotters.network',
+      IBP2: 'wss://unique.dotters.network'
       // OnFinality: 'wss://unique.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/10030
       // 'Unique America': 'wss://us-ws.unique.network',
       // 'Unique Asia': 'wss://asia-ws.unique.network',
