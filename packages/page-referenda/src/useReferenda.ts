@@ -51,10 +51,10 @@ function sortGroups (a: ReferendaGroupKnown, b: ReferendaGroupKnown): number {
 }
 
 const OPT_MULTI = {
-  transform: ([[ids], all]: [[BN[]], Option<Referendum['info']>[]]) =>
-    ids.map((id, i) => {
+  transform: ([[ids], all]: [[BN[]], Option<Referendum['info']>[]]) => {
+    const res = ids.map((id, i) => {
       const infoOpt = all[i];
-      const info = infoOpt?.isSome ? infoOpt.unwrap() : undefined;
+      const info = infoOpt.unwrap();
 
       return {
         id,
@@ -62,7 +62,10 @@ const OPT_MULTI = {
         isConvictionVote: info ? isConvictionVote(info) : false,
         key: id.toString()
       };
-    }).filter((r) => r.info !== undefined),
+    });
+
+    return res.filter((r) => r.info !== undefined);
+  },
   withParamsTransform: true
 };
 
