@@ -1,5 +1,28 @@
 # CHANGELOG
 
+## 0.167.1 Oct 23, 2025
+
+Contributed:
+
+- Return DAO IPCI endpoint ([#11906](https://github.com/polkadot-js/apps/pull/11906)) (Thanks to https://github.com/dergudzon)
+- Added l1.media RPC for Joystream ([#11912](https://github.com/polkadot-js/apps/pull/11912)) (Thanks to https://github.com/traumschule)
+- Add Shibuya Chain ([#11879](https://github.com/polkadot-js/apps/pull/11879)) (Thanks to https://github.com/armin-x86)
+- Enables identity on Tanssi and Dancelight ([#11924](https://github.com/polkadot-js/apps/pull/11924)) (Thanks to https://github.com/augustocollado)
+- Add DataHaven Testnet & Mainnet to Ethereum Chains ([#11934](https://github.com/polkadot-js/apps/pull/11934)) (Thanks to https://github.com/stiiifff)
+- Change endpoints for the Unique Network chains: Unique, Quartz, Opal ([#11937](https://github.com/polkadot-js/apps/pull/11937)) (Thanks to https://github.com/BuddyGlas)
+
+
+Changes:
+
+- Bump polkadot-api & polkadot-js dependencies ([#11939](https://github.com/polkadot-js/apps/pull/11939))
+- Disable unreachable endpoints ([#11936](https://github.com/polkadot-js/apps/pull/11936))
+- Display validators info after AHM ([#11871](https://github.com/polkadot-js/apps/pull/11871))
+- Fix: Staking summary and Schedular remaining time ([#11903](https://github.com/polkadot-js/apps/pull/11903))
+- Improved session keys UX ([#11909](https://github.com/polkadot-js/apps/pull/11909))
+- Show "remove expired votes" ([#11922](https://github.com/polkadot-js/apps/pull/11922))
+- New command center ([#11899](https://github.com/polkadot-js/apps/pull/11899))
+
+
 ## 0.166.1 Oct 9, 2025
 
 Contributed:
