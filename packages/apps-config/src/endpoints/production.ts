@@ -85,7 +85,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     info: 'autonomys-mainnet',
     providers: {
       Foundation: 'wss://rpc.mainnet.subspace.foundation/ws',
-      Labs: 'wss://rpc-0.mainnet.autonomys.xyz/ws'
+      Labs: 'wss://rpc.mainnet.autonomys.xyz/ws'
     },
     text: 'Autonomys',
     ui: {
