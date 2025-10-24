@@ -127,7 +127,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'autonomys-chronos-evm',
     providers: {
-      'Labs': 'wss://auto-evm.chronos.autonomys.xyz/ws'
+      Labs: 'wss://auto-evm.chronos.autonomys.xyz/ws'
     },
     text: 'Autonomys Chronos EVM',
     ui: {
@@ -138,7 +138,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'autonomys-chronos-testnet',
     providers: {
-      'Labs': 'wss://rpc.chronos.autonomys.xyz/ws'
+      Labs: 'wss://rpc.chronos.autonomys.xyz/ws'
     },
     text: 'Autonomys Chronos Testnet',
     ui: {
