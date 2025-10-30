@@ -61,7 +61,8 @@ function useStashCalls (api: ApiPromise, stashId: string) {
   return { balancesAll, spanCount, stakingAccount };
 }
 
-function Account ({ allSlashes, className = '', info: { controllerId, destination, hexSessionIdNext, hexSessionIdQueue, isLoading, isOwnController, isOwnStash, isStashNominating, isStashValidating, nominating, sessionIds, stakingLedger, stashId }, isDisabled, minCommission, targets }: Props): React.ReactElement<Props> {
+function Account ({ allSlashes, className = '', info, isDisabled, minCommission, targets }: Props): React.ReactElement<Props> {
+  const { controllerId, destination, hexSessionIdNext, hexSessionIdQueue, isLoading, isOwnController, isOwnStash, isStashNominating, isStashValidating, nominating, sessionIds, stakingLedger, stashId } = useMemo(() => info, [info]);
   const { t } = useTranslation();
   const { api } = useApi();
   const { isRelayChain } = useStakingAsyncApis();
@@ -211,6 +212,7 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
           <td className='all'>
             <AddressInfo
               address={stashId}
+              stakingInfo={info}
               withBalance={false}
               withHexSessionId={hexSessionIdNext !== '0x' && [hexSessionIdQueue, hexSessionIdNext]}
               withValidatorPrefs
