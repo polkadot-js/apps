@@ -144,7 +144,9 @@ function CurrentList ({ className, favorites, hasQueries, isIntentions, isOwn, m
       ]
       : [
         [t('validators'), 'start', 3],
-        [t('other stake'), 'expand'],
+        [t('total stake'), 'number'],
+        [t('own stake'), 'number'],
+        [t('nominator count'), 'number'],
         [t('commission')],
         [t('last #')],
         []
