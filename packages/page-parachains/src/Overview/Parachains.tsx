@@ -7,7 +7,7 @@ import type { LeasePeriod, QueuedAction, ScheduledProposals } from '../types.js'
 import React, { useMemo, useRef } from 'react';
 
 import { Table } from '@polkadot/react-components';
-import { useBestNumber, useIsParasLinked } from '@polkadot/react-hooks';
+import { useBestNumberRelay, useIsParasLinked } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate.js';
 import Parachain from './Parachain.js';
@@ -53,7 +53,7 @@ function extractIds (hasLinksMap: Record<string, boolean>, ids: ParaId[]): [Para
 
 function Parachains ({ actionsQueue, ids, leasePeriod, scheduled }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const bestNumber = useBestNumber();
+  const bestNumber = useBestNumberRelay();
   const { lastBacked, lastIncluded, lastTimeout } = useEvents();
   const hasLinksMap = useIsParasLinked(ids);
   const [validators, validatorMap] = useValidators(ids);
