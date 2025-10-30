@@ -4,7 +4,7 @@
 import type { EndpointOption } from './types.js';
 
 import { chainsAmplitudeSVG, chainsCoretimeKusamaSVG, chainsFrequencyPaseoSVG, chainsHydrationPaseoSVG, chainsKreivoSVG, chainsLaosSigmaPNG, chainsMyxcavPNG, chainsNeurowebTestnetPNG, chainsPaseoPNG, chainsPeoplePolkadotSVG, chainsPopNetworkSVG, chainsQfNetworkPNG, chainsShibuyaSVG, chainsWatrPNG, chainsWeTEESVG } from '@polkadot/apps-config/ui/logos/chains';
-import { nodesAjunaPNG, nodesAssetHubSVG, nodesAventusSVG, nodesBajunPNG, nodesBifrostSVG, nodesBridgeHubSVG, nodesDarwiniaKoiSVG, nodesFintraSVG, nodesHeimaPaseoPNG, nodesHyperbridgePNG, nodesIdealNetworkSVG, nodesIdncSVG, nodesIntegriteeSVG, nodesKiltIconSVG, nodesMandalaPNG, nodesMusePNG, nodesMyriadPaseoSVG, nodesNodleSVG, nodesOpalLogoPNG, nodesRegionxPNG, nodesRexSVG, nodesXodePNG, nodesZeitgeistPNG } from '@polkadot/apps-config/ui/logos/nodes';
+import { nodesAjunaPNG, nodesAssetHubSVG, nodesAventusSVG, nodesBajunPNG, nodesBifrostSVG, nodesBridgeHubSVG, nodesCollectivesSVG, nodesDarwiniaKoiSVG, nodesFintraSVG, nodesHeimaPaseoPNG, nodesHyperbridgePNG, nodesIdealNetworkSVG, nodesIdncSVG, nodesIntegriteeSVG, nodesKiltIconSVG, nodesMandalaPNG, nodesMusePNG, nodesMyriadPaseoSVG, nodesNodleSVG, nodesOpalLogoPNG, nodesRegionxPNG, nodesRexSVG, nodesXodePNG, nodesZeitgeistPNG } from '@polkadot/apps-config/ui/logos/nodes';
 
 import { PASEO_GENESIS } from '../api/constants.js';
 // import { testnetParachainSVG } from '../ui/logos/nodes/index.js';
@@ -106,6 +106,21 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: '#FF0083',
       logo: nodesDarwiniaKoiSVG
+    }
+  },
+  {
+    homepage: 'https://fintradex.io/',
+    info: 'Fintra',
+    isPeopleForIdentity: true,
+    paraId: 4910,
+    providers: {
+      FINTRA: 'wss://testnet.fintra.network'
+    },
+    relayName: 'paseo',
+    text: 'Fintra',
+    ui: {
+      color: '#2596be',
+      logo: nodesFintraSVG
     }
   },
   {
@@ -334,9 +349,8 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'Pop Network',
     paraId: 4001,
     providers: {
-      // 'R0GUE-RPC1': 'wss://rpc1.paseo.popnetwork.xyz' // https://github.com/polkadot-js/apps/issues/11809
+      'R0GUE-RPC1': 'wss://rpc1.paseo.popnetwork.xyz'
       // 'R0GUE-RPC2': 'wss://rpc2.paseo.popnetwork.xyz', // https://github.com/polkadot-js/apps/issues/11629
-      // 'R0GUE-RPC3': 'wss://rpc3.paseo.popnetwork.xyz' // https://github.com/polkadot-js/apps/issues/11657
     },
     text: 'Pop Network',
     ui: {
@@ -486,6 +500,22 @@ export const testParasPaseoCommon: EndpointOption[] = [
     }
   },
   {
+    info: 'PaseoCollectives',
+    isPeopleForIdentity: true,
+    paraId: 1001,
+    providers: {
+      IBP1: 'wss://collectives-paseo.rpc.amforc.com',
+      IBP2: 'wss://collectives-paseo.dotters.network'
+    },
+    relayName: 'paseo',
+    teleport: [-1, 1000],
+    text: 'Collectives',
+    ui: {
+      color: '#e6777a',
+      logo: nodesCollectivesSVG
+    }
+  },
+  {
     info: 'PaseoCoretime',
     isPeopleForIdentity: true,
     paraId: 1005,
@@ -500,22 +530,6 @@ export const testParasPaseoCommon: EndpointOption[] = [
     ui: {
       color: '#113911',
       logo: chainsCoretimeKusamaSVG
-    }
-  },
-  {
-    homepage: 'https://fintradex.io/',
-    info: 'Fintra',
-    isPeopleForIdentity: true,
-    paraId: 4910,
-    providers: {
-      FINTRA: 'wss://testnet.fintra.network'
-    },
-    relayName: 'paseo',
-    teleport: [-1],
-    text: 'Fintra',
-    ui: {
-      color: '#2596be',
-      logo: nodesFintraSVG
     }
   },
   {
