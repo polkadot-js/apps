@@ -76,7 +76,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     providers: {
       Astar: 'wss://rpc.astar.network',
       // 'Automata 1RPC': 'wss://1rpc.io/astr', // https://github.com/polkadot-js/apps/issues/11827
-      Blast: 'wss://astar.public.blastapi.io',
+      // Blast: 'wss://astar.public.blastapi.io', // https://github.com/polkadot-js/apps/issues/11965
       Dwellir: 'wss://astar-rpc.n.dwellir.com',
       OnFinality: 'wss://astar.api.onfinality.io/public-ws',
       RadiumBlock: 'wss://astar.public.curie.radiumblock.co/ws',
@@ -225,7 +225,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     providers: {
       Darwinia: 'wss://rpc.darwinia.network',
       // Dcdao: 'wss://darwinia-rpc.dcdao.box', https://github.com/polkadot-js/apps/issues/11157
-      Dwellir: 'wss://darwinia-rpc.n.dwellir.com',
+      // Dwellir: 'wss://darwinia-rpc.n.dwellir.com', // https://github.com/polkadot-js/apps/issues/11965
       Subquery: 'wss://darwinia.rpc.subquery.network/public/ws'
     },
     text: 'Darwinia',
@@ -516,7 +516,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     providers: {
       Allnodes: 'wss://moonbeam-rpc.publicnode.com',
       // 'Automata 1RPC': 'wss://1rpc.io/glmr', // https://github.com/polkadot-js/apps/issues/10566
-      Blast: 'wss://moonbeam.public.blastapi.io',
+      // Blast: 'wss://moonbeam.public.blastapi.io', // https://github.com/polkadot-js/apps/issues/11965
       // Dwellir: 'wss://moonbeam-rpc.n.dwellir.com', // https://github.com/polkadot-js/apps/issues/11935
       IBP1: 'wss://moonbeam.ibp.network',
       IBP2: 'wss://moonbeam.dotters.network',
@@ -578,7 +578,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'nodle',
     paraId: 2026,
     providers: {
-      Dwellir: 'wss://nodle-rpc.dwellir.com',
+      // Dwellir: 'wss://nodle-rpc.dwellir.com', // https://github.com/polkadot-js/apps/issues/11965
       OnFinality: 'wss://nodle-parachain.api.onfinality.io/public-ws'
     },
     text: 'Nodle',
