@@ -45,12 +45,6 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
       logo: chains3dpassSVG
     }
   },
-  {
-    info: 'aleph',
-    providers: {
-      'Aleph Zero Foundation': 'wss://ws.azero.dev',
-      OnFinality: 'wss://aleph-zero.api.onfinality.io/public-ws'
-    },
     text: 'Aleph Zero',
     ui: {
       color: '#00CCAB',

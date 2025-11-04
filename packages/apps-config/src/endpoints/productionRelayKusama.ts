@@ -282,20 +282,6 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    homepage: 'https://integritee.network',
-    info: 'integritee',
-    paraId: 2015,
-    providers: {
-      Integritee: 'wss://kusama.api.integritee.network',
-      OnFinality: 'wss://integritee-kusama.api.onfinality.io/public-ws'
-    },
-    text: 'Integritee Network',
-    ui: {
-      color: '#2e154b',
-      logo: nodesIntegriteeSVG
-    }
-  },
-  {
     homepage: 'https://invarch.network/tinkernet',
     info: 'tinker',
     paraId: 2125,
