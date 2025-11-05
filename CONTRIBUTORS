@@ -481,6 +481,7 @@
        1	Lauro Gripa Neto              	Add portuguese translation (#2940)
        1	Leechael                      	chore: Remove Phala PoC5 since it going to take down (#10082)
        1	legape                        	Add Chainflip networks (#10153)
+       1	leoonf                        	remove Onfinality's Aleph Zero and Integritee-Kusama endpoint (#11966)
        1	Letho                         	Coinversation (#6597)
        1	Levi                          	feat: support asset filter (#10423)
        1	Liaoyi                        	Remove Automata mainnet and contextfree testnet (#10531)
