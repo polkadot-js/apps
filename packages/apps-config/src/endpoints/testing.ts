@@ -839,7 +839,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
     info: 'sora-substrate',
     providers: {
       // 'Soramitsu #1': 'wss://ws.framenode-7.s4.stg1.sora2.soramitsu.co.jp', // https://github.com/polkadot-js/apps/issues/11935
-      'Soramitsu #2': 'wss://ws.framenode-8.s5.stg1.sora2.soramitsu.co.jp'
+      // 'Soramitsu #2': 'wss://ws.framenode-8.s5.stg1.sora2.soramitsu.co.jp' // https://github.com/polkadot-js/apps/issues/11965
     },
     text: 'SORA-staging',
     ui: {
