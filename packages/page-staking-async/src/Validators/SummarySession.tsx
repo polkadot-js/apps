@@ -53,10 +53,12 @@ function SummarySession ({ className, withEra = true, withSession = true }: Prop
 
   const eraDuration = useMemo(
     () => {
-      // default to 1800 blocks i.e. 6 hours
-      return new BN(6 * 60 * 60 * 1000).div(blockTime);
+      const epochDuration = rcApi?.consts.babe?.epochDuration;
+      const sessionsPerEra = api?.consts.staking?.sessionsPerEra;
+
+      return epochDuration?.mul(sessionsPerEra);
     },
-    [blockTime]
+    [api?.consts.staking?.sessionsPerEra, rcApi?.consts.babe?.epochDuration]
   );
 
   return (
@@ -91,6 +93,7 @@ function SummarySession ({ className, withEra = true, withSession = true }: Prop
               )
           )}
           <CardSummary
+            apiOverride={rcApi}
             className={className}
             label={eraLabel}
             progress={{
