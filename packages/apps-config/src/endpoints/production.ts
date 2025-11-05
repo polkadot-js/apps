@@ -46,18 +46,6 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    info: 'aleph',
-    providers: {
-      'Aleph Zero Foundation': 'wss://ws.azero.dev'
-      // OnFinality: 'wss://aleph-zero.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/11965
-    },
-    text: 'Aleph Zero',
-    ui: {
-      color: '#00CCAB',
-      logo: chainsAlephSVG
-    }
-  },
-  {
     homepage: 'https://analog.one',
     info: 'analog-timechain',
     providers: {
