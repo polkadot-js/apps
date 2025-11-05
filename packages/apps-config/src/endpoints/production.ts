@@ -45,12 +45,6 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
       logo: chains3dpassSVG
     }
   },
-    text: 'Aleph Zero',
-    ui: {
-      color: '#00CCAB',
-      logo: chainsAlephSVG
-    }
-  },
   {
     homepage: 'https://analog.one',
     info: 'analog-timechain',
