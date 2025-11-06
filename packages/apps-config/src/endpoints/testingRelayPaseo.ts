@@ -566,7 +566,23 @@ export const testParasPaseoCommon: EndpointOption[] = [
       color: '#e84366',
       logo: chainsPeoplePolkadotSVG
     }
-  }
+  },
+  { 
+    info: 'PaseoPeopleLite',
+    isPeople: true,
+    isPeopleForIdentity: false,
+    paraId: 1044,
+    providers: {
+      Parity: 'wss://paseo-people-next-rpc.polkadot.io',
+    },
+    relayName: 'paseo',
+    teleport: [-1],
+    text: 'People Lite',
+    ui: { 
+      color: '#e84366',
+      logo: chainsPeoplePolkadotSVG
+    }
+  } 
 ];
 
 export const testRelayPaseo: EndpointOption = {
