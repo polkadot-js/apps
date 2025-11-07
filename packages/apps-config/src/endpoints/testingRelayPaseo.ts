@@ -582,7 +582,7 @@ export const testParasPaseoCommon: EndpointOption[] = [
       color: '#e84366',
       logo: chainsPeoplePolkadotSVG
     }
-  } 
+  }
 ];
 
 export const testRelayPaseo: EndpointOption = {
