@@ -15,6 +15,7 @@ import { useAccounts, useApi, useCall, useTeleport } from '@polkadot/react-hooks
 
 import { findMissingApis } from '../endpoint.js';
 import { useTranslation } from '../translate.js';
+import Notifications from './Notifications/index.js';
 import ChainInfo from './ChainInfo.js';
 import Grouping from './Grouping.js';
 import Item from './Item.js';
@@ -137,6 +138,7 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
                 routes={routes}
               />
             ))}
+            <Notifications />
           </ul>
         </div>
         <div className='menuSection media--1200'>
