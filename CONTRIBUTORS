@@ -8,7 +8,7 @@
       41	MiZiet                        	Apply styles to the unbonding icon (#6314)
       39	Joakim Nyman                  	Clean up and renaming of Dwellir endpoints (#11609)
       39	RadiumBlock                   	Re-adding RadiumBlock as Shiden and Bifrost Polkadot Endpoint provider (#11112)
-      34	Yongfeng LI                   	Update subsquare and statescan external links (#11295)
+      35	Yongfeng LI                   	Update subsquare external links (#11985)
       32	brenzi                        	reactivate Integritee Paseo endpoint (#11831)
       31	Stefanie Doll                 	Set higher default gas limit, switch from bitlength u32 to u128 for input fields (#2743)
       29	Ewa Kowalska                  	Style badges in accounts list (#6208)
