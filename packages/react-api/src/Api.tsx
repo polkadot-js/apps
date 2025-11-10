@@ -168,7 +168,7 @@ async function loadOnReady (api: ApiPromise, endpoint: LinkOption | null, fork: 
   // finally load the keyring
   isKeyringLoaded() || keyring.loadAll({
     genesisHash: api.genesisHash,
-    genesisHashAdd: endpoint && isNumber(endpoint.paraId) && (endpoint.paraId < 2000) && endpoint.genesisHashRelay
+    genesisHashAdd: !isEthereum && endpoint && isNumber(endpoint.paraId) && (endpoint.paraId < 2000) && endpoint.genesisHashRelay
       ? [endpoint.genesisHashRelay]
       : [],
     isDevelopment,
