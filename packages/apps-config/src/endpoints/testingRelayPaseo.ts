@@ -83,11 +83,12 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    homepage: 'https://bifrost.finance',
+    homepage: 'https://bifrost.io',
     info: 'Bifrost(Paseo)',
     paraId: 2030,
     providers: {
-      // Liebi: 'wss://bifrost-rpc.paseo.liebi.com/ws' // https://github.com/polkadot-js/apps/issues/11692
+      Liebi: 'wss://bifrost-rpc.paseo.liebi.com/ws',
+      Liebi2: 'wss://bifrost-rpc.paseo2.liebi.com/ws'
     },
     text: 'Bifrost',
     ui: {
