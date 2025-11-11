@@ -1,19 +1,12 @@
 // Copyright 2017-2025 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React, { useState } from 'react';
+import React from 'react';
 
 import { Button, Icon, Modal, styled } from '@polkadot/react-components';
+import { useNotifications } from '@polkadot/react-hooks/ctx/Notifications';
 
 import { useTranslation } from '../../translate.js';
-
-interface NotificationItem {
-  id: number;
-  title: string;
-  description: string;
-  blockNumber?: number;
-  isRead: boolean;
-}
 
 interface Props {
   className?: string;
@@ -22,39 +15,10 @@ interface Props {
 
 const NotificationsModal = ({ className, toggleModal }: Props) => {
   const { t } = useTranslation();
+  const { notifications, removeNotification } = useNotifications();
 
-  // --- Static Data for now ---
-  const [notifications, setNotifications] = useState<NotificationItem[]>([
-    {
-      blockNumber: 18402340,
-      description: 'Your transfer of 12.3 DOT was included in block.',
-      id: 1,
-      isRead: false,
-      title: 'Transaction Successful'
-    },
-    {
-      description: 'You have received staking rewards.',
-      id: 2,
-      isRead: true,
-      title: 'Validator Payout'
-    },
-    {
-      blockNumber: 18399010,
-      description: 'Your contribution has been refunded.',
-      id: 3,
-      isRead: false,
-      title: 'Crowdloan Update'
-    }
-  ]);
-
-  const handleToggleRead = (id: number) => {
-    setNotifications((prev) =>
-      prev.map((n) => (n.id === id ? { ...n, isRead: !n.isRead } : n))
-    );
-  };
-
-  const handleRemove = (id: number) => {
-    setNotifications((prev) => prev.filter((n) => n.id !== id));
+  const handleRemove = (id: string) => {
+    removeNotification(id);
   };
 
   return (
@@ -75,30 +39,23 @@ const NotificationsModal = ({ className, toggleModal }: Props) => {
           : (
             notifications.map((notif) => (
               <div
-                className={`notificationItem ${notif.isRead ? 'read' : 'unread'}`}
-                key={notif.id}
+                className='notificationItem'
+                key={notif.key}
               >
                 <div className='notificationContent'>
-                  <p className='notificationDescription'>{notif.description}</p>
-                  {notif.blockNumber && (
+                  <p className='notificationDescription'>{notif.message}</p>
+                  {/* {notif.blockNumber && (
                     <span className='blockNumber'>
                       #{notif.blockNumber.toLocaleString()}
                     </span>
-                  )}
+                  )} */}
                 </div>
                 <div className='notificationActions'>
-                  <Button
-                    icon={notif.isRead ? 'eye-slash' : 'eye'}
-                    isCircular
-                    // eslint-disable-next-line react/jsx-no-bind
-                    onClick={() => handleToggleRead(notif.id)}
-                    tooltip={notif.isRead ? t('Mark as unread') : t('Mark as read')}
-                  />
                   <Button
                     icon='trash'
                     isCircular
                     // eslint-disable-next-line react/jsx-no-bind
-                    onClick={() => handleRemove(notif.id)}
+                    onClick={() => handleRemove(notif.key)}
                     tooltip={t('Remove')}
                   />
                 </div>
