@@ -11,7 +11,7 @@ import { createNamedHook, useApi, useCall } from '@polkadot/react-hooks';
 function calcActive (grouped: ReferendaGroup[] = []): number {
   return grouped.reduce((total, { referenda = [] }) =>
     total + referenda.filter((r) =>
-      r.info.isOngoing
+      r.info?.isOngoing
     ).length,
   0);
 }
