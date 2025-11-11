@@ -26,7 +26,7 @@ const BannerAssetHubMigration = () => {
       <p>
         {t('After Asset Hub migration, all funds have been moved to Asset Hub. Please switch to the ')}
         <a
-          href={`/?rpc=${assetHubEndPoint}#/accounts`}
+          href={`${window.location.origin}${window.location.pathname}?rpc=${assetHubEndPoint}#/accounts`}
           rel='noopener noreferrer'
           target='_blank'
         >
