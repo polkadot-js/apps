@@ -605,7 +605,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     info: 'regionx',
     paraId: 3422,
     providers: {
-      RegionX: 'wss://regionx-kusama-rpc-lb.zeeve.net/ld940yl9c6/rpc'
+      // RegionX: 'wss://regionx-kusama-rpc-lb.zeeve.net/ld940yl9c6/rpc' // https://github.com/polkadot-js/apps/issues/11992
     },
     text: 'RegionX',
     ui: {
