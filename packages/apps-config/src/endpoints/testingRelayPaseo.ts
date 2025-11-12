@@ -207,7 +207,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'integritee',
     paraId: 2039,
     providers: {
-      Integritee: 'wss://paseo.api.integritee.network'
+      // Integritee: 'wss://paseo.api.integritee.network' // https://github.com/polkadot-js/apps/issues/11992
     },
     text: 'Integritee Network (Paseo)',
     ui: {
@@ -454,7 +454,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'ZeitgeistBatteryStation',
     paraId: 2101,
     providers: {
-      Zeitgeist: 'wss://bsr.zeitgeist.pm'
+      // Zeitgeist: 'wss://bsr.zeitgeist.pm' // https://github.com/polkadot-js/apps/issues/11992
     },
     text: 'Zeitgeist Battery Station',
     ui: {
