@@ -2,9 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import { Button, Icon, Modal, styled } from '@polkadot/react-components';
 import { useNotifications } from '@polkadot/react-hooks/ctx/Notifications';
+import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../../translate.js';
 
@@ -43,12 +45,21 @@ const NotificationsModal = ({ className, toggleModal }: Props) => {
                 key={notif.key}
               >
                 <div className='notificationContent'>
-                  <p className='notificationDescription'>{notif.message}</p>
-                  {/* {notif.blockNumber && (
-                    <span className='blockNumber'>
-                      #{notif.blockNumber.toLocaleString()}
-                    </span>
-                  )} */}
+                  <p className='notificationDescription'>
+                    <span>{notif.message}</span>{' '}
+                    <span className='status'>({notif.status})</span>
+                  </p>
+                  <div className='meta'>
+                    <p>
+                      {notif.accountId && <span className='accountId'>{(notif.accountId)}</span>}
+                      <span className='timestamp'>{new Date(notif.timestamp).toLocaleString()}</span>
+                    </p>
+                    {notif.blockNumber && (
+                      <p className='--digits'>
+                        <Link to={`/explorer/query/${notif.blockNumber}`}>{formatNumber(notif.blockNumber)}</Link>
+                      </p>
+                    )}
+                  </div>
                 </div>
                 <div className='notificationActions'>
                   <Button
@@ -124,6 +135,29 @@ export default React.memo(styled(NotificationsModal)`
         margin: 0;
         font-size: 1rem;
         color: var(--text-secondary);
+      }
+
+      .status {
+        text-transform: lowercase;
+        font-size: 1rem;
+      }
+
+      .meta {
+        display: flex;
+        flex-direction: column;
+        align-items: end;
+        font-size: 0.8rem;
+        color: var(--text-secondary);
+
+        .accountId {
+          font-family: monospace;
+          opacity: 0.8;
+        }
+
+        .timestamp {
+          font-size: 0.75rem;
+          opacity: 0.7;
+        }
       }
     }
 

@@ -5,7 +5,6 @@ import React from 'react';
 
 import { Badge, Icon, styled } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
-import { NotificationProvider } from '@polkadot/react-hooks/ctx/Notifications';
 
 import { useTranslation } from '../../translate.js';
 import NotificationsModal from './modal.js';
@@ -22,21 +21,19 @@ const Notifications = ({ className, count = 5, isToplevel = true }: Props) => {
   const [isModalVisible, toggleModal] = useToggle();
 
   return (
-    <NotificationProvider>
-      <StyledLi className={`${className} ui--MenuItem ${count ? 'withCounter' : ''} isLink ${isToplevel ? 'topLevel highlight--color-contrast' : ''}`}>
-        <section onClick={toggleModal}>
-          <Icon icon={'bell'} />
-          <span className='media--800'>{t('Notifications')}</span>
-          {!!count && (
-            <Badge
-              color='white'
-              info={count}
-            />
-          )}
-        </section>
-        {isModalVisible && <NotificationsModal toggleModal={toggleModal} />}
-      </StyledLi>
-    </NotificationProvider>
+    <StyledLi className={`${className} ui--MenuItem ${count ? 'withCounter' : ''} isLink ${isToplevel ? 'topLevel highlight--color-contrast' : ''}`}>
+      <section onClick={toggleModal}>
+        <Icon icon={'bell'} />
+        <span className='media--800'>{t('Notifications')}</span>
+        {!!count && (
+          <Badge
+            color='white'
+            info={count}
+          />
+        )}
+      </section>
+      {isModalVisible && <NotificationsModal toggleModal={toggleModal} />}
+    </StyledLi>
   );
 };
 
