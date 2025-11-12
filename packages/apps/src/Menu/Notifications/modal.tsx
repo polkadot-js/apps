@@ -46,7 +46,7 @@ const NotificationsModal = ({ className, toggleModal }: Props) => {
               >
                 <div className='notificationContent'>
                   <p className='notificationDescription'>
-                    <span>{notif.message}</span>{' '}
+                    {notif.message}{' '}
                     <span className='status'>({notif.status})</span>
                   </p>
                   <div className='meta'>
@@ -138,8 +138,9 @@ export default React.memo(styled(NotificationsModal)`
       }
 
       .status {
-        text-transform: lowercase;
+        text-transform: uppercase;
         font-size: 1rem;
+        text-decoration: italic;
       }
 
       .meta {

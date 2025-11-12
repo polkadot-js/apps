@@ -14,6 +14,8 @@ import { STATUS_COMPLETE } from '@polkadot/react-components/Status/constants';
 import { getContractAbi } from '@polkadot/react-components/util';
 import jsonrpc from '@polkadot/types/interfaces/jsonrpc';
 
+import { useNotifications } from './Notifications.js';
+
 export interface Props {
   children: React.ReactNode;
 }
@@ -162,6 +164,7 @@ export function QueueCtxRoot ({ children }: Props): React.ReactElement<Props> {
   const [txqueue, _setTxQueue] = useState<QueueTx[]>(EMPTY_QUEUE_TX);
   const stRef = useRef(stqueue);
   const txRef = useRef(txqueue);
+  const { addNotification } = useNotifications();
 
   const setStQueue = useCallback(
     (st: QueueStatus[]): void => {
@@ -275,15 +278,28 @@ export function QueueCtxRoot ({ children }: Props): React.ReactElement<Props> {
 
       queueAction(extractEvents(result));
 
-      if (STATUS_COMPLETE.includes(status)) {
-        setTimeout((): void => {
-          const item = txRef.current.find((item) => item.id === id);
+      const tx = txRef.current.find((i) => i.id === id);
 
-          item && item.removeItem();
-        }, REMOVE_TIMEOUT);
+      if (tx && STATUS_COMPLETE.includes(status)) {
+        const section = tx.extrinsic?.method?.section || 'unknown';
+        const method = tx.extrinsic?.method?.method || 'unknown';
+        const blockNumber = result?.blockNumber?.toNumber?.();
+
+        // ✅ Push notification to UI
+        addNotification?.({
+          blockNumber,
+          key: `${section}.${method}-${Date.now()}`,
+          message:
+            status === 'inblock'
+              ? <span>✅ Extrinsic <i>{section}.{method}</i> has been submitted</span>
+              : status === 'error' ? `❌ ${section}.${method} failed` : `${section}.${method}`,
+          status
+        });
+
+        setTimeout(() => tx.removeItem(), REMOVE_TIMEOUT);
       }
     },
-    [queueAction, setTxQueue]
+    [addNotification, queueAction, setTxQueue]
   );
 
   const value = useMemo(
