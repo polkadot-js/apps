@@ -19,7 +19,6 @@ import { BN_ZERO } from '@polkadot/util';
 
 import { useTranslation } from '../../translate.js';
 import NominatedBy from './NominatedBy.js';
-import StakeOther from './StakeOther.js';
 import Status from './Status.js';
 
 interface Props {
@@ -96,7 +95,7 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
   const [isExpanded, toggleIsExpanded] = useToggle(false);
   const { accountInfo, slashingSpans } = useAddressCalls(api, address, isMain);
 
-  const { commission, isChilled, nominators, stakeOther, stakeOwn } = useMemo(
+  const { commission, isChilled, nominators, stakeOwn, stakeTotal } = useMemo(
     () => validatorInfo
       ? expandInfo(validatorInfo, minCommission)
       : {},
@@ -154,10 +153,17 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
         </td>
         {isMain
           ? (
-            <StakeOther
-              nominators={nominators}
-              stakeOther={stakeOther}
-            />
+            <>
+              <td className='number'>
+                {stakeTotal ? <FormatBalance value={stakeTotal} /> : <span className='--tmp'>0</span>}
+              </td>
+              <td className='number'>
+                {stakeOwn ? <FormatBalance value={stakeOwn} /> : <span className='--tmp'>0</span>}
+              </td>
+              <td className='number'>
+                {nominators?.length || <span className='--tmp'>0</span>}
+              </td>
+            </>
           )
           : (
             <NominatedBy
@@ -186,21 +192,11 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
             className='columar'
             colSpan={
               isMain
-                ? 4
+                ? 6
                 : 3
             }
           >
             <Columar size='small'>
-              <Columar.Column>
-                {isMain && stakeOwn?.gtn(0) && (
-                  <>
-                    <h5>{t('own stake')}</h5>
-                    <FormatBalance
-                      value={stakeOwn}
-                    />
-                  </>
-                )}
-              </Columar.Column>
               <Columar.Column>
                 {hasQueries && (
                   <>
