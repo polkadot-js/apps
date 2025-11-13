@@ -1,5 +1,33 @@
 # CHANGELOG
 
+## 0.168.1 Nov 13, 2025
+
+Contributed:
+
+- Update Labs WebSocket URL for Autonomys mainnet ([#11941](https://github.com/polkadot-js/apps/pull/11941)) (Thanks to https://github.com/vedhavyas)
+- Refactor provider names for Autonomys Chronos networks ([#11942](https://github.com/polkadot-js/apps/pull/11942)) (Thanks to https://github.com/vedhavyas)
+- chore: add Paseo Collectives endpoint ([#11954](https://github.com/polkadot-js/apps/pull/11954)) (Thanks to https://github.com/al3mart)
+- Remove Helikon Phala RPC endpoint ([#11961](https://github.com/polkadot-js/apps/pull/11961)) (Thanks to https://github.com/kukabi)
+- remove Onfinality's Aleph Zero and Integritee-Kusama endpoint ([#11966](https://github.com/polkadot-js/apps/pull/11966)) (Thanks to https://github.com/leoonf)
+- Remove Permanence DAO Westend Asset Hub RPC endpoint ([#11982](https://github.com/polkadot-js/apps/pull/11982)) (Thanks to https://github.com/kukabi)
+- add paseo-people-lite parachain ([#11974](https://github.com/polkadot-js/apps/pull/11974)) (Thanks to https://github.com/ArshamTeymouri)
+- Update subsquare external links ([#11985](https://github.com/polkadot-js/apps/pull/11985)) (Thanks to https://github.com/wliyongfeng)
+- Avoid to add Relay Chain Genesis Hash for Ethereum chain even if they are system parachain ([#11884](https://github.com/polkadot-js/apps/pull/11884)) (Thanks to https://github.com/la10736)
+- Add bifrost-paseo providers ([#11987](https://github.com/polkadot-js/apps/pull/11987)) (Thanks to https://github.com/TomatoAres)
+
+
+Changes:
+
+- Handle zero length divisor case ([#11953](https://github.com/polkadot-js/apps/pull/11953))
+- Fixed validator stats url ([#11964](https://github.com/polkadot-js/apps/pull/11964))
+- Show RefEnd time correctly ([#11970](https://github.com/polkadot-js/apps/pull/11970))
+- Shown era duration correctly in staking ([#11972](https://github.com/polkadot-js/apps/pull/11972))
+- Add banner for accounts page for AHM ([#11981](https://github.com/polkadot-js/apps/pull/11981))
+- Fixed assethub link ([#11990](https://github.com/polkadot-js/apps/pull/11990))
+- Disable unreachable endpoints ([#11951](https://github.com/polkadot-js/apps/pull/11951) [#11967](https://github.com/polkadot-js/apps/pull/11967) [#11993](https://github.com/polkadot-js/apps/pull/11993))
+- Bump polkadot-api & polkadot-js dependencies ([#11997](https://github.com/polkadot-js/apps/pull/11997))
+
+
 ## 0.167.1 Oct 23, 2025
 
 Contributed:
