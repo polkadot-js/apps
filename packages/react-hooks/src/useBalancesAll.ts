@@ -3,9 +3,12 @@
 
 import type { DeriveBalancesAll } from '@polkadot/api-derive/types';
 
+import { useEffect, useState } from 'react';
+
+import { all } from './utils/balancesAll.js';
 import { createNamedHook } from './createNamedHook.js';
 import { useApi } from './useApi.js';
-import { useCall } from './useCall.js';
+import { useStakingAsyncApis } from './useStakingAsyncApis.js';
 
 /**
  * Gets the account full balance information
@@ -15,8 +18,26 @@ import { useCall } from './useCall.js';
  */
 function useBalancesAllImpl (accountAddress: string): DeriveBalancesAll | undefined {
   const { api } = useApi();
+  const [result, setResult] = useState<DeriveBalancesAll>();
+  const { isStakingAsync, rcApi } = useStakingAsyncApis();
 
-  return useCall<DeriveBalancesAll>(api.derive.balances?.all, [accountAddress]);
+  useEffect(() => {
+    if (isStakingAsync && !rcApi) {
+      return;
+    }
+
+    const sub = all('StakingAsyncBalances' + Date.now(), api, isStakingAsync ? rcApi : undefined)(accountAddress)
+      .subscribe({
+        error: console.error,
+        next: (allBalances) => {
+          setResult(allBalances);
+        }
+      });
+
+    return () => sub.unsubscribe();
+  }, [accountAddress, api, isStakingAsync, rcApi]);
+
+  return result;
 }
 
 export const useBalancesAll = createNamedHook('useBalancesAll', useBalancesAllImpl);
