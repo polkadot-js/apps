@@ -34,6 +34,7 @@ export const PolkassemblyIo: ExternalDef = {
     'Pioneer Network': 'pioneer',
     'Polkadex Main Network': 'polkadex',
     Polkadot: 'polkadot',
+    'Polkadot Asset Hub': 'polkadot',
     Robonomics: 'robonomics',
     Rococo: 'rococo',
     Shibuya: 'shibuya',
