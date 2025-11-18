@@ -1,5 +1,5 @@
     4364	Jaco                          	Disable unreachable endpoints (#10221)
-     158	Arjun Porwal                  	feat: added polkassembly link for polkadot assethub (#12003)
+     159	Arjun Porwal                  	chore: disable unreachable endpoints (#12008)
      112	Tarik Gul                     	Support for Extension Ethereum Signing (#11592)
       81	Thibaut Sardan                	update overrides (#10090)
       62	kwingram25                    	iadd fix (#2911)
