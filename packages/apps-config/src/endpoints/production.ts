@@ -544,8 +544,8 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     providers: {
       OnFinality: 'wss://sora.api.onfinality.io/public-ws',
       'SORA Parliament Ministry of Finance': 'wss://ws.mof.sora.org',
-      'SORA Parliament Ministry of Finance #2': 'wss://mof2.sora.org',
-      'SORA Parliament Ministry of Finance #3': 'wss://mof3.sora.org'
+      'SORA Parliament Ministry of Finance #2': 'wss://mof2.sora.org'
+      // 'SORA Parliament Ministry of Finance #3': 'wss://mof3.sora.org' // https://github.com/polkadot-js/apps/issues/12007
     },
     text: 'SORA',
     ui: {

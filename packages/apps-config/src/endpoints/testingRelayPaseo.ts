@@ -428,7 +428,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'Xcavate',
     paraId: 4683,
     providers: {
-      Xcavate: 'wss://rpc2-paseo.xcavate.io'
+      // Xcavate: 'wss://rpc2-paseo.xcavate.io' // https://github.com/polkadot-js/apps/issues/12007
     },
     text: 'Xcavate',
     ui: {
@@ -441,7 +441,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'paseoXode',
     paraId: 4607,
     providers: {
-      XodeCommunity: 'wss://paseo-rpcnode.xode.net'
+      // XodeCommunity: 'wss://paseo-rpcnode.xode.net' // https://github.com/polkadot-js/apps/issues/12007
     },
     text: 'Xode',
     ui: {
