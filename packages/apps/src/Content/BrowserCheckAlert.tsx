@@ -32,7 +32,7 @@ const BrowserCheckAlert: React.FC = () => {
       withIcon={false}
     >
 
-      The app is having some trouble running on Firefox v145.0. To keep everything running smoothly, please try using a different browser or switch to Firefox v144.0 for the moment.
+      The app is having some trouble running on Firefox v145.0. To keep everything running smoothly, please upgrade Firefox to the latest version or try using a different browser.
     </StyledBanner>
   );
 };
