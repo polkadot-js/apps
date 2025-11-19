@@ -3,6 +3,7 @@
 
 import type { ApiPromise } from '@polkadot/api';
 import type { DeriveBalancesAccountData, DeriveBalancesAll, DeriveDemocracyLock, DeriveStakingAccount } from '@polkadot/api-derive/types';
+import type { VestingInfo } from '@polkadot/react-hooks';
 import type { Raw } from '@polkadot/types';
 import type { BlockNumber, ValidatorPrefsTo145, Voting } from '@polkadot/types/interfaces';
 import type { PalletBalancesReserveData } from '@polkadot/types/lookup';
@@ -25,6 +26,7 @@ import StakingUnbonding from './StakingUnbonding.js';
 import { styled } from './styled.js';
 import Tooltip from './Tooltip.js';
 import { useTranslation } from './translate.js';
+import { recalculateVesting } from './util/calculateVesting.js';
 
 // true to display, or (for bonded) provided values [own, ...all extras]
 export interface BalanceActiveType {
@@ -60,6 +62,8 @@ interface Props {
   democracyLocks?: DeriveDemocracyLock[];
   extraInfo?: [string, string][];
   stakingInfo?: DeriveStakingAccount;
+  vestingBestNumber?: BlockNumber;
+  vestingInfo?: VestingInfo;
   votingOf?: Voting;
   withBalance?: boolean | BalanceActiveType;
   withBalanceToggle?: false;
@@ -239,7 +243,7 @@ function renderValidatorPrefs ({ stakingInfo, withValidatorPrefs = false }: Prop
   );
 }
 
-function createBalanceItems (formatIndex: number, lookup: Record<string, string>, t: TFunction, { address, apiOverride, balanceDisplay, balancesAll, bestNumber, convictionLocks, democracyLocks, isAllLocked, otherBonded, ownBonded, stakingInfo, votingOf, withBalanceToggle, withLabel }: { address: string; apiOverride: ApiPromise | undefined, balanceDisplay: BalanceActiveType; balancesAll?: DeriveBalancesAll | DeriveBalancesAccountData; bestNumber?: BlockNumber; convictionLocks?: RefLock[]; democracyLocks?: DeriveDemocracyLock[]; isAllLocked: boolean; otherBonded: BN[]; ownBonded: BN; stakingInfo?: DeriveStakingAccount; votingOf?: Voting; withBalanceToggle: boolean, withLabel: boolean }): React.ReactNode {
+function createBalanceItems (formatIndex: number, lookup: Record<string, string>, t: TFunction, { address, apiOverride, balanceDisplay, balancesAll, bestNumber, convictionLocks, democracyLocks, isAllLocked, otherBonded, ownBonded, stakingInfo, vestingBestNumber, vestingInfo, votingOf, withBalanceToggle, withLabel }: { address: string; apiOverride: ApiPromise | undefined, balanceDisplay: BalanceActiveType; balancesAll?: DeriveBalancesAll | DeriveBalancesAccountData; bestNumber?: BlockNumber; convictionLocks?: RefLock[]; democracyLocks?: DeriveDemocracyLock[]; isAllLocked: boolean; otherBonded: BN[]; ownBonded: BN; stakingInfo?: DeriveStakingAccount; vestingBestNumber?: BlockNumber; vestingInfo?: VestingInfo; votingOf?: Voting; withBalanceToggle: boolean, withLabel: boolean }): React.ReactNode {
   const allItems: React.ReactNode[] = [];
   const deriveBalances = balancesAll as DeriveBalancesAll;
 
@@ -266,8 +270,35 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
     </React.Fragment>
   );
 
-  if (bestNumber && balanceDisplay.vested && deriveBalances?.isVesting) {
-    const allVesting = deriveBalances.vesting.filter(({ endBlock }) => bestNumber.lt(endBlock));
+  // Use separate vestingInfo if provided (cross-chain vesting support),
+  // otherwise fall back to vesting data from balancesAll
+  let vesting = vestingInfo || deriveBalances;
+
+  // Use relay chain block number for vesting calculations when provided
+  // (vesting schedules use relay chain blocks even after Asset Hub migration)
+  const vestingBlockNumber = vestingBestNumber || bestNumber;
+
+  // When we have a separate vestingBestNumber, it means vesting schedules use
+  // relay chain blocks but derive calculated with wrong block number.
+  // We need to recalculate the vested amounts manually.
+  if (vestingBestNumber && vesting?.isVesting && vesting.vesting.length > 0) {
+    const recalculated = recalculateVesting(vesting.vesting, vestingBestNumber);
+
+    // The original claimable (calculated with wrong blocks) represents the offset
+    // between what Asset Hub thinks and reality. Add it to get actual claimable.
+    const actualClaimable = recalculated.vestedBalance.add(vesting.vestedClaimable);
+
+    // Override with recalculated values
+    vesting = {
+      ...vesting,
+      vestedBalance: recalculated.vestedBalance,
+      vestedClaimable: actualClaimable,
+      vestingLocked: recalculated.vestingLocked
+    };
+  }
+
+  if (vestingBlockNumber && balanceDisplay.vested && vesting?.isVesting) {
+    const allVesting = vesting.vesting.filter(({ endBlock }) => vestingBlockNumber.lt(endBlock));
 
     allItems.push(
       <React.Fragment key={2}>
@@ -281,34 +312,54 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
               tooltip={`${address}-vested-trigger`}
             />
           }
-          value={deriveBalances.vestedBalance}
+          value={vesting.vestedBalance}
         >
           <StyledTooltip trigger={`${address}-vested-trigger`}>
             <div className='tooltip-header'>
-              {formatBalance(deriveBalances.vestedClaimable.abs(), { forceUnit: '-' })}
+              {formatBalance(vesting.vestedClaimable.abs(), { forceUnit: '-' })}
               <div className='faded'>{t('available to be unlocked')}</div>
             </div>
-            {allVesting.map(({ endBlock, locked, perBlock, vested }, index) => (
-              <div
-                className='inner'
-                key={`item:${index}`}
-              >
-                <div>
-                  <p>{formatBalance(locked, { forceUnit: '-' })} {t('fully vested in')}</p>
-                  <BlockToTime
-                    api={apiOverride}
-                    value={endBlock.sub(bestNumber)}
-                  />
+            {allVesting.map(({ endBlock, locked, perBlock, startingBlock, vested }, index) => {
+              // Recalculate vested amount for this schedule using correct block number
+              let vestedAmount = vested;
+
+              if (vestingBestNumber) {
+                if (vestingBlockNumber.lt(startingBlock)) {
+                  vestedAmount = BN_ZERO;
+                } else if (vestingBlockNumber.gte(endBlock)) {
+                  vestedAmount = locked;
+                } else {
+                  const blocksPassed = vestingBlockNumber.sub(startingBlock);
+                  vestedAmount = blocksPassed.mul(perBlock);
+
+                  if (vestedAmount.gt(locked)) {
+                    vestedAmount = locked;
+                  }
+                }
+              }
+
+              return (
+                <div
+                  className='inner'
+                  key={`item:${index}`}
+                >
+                  <div>
+                    <p>{formatBalance(locked, { forceUnit: '-' })} {t('fully vested in')}</p>
+                    <BlockToTime
+                      api={apiOverride}
+                      value={endBlock.sub(vestingBlockNumber)}
+                    />
+                  </div>
+                  <div className='middle'>
+                    (Block {formatNumber(endBlock)} @ {formatBalance(perBlock)}/block)
+                  </div>
+                  <div>
+                    {formatBalance(vestedAmount, { forceUnit: '-' })}
+                    <div>{t('already vested')}</div>
+                  </div>
                 </div>
-                <div className='middle'>
-                  (Block {formatNumber(endBlock)} @ {formatBalance(perBlock)}/block)
-                </div>
-                <div>
-                  {formatBalance(vested, { forceUnit: '-' })}
-                  <div>{t('already vested')}</div>
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </StyledTooltip>
         </FormatBalance>
       </React.Fragment>
@@ -532,7 +583,7 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
 }
 
 function renderBalances (props: Props, lookup: Record<string, string>, bestNumber: BlockNumber | undefined, apiOverride: ApiPromise | undefined, t: TFunction): React.ReactNode[] {
-  const { address, balancesAll, convictionLocks, democracyLocks, stakingInfo, votingOf, withBalance = true, withBalanceToggle = false, withLabel = false } = props;
+  const { address, balancesAll, convictionLocks, democracyLocks, stakingInfo, vestingBestNumber, vestingInfo, votingOf, withBalance = true, withBalanceToggle = false, withLabel = false } = props;
   const balanceDisplay = withBalance === true
     ? DEFAULT_BALANCES
     : withBalance || false;
@@ -543,7 +594,7 @@ function renderBalances (props: Props, lookup: Record<string, string>, bestNumbe
 
   const [ownBonded, otherBonded] = calcBonded(stakingInfo, balanceDisplay.bonded);
   const isAllLocked = !!balancesAll && balancesAll.lockedBreakdown.some(({ amount }): boolean => amount?.isMax());
-  const baseOpts = { address, apiOverride, balanceDisplay, bestNumber, convictionLocks, democracyLocks, isAllLocked, otherBonded, ownBonded, votingOf, withBalanceToggle, withLabel };
+  const baseOpts = { address, apiOverride, balanceDisplay, bestNumber, convictionLocks, democracyLocks, isAllLocked, otherBonded, ownBonded, vestingBestNumber, vestingInfo, votingOf, withBalanceToggle, withLabel };
   const items = [createBalanceItems(0, lookup, t, { ...baseOpts, balancesAll, stakingInfo })];
 
   withBalanceToggle && balancesAll?.additional.length && balancesAll.additional.forEach((balancesAll, index): void => {
