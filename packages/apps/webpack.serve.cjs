@@ -22,7 +22,7 @@ module.exports = merge(
     },
     plugins: [
       new HtmlWebpackPlugin({
-        PAGE_TITLE: 'Polkadot/Substrate Portal',
+        PAGE_TITLE: 'Selendra Substrate Portal based on Polkadot-js Apps',
         inject: true,
         template: path.join(__dirname, 'public/index.html')
       })
