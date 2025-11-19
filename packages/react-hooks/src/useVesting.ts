@@ -55,8 +55,8 @@ function useVestingImpl (accountAddress: string): VestingInfo | undefined {
       vestedBalance: balancesAll.vestedBalance,
       vestedClaimable: balancesAll.vestedClaimable,
       vesting: balancesAll.vesting,
-      vestingTotal: balancesAll.vestingTotal,
-      vestingLocked: balancesAll.vestingLocked
+      vestingLocked: balancesAll.vestingLocked,
+      vestingTotal: balancesAll.vestingTotal
     };
   }, [balancesAll]);
 }

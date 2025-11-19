@@ -4,7 +4,7 @@
 import type { BlockNumber } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
 
-import { BN_ZERO, bnMax, bnMin } from '@polkadot/util';
+import { BN_ZERO, bnMin } from '@polkadot/util';
 
 interface VestingSchedule {
   startingBlock: BN;

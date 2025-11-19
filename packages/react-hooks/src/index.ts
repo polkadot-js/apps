@@ -95,6 +95,7 @@ export { useTimer } from './useTimer.js';
 export { useToggle } from './useToggle.js';
 export { useTreasury } from './useTreasury.js';
 export { useTxBatch } from './useTxBatch.js';
+export type { VestingInfo } from './useVesting.js';
 export { useVesting } from './useVesting.js';
 export { useVotingStatus } from './useVotingStatus.js';
 export { useWeight } from './useWeight.js';

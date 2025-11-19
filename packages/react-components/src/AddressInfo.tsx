@@ -16,6 +16,7 @@ import { useBestNumberRelay, useStakingAsyncApis } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { BN_MAX_INTEGER, BN_ZERO, bnMax, formatBalance, formatNumber, isObject } from '@polkadot/util';
 
+import { recalculateVesting } from './util/calculateVesting.js';
 import CryptoType from './CryptoType.js';
 import DemocracyLocks from './DemocracyLocks.js';
 import Expander from './Expander.js';
@@ -26,7 +27,6 @@ import StakingUnbonding from './StakingUnbonding.js';
 import { styled } from './styled.js';
 import Tooltip from './Tooltip.js';
 import { useTranslation } from './translate.js';
-import { recalculateVesting } from './util/calculateVesting.js';
 
 // true to display, or (for bonded) provided values [own, ...all extras]
 export interface BalanceActiveType {
@@ -272,7 +272,7 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
 
   // Use separate vestingInfo if provided (cross-chain vesting support),
   // otherwise fall back to vesting data from balancesAll
-  let vesting = vestingInfo || deriveBalances;
+  const vestingData: DeriveBalancesAll | undefined = (vestingInfo || deriveBalances) as DeriveBalancesAll | undefined;
 
   // Use relay chain block number for vesting calculations when provided
   // (vesting schedules use relay chain blocks even after Asset Hub migration)
@@ -281,21 +281,23 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
   // When we have a separate vestingBestNumber, it means vesting schedules use
   // relay chain blocks but derive calculated with wrong block number.
   // We need to recalculate the vested amounts manually.
-  if (vestingBestNumber && vesting?.isVesting && vesting.vesting.length > 0) {
-    const recalculated = recalculateVesting(vesting.vesting, vestingBestNumber);
+  const vesting: DeriveBalancesAll | undefined = (vestingBestNumber && vestingData?.isVesting && vestingData.vesting.length > 0)
+    ? (() => {
+      const recalculated = recalculateVesting(vestingData.vesting, vestingBestNumber);
 
-    // The original claimable (calculated with wrong blocks) represents the offset
-    // between what Asset Hub thinks and reality. Add it to get actual claimable.
-    const actualClaimable = recalculated.vestedBalance.add(vesting.vestedClaimable);
+      // The original claimable (calculated with wrong blocks) represents the offset
+      // between what Asset Hub thinks and reality. Add it to get actual claimable.
+      const actualClaimable = recalculated.vestedBalance.add(vestingData.vestedClaimable);
 
-    // Override with recalculated values
-    vesting = {
-      ...vesting,
-      vestedBalance: recalculated.vestedBalance,
-      vestedClaimable: actualClaimable,
-      vestingLocked: recalculated.vestingLocked
-    };
-  }
+      // Override with recalculated values
+      return {
+        ...vestingData,
+        vestedBalance: recalculated.vestedBalance,
+        vestedClaimable: actualClaimable,
+        vestingLocked: recalculated.vestingLocked
+      } as DeriveBalancesAll;
+    })()
+    : vestingData;
 
   if (vestingBlockNumber && balanceDisplay.vested && vesting?.isVesting) {
     const allVesting = vesting.vesting.filter(({ endBlock }) => vestingBlockNumber.lt(endBlock));
@@ -330,6 +332,7 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
                   vestedAmount = locked;
                 } else {
                   const blocksPassed = vestingBlockNumber.sub(startingBlock);
+
                   vestedAmount = blocksPassed.mul(perBlock);
 
                   if (vestedAmount.gt(locked)) {
@@ -583,7 +586,7 @@ function createBalanceItems (formatIndex: number, lookup: Record<string, string>
 }
 
 function renderBalances (props: Props, lookup: Record<string, string>, bestNumber: BlockNumber | undefined, apiOverride: ApiPromise | undefined, t: TFunction): React.ReactNode[] {
-  const { address, balancesAll, convictionLocks, democracyLocks, stakingInfo, vestingBestNumber, vestingInfo, votingOf, withBalance = true, withBalanceToggle = false, withLabel = false } = props;
+  const { address, balancesAll, convictionLocks, democracyLocks, stakingInfo, vestingBestNumber, vestingInfo, votingOf, withBalance = true, withBalanceToggle = false, withLabel = false }: Props = props;
   const balanceDisplay = withBalance === true
     ? DEFAULT_BALANCES
     : withBalance || false;
