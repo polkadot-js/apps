@@ -168,16 +168,23 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
   const { ahApi, isRelayChain, rcApi } = useStakingAsyncApis();
   const bestNumber = useBestNumberRelay();
   const balancesAll = useBalancesAll(address);
-  const vestingInfo = useVesting(address);
+  const vestingInfoRaw = useVesting(address);
+  // Don't show vesting on relay chain - it's migrated to Asset Hub
+  // Users should connect to Asset Hub to view vesting info
+  const vestingInfo = isRelayChain ? undefined : vestingInfoRaw;
   const stakingInfo = useStakingInfo(address);
 
-  // Vesting schedules always use relay chain blocks (even after Asset Hub migration)
-  // So we need relay chain block number regardless of which chain we're connected to
+  // Vesting schedules use relay chain blocks after Asset Hub migration.
+  // When on Asset Hub, query relay chain block number for accurate vesting calculations.
+  // For other chains, use normal block numbers (no cross-chain adjustment needed).
   const relayBestNumber = useCall<BlockNumber>(
-    (isRelayChain ? api : rcApi)?.derive.chain.bestNumber
+    rcApi?.derive.chain.bestNumber
   );
-  // Use relay chain block for vesting calculations when vesting data exists
-  const vestingBestNumber = vestingInfo ? relayBestNumber : undefined;
+
+  // Use relay chain block for vesting ONLY when on Asset Hub with relay connection available.
+  // This corrects the block number mismatch caused by Asset Hub migration.
+  // For all other chains, use undefined to let normal block numbers apply.
+  const vestingBestNumber = (vestingInfo && rcApi) ? relayBestNumber : undefined;
   const democracyLocks = useCall<DeriveDemocracyLock[]>(api.derive.democracy?.locks, [address]);
   const recoveryInfo = useCall<RecoveryConfig | null>(api.query.recovery?.recoverable, [address], transformRecovery);
   const multiInfos = useMultisigApprovals(address);
