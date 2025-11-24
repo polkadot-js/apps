@@ -662,7 +662,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     providers: {
       Dwellir: 'wss://phala-rpc.n.dwellir.com',
       // Helikon: 'wss://rpc.helikon.io/phala',
-      OnFinality: 'wss://phala.api.onfinality.io/public-ws',
+      // OnFinality: 'wss://phala.api.onfinality.io/public-ws',
       // Phala: 'wss://api.phala.network/ws', // https://github.com/polkadot-js/apps/issues/11251
       RadiumBlock: 'wss://phala.public.curie.radiumblock.co/ws'
       // Rockx: 'wss://rockx-phala.w3node.com/polka-public-phala/ws' // https://github.com/polkadot-js/apps/issues/10728
