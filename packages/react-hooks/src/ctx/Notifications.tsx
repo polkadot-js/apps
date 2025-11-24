@@ -5,7 +5,7 @@ import type { Dispatch, ReactNode, SetStateAction } from 'react';
 import type { QueueTxStatus } from '@polkadot/react-components/Status/types';
 import type { HexString } from '@polkadot/util/types';
 
-import React, { createContext, useCallback, useContext, useMemo, useState } from 'react';
+import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 
 import { getNotificationsFromStorage, removeNotificationFromStorage, saveNotificationToStorage } from '../utils/notifications.js';
 
@@ -45,6 +45,12 @@ export const NotificationCtxRoot: React.FC<{ children: React.ReactNode }> = ({ c
     () => ({ addNotification, notifications, removeNotification, setGenesisHash }),
     [addNotification, notifications, removeNotification]
   );
+
+  // IT IS SAFE: This won't trigger unnecessary re-renders when notifications are added or removed.
+  // Since `genesisHash` is the only dependency, it will only re-run when the chain changes or the app reloads.
+  useEffect(() => {
+    setNotifications(getNotificationsFromStorage(genesisHash));
+  }, [genesisHash]);
 
   return (
     <NotificationContext.Provider value={value}>

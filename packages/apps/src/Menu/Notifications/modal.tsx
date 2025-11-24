@@ -9,6 +9,7 @@ import { useNotifications } from '@polkadot/react-hooks/ctx/Notifications';
 import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../../translate.js';
+import { reviveElement } from './utils.js';
 
 interface Props {
   className?: string;
@@ -17,7 +18,7 @@ interface Props {
 
 const NotificationsModal = ({ className, toggleModal }: Props) => {
   const { t } = useTranslation();
-  const { notifications, removeNotification } = useNotifications();
+  const { notifications = [], removeNotification } = useNotifications();
 
   const handleRemove = (id: string) => {
     removeNotification(id);
@@ -46,7 +47,7 @@ const NotificationsModal = ({ className, toggleModal }: Props) => {
               >
                 <div className='notificationContent'>
                   <p className='notificationDescription'>
-                    {notif.message}{' '}
+                    {reviveElement(notif.message)}{' '}
                     <span className='status'>({notif.status})</span>
                   </p>
                   <div className='meta'>
