@@ -5,7 +5,7 @@ import type { AugmentedBlockHeader } from '@polkadot/react-hooks/ctx/types';
 
 import React from 'react';
 
-import { CardSummary, styled, SummaryBox } from '@polkadot/react-components';
+import { CardSummary, Icon, styled, SummaryBox, Tooltip } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { BestFinalized, BestNumber, TimeNow, TotalInactive, TotalIssuance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
@@ -35,7 +35,21 @@ function Summary ({ eventCount, headers }: Props): React.ReactElement {
             </CardSummary>
             <CardSummary
               className='media--800 avgBlockTime'
-              label={t('average block time')}
+              label={
+                <p>
+                  {t('average block time')}
+                  <Icon
+                    icon='info-circle'
+                    isPadded
+                    tooltip='average-blocktime'
+                  />
+                  <Tooltip
+                    place='top'
+                    text={t('Average block time calculated over the last 50 blocks')}
+                    trigger='average-blocktime'
+                  />
+                </p>
+              }
             >
               <span className={`--digits ${isLoaded ? '' : '--tmp'}`}>{`${(timeAvg / 1000).toFixed(3)}`}<span className='postfix timeUnit'> s</span></span>
             </CardSummary>
