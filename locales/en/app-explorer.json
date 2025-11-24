@@ -1,5 +1,6 @@
 {
   "API stats": "API stats",
+  "Average block time calculated over the last 50 blocks": "Average block time calculated over the last 50 blocks",
   "Block details": "Block details",
   "Chain info": "Chain info",
   "Forks": "Forks",
@@ -15,6 +16,7 @@
   "Unable to retrieve the specified block details. {{error}}": "Unable to retrieve the specified block details. {{error}}",
   "Waiting for next block...": "Waiting for next block...",
   "average": "average",
+  "average block time": "average block time",
   "avg": "avg",
   "best": "best",
   "best #": "best #",
