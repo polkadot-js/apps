@@ -524,6 +524,7 @@
        1	Paco Yang                     	Fix transfer button disappearance (#10081)
        1	paulhealy09                   	Update Unit Network logo (Thanks to https://github.com/unit-network) (#5027)
        1	Pavel                         	Added new community node for SORA (#5600)
+       1	peetzweg/                     	uses flex column layout with dedicated scrollable area just for chains and keeping the header visible at the top (#12023)
        1	Peter Chung                   	Align Sig Validity Indicator (#1660) (#1697)
        1	Peter White                   	Small fixes to provide council page compatibility (#8791)
        1	PG Herveou                    	Add yerbanetwork (#9908)
