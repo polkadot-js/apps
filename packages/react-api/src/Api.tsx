@@ -2,10 +2,12 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Blockchain } from '@acala-network/chopsticks-core';
+import type { Dispatch, SetStateAction } from 'react';
 import type { LinkOption } from '@polkadot/apps-config/endpoints/types';
 import type { InjectedExtension } from '@polkadot/extension-inject/types';
 import type { ChainProperties, ChainType } from '@polkadot/types/interfaces';
 import type { KeyringStore } from '@polkadot/ui-keyring/types';
+import type { HexString } from '@polkadot/util/types';
 import type { ApiProps, ApiState, InjectedAccountExt } from './types.js';
 
 import { ChopsticksProvider, setStorage } from '@acala-network/chopsticks-core';
@@ -20,6 +22,7 @@ import { web3Accounts, web3Enable } from '@polkadot/extension-dapp';
 import { TokenUnit } from '@polkadot/react-components/InputConsts/units';
 import { useApiUrl, useCoretimeEndpoint, useEndpoint, usePeopleEndpoint, useQueue } from '@polkadot/react-hooks';
 import { ApiCtx } from '@polkadot/react-hooks/ctx/Api';
+import { useNotifications } from '@polkadot/react-hooks/ctx/Notifications';
 import { ApiSigner } from '@polkadot/react-signer/signers';
 import { keyring } from '@polkadot/ui-keyring';
 import { settings } from '@polkadot/ui-settings';
@@ -133,7 +136,7 @@ async function retrieve (api: ApiPromise, injectedPromise: Promise<InjectedExten
   };
 }
 
-async function loadOnReady (api: ApiPromise, endpoint: LinkOption | null, fork: Blockchain | null, injectedPromise: Promise<InjectedExtension[]>, store: KeyringStore | undefined, types: Record<string, Record<string, string>>, urlIsEthereum = false): Promise<ApiState> {
+async function loadOnReady (api: ApiPromise, endpoint: LinkOption | null, fork: Blockchain | null, injectedPromise: Promise<InjectedExtension[]>, store: KeyringStore | undefined, types: Record<string, Record<string, string>>, urlIsEthereum = false, setGenesisHash: Dispatch<SetStateAction<HexString>>): Promise<ApiState> {
   statics.registry.register(types);
 
   const { injectedAccounts, properties, systemChain, systemChainType, systemName, systemVersion } = await retrieve(api, injectedPromise);
@@ -192,6 +195,7 @@ async function loadOnReady (api: ApiPromise, endpoint: LinkOption | null, fork: 
   const apiDefaultTx = api.tx[defaultSection][defaultMethod];
   const apiDefaultTxSudo = api.tx.system?.setCode || apiDefaultTx;
 
+  setGenesisHash(api.genesisHash.toHex());
   setDeriveCache(api.genesisHash.toHex(), deriveMapCache);
 
   return {
@@ -300,6 +304,7 @@ async function createApi (apiUrl: string, signer: ApiSigner, isLocalFork: boolea
 }
 
 export function ApiCtxRoot ({ apiUrl, beforeApiInit, children, isElectron, store: keyringStore }: Props): React.ReactElement<Props> | null {
+  const { setGenesisHash } = useNotifications();
   const { queuePayload, queueSetTxStatus } = useQueue();
   const [state, setState] = useState<ApiState>(EMPTY_STATE);
   const [isApiConnected, setIsApiConnected] = useState(false);
@@ -367,7 +372,7 @@ export function ApiCtxRoot ({ apiUrl, beforeApiInit, children, isElectron, store
 
           const urlIsEthereum = !!location.href.includes('keyring-type=ethereum');
 
-          loadOnReady(statics.api, apiEndpoint, fork, injectedPromise, keyringStore, types, urlIsEthereum)
+          loadOnReady(statics.api, apiEndpoint, fork, injectedPromise, keyringStore, types, urlIsEthereum, setGenesisHash)
             .then(setState)
             .catch(onError);
         });
@@ -382,7 +387,7 @@ export function ApiCtxRoot ({ apiUrl, beforeApiInit, children, isElectron, store
         setIsApiInitialized(true);
       })
       .catch(onError);
-  }, [apiEndpoint, apiUrl, queuePayload, queueSetTxStatus, keyringStore, isLocalFork]);
+  }, [apiEndpoint, apiUrl, queuePayload, queueSetTxStatus, keyringStore, isLocalFork, setGenesisHash]);
 
   if (!value.isApiInitialized) {
     return <>{beforeApiInit}</>;

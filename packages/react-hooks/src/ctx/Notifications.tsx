@@ -1,12 +1,15 @@
 // Copyright 2017-2025 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ReactNode } from 'react';
+import type { Dispatch, ReactNode, SetStateAction } from 'react';
 import type { QueueTxStatus } from '@polkadot/react-components/Status/types';
+import type { HexString } from '@polkadot/util/types';
 
-import React, { createContext, useContext, useMemo, useState } from 'react';
+import React, { createContext, useCallback, useContext, useMemo, useState } from 'react';
 
-interface Notification {
+import { getNotificationsFromStorage, removeNotificationFromStorage, saveNotificationToStorage } from '../utils/notifications.js';
+
+export interface Notification {
   blockNumber?: number
   key: string;
   message: ReactNode;
@@ -19,25 +22,28 @@ interface NotificationContextType {
   notifications: Notification[];
   addNotification: (item: Omit<Notification, 'timestamp'>) => void;
   removeNotification: (key: string) => void;
+  setGenesisHash: Dispatch<SetStateAction<HexString>>
 }
 
 const NotificationContext = createContext<NotificationContextType | undefined>(undefined);
 
 export const NotificationCtxRoot: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [genesisHash, setGenesisHash] = useState<HexString>('0x');
   const [notifications, setNotifications] = useState<Notification[]>([]);
 
-  const addNotification = (item: Omit<Notification, 'timestamp'>) => {
-    setNotifications((prev) =>
-      [{ ...item, timestamp: Date.now() }, ...prev]);
-  };
+  const addNotification = useCallback((item: Omit<Notification, 'timestamp'>) => {
+    saveNotificationToStorage(genesisHash, { ...item, timestamp: Date.now() });
+    setNotifications(getNotificationsFromStorage(genesisHash));
+  }, [genesisHash]);
 
-  const removeNotification = (key: string) => {
-    setNotifications((prev) => prev.filter((n) => n.key !== key));
-  };
+  const removeNotification = useCallback((key: string) => {
+    removeNotificationFromStorage(genesisHash, key);
+    setNotifications(getNotificationsFromStorage(genesisHash));
+  }, [genesisHash]);
 
   const value = useMemo(
-    () => ({ addNotification, notifications, removeNotification }),
-    [notifications]
+    () => ({ addNotification, notifications, removeNotification, setGenesisHash }),
+    [addNotification, notifications, removeNotification]
   );
 
   return (
