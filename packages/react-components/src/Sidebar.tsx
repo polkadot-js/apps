@@ -34,7 +34,9 @@ function Sidebar ({ buttons, children, className = '', dataTestId = '', onClose,
           onClick={onClose}
         />
       </Button.Group>
-      {children}
+      <div className='ui--Sidebar-children'>
+        {children}
+      </div>
     </StyledDiv>
   );
 }
@@ -46,10 +48,10 @@ const StyledDiv = styled.div`
   max-width: 24rem;
   min-width: 24rem;
   position: fixed;
-  padding: 1rem;
-  overflow-y: auto;
   top: 0;
   z-index: 999;
+  display: flex;
+  flex-direction: column;
 
   &.leftPosition {
     box-shadow: 6px 0px 20px 0px rgba(0, 0, 0, 0.3);
@@ -63,9 +65,20 @@ const StyledDiv = styled.div`
 
   .ui--Sidebar-buttons {
     margin: 0;
-    position: absolute;
-    right: 0.5rem;
-    top: 0.5rem;
+    padding: .75rem 1rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    flex-shrink: 0;
+  }
+
+  .ui--Sidebar-children {
+    padding: 0 1rem;
+    overflow-y: auto;
+    flex: 1;
+    min-height: 0;
+    padding-bottom: 4rem;
   }
 `;
 
