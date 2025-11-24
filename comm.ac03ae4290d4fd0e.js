@@ -983,10 +983,10 @@
   max-width: 24rem;
   min-width: 24rem;
   position: fixed;
-  padding: 1rem;
-  overflow-y: auto;
   top: 0;
   z-index: 999;
+  display: flex;
+  flex-direction: column;
 
   &.leftPosition {
     box-shadow: 6px 0px 20px 0px rgba(0, 0, 0, 0.3);
@@ -1000,11 +1000,22 @@
 
   .ui--Sidebar-buttons {
     margin: 0;
-    position: absolute;
-    right: 0.5rem;
-    top: 0.5rem;
+    padding: .75rem 1rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    flex-shrink: 0;
   }
-`,N=s.memo((function({buttons:e,children:t,className:n="",dataTestId:s="",onClose:i,position:r,sidebarRef:o}){return(0,a.jsxs)(C,{className:`${n} ui--Sidebar ${r}Position`,"data-testid":s,ref:o,children:[(0,a.jsxs)(j.Group,{className:"ui--Sidebar-buttons",children:[e,(0,a.jsx)(j,{dataTestId:"close-sidebar-button",icon:"times",isBasic:!0,isCircular:!0,onClick:i})]}),t]})}));var S=n(69316),E=n(69356),I=n(54383),B=n(46257),D=n(58607),L=n(65874),P=n(82671),T=n(95292),M=n(14681),V=n(92730),F=n(52107),z=n(73477);const Z=s.memo((function({accountId:e,className:t="",label:n=""}){const[i,r]=(0,s.useState)("unknown");return(0,s.useEffect)((()=>{const t=(0,z.C9)(e);"unknown"!==t&&r(t)}),[e]),(0,a.jsxs)("div",{className:`${t} ui--CryptoType`,children:[n,i]})}));var R=n(527);let $=0;const q=m.z.div`
+
+  .ui--Sidebar-children {
+    padding: 0 1rem;
+    overflow-y: auto;
+    flex: 1;
+    min-height: 0;
+    padding-bottom: 4rem;
+  }
+`,N=s.memo((function({buttons:e,children:t,className:n="",dataTestId:s="",onClose:i,position:r,sidebarRef:o}){return(0,a.jsxs)(C,{className:`${n} ui--Sidebar ${r}Position`,"data-testid":s,ref:o,children:[(0,a.jsxs)(j.Group,{className:"ui--Sidebar-buttons",children:[e,(0,a.jsx)(j,{dataTestId:"close-sidebar-button",icon:"times",isBasic:!0,isCircular:!0,onClick:i})]}),(0,a.jsx)("div",{className:"ui--Sidebar-children",children:t})]})}));var S=n(69316),E=n(69356),I=n(54383),B=n(46257),D=n(58607),L=n(65874),P=n(82671),T=n(95292),M=n(14681),V=n(92730),F=n(52107),z=n(73477);const Z=s.memo((function({accountId:e,className:t="",label:n=""}){const[i,r]=(0,s.useState)("unknown");return(0,s.useEffect)((()=>{const t=(0,z.C9)(e);"unknown"!==t&&r(t)}),[e]),(0,a.jsxs)("div",{className:`${t} ui--CryptoType`,children:[n,i]})}));var R=n(527);let $=0;const q=m.z.div`
   white-space: nowrap;
 
   .ui--FormatBalance {
