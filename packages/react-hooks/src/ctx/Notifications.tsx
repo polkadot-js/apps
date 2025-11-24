@@ -5,7 +5,7 @@ import type { Dispatch, ReactNode, SetStateAction } from 'react';
 import type { QueueTxStatus } from '@polkadot/react-components/Status/types';
 import type { HexString } from '@polkadot/util/types';
 
-import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import React, { createContext, useCallback, useEffect, useMemo, useState } from 'react';
 
 import { getNotificationsFromStorage, removeNotificationFromStorage, saveNotificationToStorage } from '../utils/notifications.js';
 
@@ -18,14 +18,14 @@ export interface Notification {
   timestamp: number;
 }
 
-interface NotificationContextType {
+export interface NotificationContextType {
   notifications: Notification[];
   addNotification: (item: Omit<Notification, 'timestamp'>) => void;
   removeNotification: (key: string) => void;
   setGenesisHash: Dispatch<SetStateAction<HexString>>
 }
 
-const NotificationContext = createContext<NotificationContextType | undefined>(undefined);
+export const NotificationContext = createContext<NotificationContextType | undefined>(undefined);
 
 export const NotificationCtxRoot: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [genesisHash, setGenesisHash] = useState<HexString>('0x');
@@ -42,7 +42,7 @@ export const NotificationCtxRoot: React.FC<{ children: React.ReactNode }> = ({ c
   }, [genesisHash]);
 
   const value = useMemo(
-    () => ({ addNotification, notifications, removeNotification, setGenesisHash }),
+    () => ({ addNotification, notifications: notifications || [], removeNotification, setGenesisHash }),
     [addNotification, notifications, removeNotification]
   );
 
@@ -57,14 +57,4 @@ export const NotificationCtxRoot: React.FC<{ children: React.ReactNode }> = ({ c
       {children}
     </NotificationContext.Provider>
   );
-};
-
-export const useNotifications = (): NotificationContextType => {
-  const ctx = useContext(NotificationContext);
-
-  if (!ctx) {
-    throw new Error('useNotifications must be used inside NotificationProvider');
-  }
-
-  return ctx;
 };

@@ -138,7 +138,7 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
                 routes={routes}
               />
             ))}
-            <Notifications />
+            {!!apiProps.isApiReady && <Notifications />}
           </ul>
         </div>
         <div className='menuSection media--1200'>

@@ -5,7 +5,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import { Button, Icon, Modal, styled } from '@polkadot/react-components';
-import { useNotifications } from '@polkadot/react-hooks/ctx/Notifications';
+import { useNotifications } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../../translate.js';
@@ -18,7 +18,7 @@ interface Props {
 
 const NotificationsModal = ({ className, toggleModal }: Props) => {
   const { t } = useTranslation();
-  const { notifications = [], removeNotification } = useNotifications();
+  const { notifications, removeNotification } = useNotifications();
 
   const handleRemove = (id: string) => {
     removeNotification(id);

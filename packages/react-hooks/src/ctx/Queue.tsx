@@ -14,7 +14,7 @@ import { STATUS_COMPLETE } from '@polkadot/react-components/Status/constants';
 import { getContractAbi } from '@polkadot/react-components/util';
 import jsonrpc from '@polkadot/types/interfaces/jsonrpc';
 
-import { useNotifications } from './Notifications.js';
+import { useNotifications } from '../useNotifications.js';
 
 export interface Props {
   children: React.ReactNode;

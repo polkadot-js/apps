@@ -4,31 +4,31 @@
 import React from 'react';
 
 import { Badge, Icon, styled } from '@polkadot/react-components';
-import { useToggle } from '@polkadot/react-hooks';
+import { useNotifications, useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../../translate.js';
 import NotificationsModal from './modal.js';
 
 interface Props {
-  count?: number;
   className?: string;
   isToplevel?: boolean;
   classNameText?: string;
 }
 
-const Notifications = ({ className, count = 5, isToplevel = true }: Props) => {
+const Notifications = ({ className, isToplevel = true }: Props) => {
   const { t } = useTranslation();
   const [isModalVisible, toggleModal] = useToggle();
+  const { notifications } = useNotifications();
 
   return (
-    <StyledLi className={`${className} ui--MenuItem ${count ? 'withCounter' : ''} isLink ${isToplevel ? 'topLevel highlight--color-contrast' : ''}`}>
+    <StyledLi className={`${className} ui--MenuItem ${notifications.length ? 'withCounter' : ''} isLink ${isToplevel ? 'topLevel highlight--color-contrast' : ''}`}>
       <section onClick={toggleModal}>
         <Icon icon={'bell'} />
         <span className='media--800'>{t('Notifications')}</span>
-        {!!count && (
+        {!!notifications.length && (
           <Badge
             color='white'
-            info={count}
+            info={notifications.length}
           />
         )}
       </section>
