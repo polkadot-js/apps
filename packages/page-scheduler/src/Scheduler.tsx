@@ -11,7 +11,7 @@ import type { ScheduledExt } from './types.js';
 import React, { useMemo, useRef } from 'react';
 
 import { Table } from '@polkadot/react-components';
-import { useApi, useBestNumber, useCall } from '@polkadot/react-hooks';
+import { useApi, useBestNumberRelay, useCall } from '@polkadot/react-hooks';
 
 import ScheduledView from './Scheduled.js';
 import { useTranslation } from './translate.js';
@@ -81,7 +81,7 @@ const OPT_SCHED = {
 function Schedule ({ className = '' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const bestNumber = useBestNumber();
+  const bestNumber = useBestNumberRelay();
   const items = useCall<ScheduledExt[]>(api.query.scheduler.agenda.entries, undefined, OPT_SCHED);
 
   const filtered = useMemo(

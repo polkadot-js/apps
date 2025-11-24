@@ -13,6 +13,7 @@ import { TabsCtx } from '@polkadot/react-hooks/ctx/Tabs';
 
 import { findMissingApis } from '../endpoint.js';
 import { useTranslation } from '../translate.js';
+import BrowserCheckAlert from './BrowserCheckAlert.js';
 import NotFound from './NotFound.js';
 import Status from './Status.js';
 
@@ -63,6 +64,7 @@ function Content ({ className }: Props): React.ReactElement<Props> {
       {!missingApis
         ? (
           <div className='connecting'>
+            <BrowserCheckAlert />
             <Spinner label={t('Initializing connection')} />
           </div>
         )

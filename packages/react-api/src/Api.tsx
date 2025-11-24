@@ -82,12 +82,13 @@ async function getInjectedAccounts (injectedPromise: Promise<InjectedExtension[]
 
     const accounts = await web3Accounts();
 
-    return accounts.map(({ address, meta }, whenCreated): InjectedAccountExt => ({
+    return accounts.map(({ address, meta, type }, whenCreated): InjectedAccountExt => ({
       address,
       meta: objectSpread({}, meta, {
         name: `${meta.name || 'unknown'} (${meta.source === 'polkadot-js' ? 'extension' : meta.source})`,
         whenCreated
-      })
+      }),
+      type: type || 'sr25519'
     }));
   } catch (error) {
     console.error('web3Accounts', error);
@@ -167,14 +168,24 @@ async function loadOnReady (api: ApiPromise, endpoint: LinkOption | null, fork: 
   // finally load the keyring
   isKeyringLoaded() || keyring.loadAll({
     genesisHash: api.genesisHash,
-    genesisHashAdd: endpoint && isNumber(endpoint.paraId) && (endpoint.paraId < 2000) && endpoint.genesisHashRelay
+    genesisHashAdd: !isEthereum && endpoint && isNumber(endpoint.paraId) && (endpoint.paraId < 2000) && endpoint.genesisHashRelay
       ? [endpoint.genesisHashRelay]
       : [],
     isDevelopment,
     ss58Format,
     store,
     type: isEthereum ? 'ethereum' : 'ed25519'
-  }, injectedAccounts);
+  },
+  isEthereum
+    ? injectedAccounts.map((account) => {
+      const copy = { ...account };
+
+      copy.type = 'ethereum';
+
+      return copy;
+    })
+    : injectedAccounts
+  );
 
   const defaultSection = Object.keys(api.tx)[0];
   const defaultMethod = Object.keys(api.tx[defaultSection])[0];

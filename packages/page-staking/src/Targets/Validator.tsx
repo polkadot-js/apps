@@ -9,7 +9,7 @@ import React, { useCallback, useMemo } from 'react';
 
 import { AddressSmall, Badge, Checkbox, Icon, Table } from '@polkadot/react-components';
 import { checkVisibility } from '@polkadot/react-components/util';
-import { useApi, useBlockTime, useDeriveAccountInfo } from '@polkadot/react-hooks';
+import { useApi, useBlockTime, useDeriveAccountInfo, useStakingAsyncApis } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
@@ -28,13 +28,14 @@ interface Props {
   toggleSelected: (accountId: string) => void;
 }
 
-function queryAddress (address: string): void {
-  window.location.hash = `/staking/query/${address}`;
+function queryAddress (address: string, isStakingAsync: boolean): void {
+  window.location.hash = `/${isStakingAsync ? 'staking-async' : 'staking'}/query/${address}`;
 }
 
 function Validator ({ allSlashes, canSelect, filterName, info: { accountId, bondOther, bondOwn, bondTotal, commissionPer, isBlocking, isElected, isFavorite, key, lastPayout, numNominators, rankOverall, stakedReturnCmp }, isNominated, isSelected, nominatedBy = [], toggleFavorite, toggleSelected }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api, apiIdentity } = useApi();
+  const { isStakingAsync } = useStakingAsyncApis();
   const accountInfo = useDeriveAccountInfo(accountId);
   const [,, time] = useBlockTime(lastPayout);
 
@@ -53,8 +54,8 @@ function Validator ({ allSlashes, canSelect, filterName, info: { accountId, bond
   );
 
   const _onQueryStats = useCallback(
-    () => queryAddress(key),
-    [key]
+    () => queryAddress(key, isStakingAsync),
+    [isStakingAsync, key]
   );
 
   const _toggleSelected = useCallback(

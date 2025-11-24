@@ -67,6 +67,11 @@ export function curveThreshold (curve: PalletReferendaCurve, input: BN, div: BN)
   if (curve.isLinearDecreasing) {
     const { ceil, floor, length } = curve.asLinearDecreasing;
 
+    // if divisor is zero, we return the max
+    if (length.isZero()) {
+      return BN_BILLION;
+    }
+
     // *ceil - (x.min(*length).saturating_div(*length, Down) * (*ceil - *floor))
     // NOTE: We first multiply, then divide (since we work with fractions)
     return ceil.sub(

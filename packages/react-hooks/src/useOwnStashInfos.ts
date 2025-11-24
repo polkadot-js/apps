@@ -1,6 +1,7 @@
 // Copyright 2017-2025 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiPromise } from '@polkadot/api';
 import type { CombinatorFunction } from '@polkadot/api/promise/Combinator';
 import type { DeriveStakingAccount } from '@polkadot/api-derive/types';
 import type { AccountId, ValidatorPrefs } from '@polkadot/types/interfaces';
@@ -74,11 +75,12 @@ function getStakerState (stashId: string, allAccounts: string[], [isOwnStash, { 
   };
 }
 
-function useOwnStashInfosImpl (): StakerState[] | undefined {
-  const { api } = useApi();
+function useOwnStashInfosImpl (apiOverride?: ApiPromise): StakerState[] | undefined {
+  const { api: connectedApi } = useApi();
+  const api = useMemo(() => apiOverride ?? connectedApi, [apiOverride, connectedApi]);
   const { allAccounts } = useAccounts();
   const mountedRef = useIsMountedRef();
-  const ownStashes = useOwnStashes();
+  const ownStashes = useOwnStashes(undefined, api);
   const [queried, setQueried] = useState<Queried | undefined>();
 
   useEffect((): () => void => {
