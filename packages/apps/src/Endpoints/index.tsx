@@ -424,7 +424,6 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
 
 const StyledSidebar = styled(Sidebar)`
   color: var(--color-text);
-  padding-top: 3.5rem;
 
   .customButton {
     position: absolute;
