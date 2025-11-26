@@ -20,7 +20,7 @@
       24	sxlwar                        	crab config (#6995)
       24	WoeOm                         	feat: subscan support fellowship, referenda v2 (#8987)
       20	Nikita                        	Update icon and colors for Realis.Network (#6336)
-      19	rajk93                        	chore: disable unreachable endpoints (#12025)
+      20	rajk93                        	chore: resolve chain colors when WS_URL matches existing endpoint (#12016)
       18	fomod-in                      	Update translation.json (#5942)
       18	Wei Tang                      	Re-enable Neatcoin endpoint (#8271)
       18	William Freudenberger         	re-activate centrifuge fullnodes (#9377)
