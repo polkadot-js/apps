@@ -33,12 +33,12 @@ function formatKeys (keys: [ValidatorId, Keys][]): string {
   );
 }
 
-function toHuman (value: Codec | Codec[]): unknown {
+function toHuman (value: Codec | Codec[], isExtended?: boolean, disableAscii?: boolean): unknown {
   // eslint-disable-next-line @typescript-eslint/unbound-method
   return isFunction((value as Codec).toHuman)
-    ? (value as Codec).toHuman()
+    ? (value as Codec).toHuman(isExtended, disableAscii)
     : Array.isArray(value)
-      ? value.map((v) => toHuman(v))
+      ? value.map((v) => toHuman(v, isExtended, disableAscii))
       : value.toString();
 }
 
@@ -50,7 +50,7 @@ export function toHumanJson (value: unknown): string {
     .replace(/\],\[/g, '],\n[');
 }
 
-export default function valueToText (type: string, value: Codec | undefined | null): React.ReactNode {
+export default function valueToText (type: string, value: Codec | undefined | null, isExtended?: boolean, disableAscii?: boolean): React.ReactNode {
   if (isNull(value) || isUndefined(value)) {
     const { cName, key, values } = div({}, '<unknown>');
 
@@ -78,7 +78,7 @@ export default function valueToText (type: string, value: Codec | undefined | nu
             : value.toString()
           : (value instanceof Option) && value.isNone
             ? '<none>'
-            : toHumanJson(toHuman(value))
+            : toHumanJson(toHuman(value, isExtended, disableAscii))
   );
 
   const { cName, key, values } = div({}, renderedValue);

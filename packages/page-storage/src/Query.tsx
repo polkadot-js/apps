@@ -131,7 +131,7 @@ function getCachedComponent (registry: Registry, query: QueryTypes): CacheInstan
     const defaultProps = { className: 'ui--output' };
     const Component = renderHelper(
       // By default we render a simple div node component with the query results in it
-      (value: unknown) => <pre>{valueToText(type, value as null)}</pre>,
+      (value: unknown) => <pre>{valueToText(type, value as null, undefined, true)}</pre>,
       defaultProps
     );
 
