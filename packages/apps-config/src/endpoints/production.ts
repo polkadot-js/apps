@@ -37,6 +37,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: '3dpass',
     providers: {
+      'Lzmz': 'wss://rpc.p3d.top',
       '3dpass': 'wss://rpc.3dpass.org'
     },
     text: '3DPass',
