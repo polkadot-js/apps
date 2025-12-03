@@ -219,7 +219,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'kilt',
     paraId: 2086,
     providers: {
-      'KILT Foundation': 'wss://peregrine.kilt.io/'
+      // 'KILT Foundation': 'wss://peregrine.kilt.io/' // https://github.com/polkadot-js/apps/issues/12036
     },
     text: 'KILT Peregrine',
     ui: {
@@ -313,7 +313,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'NodleParadis',
     paraId: 2026,
     providers: {
-      OnFinality: 'wss://node-7273232234617282560.nv.onfinality.io/ws?apikey=b937a7d7-7395-49b9-b745-60a0342fa365'
+      // OnFinality: 'wss://node-7273232234617282560.nv.onfinality.io/ws?apikey=b937a7d7-7395-49b9-b745-60a0342fa365' // https://github.com/polkadot-js/apps/issues/12035
     },
     text: 'Nodle',
     ui: {
