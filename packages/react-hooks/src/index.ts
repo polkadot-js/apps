@@ -65,6 +65,7 @@ export { useModal } from './useModal.js';
 export { useNextTick } from './useNextTick.js';
 export { useNonEmptyString } from './useNonEmptyString.js';
 export { useNonZeroBn } from './useNonZeroBn.js';
+export { useNotifications } from './useNotifications.js';
 export { useOutsideClick } from './useOutsideClick.js';
 export { useOwnEraRewards } from './useOwnEraRewards.js';
 export { useOwnStashes, useOwnStashIds } from './useOwnStashes.js';
