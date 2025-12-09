@@ -6,9 +6,9 @@ import type { PalletBagsListListBag } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 import type { BagInfo } from './types.js';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
-import { createNamedHook, useCall, useMapKeys } from '@polkadot/react-hooks';
+import { createNamedHook, useApi, useCall, useCurrencyToVote, useMapKeys } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 
 import useQueryModule from './useQueryModule.js';
@@ -54,13 +54,40 @@ function merge (prev: BagInfo[] | undefined, curr: BagInfo[]): BagInfo[] {
 
 function useBagsListImpl (): BagInfo[] | undefined {
   const mod = useQueryModule();
+  const { api } = useApi();
+  const { toCurrency } = useCurrencyToVote();
   const [result, setResult] = useState<BagInfo[] | undefined>();
   const ids = useMapKeys(mod.listBags, [], KEY_OPTS);
   const query = useCall(ids && ids.length !== 0 && mod.listBags.multi, [ids], MULTI_OPTS);
 
+  const converted = useMemo(
+    () => {
+      if (!query || query.length === 0) {
+        return undefined;
+      }
+
+      // Westend Asset Hub uses SaturatingCurrencyToVote (no conversion needed)
+      // See: https://github.com/paritytech/polkadot-sdk/pull/8307
+      const chainName = api.runtimeChain.toString().toLowerCase();
+      const isWestendAssetHub = chainName.includes('westend') && chainName.includes('asset');
+
+      if (isWestendAssetHub) {
+        return query;
+      }
+
+      // Apply CurrencyToVote conversion (no-op when factor = 1)
+      return query.map((bag) => ({
+        ...bag,
+        bagLower: toCurrency(bag.bagLower),
+        bagUpper: toCurrency(bag.bagUpper)
+      }));
+    },
+    [api.runtimeChain, query, toCurrency]
+  );
+
   useEffect((): void => {
-    query && setResult((prev) => merge(prev, query));
-  }, [query]);
+    converted && setResult((prev) => merge(prev, converted));
+  }, [converted]);
 
   return result;
 }
