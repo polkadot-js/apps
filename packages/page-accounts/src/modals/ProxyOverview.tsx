@@ -148,8 +148,12 @@ function NewProxy ({ index, onChangeAccount, onChangeType, onRemove, proxiedAcco
 }
 
 function getProxyTypeInstance (api: ApiPromise, index = 0): KitchensinkRuntimeProxyType {
-  // This is not perfect, but should work for `{Kusama, Node, Polkadot}RuntimeProxyType`
-  const proxyNames = api.registry.lookup.names.filter((name) => name.endsWith('RuntimeProxyType'));
+  // This is not perfect, but should work for most chains coz thier type ends with ProxyType`
+  // const proxyNames = api.registry.lookup.names.filter((name) => name.endsWith('ProxyType'));
+
+  // Better: derive the type name directly from the args of the addProxy call.
+  // This works consistently across Polkadot SDK chains.
+  const proxyNames = [api.tx.proxy.addProxy.meta.args[1].type.toString()];
 
   // fallback to previous version (may be Substrate default), when not found
   return api.createType<KitchensinkRuntimeProxyType>(proxyNames.length ? proxyNames[0] : 'ProxyType', index);
