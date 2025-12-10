@@ -4,7 +4,6 @@
 import type { Changes } from '@polkadot/react-hooks/useEventChanges';
 import type { StorageKey, u32 } from '@polkadot/types';
 import type { EventRecord } from '@polkadot/types/interfaces';
-import type { BN } from '@polkadot/util';
 
 import { createNamedHook, useApi, useEventChanges, useMapKeys } from '@polkadot/react-hooks';
 
@@ -28,12 +27,17 @@ function filter (records: EventRecord[]): Changes<u32> {
   return { added, removed };
 }
 
-function useReferendaIdsImpl (): BN[] | undefined {
+function useReferendaIdsImpl (): u32[] | undefined {
   const { api } = useApi();
   const startValue = useMapKeys(api.query.referenda.referendumInfoFor, [], OPT_ID);
 
   return useEventChanges([
-    api.events.referenda.Submitted
+    api.events.referenda.Submitted,
+    api.events.referenda.Approved,
+    api.events.referenda.Rejected,
+    api.events.referenda.Cancelled,
+    api.events.referenda.TimedOut,
+    api.events.referenda.Killed
   ], filter, startValue);
 }
 

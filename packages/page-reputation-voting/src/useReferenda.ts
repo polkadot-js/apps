@@ -38,7 +38,7 @@ const OPT_MULTI = {
   withParamsTransform: true
 };
 
-function useReferendaImpl (): Referendum[] | undefined {
+function useReferendaImpl (): Referendum[] {
   const { api } = useApi();
   const ids = useReferendaIds();
 
@@ -49,7 +49,7 @@ function useReferendaImpl (): Referendum[] | undefined {
   );
 
   return useMemo(
-    () => referenda?.sort(sortReferenda),
+    () => (referenda ? [...referenda].sort(sortReferenda) : []),
     [referenda]
   );
 }

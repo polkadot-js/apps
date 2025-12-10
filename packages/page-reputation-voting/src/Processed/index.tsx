@@ -4,7 +4,7 @@
 import type { FlagColor } from '@polkadot/react-components/types';
 import type { ProcessedReferendum } from '../useProcessedReferenda.js';
 
-import React, { useRef } from 'react';
+import React, { useMemo } from 'react';
 
 import { MarkError, MarkWarning, Spinner, styled, Table, Tag } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
@@ -25,11 +25,11 @@ const STATUS_COLORS: Record<ProcessedReferendum['status'], FlagColor> = {
 };
 
 const STATUS_ICONS: Record<ProcessedReferendum['status'], React.ReactNode> = {
-  Approved: <MarkWarning content="" />,
-  Cancelled: <MarkWarning content="" />,
-  Killed: <MarkError content="" />,
-  Rejected: <MarkError content="" />,
-  TimedOut: <MarkWarning content="" />
+  Approved: <MarkWarning content='' />,
+  Cancelled: <MarkWarning content='' />,
+  Killed: <MarkError content='' />,
+  Rejected: <MarkError content='' />,
+  TimedOut: <MarkWarning content='' />
 };
 
 function getFailureReason (status: ProcessedReferendum['status'], t: (key: string) => string): string | null {
@@ -52,18 +52,18 @@ function Processed ({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const processed = useProcessedReferenda();
 
-  const headerRef = useRef<[string?, string?, number?][]>([
+  const headers = useMemo<[string?, string?, number?][]>(() => [
     [t('Referendum'), 'start'],
     [t('Status')],
     [t('Completed at'), 'number'],
     [t('Details'), 'start', 2]
-  ]);
+  ], [t]);
 
   return (
     <div className={className}>
       <Table
         empty={processed && t('No processed proposals')}
-        header={headerRef.current}
+        header={headers}
       >
         {!processed
           ? <Spinner />

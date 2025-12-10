@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option } from '@polkadot/types';
-import type { Codec } from '@polkadot/types/types';
 import type { BN } from '@polkadot/util';
+import type { VoteRecord } from '../types.js';
 
 import React, { useMemo, useState } from 'react';
 
@@ -26,7 +26,7 @@ function Vote ({ className, id }: Props): React.ReactElement<Props> | null {
   const [isRemoveOpen, toggleRemoveOpen] = useToggle();
 
   // Check if the selected account has voted on this poll
-  const voteRecord = useCall<Option<Codec>>(
+  const voteRecord = useCall<Option<VoteRecord>>(
     accountId ? api.query.reputationVoting?.voteOf : undefined,
     [accountId, id]
   );
@@ -37,11 +37,10 @@ function Vote ({ className, id }: Props): React.ReactElement<Props> | null {
     }
 
     const record = voteRecord.unwrap();
-    const direction = (record as unknown as { direction: { isAye: boolean; isNay: boolean } }).direction;
 
     return {
       hasVoted: true,
-      voteDirection: direction?.isAye ? 'Aye' : direction?.isNay ? 'Nay' : null
+      voteDirection: record.direction.isAye ? 'Aye' : record.direction.isNay ? 'Nay' : null
     };
   }, [voteRecord]);
 
@@ -72,6 +71,7 @@ function Vote ({ className, id }: Props): React.ReactElement<Props> | null {
             <TxButton
               accountId={accountId}
               icon='ban'
+              isDisabled={!accountId}
               label={t('Vote Nay')}
               onStart={toggleVoteOpen}
               params={[id, 'Nay']}
@@ -80,6 +80,7 @@ function Vote ({ className, id }: Props): React.ReactElement<Props> | null {
             <TxButton
               accountId={accountId}
               icon='check'
+              isDisabled={!accountId}
               label={t('Vote Aye')}
               onStart={toggleVoteOpen}
               params={[id, 'Aye']}
@@ -114,7 +115,7 @@ function Vote ({ className, id }: Props): React.ReactElement<Props> | null {
             <TxButton
               accountId={accountId}
               icon='trash'
-              isDisabled={!hasVoted}
+              isDisabled={!accountId || !hasVoted}
               label={t('Remove vote')}
               onStart={toggleRemoveOpen}
               params={[id]}

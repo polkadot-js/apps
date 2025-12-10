@@ -1,17 +1,28 @@
 // Copyright 2017-2025 @polkadot/app-reputation-voting authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { BN } from '@polkadot/util';
 import type { Referendum } from './types.js';
 
 import { useMemo } from 'react';
 
 import { createNamedHook } from '@polkadot/react-hooks';
+import { bnToBn } from '@polkadot/util';
 
 import useReferenda from './useReferenda.js';
 
 export interface ProcessedReferendum extends Referendum {
   status: 'Approved' | 'Rejected' | 'Cancelled' | 'TimedOut' | 'Killed';
   completedAt: number | null;
+}
+
+// Extract block number from completed referendum data
+// Handles both tuple format (data[0]) and direct block number
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function extractBlockNumber (data: any): BN {
+  // If data is a tuple/array, get the first element (block number)
+  // Otherwise, data itself is the block number
+  return bnToBn(data[0] ?? data);
 }
 
 function useProcessedReferendaImpl (): ProcessedReferendum[] | undefined {
@@ -30,16 +41,16 @@ function useProcessedReferendaImpl (): ProcessedReferendum[] | undefined {
 
         if (r.info.isApproved) {
           status = 'Approved';
-          completedAt = r.info.asApproved[0].toNumber();
+          completedAt = extractBlockNumber(r.info.asApproved).toNumber();
         } else if (r.info.isRejected) {
           status = 'Rejected';
-          completedAt = r.info.asRejected[0].toNumber();
+          completedAt = extractBlockNumber(r.info.asRejected).toNumber();
         } else if (r.info.isCancelled) {
           status = 'Cancelled';
-          completedAt = r.info.asCancelled[0].toNumber();
+          completedAt = extractBlockNumber(r.info.asCancelled).toNumber();
         } else if (r.info.isTimedOut) {
           status = 'TimedOut';
-          completedAt = r.info.asTimedOut[0].toNumber();
+          completedAt = extractBlockNumber(r.info.asTimedOut).toNumber();
         } else if (r.info.isKilled) {
           status = 'Killed';
           completedAt = r.info.asKilled.toNumber();

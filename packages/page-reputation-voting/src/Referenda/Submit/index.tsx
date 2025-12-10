@@ -1,7 +1,6 @@
 // Copyright 2017-2025 @polkadot/app-reputation-voting authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { RawParam } from '@polkadot/react-params/types';
 import type { BN } from '@polkadot/util';
 import type { HexString } from '@polkadot/util/types';
 import type { TrackDescription } from '../../useTracks.js';
@@ -10,9 +9,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { Button, Dropdown, Input, InputAddress, InputBalance, InputNumber, Modal, ToggleGroup, TxButton } from '@polkadot/react-components';
 import { useApi, useBestNumber, usePreimage, useToggle } from '@polkadot/react-hooks';
-import Params from '@polkadot/react-params';
 import { Available } from '@polkadot/react-query';
-import { getTypeDef } from '@polkadot/types/create';
 import { BN_HUNDRED, BN_ONE, BN_THOUSAND, BN_ZERO, isHex } from '@polkadot/util';
 
 import { useTranslation } from '../../translate.js';
@@ -40,7 +37,6 @@ function Submit ({ className = '', tracks }: Props): React.ReactElement<Props> |
   const [isOpen, toggleOpen] = useToggle();
   const [accountId, setAccountId] = useState<string | null>(null);
   const [trackId, setTrack] = useState<number | undefined>(tracks[0]?.id?.toNumber());
-  const [origin, setOrigin] = useState<RawParam['value']>(null);
   const [{ imageHash, isImageHashValid }, setImageHash] = useState<HashState>({ imageHash: null, isImageHashValid: false });
   const [{ imageLen, imageLenDefault, isImageLenValid }, setImageLen] = useState<ImageState>({ imageLen: BN_ZERO, isImageLenValid: false });
   const [enactIndex, setEnactIndex] = useState(0);
@@ -72,14 +68,6 @@ function Submit ({ className = '', tracks }: Props): React.ReactElement<Props> |
     [afterBlocks, atBlock, bestNumber, enactIndex]
   );
 
-  const originType = useMemo(
-    () => [{
-      name: 'origin',
-      type: getTypeDef(api.tx.referenda.submit.meta.args[0].type.toString())
-    }],
-    [api]
-  );
-
   const trackOptions = useMemo(
     () => tracks.map(({ id, name }) => ({
       text: name,
@@ -94,12 +82,6 @@ function Submit ({ className = '', tracks }: Props): React.ReactElement<Props> |
       { text: t('At block'), value: 'at' }
     ],
     [t]
-  );
-
-  const _onChangeOrigin = useCallback(
-    ([{ isValid, value }]: RawParam[]) =>
-      setOrigin(isValid ? value : null),
-    []
   );
 
   const _onChangeImageHash = useCallback(
@@ -155,11 +137,6 @@ function Submit ({ className = '', tracks }: Props): React.ReactElement<Props> |
                 onChange={setTrack}
                 options={trackOptions}
                 value={trackId}
-              />
-              <Params
-                className='originSelect'
-                onChange={_onChangeOrigin}
-                params={originType}
               />
             </Modal.Columns>
             <Modal.Columns
@@ -233,11 +210,11 @@ function Submit ({ className = '', tracks }: Props): React.ReactElement<Props> |
             <TxButton
               accountId={accountId}
               icon='plus'
-              isDisabled={!origin || !isImageHashValid || !isImageLenValid || !accountId || isInvalidAt || !preimage?.proposalHash}
+              isDisabled={trackId === undefined || !isImageHashValid || !isImageLenValid || !accountId || isInvalidAt || !preimage?.proposalHash}
               label={t('Submit proposal')}
               onStart={toggleOpen}
               params={[
-                origin,
+                trackId,
                 {
                   Lookup: preimage
                     ? { hash: preimage.proposalHash, len: imageLen }

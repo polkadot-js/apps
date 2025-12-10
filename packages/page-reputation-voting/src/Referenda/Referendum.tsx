@@ -1,13 +1,12 @@
 // Copyright 2017-2025 @polkadot/app-reputation-voting authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { BN } from '@polkadot/util';
-import type { Referendum as ReferendumType } from '../types.js';
+import type { Referendum as ReferendumType, ReputationTally } from '../types.js';
 
-import React, { useMemo } from 'react';
+import React from 'react';
 
 import { AddressMini, Expander, styled, Table, Tag } from '@polkadot/react-components';
-import { useApi, useCall, usePreimage, useToggle } from '@polkadot/react-hooks';
+import { usePreimage, useToggle } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
@@ -17,29 +16,18 @@ import Vote from './Vote.js';
 
 interface Props {
   className?: string;
+  tally?: ReputationTally;
   value: ReferendumType;
 }
 
-function Referendum ({ className = '', value: { id, info } }: Props): React.ReactElement<Props> | null {
+function Referendum ({ className = '', tally, value: { id, info } }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
-  const { api } = useApi();
   const [isExpanded, toggleExpanded] = useToggle(false);
 
   const isOngoing = info.isOngoing;
   const ongoing = isOngoing ? info.asOngoing : null;
 
-  const preimageHash = useMemo(
-    () => ongoing?.proposal?.asLookup?.hash_?.toHex() || ongoing?.proposal?.asInline?.toHex(),
-    [ongoing]
-  );
-
-  const preimage = usePreimage(preimageHash);
-
-  // Get the tally from reputationVoting pallet
-  const tally = useCall<{ ayes: BN; nays: BN; turnout: number }>(
-    api.query.reputationVoting?.tallyOf,
-    [id]
-  );
+  const preimage = usePreimage(ongoing?.proposal);
 
   if (!isOngoing) {
     return null;

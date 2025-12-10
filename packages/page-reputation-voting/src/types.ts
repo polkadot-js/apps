@@ -1,27 +1,29 @@
 // Copyright 2017-2025 @polkadot/app-reputation-voting authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { PalletReferendaReferendumInfoConvictionVotingTally, PalletReferendaReferendumInfoRankedCollectiveTally } from '@polkadot/types/lookup';
+import type { Codec } from '@polkadot/types/types';
 import type { BN } from '@polkadot/util';
 
 export type PalletReferenda = 'referenda';
 
 export type PalletVote = 'reputationVoting';
 
-export interface VoteDirection {
-  isAye: boolean;
-  isNay: boolean;
+export interface VoteDirection extends Codec {
+  readonly isAye: boolean;
+  readonly isNay: boolean;
 }
 
 export interface ReputationTally {
   ayes: BN;
   nays: BN;
-  turnout: number;
+  turnout: BN;
 }
 
-export interface VoteRecord {
-  direction: VoteDirection;
-  reputation: number;
-  votedAt: BN;
+export interface VoteRecord extends Codec {
+  readonly direction: VoteDirection;
+  readonly reputation: BN;
+  readonly votedAt: BN;
 }
 
 export interface ReferendaGroup {
@@ -31,12 +33,10 @@ export interface ReferendaGroup {
   referenda?: Referendum[];
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export interface Referendum {
   decidingEnd?: BN;
   id: BN;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  info: any;
+  info: PalletReferendaReferendumInfoConvictionVotingTally | PalletReferendaReferendumInfoRankedCollectiveTally;
   key: string;
   trackId?: BN;
 }

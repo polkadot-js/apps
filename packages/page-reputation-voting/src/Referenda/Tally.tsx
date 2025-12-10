@@ -15,7 +15,7 @@ interface Props {
   tally?: {
     ayes: BN;
     nays: BN;
-    turnout: number;
+    turnout: BN;
   };
 }
 

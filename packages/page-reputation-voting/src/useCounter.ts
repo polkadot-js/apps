@@ -3,12 +3,16 @@
 
 import { createNamedHook } from '@polkadot/react-hooks';
 
-import useReferenda from './useReferenda.js';
+import useReferendaIds from './useReferendaIds.js';
 
 function useCounterImpl (): number {
-  const referenda = useReferenda();
+  // Use lightweight ID query instead of fetching full referendum data.
+  // useReferendaIds already tracks ongoing referenda by subscribing to
+  // Submitted/Approved/Rejected/Cancelled/TimedOut/Killed events,
+  // so the count represents active referenda.
+  const ids = useReferendaIds();
 
-  return referenda?.filter((r) => r.info.isOngoing).length || 0;
+  return ids?.length || 0;
 }
 
 export default createNamedHook('useCounter', useCounterImpl);
