@@ -1,5 +1,5 @@
     4364	Jaco                          	Disable unreachable endpoints (#10221)
-     164	Arjun Porwal                  	fix: referenda list collapse issue (#11796)
+     166	Arjun Porwal                  	chore: disable unreachable endpoints (#12056)
      113	Tarik Gul                     	Fix cross-chain vesting display after Asset Hub migration (#12013)
       81	Thibaut Sardan                	update overrides (#10090)
       62	kwingram25                    	iadd fix (#2911)
