@@ -75,7 +75,6 @@ function useBagsListImpl (): BagInfo[] | undefined {
         return query;
       }
 
-      // Apply CurrencyToVote conversion (no-op when factor = 1)
       return query.map((bag) => ({
         ...bag,
         bagLower: toCurrency(bag.bagLower),
