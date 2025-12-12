@@ -33,7 +33,7 @@ export const ZERO_ACCOUNT = '0x9876543210abcdef9876543210abcdef9876543210abcdef9
 const EMPTY_STATE: Partial<Result> = {
   encodedCallLength: 0,
   v1Weight: BN_ZERO,
-  v2Weight: { refTime: BN_ZERO },
+  v2Weight: { proofSize: BN_ZERO, refTime: BN_ZERO },
   weight: BN_ZERO
 };
 

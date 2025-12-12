@@ -216,7 +216,7 @@ export interface Preimage extends PreimageBytes, PreimageStatus {
 
 export interface V2WeightConstruct {
   refTime: BN | ICompact<INumber>;
-  proofSize?: BN | ICompact<INumber>;
+  proofSize: BN | ICompact<INumber>;
 }
 
 export interface WeightResult {
