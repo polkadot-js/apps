@@ -6,7 +6,7 @@ import type { AugmentedBlockHeader } from '@polkadot/react-hooks/ctx/types';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { AddressSmall, styled } from '@polkadot/react-components';
+import { AddressSmall, Icon, styled, Tooltip } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
 
 interface Props {
@@ -58,6 +58,22 @@ function BlockHeader ({ headers }: Props): React.ReactElement<Props> | null {
               key={Date.now()}
             >
               {getDisplayValue((Date.now() - value.timestamp.toNumber()) / 1000)}
+              {' '}({new Date(value.offchainTimestamp.toNumber()).toLocaleTimeString('en-US', {
+                hour: '2-digit',
+                hour12: true,
+                minute: '2-digit',
+                second: '2-digit'
+              })}
+              <Icon
+                icon='info-circle'
+                isPadded
+                tooltip='offchain-timestamp'
+              />
+              <Tooltip
+                place='top'
+                text={'Time when the client receives the block'}
+                trigger='offchain-timestamp'
+              />)
             </td>
           </StyledTr>
         );
