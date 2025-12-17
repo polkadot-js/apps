@@ -115,7 +115,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     isPeopleForIdentity: true,
     paraId: 4910,
     providers: {
-      FINTRA: 'wss://testnet.fintra.network'
+      // FINTRA: 'wss://testnet.fintra.network' // https://github.com/polkadot-js/apps/issues/12068
     },
     relayName: 'paseo',
     text: 'Fintra',
