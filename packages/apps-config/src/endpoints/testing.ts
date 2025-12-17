@@ -1123,8 +1123,8 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     genesisHash: ZKVERIFY_VOLTA_GENESIS,
     info: 'zkVerify-testnet',
-    isRelay: true,
     isPeople: true,
+    isRelay: true,
     linked: [
       ...testZkVerifyParas
     ],
