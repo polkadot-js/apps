@@ -1,9 +1,9 @@
 import {useEffect, useState } from "react"
 import {useApi} from '@polkadot/react-hooks'
 
-const SCAN_API_TESTNET = 'https://scan-api-pre.bevm.io/bevmsub'
-const SCAN_API_MAINNET = 'https://scan-api.bevm.io/bevmsub'
-const SCAN_API_SIGNET = 'https://scan-api-pre.bevm.io/bevmsignet'
+const SCAN_API_TESTNET = 'https://scan-api-pre.geb.network/bevmsub'
+const SCAN_API_MAINNET = 'https://scan-api.geb.network/bevmsub'
+const SCAN_API_SIGNET = 'https://scan-api-pre.geb.network/bevmsignet'
 
 type StashedValidator = {
   accountId: string

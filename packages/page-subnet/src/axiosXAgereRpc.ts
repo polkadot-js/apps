@@ -1,11 +1,11 @@
 import axios from 'axios';
 
 export async function axiosXAgereRpc(method: string, params: any, systemChain?: string): Promise<any> {
-  let url = 'https://api.bevm.io';
+  let url = 'https://api.geb.network';
   if (systemChain === 'GEB' || systemChain?.includes('Mainnet')) {
-    url = 'https://api.bevm.io';
+    url = 'https://api.geb.network';
   } else if (systemChain?.includes('Testnet') || systemChain?.includes('Signet')) {
-    url = 'https://api-pre.bevm.io';
+    url = 'https://api-pre.geb.network';
   }
 
   try {

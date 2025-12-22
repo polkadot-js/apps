@@ -33,7 +33,7 @@ function createExternals (t: (key: string, optionsOrText?: string | { replace: R
       text: t('nav.github', 'GitHub', { ns: 'apps-routing' })
     },
     {
-      href: 'https://documents.bevm.io/',
+      href: 'https://documents.geb.network/',
       icon: 'book',
       name: 'wiki',
       text: t('nav.wiki', 'Document', { ns: 'apps-routing' })
