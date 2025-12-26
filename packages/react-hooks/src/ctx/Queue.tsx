@@ -285,14 +285,14 @@ export function QueueCtxRoot ({ children }: Props): React.ReactElement<Props> {
         const method = tx.extrinsic?.method?.method || 'unknown';
         const blockNumber = result?.blockNumber?.toNumber?.();
 
-        // ✅ Push notification to UI
+        // Push notification to UI
         addNotification?.({
           blockNumber,
           key: `${section}.${method}-${Date.now()}`,
           message:
             status === 'inblock'
-              ? <span>✅ Extrinsic <i>{section}.{method}</i> has been submitted</span>
-              : status === 'error' ? `❌ ${section}.${method} failed` : `${section}.${method}`,
+              ? <span>Extrinsic <i>{section}.{method}</i> has been submitted</span>
+              : status === 'error' ? `${section}.${method} failed` : `${section}.${method}`,
           status
         });
 
