@@ -2,12 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Blockchain } from '@acala-network/chopsticks-core';
-import type { Dispatch, SetStateAction } from 'react';
 import type { LinkOption } from '@polkadot/apps-config/endpoints/types';
 import type { InjectedExtension } from '@polkadot/extension-inject/types';
 import type { ChainProperties, ChainType } from '@polkadot/types/interfaces';
 import type { KeyringStore } from '@polkadot/ui-keyring/types';
-import type { HexString } from '@polkadot/util/types';
 import type { ApiProps, ApiState, InjectedAccountExt } from './types.js';
 
 import { ChopsticksProvider, setStorage } from '@acala-network/chopsticks-core';
@@ -135,7 +133,7 @@ async function retrieve (api: ApiPromise, injectedPromise: Promise<InjectedExten
   };
 }
 
-async function loadOnReady (api: ApiPromise, endpoint: LinkOption | null, fork: Blockchain | null, injectedPromise: Promise<InjectedExtension[]>, store: KeyringStore | undefined, types: Record<string, Record<string, string>>, urlIsEthereum = false, setGenesisHash: Dispatch<SetStateAction<HexString>>): Promise<ApiState> {
+async function loadOnReady (api: ApiPromise, endpoint: LinkOption | null, fork: Blockchain | null, injectedPromise: Promise<InjectedExtension[]>, store: KeyringStore | undefined, types: Record<string, Record<string, string>>, urlIsEthereum = false): Promise<ApiState> {
   statics.registry.register(types);
 
   const { injectedAccounts, properties, systemChain, systemChainType, systemName, systemVersion } = await retrieve(api, injectedPromise);
@@ -194,7 +192,6 @@ async function loadOnReady (api: ApiPromise, endpoint: LinkOption | null, fork: 
   const apiDefaultTx = api.tx[defaultSection][defaultMethod];
   const apiDefaultTxSudo = api.tx.system?.setCode || apiDefaultTx;
 
-  setGenesisHash(api.genesisHash.toHex());
   setDeriveCache(api.genesisHash.toHex(), deriveMapCache);
 
   return {
@@ -371,7 +368,7 @@ export function ApiCtxRoot ({ apiUrl, beforeApiInit, children, isElectron, store
 
           const urlIsEthereum = !!location.href.includes('keyring-type=ethereum');
 
-          loadOnReady(statics.api, apiEndpoint, fork, injectedPromise, keyringStore, types, urlIsEthereum, setGenesisHash)
+          loadOnReady(statics.api, apiEndpoint, fork, injectedPromise, keyringStore, types, urlIsEthereum)
             .then(setState)
             .catch(onError);
         });
@@ -386,7 +383,15 @@ export function ApiCtxRoot ({ apiUrl, beforeApiInit, children, isElectron, store
         setIsApiInitialized(true);
       })
       .catch(onError);
-  }, [apiEndpoint, apiUrl, queuePayload, queueSetTxStatus, keyringStore, isLocalFork, setGenesisHash]);
+  }, [apiEndpoint, apiUrl, queuePayload, queueSetTxStatus, keyringStore, isLocalFork]);
+
+  useEffect(() => {
+    if (!statics.api || !value.isApiReady) {
+      return;
+    }
+
+    setGenesisHash(statics.api.genesisHash.toHex());
+  }, [value.isApiReady, setGenesisHash]);
 
   if (!value.isApiInitialized) {
     return <>{beforeApiInit}</>;
