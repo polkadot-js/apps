@@ -37,7 +37,8 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: '3dpass',
     providers: {
-      '3dpass': 'wss://rpc.3dpass.org'
+      '3dpass': 'wss://rpc.3dpass.org',
+      Lzmz: 'wss://rpc.p3d.top'
     },
     text: '3DPass',
     ui: {
@@ -486,8 +487,8 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     info: 'polkadex',
     providers: {
       // OnFinality: 'wss://polkadex.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/11827
-      PolkadexSup: 'wss://so.polkadex.ee',
-      RadiumBlock: 'wss://polkadex.public.curie.radiumblock.co/ws'
+      PolkadexSup: 'wss://so.polkadex.ee'
+      // RadiumBlock: 'wss://polkadex.public.curie.radiumblock.co/ws', // https://github.com/polkadot-js/apps/issues/12067
     },
     text: 'Polkadex',
     ui: {
@@ -544,8 +545,8 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     providers: {
       OnFinality: 'wss://sora.api.onfinality.io/public-ws',
       'SORA Parliament Ministry of Finance': 'wss://ws.mof.sora.org',
-      'SORA Parliament Ministry of Finance #2': 'wss://mof2.sora.org',
-      'SORA Parliament Ministry of Finance #3': 'wss://mof3.sora.org'
+      'SORA Parliament Ministry of Finance #2': 'wss://mof2.sora.org'
+      // 'SORA Parliament Ministry of Finance #3': 'wss://mof3.sora.org' // https://github.com/polkadot-js/apps/issues/12007
     },
     text: 'SORA',
     ui: {

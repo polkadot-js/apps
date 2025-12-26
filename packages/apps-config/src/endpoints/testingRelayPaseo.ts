@@ -83,11 +83,12 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    homepage: 'https://bifrost.finance',
+    homepage: 'https://bifrost.io',
     info: 'Bifrost(Paseo)',
     paraId: 2030,
     providers: {
-      // Liebi: 'wss://bifrost-rpc.paseo.liebi.com/ws' // https://github.com/polkadot-js/apps/issues/11692
+      Liebi: 'wss://bifrost-rpc.paseo.liebi.com/ws',
+      Liebi2: 'wss://bifrost-rpc.paseo2.liebi.com/ws'
     },
     text: 'Bifrost',
     ui: {
@@ -114,7 +115,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     isPeopleForIdentity: true,
     paraId: 4910,
     providers: {
-      FINTRA: 'wss://testnet.fintra.network'
+      // FINTRA: 'wss://testnet.fintra.network' // https://github.com/polkadot-js/apps/issues/12068
     },
     relayName: 'paseo',
     text: 'Fintra',
@@ -206,7 +207,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'integritee',
     paraId: 2039,
     providers: {
-      Integritee: 'wss://paseo.api.integritee.network'
+      // Integritee: 'wss://paseo.api.integritee.network' // https://github.com/polkadot-js/apps/issues/11992
     },
     text: 'Integritee Network (Paseo)',
     ui: {
@@ -218,7 +219,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'kilt',
     paraId: 2086,
     providers: {
-      'KILT Foundation': 'wss://peregrine.kilt.io/'
+      // 'KILT Foundation': 'wss://peregrine.kilt.io/' // https://github.com/polkadot-js/apps/issues/12036
     },
     text: 'KILT Peregrine',
     ui: {
@@ -312,7 +313,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'NodleParadis',
     paraId: 2026,
     providers: {
-      OnFinality: 'wss://node-7273232234617282560.nv.onfinality.io/ws?apikey=b937a7d7-7395-49b9-b745-60a0342fa365'
+      // OnFinality: 'wss://node-7273232234617282560.nv.onfinality.io/ws?apikey=b937a7d7-7395-49b9-b745-60a0342fa365' // https://github.com/polkadot-js/apps/issues/12035
     },
     text: 'Nodle',
     ui: {
@@ -440,7 +441,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'paseoXode',
     paraId: 4607,
     providers: {
-      XodeCommunity: 'wss://paseo-rpcnode.xode.net'
+      // XodeCommunity: 'wss://paseo-rpcnode.xode.net' // https://github.com/polkadot-js/apps/issues/12007
     },
     text: 'Xode',
     ui: {
@@ -453,7 +454,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'ZeitgeistBatteryStation',
     paraId: 2101,
     providers: {
-      Zeitgeist: 'wss://bsr.zeitgeist.pm'
+      // Zeitgeist: 'wss://bsr.zeitgeist.pm' // https://github.com/polkadot-js/apps/issues/11992
     },
     text: 'Zeitgeist Battery Station',
     ui: {
@@ -562,22 +563,6 @@ export const testParasPaseoCommon: EndpointOption[] = [
     relayName: 'paseo',
     teleport: [-1],
     text: 'People',
-    ui: {
-      color: '#e84366',
-      logo: chainsPeoplePolkadotSVG
-    }
-  },
-  {
-    info: 'PaseoPeopleLite',
-    isPeople: true,
-    isPeopleForIdentity: false,
-    paraId: 1044,
-    providers: {
-      Parity: 'wss://paseo-people-next-rpc.polkadot.io'
-    },
-    relayName: 'paseo',
-    teleport: [-1],
-    text: 'People Lite',
     ui: {
       color: '#e84366',
       logo: chainsPeoplePolkadotSVG

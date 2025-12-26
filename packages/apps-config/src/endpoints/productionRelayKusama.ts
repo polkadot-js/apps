@@ -408,7 +408,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     isPeopleForIdentity: true,
     paraId: 2281,
     providers: {
-      Kippu: 'wss://kreivo.kippu.rocks/'
+      // Kippu: 'wss://kreivo.kippu.rocks/' // https://github.com/polkadot-js/apps/issues/12069
       // Virto: 'wss://kreivo.io/' // https://github.com/polkadot-js/apps/issues/11544
     },
     relayName: 'kusama',
@@ -424,7 +424,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     info: 'krest',
     paraId: 2241,
     providers: {
-      Krest: 'wss://wss-krest.peaq.network/',
+      // Krest: 'wss://wss-krest.peaq.network/', // https://github.com/polkadot-js/apps/issues/12018
       OnFinality: 'wss://krest.api.onfinality.io/public-ws'
       // UnitedBloc: 'wss://krest.unitedbloc.com/' https://github.com/polkadot-js/apps/issues/10997
     },
@@ -605,7 +605,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     info: 'regionx',
     paraId: 3422,
     providers: {
-      RegionX: 'wss://regionx-kusama-rpc-lb.zeeve.net/ld940yl9c6/rpc'
+      // RegionX: 'wss://regionx-kusama-rpc-lb.zeeve.net/ld940yl9c6/rpc' // https://github.com/polkadot-js/apps/issues/11992
     },
     text: 'RegionX',
     ui: {
@@ -627,7 +627,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    homepage: 'http://robonomics.network/',
+    homepage: 'https://robonomics.network/',
     info: 'robonomics',
     paraId: 2048,
     providers: {
@@ -648,7 +648,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     isUnreachable: true,
     paraId: 2240,
     providers: {
-      Airalab: 'wss://kusama.rpc.robonomics.network/'
+      // Airalab: 'wss://kusama.rpc.robonomics.network/' // https://github.com/polkadot-js/apps/issues/12052
       // Leemo: 'wss://robonomics.leemo.me', // https://github.com/polkadot-js/apps/issues/9817
       // OnFinality: 'wss://robonomics.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/9824
       // Samsara: 'wss://robonomics.0xsamsara.com' https://github.com/polkadot-js/apps/issues/11026
@@ -825,7 +825,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     info: 'xode',
     paraId: 3344,
     providers: {
-      XodeCommunity: 'wss://kusama-rpcnode.xode.net'
+      // XodeCommunity: 'wss://kusama-rpcnode.xode.net' // https://github.com/polkadot-js/apps/issues/12007
     },
     text: 'Xode',
     ui: {
