@@ -16,7 +16,7 @@ export const getNotificationsFromStorage = (genesisHash: HexString): Notificatio
 
     const allNotifications = JSON.parse(allNotificationsStr) as Record<string, Notification[]>;
 
-    return allNotifications[genesisHash];
+    return allNotifications[genesisHash] ?? [];
   } catch {
     return [];
   }
