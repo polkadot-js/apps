@@ -1925,9 +1925,6 @@ __metadata:
 "@polkadot/app-reputation-voting@workspace:packages/page-reputation-voting":
   version: 0.0.0-use.local
   resolution: "@polkadot/app-reputation-voting@workspace:packages/page-reputation-voting"
-  dependencies:
-    "@polkadot/react-components": "npm:^0.168.2-9-x"
-    "@polkadot/react-query": "npm:^0.168.2-9-x"
   peerDependencies:
     react: "*"
     react-dom: "*"

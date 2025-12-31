@@ -10,6 +10,7 @@ export default function create (t: TFunction): Route {
     Component,
     display: {
       needsApi: [
+        'query.referenda.referendumInfoFor',
         'tx.referenda.submit',
         'tx.reputationVoting.vote'
       ]
