@@ -22,6 +22,7 @@ export interface ProcessedReferendum extends Referendum {
 function extractBlockNumber (data: any): BN {
   // If data is a tuple/array, get the first element (block number)
   // Otherwise, data itself is the block number
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
   return bnToBn(data[0] ?? data);
 }
 

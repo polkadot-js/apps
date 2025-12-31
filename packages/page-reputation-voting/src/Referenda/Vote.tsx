@@ -62,7 +62,7 @@ function Vote ({ className, id }: Props): React.ReactElement<Props> | null {
               <VoteAccount onChange={setAccountId} />
             </Modal.Columns>
             <Modal.Columns hint={t('Vote Aye to support the proposal or Nay to oppose it. Your current reputation will be used as voting power.')}>
-              <div style={{ textAlign: 'center', padding: '1rem' }}>
+              <div style={{ padding: '1rem', textAlign: 'center' }}>
                 <p>{t('Your reputation will be used as voting power. No tokens are locked.')}</p>
               </div>
             </Modal.Columns>
@@ -102,7 +102,7 @@ function Vote ({ className, id }: Props): React.ReactElement<Props> | null {
             </Modal.Columns>
             {hasVoted && (
               <Modal.Columns hint={t('Your current vote on this referendum.')}>
-                <div style={{ textAlign: 'center', padding: '1rem' }}>
+                <div style={{ padding: '1rem', textAlign: 'center' }}>
                   <p>
                     {t('You have voted')}: <strong>{voteDirection}</strong>
                   </p>
