@@ -408,7 +408,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     isPeopleForIdentity: true,
     paraId: 2281,
     providers: {
-      Kippu: 'wss://kreivo.kippu.rocks/'
+      // Kippu: 'wss://kreivo.kippu.rocks/' // https://github.com/polkadot-js/apps/issues/12069
       // Virto: 'wss://kreivo.io/' // https://github.com/polkadot-js/apps/issues/11544
     },
     relayName: 'kusama',
@@ -627,7 +627,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    homepage: 'http://robonomics.network/',
+    homepage: 'https://robonomics.network/',
     info: 'robonomics',
     paraId: 2048,
     providers: {
@@ -648,7 +648,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     isUnreachable: true,
     paraId: 2240,
     providers: {
-      Airalab: 'wss://kusama.rpc.robonomics.network/'
+      // Airalab: 'wss://kusama.rpc.robonomics.network/' // https://github.com/polkadot-js/apps/issues/12052
       // Leemo: 'wss://robonomics.leemo.me', // https://github.com/polkadot-js/apps/issues/9817
       // OnFinality: 'wss://robonomics.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/9824
       // Samsara: 'wss://robonomics.0xsamsara.com' https://github.com/polkadot-js/apps/issues/11026

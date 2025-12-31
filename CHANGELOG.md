@@ -1,5 +1,27 @@
 # CHANGELOG
 
+## 0.169.1 Nov 26, 2025
+
+Contributed:
+
+- Removed onfinality phala ([#12019](https://github.com/polkadot-js/apps/pull/12019)) (Thanks to https://github.com/FiveKG)
+- Keep Sidebar Buttons outside the scrollable content ([#12023](https://github.com/polkadot-js/apps/pull/12023)) (Thanks to https://github.com/peetzweg)
+
+
+Changes:
+
+- Add browser check alert for Firefox 145.0 compatibility ([#12000](https://github.com/polkadot-js/apps/pull/12000))
+- Added polkassembly link for polkadot assethub ([#12003](https://github.com/polkadot-js/apps/pull/12003))
+- Fix message ([#12011](https://github.com/polkadot-js/apps/pull/12011))
+- Fix cross-chain vesting display after Asset Hub migration ([#12013](https://github.com/polkadot-js/apps/pull/12013))
+- Displayed average block time for chains in explorer page ([#11999](https://github.com/polkadot-js/apps/pull/11999))
+- Replace toHuman() with toBoolArray() for availability votes (Parachains Page) ([#12022](https://github.com/polkadot-js/apps/pull/12022))
+- Disable unreachable endpoints ([#12008](https://github.com/polkadot-js/apps/pull/12008) [#12025](https://github.com/polkadot-js/apps/pull/12025))
+- Better staking overview ([#11930](https://github.com/polkadot-js/apps/pull/11930))
+- fix: Preserve chain colors when WS_URL matches existing endpoint ([#12016](https://github.com/polkadot-js/apps/pull/12016))
+- Bump polkadot-js dependencies ([#11997](https://github.com/polkadot-js/apps/pull/11997))
+
+
 ## 0.168.1 Nov 13, 2025
 
 Contributed:

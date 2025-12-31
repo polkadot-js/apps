@@ -115,7 +115,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     isPeopleForIdentity: true,
     paraId: 4910,
     providers: {
-      FINTRA: 'wss://testnet.fintra.network'
+      // FINTRA: 'wss://testnet.fintra.network' // https://github.com/polkadot-js/apps/issues/12068
     },
     relayName: 'paseo',
     text: 'Fintra',
@@ -219,7 +219,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'kilt',
     paraId: 2086,
     providers: {
-      'KILT Foundation': 'wss://peregrine.kilt.io/'
+      // 'KILT Foundation': 'wss://peregrine.kilt.io/' // https://github.com/polkadot-js/apps/issues/12036
     },
     text: 'KILT Peregrine',
     ui: {
@@ -313,7 +313,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'NodleParadis',
     paraId: 2026,
     providers: {
-      OnFinality: 'wss://node-7273232234617282560.nv.onfinality.io/ws?apikey=b937a7d7-7395-49b9-b745-60a0342fa365'
+      // OnFinality: 'wss://node-7273232234617282560.nv.onfinality.io/ws?apikey=b937a7d7-7395-49b9-b745-60a0342fa365' // https://github.com/polkadot-js/apps/issues/12035
     },
     text: 'Nodle',
     ui: {
@@ -428,7 +428,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'Xcavate',
     paraId: 4683,
     providers: {
-      // Xcavate: 'wss://rpc2-paseo.xcavate.io' // https://github.com/polkadot-js/apps/issues/12007
+      Xcavate: 'wss://rpc2-paseo.xcavate.io'
     },
     text: 'Xcavate',
     ui: {
@@ -563,22 +563,6 @@ export const testParasPaseoCommon: EndpointOption[] = [
     relayName: 'paseo',
     teleport: [-1],
     text: 'People',
-    ui: {
-      color: '#e84366',
-      logo: chainsPeoplePolkadotSVG
-    }
-  },
-  {
-    info: 'PaseoPeopleLite',
-    isPeople: true,
-    isPeopleForIdentity: false,
-    paraId: 1044,
-    providers: {
-      Parity: 'wss://paseo-people-next-rpc.polkadot.io'
-    },
-    relayName: 'paseo',
-    teleport: [-1],
-    text: 'People Lite',
     ui: {
       color: '#e84366',
       logo: chainsPeoplePolkadotSVG

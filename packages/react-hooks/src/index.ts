@@ -38,6 +38,7 @@ export { useCoreDescriptor } from './useCoreDescriptor.js';
 export { useCoretimeConsts } from './useCoretimeConsts.js';
 export { useCoretimeEndpoint } from './useCoretimeEndpoint.js';
 export { useCoretimeInformation } from './useCoretimeInformation.js';
+export { useCurrencyToVote } from './useCurrencyToVote.js';
 export { useDebounce } from './useDebounce.js';
 export { useDelegations } from './useDelegations.js';
 export { useDeriveAccountFlags } from './useDeriveAccountFlags.js';
