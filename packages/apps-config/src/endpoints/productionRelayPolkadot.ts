@@ -671,19 +671,6 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    homepage: 'https://qfnetwork.xyz',
-    info: 'qf-network',
-    paraId: 3426,
-    providers: {
-      'QF Network': 'wss://archive.para.mainnet.qfnode.net'
-    },
-    text: 'QF Network',
-    ui: {
-      color: '#2E2E5C',
-      logo: chainsQfNetworkPNG
-    }
-  },
-  {
     homepage: 'https://polkadex.trade/crowdloans',
     info: 'polkadex',
     paraId: 3363,
@@ -709,6 +696,19 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: '#7C30DD',
       logo: nodesPolkadexSVG
+    }
+  },
+  {
+    homepage: 'https://qfnetwork.xyz',
+    info: 'qf-network',
+    paraId: 3426,
+    providers: {
+      'QF Network': 'wss://archive.para.mainnet.qfnode.net'
+    },
+    text: 'QF Network',
+    ui: {
+      color: '#2E2E5C',
+      logo: chainsQfNetworkPNG
     }
   },
   {
