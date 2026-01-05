@@ -874,7 +874,7 @@ export const prodParasKusamaCommon: EndpointOption[] = [
       OnFinality: 'wss://assethub-kusama.api.onfinality.io/public-ws',
       Parity: 'wss://kusama-asset-hub-rpc.polkadot.io',
       RadiumBlock: 'wss://statemine.public.curie.radiumblock.co/ws',
-      Stakeworld: 'wss://ksm-rpc.stakeworld.io/assethub'
+      Stakeworld: 'wss://rpc-assethub-kusama.stakeworld.io'
     },
     relayName: 'kusama',
     teleport: [-1, 1002, 1005, 1001, 1004],
@@ -897,7 +897,7 @@ export const prodParasKusamaCommon: EndpointOption[] = [
       OnFinality: 'wss://bridgehub-kusama.api.onfinality.io/public-ws',
       Parity: 'wss://kusama-bridge-hub-rpc.polkadot.io',
       RadiumBlock: 'wss://bridgehub-kusama.public.curie.radiumblock.co/ws',
-      Stakeworld: 'wss://ksm-rpc.stakeworld.io/bridgehub'
+      Stakeworld: 'wss://rpc-bridgehub-kusama.stakeworld.io'
     },
     relayName: 'kusama',
     teleport: [-1, 1000],
@@ -917,7 +917,7 @@ export const prodParasKusamaCommon: EndpointOption[] = [
       LuckyFriday: 'wss://rpc-coretime-kusama.luckyfriday.io',
       OnFinality: 'wss://coretime-kusama.api.onfinality.io/public-ws',
       Parity: 'wss://kusama-coretime-rpc.polkadot.io',
-      Stakeworld: 'wss://ksm-rpc.stakeworld.io/coretime'
+      Stakeworld: 'wss://rpc-coretime-kusama.stakeworld.io'
     },
     relayName: 'kusama',
     teleport: [-1, 1000],
@@ -962,7 +962,7 @@ export const prodParasKusamaCommon: EndpointOption[] = [
       LuckyFriday: 'wss://rpc-people-kusama.luckyfriday.io',
       OnFinality: 'wss://people-kusama.api.onfinality.io/public-ws',
       Parity: 'wss://kusama-people-rpc.polkadot.io',
-      Stakeworld: 'wss://ksm-rpc.stakeworld.io/people'
+      Stakeworld: 'wss://rpc-people-kusama.stakeworld.io'
     },
     relayName: 'kusama',
     teleport: [-1, 1000],
@@ -998,7 +998,7 @@ export const prodRelayKusama: EndpointOption = {
     OnFinality: 'wss://kusama.api.onfinality.io/public-ws',
     RadiumBlock: 'wss://kusama.public.curie.radiumblock.co/ws',
     // RockX: 'wss://rockx-ksm.w3node.com/polka-public-ksm/ws', // https://github.com/polkadot-js/apps/issues/11477
-    Stakeworld: 'wss://ksm-rpc.stakeworld.io',
+    Stakeworld: 'wss://rpc-kusama.stakeworld.io',
     // SubQuery: 'wss://kusama.rpc.subquery.network/public/ws', https://github.com/polkadot-js/apps/issues/11026
     'light client': 'light://substrate-connect/kusama'
   },
