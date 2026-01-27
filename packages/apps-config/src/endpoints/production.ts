@@ -512,7 +512,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     providers: {
       'QF Network': 'wss://mainnet.qfnode.net'
     },
-    text: 'QF Mainnet',
+    text: 'QF Network',
     ui: {
       color: '#2E2E5C',
       logo: chainsQfNetworkPNG
