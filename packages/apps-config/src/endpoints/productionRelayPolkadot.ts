@@ -443,8 +443,6 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'kilt',
     paraId: 2086,
     providers: {
-      IBP1: 'wss://kilt.ibp.network',
-      IBP2: 'wss://kilt.dotters.network'
       // 'KILT Foundation': 'wss://spiritnet.kilt.io/' // https://github.com/polkadot-js/apps/issues/12076
     },
     text: 'KILT Spiritnet',
