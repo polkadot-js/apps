@@ -34,7 +34,7 @@ function extractStake (labels: string[], exposures: DeriveOwnExposure[], divisor
   exposures.forEach(({ era, exposureMeta, exposurePaged }): void => {
     const expPaged = exposurePaged.isSome && exposurePaged.unwrap();
     const expMeta = exposureMeta.isSome && exposureMeta.unwrap();
-    // Darwinia Crab doesn't have the total field
+    // some overrides don't have the total field
     const expP = balanceToNumber((expPaged && expPaged.pageTotal?.unwrap()) || BN_ZERO, divisor);
     const expM = balanceToNumber((expMeta && expMeta.total?.unwrap()) || BN_ZERO, divisor);
     const avg = avgCount > 0
