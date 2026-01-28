@@ -32,7 +32,6 @@ export const Subscan: ExternalDef = {
     Continuum: 'continuum',
     'Continuum Network': 'continuum',
     Coretime: 'coretime-polkadot',
-    Crab2: 'crab',
     Creditcoin: 'creditcoin',
     'Creditcoin3 Testnet': 'creditcoin3-testnet',
     Crust: 'crust',

@@ -31,7 +31,7 @@ function extractStake (labels: string[], exposures: DeriveOwnExposure[], divisor
   }, [0, 0]);
 
   exposures.forEach(({ clipped, era, exposure }): void => {
-    // Darwinia Crab doesn't have the total field
+    // some overrides don't have the total field
     const cli = balanceToNumber(clipped.total?.unwrap(), divisor);
     const exp = balanceToNumber(exposure.total?.unwrap(), divisor);
     const avg = avgCount > 0

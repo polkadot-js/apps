@@ -9,7 +9,6 @@ export const ethereumChains = [
   'altbeacon-dev',
   'armonia-eva',
   'armonia-wall-e',
-  'Crab2',
   'Darwinia Koi',
   'Darwinia2',
   'datahaven-stagenet',
