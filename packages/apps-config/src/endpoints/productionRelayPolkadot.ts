@@ -896,6 +896,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       OnFinality: 'wss://bridgehub-polkadot.api.onfinality.io/public-ws',
       Parity: 'wss://polkadot-bridge-hub-rpc.polkadot.io',
       RadiumBlock: 'wss://bridgehub-polkadot.public.curie.radiumblock.co/ws',
+      Spectrum: 'wss://spectrum-03.simplystaking.xyz/cG9sa2Fkb3QtMDMtOTFkMmYwZGYtcG9sa2Fkb3Q/mgX--uWlEtmNKw/polkadotbridgehub/mainnet/',
       Stakeworld: 'wss://dot-rpc.stakeworld.io/bridgehub'
     },
     relayName: 'polkadot',
@@ -996,7 +997,7 @@ export const prodRelayPolkadot: EndpointOption = {
     // 'Permanence DAO EU': 'wss://polkadot.rpc.permanence.io', // https://github.com/polkadot-js/apps/issues/12078
     RadiumBlock: 'wss://polkadot.public.curie.radiumblock.co/ws',
     // RockX: 'wss://rockx-dot.w3node.com/polka-public-dot/ws', // https://github.com/polkadot-js/apps/issues/11439
-    'Simply Staking': 'wss://spectrum-03.simplystaking.xyz/cG9sa2Fkb3QtMDMtOTFkMmYwZGYtcG9sa2Fkb3Q/LjwBJpV3dIKyWQ/polkadot/mainnet/',
+    Spectrum: 'wss://spectrum-03.simplystaking.xyz/cG9sa2Fkb3QtMDMtOTFkMmYwZGYtcG9sa2Fkb3Q/LjwBJpV3dIKyWQ/polkadot/mainnet/',
     Stakeworld: 'wss://dot-rpc.stakeworld.io',
     SubQuery: 'wss://polkadot.rpc.subquery.network/public/ws',
     'light client': 'light://substrate-connect/polkadot'
