@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/react-params authors & contributors
+// Copyright 2017-2025 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type React from 'react';
@@ -43,6 +43,7 @@ export interface Props {
   registry: Registry;
   type: TypeDefExt;
   withLabel?: boolean;
+  withLength?: boolean;
 }
 
 export type Size = 'full' | 'large' | 'medium' | 'small';

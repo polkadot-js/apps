@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/react-api authors & contributors
+// Copyright 2017-2025 @polkadot/react-api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Blockchain } from '@acala-network/chopsticks-core';
@@ -35,6 +35,7 @@ interface Props {
   apiUrl: string;
   isElectron: boolean;
   store?: KeyringStore;
+  beforeApiInit?: React.ReactNode
 }
 
 interface ChainData {
@@ -81,12 +82,13 @@ async function getInjectedAccounts (injectedPromise: Promise<InjectedExtension[]
 
     const accounts = await web3Accounts();
 
-    return accounts.map(({ address, meta }, whenCreated): InjectedAccountExt => ({
+    return accounts.map(({ address, meta, type }, whenCreated): InjectedAccountExt => ({
       address,
       meta: objectSpread({}, meta, {
         name: `${meta.name || 'unknown'} (${meta.source === 'polkadot-js' ? 'extension' : meta.source})`,
         whenCreated
-      })
+      }),
+      type: type || 'sr25519'
     }));
   } catch (error) {
     console.error('web3Accounts', error);
@@ -166,14 +168,24 @@ async function loadOnReady (api: ApiPromise, endpoint: LinkOption | null, fork: 
   // finally load the keyring
   isKeyringLoaded() || keyring.loadAll({
     genesisHash: api.genesisHash,
-    genesisHashAdd: endpoint && isNumber(endpoint.paraId) && (endpoint.paraId < 2000) && endpoint.genesisHashRelay
+    genesisHashAdd: !isEthereum && endpoint && isNumber(endpoint.paraId) && (endpoint.paraId < 2000) && endpoint.genesisHashRelay
       ? [endpoint.genesisHashRelay]
       : [],
     isDevelopment,
     ss58Format,
     store,
     type: isEthereum ? 'ethereum' : 'ed25519'
-  }, injectedAccounts);
+  },
+  isEthereum
+    ? injectedAccounts.map((account) => {
+      const copy = { ...account };
+
+      copy.type = 'ethereum';
+
+      return copy;
+    })
+    : injectedAccounts
+  );
 
   const defaultSection = Object.keys(api.tx)[0];
   const defaultMethod = Object.keys(api.tx[defaultSection])[0];
@@ -287,14 +299,14 @@ async function createApi (apiUrl: string, signer: ApiSigner, isLocalFork: boolea
   return { fork: chopsticksFork, types };
 }
 
-export function ApiCtxRoot ({ apiUrl, children, isElectron, store: keyringStore }: Props): React.ReactElement<Props> | null {
+export function ApiCtxRoot ({ apiUrl, beforeApiInit, children, isElectron, store: keyringStore }: Props): React.ReactElement<Props> | null {
   const { queuePayload, queueSetTxStatus } = useQueue();
   const [state, setState] = useState<ApiState>(EMPTY_STATE);
   const [isApiConnected, setIsApiConnected] = useState(false);
   const [isApiInitialized, setIsApiInitialized] = useState(false);
   const [apiError, setApiError] = useState<null | string>(null);
   const [extensions, setExtensions] = useState<InjectedExtension[] | undefined>();
-  const [isLocalFork] = useState(store.get('localFork') === apiUrl);
+  const isLocalFork = useMemo(() => store.get('localFork') === apiUrl, [apiUrl]);
   const apiEndpoint = useEndpoint(apiUrl);
   const peopleEndpoint = usePeopleEndpoint(apiEndpoint?.relayName || apiEndpoint?.info);
   const coreTimeEndpoint = useCoretimeEndpoint(apiEndpoint?.relayName || apiEndpoint?.info);
@@ -323,7 +335,11 @@ export function ApiCtxRoot ({ apiUrl, children, isElectron, store: keyringStore 
     () => makeCreateLink(apiUrl, isElectron),
     [apiUrl, isElectron]
   );
-  const enableIdentity = apiEndpoint?.isPeople || (isNumber(apiEndpoint?.paraId) && (apiEndpoint?.paraId >= 2000)) || (typeof apiEndpoint?.isPeopleForIdentity === 'boolean' && !apiEndpoint?.isPeopleForIdentity);
+  const enableIdentity = apiEndpoint?.isPeople ||
+    // Ensure that parachains that don't have isPeopleForIdentity set, can access there own identity pallet.
+    (isNumber(apiEndpoint?.paraId) && (apiEndpoint?.paraId >= 2000) && !apiEndpoint?.isPeopleForIdentity) ||
+    // Ensure that when isPeopleForIdentity is set to false that it enables the identity pallet access.
+    (typeof apiEndpoint?.isPeopleForIdentity === 'boolean' && !apiEndpoint?.isPeopleForIdentity);
   const value = useMemo<ApiProps>(
     () => objectSpread({}, state, { api: statics.api, apiCoretime, apiEndpoint, apiError, apiIdentity: ((apiEndpoint?.isPeopleForIdentity && apiSystemPeople) || statics.api), apiRelay, apiSystemPeople, apiUrl, createLink, enableIdentity, extensions, isApiConnected, isApiInitialized, isElectron, isLocalFork, isWaitingInjected: !extensions }),
     [apiError, createLink, extensions, isApiConnected, isApiInitialized, isElectron, isLocalFork, state, apiEndpoint, apiCoretime, apiRelay, apiUrl, apiSystemPeople, enableIdentity]
@@ -369,7 +385,7 @@ export function ApiCtxRoot ({ apiUrl, children, isElectron, store: keyringStore 
   }, [apiEndpoint, apiUrl, queuePayload, queueSetTxStatus, keyringStore, isLocalFork]);
 
   if (!value.isApiInitialized) {
-    return null;
+    return <>{beforeApiInit}</>;
   }
 
   return (

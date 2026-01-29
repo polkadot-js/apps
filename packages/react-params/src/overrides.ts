@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/react-params authors & contributors
+// Copyright 2017-2025 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ComponentMap } from './types.js';
@@ -20,7 +20,7 @@ export const balanceCalls = [
   'society.bid', 'society.vouch',
   'staking.bond', 'staking.bondExtra', 'staking.rebond', 'staking.unbond',
   'tips.tip', 'tips.tipNew',
-  'treasury.proposeSpend', 'treasury.spend',
+  'treasury.proposeSpend', 'treasury.spendLocal',
   'vesting.forceVestedTransfer', 'vesting.vestedTransfer'
 ];
 

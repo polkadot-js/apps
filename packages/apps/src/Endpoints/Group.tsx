@@ -1,13 +1,14 @@
-// Copyright 2017-2024 @polkadot/apps authors & contributors
+// Copyright 2017-2025 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Group } from './types.js';
+import type { Group, IFavoriteChainProps, IFavoriteChainsStorage } from './types.js';
 
 import React, { useCallback, useMemo } from 'react';
 
 import { Icon, styled } from '@polkadot/react-components';
 
 import Network from './Network.js';
+import { getContrastingColor, isFavoriteChain } from './utils.js';
 
 interface Props {
   affinities: Record<string, string>;
@@ -16,26 +17,38 @@ interface Props {
   className?: string;
   index: number;
   isSelected: boolean;
+  favoriteChains: IFavoriteChainsStorage,
+  toggleFavoriteChain: (chainInfo: IFavoriteChainProps) => void;
   setApiUrl: (network: string, apiUrl: string) => void;
   setGroup: (groupIndex: number) => void;
   value: Group;
+  highlightColor: string;
 }
 
-function GroupDisplay ({ affinities, apiUrl, children, className = '', index, isSelected, setApiUrl, setGroup, value: { header, isSpaced, networks } }: Props): React.ReactElement<Props> {
+function GroupDisplay ({ affinities, apiUrl, children, className = '', favoriteChains, highlightColor, index, isSelected, setApiUrl, setGroup, toggleFavoriteChain, value: { header, isSpaced, networks } }: Props): React.ReactElement<Props> {
   const _setGroup = useCallback(
     () => setGroup(isSelected ? -1 : index),
     [index, isSelected, setGroup]
   );
+
+  const isFavoriteHeader = useMemo(() => header?.toString().includes('Favorite'), [header]);
 
   const filtered = useMemo(
     () => networks.filter(({ isUnreachable }) => !isUnreachable),
     [networks]
   );
 
+  if (isFavoriteHeader && Object.keys(favoriteChains).length === 0) {
+    return <></>;
+  }
+
   return (
-    <StyledDiv className={`${className}${isSelected ? ' isSelected' : ''}`}>
+    <StyledDiv
+      className={`${className}${isSelected ? ' isSelected' : ''}`}
+      highlightColor={highlightColor}
+    >
       <div
-        className={`groupHeader${isSpaced ? ' isSpaced' : ''}`}
+        className={`groupHeader${isSpaced ? ' isSpaced' : ''}${isFavoriteHeader ? ' isFavoriteHeader' : ''}`}
         onClick={_setGroup}
       >
         <Icon icon={isSelected ? 'caret-up' : 'caret-down'} />
@@ -48,8 +61,14 @@ function GroupDisplay ({ affinities, apiUrl, children, className = '', index, is
               <Network
                 affinity={affinities[network.name]}
                 apiUrl={apiUrl}
+                isFavorite={isFavoriteChain(favoriteChains, {
+                  chainName: network.name,
+                  paraId: network.paraId,
+                  relay: network.nameRelay
+                })}
                 key={index}
                 setApiUrl={setApiUrl}
+                toggleFavoriteChain={toggleFavoriteChain}
                 value={network}
               />
             ))}
@@ -61,7 +80,7 @@ function GroupDisplay ({ affinities, apiUrl, children, className = '', index, is
   );
 }
 
-const StyledDiv = styled.div`
+const StyledDiv = styled.div<{ highlightColor: string; }>`
   .groupHeader {
     border-radius: 0.25rem;
     cursor: pointer;
@@ -80,6 +99,23 @@ const StyledDiv = styled.div`
 
     .ui--Icon {
       margin-right: 0.5rem;
+    }
+
+    &.isFavoriteHeader {
+      &:hover {
+        background: linear-gradient(
+          135deg,
+          ${(props) => props.highlightColor}f2 0%,
+          ${(props) => props.highlightColor}99 100%
+        );
+        color: ${(props) => getContrastingColor(props.highlightColor)};
+      }
+
+      &::after {
+        content: '⭐';
+        margin-left: 8px;
+        font-size: 16px;
+      }
     }
   }
 

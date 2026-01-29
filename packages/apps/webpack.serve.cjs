@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/apps authors & contributors
+// Copyright 2017-2025 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 const path = require('path');
@@ -11,6 +11,10 @@ module.exports = merge(
   baseConfig(__dirname, 'development'),
   {
     devServer: {
+      headers: {
+        'Content-Security-Policy': "frame-ancestors 'none'",
+        'X-Frame-Options': 'DENY'
+      },
       hot: true,
       open: false,
       port: 3000,

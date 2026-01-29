@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/app-council authors & contributors
+// Copyright 2017-2025 @polkadot/app-council authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveCouncilVotes, DeriveElectionsInfo } from '@polkadot/api-derive/types';

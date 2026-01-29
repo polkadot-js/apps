@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/react-components authors & contributors
+// Copyright 2017-2025 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { IconName } from '@fortawesome/fontawesome-svg-core';
@@ -16,7 +16,7 @@ interface Props {
   icon: IconName;
   isPadded?: boolean;
   isSpinning?: boolean;
-  onClick?: () => void;
+  onClick?: (e: React.MouseEvent<SVGSVGElement, MouseEvent>) => void;
   size?: '1x' | '2x';
   tooltip?: string;
 }

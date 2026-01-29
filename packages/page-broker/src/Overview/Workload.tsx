@@ -1,18 +1,18 @@
-// Copyright 2017-2024 @polkadot/app-broker authors & contributors
+// Copyright 2017-2025 @polkadot/app-broker authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
 import type { PalletBrokerConfigRecord, RegionInfo } from '@polkadot/react-hooks/types';
-import type { Option } from '@polkadot/types';
-import type { PalletBrokerStatusRecord } from '@polkadot/types/lookup';
 import type { CoreWorkloadType, CoreWorkplanType, InfoRow } from '../types.js';
 
 import React, { useEffect, useMemo, useState } from 'react';
 
 import { ExpandButton } from '@polkadot/react-components';
-import { useApi, useBrokerSalesInfo, useCall, useRegions, useToggle } from '@polkadot/react-hooks';
+import { useRegions, useToggle } from '@polkadot/react-hooks';
+import { useCoretimeConsts } from '@polkadot/react-hooks/useCoretimeConsts';
 
-import { formatRowInfo } from '../utils.js';
+import { useBrokerContext } from '../BrokerContext.js';
+import { estimateTime, formatRowInfo } from '../utils.js';
 import WorkInfoRow from './WorkInfoRow.js';
 import Workplan from './Workplan.js';
 
@@ -25,40 +25,65 @@ interface Props {
 }
 
 function Workload ({ api, config, core, workload, workplan }: Props): React.ReactElement<Props> {
-  const { isApiReady } = useApi();
-  const salesInfo = useBrokerSalesInfo(api, isApiReady);
+  const coretimeConstants = useCoretimeConsts();
 
-  const status = useCall<Option<PalletBrokerStatusRecord>>(isApiReady && api.query.broker?.status);
   const [isExpanded, toggleIsExpanded] = useToggle(false);
   const [workloadData, setWorkloadData] = useState<InfoRow[]>();
   const [workplanData, setWorkplanData] = useState<InfoRow[]>();
 
-  const currentTimeSlice = useMemo(() => {
-    if (status?.isSome) {
-      return status.unwrap().lastCommittedTimeslice.toNumber();
-    }
+  const { currentRegion, status } = useBrokerContext();
 
-    return 0;
-  }, [status]);
+  const currentTimeSlice = useMemo(() =>
+    status?.lastTimeslice ?? 0
+  , [status]);
 
   const regionInfo = useRegions(api);
-  const region: RegionInfo | undefined = useMemo(() => regionInfo?.find((v) => v.core === core && v.start <= currentTimeSlice && v.end > currentTimeSlice), [regionInfo, core, currentTimeSlice]);
+  const regionOwnerInfo: RegionInfo | undefined = useMemo(() => regionInfo?.find((v) => v.core === core && v.start <= currentTimeSlice && v.end > currentTimeSlice), [regionInfo, core, currentTimeSlice]);
 
   useEffect(() => {
-    if (!!workload?.length && !!salesInfo) {
+    if (!!workload?.length && currentTimeSlice > 0) {
       // saleInfo points to a regionEnd and regionBeing in the next cycle, but we want the start and end of the current cycle
-      setWorkloadData(formatRowInfo(workload, core, region, currentTimeSlice, { regionBegin: salesInfo.regionBegin - config.regionLength, regionEnd: salesInfo.regionEnd - config.regionLength }, config.regionLength));
+      setWorkloadData(formatRowInfo(
+        workload,
+        core,
+        regionOwnerInfo,
+        currentTimeSlice,
+        {
+          begin: currentRegion.begin || 0,
+          beginDate: currentRegion.beginDate || '',
+          end: currentRegion.end || 0,
+          endDate: currentRegion.endDate || ''
+        },
+        config.regionLength,
+        coretimeConstants?.relay
+      ));
     } else {
       return setWorkloadData([{ core }]);
     }
-  }, [workload, region, currentTimeSlice, core, salesInfo, config]);
+  }, [workload, regionOwnerInfo, currentTimeSlice, core, config, coretimeConstants, currentRegion]);
 
   useEffect(() => {
-    if (!!workplan?.length && !!salesInfo) {
-      setWorkplanData(formatRowInfo(workplan, core, region, currentTimeSlice, salesInfo, config.regionLength));
+    if (workplan?.length && status && coretimeConstants && currentRegion.endDate) {
+      const futureRegionStart = currentRegion.end || 0;
+      const futureRegionEnd = futureRegionStart + config.regionLength;
+      const lastBlock = status.lastTimeslice * coretimeConstants?.relay.blocksPerTimeslice;
+
+      setWorkplanData(formatRowInfo(
+        workplan,
+        core,
+        regionOwnerInfo,
+        status.lastTimeslice,
+        {
+          begin: futureRegionStart,
+          beginDate: currentRegion.endDate,
+          end: futureRegionEnd,
+          endDate: estimateTime(futureRegionEnd, lastBlock)?.formattedDate ?? ''
+        },
+        config.regionLength,
+        coretimeConstants?.relay
+      ));
     }
-  }
-  , [workplan, region, currentTimeSlice, core, salesInfo, config]);
+  }, [workplan, regionOwnerInfo, status, core, config, coretimeConstants, currentRegion]);
 
   const hasWorkplan = workplan?.length;
 
@@ -95,14 +120,12 @@ function Workload ({ api, config, core, workload, workplan }: Props): React.Reac
         <>
           <tr>
             <td style={{ fontWeight: 700, paddingTop: '2rem', width: 150 }}>workplans</td>
-            <td colSpan={7}></td>
+            <td colSpan={8}></td>
           </tr>
           {workplanData?.map((workplanInfo) => (
             <Workplan
-              currentTimeSlice={currentTimeSlice}
               isExpanded={isExpanded}
               key={workplanInfo.core}
-              region={region}
               workplanData={workplanInfo}
             />
           ))}

@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/app-explorer authors & contributors
+// Copyright 2017-2025 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Header } from '@polkadot/types/interfaces';
@@ -136,7 +136,7 @@ function isSingleRow (cols: Col[]): boolean {
 function renderCol ({ author, hash, isEmpty, isFinalized, parent, width }: Col, index: number): React.ReactNode {
   return (
     <td
-      className={`header ${isEmpty ? 'isEmpty' : ''} ${isFinalized ? 'isFinalized' : ''}`}
+      className={`header ${isEmpty ? 'isEmpty' : ''} ${isFinalized ? 'isFinalized' : 'isNotFinal'}`}
       colSpan={width}
       key={`${hash}:${index}:${width}`}
     >
@@ -441,6 +441,10 @@ const StyledDiv = styled.div`
 
         &.isFinalized {
           background: rgba(0, 255, 0, 0.1);
+        }
+        
+        &.isNotFinal {
+          color: rgba(0,0,0);
         }
 
         &.isLink {

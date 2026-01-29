@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/app-files authors & contributors
+// Copyright 2017-2025 @polkadot/app-files authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ActionStatusBase } from '@polkadot/react-components/Status/types';
@@ -377,7 +377,7 @@ const StyledMain = styled.main`
   .uploadMenu {
     z-index: 200;
     display: none;
-    background-color: white;
+    background-color: var(--bg-table);
     position: absolute;
     top: 43px;
     left: 0;

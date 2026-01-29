@@ -1,7 +1,7 @@
-// Copyright 2017-2024 @polkadot/app-bounties authors & contributors
+// Copyright 2017-2025 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { BountyStatus } from '@polkadot/types/interfaces';
+import type { PalletBountiesBountyStatus } from '@polkadot/types/lookup';
 
 import React, { useMemo } from 'react';
 
@@ -14,7 +14,7 @@ import BountyInfo from './BountyInfo.js';
 interface Props {
   bestNumber: BN;
   blocksUntilUpdate?: BN;
-  status: BountyStatus;
+  status: PalletBountiesBountyStatus;
 }
 
 export const BLOCKS_PERCENTAGE_LEFT_TO_SHOW_WARNING = 10;

@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/app-staking authors & contributors
+// Copyright 2017-2025 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { INumber } from '@polkadot/types/types';
@@ -13,16 +13,17 @@ import { useTranslation } from '../translate.js';
 import Validator from './Validator.js';
 
 interface Props {
+  basePath: string,
   className?: string;
 }
 
-function doQuery (validatorId?: string | null): void {
+function doQuery (basePath: string, validatorId?: string | null): void {
   if (validatorId) {
-    window.location.hash = `/staking/query/${validatorId}`;
+    window.location.hash = `${basePath}/query/${validatorId}`;
   }
 }
 
-function Query ({ className }: Props): React.ReactElement<Props> {
+function Query ({ basePath, className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { value } = useParams<{ value: string }>();
@@ -35,8 +36,8 @@ function Query ({ className }: Props): React.ReactElement<Props> {
   );
 
   const _onQuery = useCallback(
-    () => doQuery(validatorId),
-    [validatorId]
+    () => doQuery(basePath, validatorId),
+    [basePath, validatorId]
   );
 
   if (!labels) {

@@ -20,6 +20,8 @@ jobs:
     - uses: actions/setup-node@v4
       with:
         node-version: 'lts/*'
+    - name: Set Execute Permissions
+      run: chmod +x ./scripts/*
     - name: ${{ matrix.step }}
       env:
         CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
@@ -44,6 +46,8 @@ jobs:
     - uses: actions/setup-node@v4
       with:
         node-version: 'lts/*'
+    - name: Set Execute Permissions
+      run: chmod +x ./docker/*
     - name: docker
       env:
         DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
@@ -74,6 +78,8 @@ jobs:
     #   run: |
     #     mkdir -p ~/private_keys/
     #     echo '${{ secrets.API_KEY }}' > ~/private_keys/AuthKey_${{ secrets.API_KEY_ID }}.p8
+    - name: Set Execute Permissions
+      run: chmod +x ./scripts/*
     - name: Build/release Electron app
       uses: samuelmeuli/action-electron-builder@v1
       with:

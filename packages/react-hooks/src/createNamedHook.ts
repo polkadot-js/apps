@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2025 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 export function createNamedHook <F extends (...args: any[]) => any> (name: string, fn: F): (...args: Parameters<F>) => ReturnType<F> {

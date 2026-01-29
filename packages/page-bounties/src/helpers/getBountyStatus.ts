@@ -1,10 +1,10 @@
-// Copyright 2017-2024 @polkadot/app-bounties authors & contributors
+// Copyright 2017-2025 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { BountyStatus } from '@polkadot/types/interfaces';
+import type { PalletBountiesBountyStatus } from '@polkadot/types/lookup';
 import type { BountyStatusType, StatusName } from '../types.js';
 
-export const getBountyStatus = (status: BountyStatus): BountyStatusType => {
+export const getBountyStatus = (status: PalletBountiesBountyStatus): BountyStatusType => {
   const statusAsString = status.type as StatusName;
 
   let result: BountyStatusType = {

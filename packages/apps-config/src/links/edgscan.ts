@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/apps-config authors & contributors
+// Copyright 2017-2025 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
@@ -10,7 +10,7 @@ export const Edgscan: ExternalDef = {
   chains: {
     Edgeware: 'edgeware'
   },
-  create: (path: string, data: BN | number | string): string =>
+  create: (_chain: string, path: string, data: BN | number | string): string =>
     `https://edgscan.ink/#/${path}/${data.toString()}`,
   homepage: 'https://edgscan.ink/',
   isActive: true,

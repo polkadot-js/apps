@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/app-rpc authors & contributors
+// Copyright 2017-2025 @polkadot/app-rpc authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';

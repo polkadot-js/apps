@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2025 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // we use augmented types in this tsconfig
@@ -13,10 +13,12 @@ export { useAddresses } from './useAddresses.js';
 export { useApi } from './useApi.js';
 export { useApiStats } from './useApiStats.js';
 export { useApiUrl } from './useApiUrl.js';
+export { useAssetIds } from './useAssetIds.js';
+export { useAssetInfos } from './useAssetInfos.js';
 export { useAvailableSlashes } from './useAvailableSlashes.js';
 export { useBalancesAll } from './useBalancesAll.js';
 export { useBestHash } from './useBestHash.js';
-export { useBestNumber } from './useBestNumber.js';
+export { useBestNumber, useBestNumberRelay } from './useBestNumber.js';
 export { useBlockAuthors } from './useBlockAuthors.js';
 export { useBlockEvents } from './useBlockEvents.js';
 export { useBlockInterval } from './useBlockInterval.js';
@@ -33,8 +35,10 @@ export { useCallMulti } from './useCallMulti.js';
 export { useCollectiveInstance } from './useCollectiveInstance.js';
 export { useCollectiveMembers } from './useCollectiveMembers.js';
 export { useCoreDescriptor } from './useCoreDescriptor.js';
+export { useCoretimeConsts } from './useCoretimeConsts.js';
 export { useCoretimeEndpoint } from './useCoretimeEndpoint.js';
 export { useCoretimeInformation } from './useCoretimeInformation.js';
+export { useCurrencyToVote } from './useCurrencyToVote.js';
 export { useDebounce } from './useDebounce.js';
 export { useDelegations } from './useDelegations.js';
 export { useDeriveAccountFlags } from './useDeriveAccountFlags.js';
@@ -69,6 +73,7 @@ export { useOwnStashInfos } from './useOwnStashInfos.js';
 export { useParaApi } from './useParaApi.js';
 export { useIsParasLinked, useParaEndpoints } from './useParaEndpoints.js';
 export { usePassword } from './usePassword.js';
+export { usePayWithAsset } from './usePayWithAsset.js';
 export { usePeopleEndpoint } from './usePeopleEndpoint.js';
 export { usePopupWindow } from './usePopupWindow.js';
 export { usePreimage } from './usePreimage.js';
@@ -79,6 +84,7 @@ export { useRegions } from './useRegions.js';
 export { useRegistrars } from './useRegistrars.js';
 export { useSavedFlags } from './useSavedFlags.js';
 export { useScroll } from './useScroll.js';
+export { useStakingAsyncApis } from './useStakingAsyncApis.js';
 export { useStakingInfo } from './useStakingInfo.js';
 export { useStepper } from './useStepper.js';
 export { useSubidentities } from './useSubidentities.js';
@@ -90,6 +96,8 @@ export { useTimer } from './useTimer.js';
 export { useToggle } from './useToggle.js';
 export { useTreasury } from './useTreasury.js';
 export { useTxBatch } from './useTxBatch.js';
+export type { VestingInfo } from './useVesting.js';
+export { useVesting } from './useVesting.js';
 export { useVotingStatus } from './useVotingStatus.js';
 export { useWeight } from './useWeight.js';
 export { useWindowColumns } from './useWindowColumns.js';

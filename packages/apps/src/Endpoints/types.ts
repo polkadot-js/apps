@@ -1,7 +1,15 @@
-// Copyright 2017-2024 @polkadot/apps authors & contributors
+// Copyright 2017-2025 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type React from 'react';
+
+export interface IFavoriteChainProps {
+  chainName: string;
+  relay?: string;
+  paraId?: number;
+}
+
+export type IFavoriteChainsStorage = Record<string, {relay: string, paraId: number}[]>
 
 export interface Network {
   isChild?: boolean;

@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2025 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option, Vec } from '@polkadot/types';
@@ -47,11 +47,11 @@ const MULTI_OPTS = {
       .filter((period) => period !== -1),
     lifecycle: optLifecycle.unwrapOr(null),
     paraInfo: optInfo.unwrapOr(null),
-    pendingAvail: optPending.unwrapOr(null),
+    pendingAvail: optPending?.isSome ? optPending.unwrapOr(null) : null,
     qDmp: dmp.length,
     qHrmpE: hrmpE.length,
     qHrmpI: hrmpI.length,
-    qUmp: ump.length,
+    qUmp: ump?.length ?? 0,
     updateAt: optUp.unwrapOr(null),
     watermark: optWm.unwrapOr(null)
   })

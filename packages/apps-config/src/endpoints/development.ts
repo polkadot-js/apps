@@ -1,8 +1,8 @@
-// Copyright 2017-2024 @polkadot/apps-config authors & contributors
+// Copyright 2017-2025 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TFunction } from '../types.js';
-import type { LinkOption } from './types.js';
+import type { EndpointOption, LinkOption } from './types.js';
 
 export const CUSTOM_ENDPOINT_KEY = 'polkadot-app-custom-endpoints';
 
@@ -13,30 +13,59 @@ interface EnvWindow {
   }
 }
 
-export function createCustom (t: TFunction): LinkOption[] {
+function findUiForUrl (url: string, endpoints: EndpointOption[]): LinkOption['ui'] {
+  // Search through all endpoints to find a matching provider URL
+  for (const endpoint of endpoints) {
+    if (endpoint.providers) {
+      for (const providerUrl of Object.values(endpoint.providers)) {
+        if (providerUrl === url) {
+          return endpoint.ui;
+        }
+      }
+    }
+
+    // Also check linked endpoints (parachains)
+    if (endpoint.linked) {
+      const linkedUi = findUiForUrl(url, endpoint.linked);
+
+      if (linkedUi && (linkedUi.color || linkedUi.logo || linkedUi.identityIcon)) {
+        return linkedUi;
+      }
+    }
+  }
+
+  return {};
+}
+
+export function createCustom (t: TFunction, endpoints: EndpointOption[] = []): LinkOption[] {
   const WS_URL = (
     (typeof process !== 'undefined' ? process.env?.WS_URL : undefined) ||
     (typeof window !== 'undefined' ? (window as EnvWindow).process_env?.WS_URL : undefined)
   );
 
-  return WS_URL
-    ? [
-      {
-        isHeader: true,
-        text: t('rpc.dev.custom', 'Custom environment', { ns: 'apps-config' }),
-        textBy: '',
-        ui: {},
-        value: ''
-      },
-      {
-        info: 'WS_URL',
-        text: t('rpc.dev.custom.entry', 'Custom {{WS_URL}}', { ns: 'apps-config', replace: { WS_URL } }),
-        textBy: WS_URL,
-        ui: {},
-        value: WS_URL
-      }
-    ]
-    : [];
+  if (!WS_URL) {
+    return [];
+  }
+
+  // Try to find UI configuration from existing endpoint with matching URL
+  const ui = findUiForUrl(WS_URL, endpoints);
+
+  return [
+    {
+      isHeader: true,
+      text: t('rpc.dev.custom', 'Custom environment', { ns: 'apps-config' }),
+      textBy: '',
+      ui: {},
+      value: ''
+    },
+    {
+      info: 'WS_URL',
+      text: t('rpc.dev.custom.entry', 'Custom {{WS_URL}}', { ns: 'apps-config', replace: { WS_URL } }),
+      textBy: WS_URL,
+      ui,
+      value: WS_URL
+    }
+  ];
 }
 
 export function createOwn (t: TFunction): LinkOption[] {

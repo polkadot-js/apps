@@ -1,7 +1,7 @@
-// Copyright 2017-2024 @polkadot/app-referenda authors & contributors
+// Copyright 2017-2025 @polkadot/app-referenda authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { PalletReferendaDeposit, PalletReferendaTrackInfo } from '@polkadot/types/lookup';
+import type { PalletReferendaDeposit, PalletReferendaTrackDetails } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 import type { PalletReferenda } from '../../types.js';
 
@@ -21,7 +21,7 @@ interface Props {
   noMedia?: boolean;
   palletReferenda: PalletReferenda;
   submit: PalletReferendaDeposit | null;
-  track?: PalletReferendaTrackInfo;
+  track?: PalletReferendaTrackDetails;
 }
 
 function Deposits ({ canDeposit, canRefund, className = '', decision, id, noMedia, palletReferenda, submit, track }: Props): React.ReactElement<Props> {

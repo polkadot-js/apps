@@ -1,8 +1,8 @@
-// Copyright 2017-2024 @polkadot/app-referenda authors & contributors
+// Copyright 2017-2025 @polkadot/app-referenda authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
-import type { PalletConvictionVotingTally, PalletRankedCollectiveTally, PalletReferendaCurve, PalletReferendaReferendumInfoConvictionVotingTally, PalletReferendaReferendumInfoRankedCollectiveTally, PalletReferendaTrackInfo } from '@polkadot/types/lookup';
+import type { PalletConvictionVotingTally, PalletRankedCollectiveTally, PalletReferendaCurve, PalletReferendaReferendumInfoConvictionVotingTally, PalletReferendaReferendumInfoRankedCollectiveTally, PalletReferendaTrackDetails } from '@polkadot/types/lookup';
 import type { CurveGraph, TrackDescription, TrackInfoExt } from './types.js';
 
 import { getGovernanceTracks } from '@polkadot/apps-config';
@@ -10,7 +10,7 @@ import { BN, BN_BILLION, BN_ONE, BN_ZERO, bnMax, bnMin, formatNumber, objectSpre
 
 const CURVE_LENGTH = 500;
 
-export function getTrackName (trackId: BN, { name }: PalletReferendaTrackInfo): string {
+export function getTrackName (trackId: BN, { name }: PalletReferendaTrackDetails): string {
   return `${
     formatNumber(trackId)
   } / ${
@@ -66,6 +66,11 @@ export function curveThreshold (curve: PalletReferendaCurve, input: BN, div: BN)
 
   if (curve.isLinearDecreasing) {
     const { ceil, floor, length } = curve.asLinearDecreasing;
+
+    // if divisor is zero, we return the max
+    if (length.isZero()) {
+      return BN_BILLION;
+    }
 
     // *ceil - (x.min(*length).saturating_div(*length, Down) * (*ceil - *floor))
     // NOTE: We first multiply, then divide (since we work with fractions)
@@ -206,7 +211,7 @@ export function curveDelay (curve: PalletReferendaCurve, input: BN, div: BN): BN
   throw new Error(`Unknown curve found ${curve.type}`);
 }
 
-export function calcDecidingEnd (totalEligible: BN, tally: PalletRankedCollectiveTally | PalletConvictionVotingTally, { decisionPeriod, minApproval, minSupport }: PalletReferendaTrackInfo, since: BN): BN | undefined {
+export function calcDecidingEnd (totalEligible: BN, tally: PalletRankedCollectiveTally | PalletConvictionVotingTally, { decisionPeriod, minApproval, minSupport }: PalletReferendaTrackDetails, since: BN): BN | undefined {
   const support = isConvictionTally(tally)
     ? tally.support
     : tally.bareAyes;
@@ -223,7 +228,7 @@ export function calcDecidingEnd (totalEligible: BN, tally: PalletRankedCollectiv
   );
 }
 
-export function calcCurves ({ decisionPeriod, minApproval, minSupport }: PalletReferendaTrackInfo): CurveGraph {
+export function calcCurves ({ decisionPeriod, minApproval, minSupport }: PalletReferendaTrackDetails): CurveGraph {
   const approval = new Array<BN>(CURVE_LENGTH);
   const support = new Array<BN>(CURVE_LENGTH);
   const x = new Array<BN>(CURVE_LENGTH);

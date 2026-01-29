@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/apps authors & contributors
+// Copyright 2017-2025 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // Do not edit. Auto-generated via node scripts/imgConvert.mjs
@@ -49,8 +49,6 @@ export { chainsLaosPNG } from './generated/laosPNG.js';
 export { chainsLiberlandPNG } from './generated/liberlandPNG.js';
 export { chainsListenPNG } from './generated/listenPNG.js';
 export { chainsLogionPNG } from './generated/logionPNG.js';
-export { chainsMangataPNG } from './generated/mangataPNG.js';
-export { chainsMangataxPNG } from './generated/mangataxPNG.js';
 export { chainsMoonsamaPNG } from './generated/moonsamaPNG.js';
 export { chainsMyriadPNG } from './generated/myriadPNG.js';
 export { chainsMyxcavPNG } from './generated/myxcavPNG.js';
@@ -65,9 +63,11 @@ export { chainsPeoplePolkadotSVG } from './generated/people-polkadotSVG.js';
 export { chainsPicassoSVG } from './generated/picassoSVG.js';
 export { chainsPolkadotCircleSVG } from './generated/polkadot-circleSVG.js';
 export { chainsPopNetworkSVG } from './generated/pop-networkSVG.js';
+export { chainsQfNetworkPNG } from './generated/qf-networkPNG.js';
 export { chainsQpnPNG } from './generated/qpnPNG.js';
 export { chainsRiodefiPNG } from './generated/riodefiPNG.js';
 export { chainsRococoSVG } from './generated/rococoSVG.js';
+export { chainsShibuyaSVG } from './generated/shibuyaSVG.js';
 export { chainsShidenPNG } from './generated/shidenPNG.js';
 export { chainsSkyekiwiPNG } from './generated/skyekiwiPNG.js';
 export { chainsSnowbridgePNG } from './generated/snowbridgePNG.js';
@@ -76,6 +76,7 @@ export { chainsStandardPNG } from './generated/standardPNG.js';
 export { chainsT0rnPNG } from './generated/t0rnPNG.js';
 export { chainsTanglePNG } from './generated/tanglePNG.js';
 export { chainsTinkerPNG } from './generated/tinkerPNG.js';
+export { chainsTorusPNG } from './generated/torusPNG.js';
 export { chainsTotemSVG } from './generated/totemSVG.js';
 export { chainsTuringPNG } from './generated/turingPNG.js';
 export { chainsUnorthodoxPNG } from './generated/unorthodoxPNG.js';
@@ -84,3 +85,4 @@ export { chainsVaraPNG } from './generated/varaPNG.js';
 export { chainsVirtoPNG } from './generated/virtoPNG.js';
 export { chainsVtbPNG } from './generated/vtbPNG.js';
 export { chainsWatrPNG } from './generated/watrPNG.js';
+export { chainsWeTEESVG } from './generated/WeTEESVG.js';

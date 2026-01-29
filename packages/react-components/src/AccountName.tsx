@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/react-query authors & contributors
+// Copyright 2017-2025 @polkadot/react-query authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { IconName } from '@fortawesome/fontawesome-svg-core';
@@ -64,7 +64,7 @@ function createNumMatcher (prefix: string, name: string, add?: string): AddrMatc
   };
 }
 
-const MATCHERS: AddrMatcher[] = [
+export const MATCHERS: AddrMatcher[] = [
   createAllMatcher('modlpy/socie', 'Society'),
   createAllMatcher('modlpy/trsry', 'Treasury'),
   createAllMatcher('modlpy/xcmch', 'XCM'),

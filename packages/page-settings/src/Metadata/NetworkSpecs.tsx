@@ -1,13 +1,15 @@
-// Copyright 2017-2024 @polkadot/app-settings authors & contributors
+// Copyright 2017-2025 @polkadot/app-settings authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { BlockNumber, RuntimeVersion } from '@polkadot/types/interfaces';
 import type { NetworkSpecsStruct } from '@polkadot/ui-settings/types';
 import type { ChainInfo, ChainType } from '../types.js';
 
 import React, { useCallback, useEffect, useReducer, useRef, useState } from 'react';
 
 import { ChainImg, Input, QrNetworkSpecs, Spinner, styled, Table } from '@polkadot/react-components';
-import { useApi, useDebounce } from '@polkadot/react-hooks';
+import { useApi, useCall, useDebounce } from '@polkadot/react-hooks';
+import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
 import ChainColorIndicator from './ChainColorIndicator.js';
@@ -45,9 +47,11 @@ const initialState = {
 
 function NetworkSpecs ({ chainInfo, className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { isApiReady, systemChain } = useApi();
+  const { api, isApiReady, systemChain } = useApi();
   const [qrData, setQrData] = useState<NetworkSpecsStructWithType>(initialState);
   const debouncedQrData = useDebounce(qrData, 500);
+  const runtimeVersion = useCall<RuntimeVersion>(isApiReady && api.rpc.state.subscribeRuntimeVersion);
+  const blockNumber = useCall<BlockNumber>(isApiReady && api.derive.chain.bestNumber);
 
   const reducer = (state: NetworkSpecsStructWithType, delta: Partial<NetworkSpecsStructWithType>): NetworkSpecsStructWithType => {
     const newState = {
@@ -107,7 +111,6 @@ function NetworkSpecs ({ chainInfo, className }: Props): React.ReactElement<Prop
       empty={t('No open tips')}
       header={headerRef.current}
     >
-
       <tr>
         <td>
           <div className='settings--networkSpecs-name'>
@@ -120,7 +123,7 @@ function NetworkSpecs ({ chainInfo, className }: Props): React.ReactElement<Prop
             <ChainImg className='settings--networkSpecs-logo' />
           </div>
         </td>
-        <td rowSpan={7}>
+        <td rowSpan={9}>
           {qrData.genesisHash && (
             <QrNetworkSpecs
               className='settings--networkSpecs-qr'
@@ -205,6 +208,26 @@ function NetworkSpecs ({ chainInfo, className }: Props): React.ReactElement<Prop
           />
         </td>
       </tr>
+      <tr>
+        <td>
+          <Input
+            className='full'
+            isDisabled
+            label={t('Runtime Version')}
+            value={runtimeVersion ? `${runtimeVersion.specName.toString()}/${runtimeVersion.specVersion.toNumber()}` : ''}
+          />
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <Input
+            className='full'
+            isDisabled
+            label={t('Current Block')}
+            value={blockNumber ? formatNumber(blockNumber) : ''}
+          />
+        </td>
+      </tr>
     </StyledTable>
   );
 }
@@ -216,6 +239,15 @@ const StyledTable = styled(Table)`
     .input.ui--Input input {
       border: none !important;
       background: transparent;
+    }
+  }
+
+  @media (max-width: 900px) {
+    tr {
+      &:first-child {
+        display: flex;
+        flex-direction: column;
+      }
     }
   }
 

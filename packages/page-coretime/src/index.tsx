@@ -1,61 +1,33 @@
-// Copyright 2017-2024 @polkadot/app-coretime authors & contributors
+// Copyright 2017-2025 @polkadot/app-coretime authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { TabItem } from '@polkadot/react-components/types';
+import React from 'react';
 
-import React, { useRef } from 'react';
+import { useApi } from '@polkadot/react-hooks';
 
-import { Tabs } from '@polkadot/react-components';
-import { useApi, useCoretimeInformation } from '@polkadot/react-hooks';
-
-import Summary from './Overview/Summary.js';
-import ParachainsTable from './ParachainsTable.js';
-import { useTranslation } from './translate.js';
+import { CoretimeProvider } from './CoretimeContext.js';
+import CoretimePage from './CoretimePage.js';
 
 interface Props {
   basePath: string;
   className?: string;
 }
 
-function createItemsRef (t: (key: string, options?: { replace: Record<string, unknown> }) => string): TabItem[] {
-  return [
-    {
-      isRoot: true,
-      name: 'overview',
-      text: t('Overview')
-    }
-  ];
-}
-
 function CoretimeApp ({ basePath, className }: Props): React.ReactElement<Props> {
-  const { t } = useTranslation();
   const { api, isApiReady } = useApi();
-  const itemsRef = useRef(createItemsRef(t));
-  const coretimeInfo = useCoretimeInformation(api, isApiReady);
 
   return (
-    <main className={className}>
-      <Tabs
+    <CoretimeProvider
+      api={api}
+      isApiReady={isApiReady}
+    >
+      <CoretimePage
+        api={api}
         basePath={basePath}
-        items={itemsRef.current}
+        className={className}
+        isApiReady={isApiReady}
       />
-      {coretimeInfo && (
-        <Summary
-          api={isApiReady ? api : null}
-          config={coretimeInfo?.config}
-          parachainCount={coretimeInfo.taskIds?.length || 0}
-          region={coretimeInfo?.region}
-          saleInfo={coretimeInfo?.salesInfo}
-          status={coretimeInfo?.status}
-        />
-      )}
-      {!!coretimeInfo &&
-        <ParachainsTable
-          coretimeInfo={coretimeInfo}
-        />
-      }
-
-    </main>
+    </CoretimeProvider>
   );
 }
 

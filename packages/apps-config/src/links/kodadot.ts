@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/apps-config authors & contributors
+// Copyright 2017-2025 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
@@ -9,7 +9,6 @@ import { externalKodadotSVG } from '../ui/logos/external/index.js';
 const getNetwork = (_chain: string) => {
   const chain = {
     basilisk: 'bsx',
-    kusama: 'rmrk',
     statemine: 'ahk',
     statemint: 'ahp'
   }[_chain];
@@ -20,9 +19,8 @@ const getNetwork = (_chain: string) => {
 export const KodaDot: ExternalDef = {
   chains: {
     Basilisk: 'basilisk',
-    Kusama: 'kusama',
-    Statemine: 'statemine',
-    Statemint: 'statemint'
+    'Kusama Asset Hub': 'statemine',
+    'Polkadot Asset Hub': 'statemint'
   },
   create: (_chain: string, _path: string, data: BN | number | string): string =>
     `${getNetwork(_chain)}${data.toString()}`,

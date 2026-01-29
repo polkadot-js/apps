@@ -1,8 +1,9 @@
-// Copyright 2017-2024 @polkadot/app-bounties authors & contributors
+// Copyright 2017-2025 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
-import type { Balance, BountyIndex, BountyStatus } from '@polkadot/types/interfaces';
+import type { Balance, BountyIndex } from '@polkadot/types/interfaces';
+import type { PalletBountiesBountyStatus } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 
 import React, { useMemo } from 'react';
@@ -20,7 +21,7 @@ interface Props {
   fee?: BN;
   index: BountyIndex;
   proposals?: DeriveCollectiveProposal[];
-  status: BountyStatus;
+  status: PalletBountiesBountyStatus;
   value: Balance;
 }
 

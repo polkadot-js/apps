@@ -1,10 +1,13 @@
-// Copyright 2017-2024 @polkadot/react-components authors & contributors
+// Copyright 2017-2025 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
+
+import '@polkadot/api-augment';
 
 import type { IconName } from '@fortawesome/fontawesome-svg-core';
 import type React from 'react';
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { Abi } from '@polkadot/api-contract';
+import type { Registrar } from '@polkadot/react-hooks/types';
 import type { AccountId, AccountIndex, Address, Index } from '@polkadot/types/interfaces';
 import type { ActionStatus, TxCallback, TxFailedCallback } from './Status/types.js';
 
@@ -85,6 +88,13 @@ export type AccountIdIsh = AccountId | AccountIndex | Address | string | Uint8Ar
 
 export type DisplayedJudgement = 'Erroneous' | 'Low quality' | 'Known good' | 'Reasonable';
 
+export interface Judgement {
+  judgementName: DisplayedJudgement;
+  registrars: (Registrar | undefined)[];
+}
+
+export type UseJudgements = Judgement[]
+
 export interface TabItem {
   alias?: string;
   count?: number;
@@ -94,4 +104,10 @@ export interface TabItem {
   isRoot?: boolean;
   name: string;
   text: React.ReactNode;
+}
+
+export interface ProgressBarSection {
+  value: number;
+  total: number;
+  label: string;
 }

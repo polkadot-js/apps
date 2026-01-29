@@ -1,8 +1,7 @@
-// Copyright 2017-2024 @polkadot/react-components authors & contributors
+// Copyright 2017-2025 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Judgement } from '@polkadot/react-hooks/types';
-import type { DisplayedJudgement } from '../types.js';
+import type { DisplayedJudgement, Judgement } from '../types.js';
 
 import React, { useMemo } from 'react';
 

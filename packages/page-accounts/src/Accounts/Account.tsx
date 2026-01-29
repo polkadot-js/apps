@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2025 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // This is for the use of `Ledger`
@@ -11,15 +11,16 @@ import type { DeriveDemocracyLock, DeriveStakingAccount } from '@polkadot/api-de
 import type { Ledger, LedgerGeneric } from '@polkadot/hw-ledger';
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
 import type { Option } from '@polkadot/types';
-import type { ProxyDefinition, RecoveryConfig } from '@polkadot/types/interfaces';
+import type { BlockNumber, ProxyDefinition, RecoveryConfig } from '@polkadot/types/interfaces';
 import type { KeyringAddress, KeyringJson$Meta } from '@polkadot/ui-keyring/types';
 import type { AccountBalance, Delegation } from '../types.js';
 
+import FileSaver from 'file-saver';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import useAccountLocks from '@polkadot/app-referenda/useAccountLocks';
 import { AddressInfo, AddressSmall, Badge, Button, ChainLock, Columar, CryptoType, Forget, LinkExternal, Menu, Popup, styled, Table, Tags, TransferModal } from '@polkadot/react-components';
-import { useAccountInfo, useApi, useBalancesAll, useBestNumber, useCall, useLedger, useQueue, useStakingInfo, useToggle } from '@polkadot/react-hooks';
+import { useAccountInfo, useApi, useBalancesAll, useBestNumberRelay, useCall, useLedger, useQueue, useStakingAsyncApis, useStakingInfo, useToggle, useVesting } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 import { settings } from '@polkadot/ui-settings';
 import { BN, BN_ZERO, formatBalance, formatNumber, isFunction } from '@polkadot/util';
@@ -49,6 +50,7 @@ interface Props {
   proxy?: [ProxyDefinition[], BN];
   setBalance: (address: string, value: AccountBalance) => void;
   toggleFavorite: (address: string) => void;
+  onStatusChange: (status: ActionStatus) => void;
 }
 
 interface DemocracyUnlockable {
@@ -157,15 +159,32 @@ const transformRecovery = {
   transform: (opt: Option<RecoveryConfig>) => opt.unwrapOr(null)
 };
 
-function Account ({ account: { address, meta }, className = '', delegation, filter, isFavorite, proxy, setBalance, toggleFavorite }: Props): React.ReactElement<Props> | null {
+function Account ({ account: { address, meta }, className = '', delegation, filter, isFavorite, onStatusChange, proxy, setBalance, toggleFavorite }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const [isExpanded, toggleIsExpanded] = useToggle(false);
   const { queueExtrinsic } = useQueue();
   const { api, apiIdentity, enableIdentity, isDevelopment: isDevelopmentApiProps, isEthereum: isEthereumApiProps } = useApi();
   const { getLedger } = useLedger();
-  const bestNumber = useBestNumber();
+  const { ahApi, isRelayChain, rcApi } = useStakingAsyncApis();
+  const bestNumber = useBestNumberRelay();
   const balancesAll = useBalancesAll(address);
+  const vestingInfoRaw = useVesting(address);
+  // Don't show vesting on relay chain - it's migrated to Asset Hub
+  // Users should connect to Asset Hub to view vesting info
+  const vestingInfo = isRelayChain ? undefined : vestingInfoRaw;
   const stakingInfo = useStakingInfo(address);
+
+  // Vesting schedules use relay chain blocks after Asset Hub migration.
+  // When on Asset Hub, query relay chain block number for accurate vesting calculations.
+  // For other chains, use normal block numbers (no cross-chain adjustment needed).
+  const relayBestNumber = useCall<BlockNumber>(
+    rcApi?.derive.chain.bestNumber
+  );
+
+  // Use relay chain block for vesting ONLY when on Asset Hub with relay connection available.
+  // This corrects the block number mismatch caused by Asset Hub migration.
+  // For all other chains, use undefined to let normal block numbers apply.
+  const vestingBestNumber = (vestingInfo && rcApi) ? relayBestNumber : undefined;
   const democracyLocks = useCall<DeriveDemocracyLock[]>(api.derive.democracy?.locks, [address]);
   const recoveryInfo = useCall<RecoveryConfig | null>(api.query.recovery?.recoverable, [address], transformRecovery);
   const multiInfos = useMultisigApprovals(address);
@@ -200,14 +219,24 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
         transferable: balancesAll.transferable || balancesAll.availableBalance,
         unbonding: calcUnbonding(stakingInfo)
       });
-
-      api.tx.vesting?.vest && setVestingTx(() =>
-        balancesAll.vestingLocked.isZero()
-          ? null
-          : api.tx.vesting.vest()
-      );
     }
-  }, [address, api, balancesAll, setBalance, stakingInfo]);
+  }, [address, balancesAll, setBalance, stakingInfo]);
+
+  useEffect((): void => {
+    // Vesting transactions must be sent to Asset Hub (after migration)
+    // Use ahApi when on relay chain, otherwise use the current api
+    const vestingApi = isRelayChain && ahApi ? ahApi : api;
+
+    if (vestingInfo && vestingApi.tx.vesting?.vest) {
+      setVestingTx(() =>
+        vestingInfo.vestingLocked.isZero()
+          ? null
+          : vestingApi.tx.vesting.vest()
+      );
+    } else {
+      setVestingTx(null);
+    }
+  }, [address, ahApi, api, isRelayChain, vestingInfo]);
 
   useEffect((): void => {
     bestNumber && democracyLocks && setDemocracyUnlock(
@@ -274,6 +303,32 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
     },
     [address, t]
   );
+
+  const _onExportMultisig = useCallback(() => {
+    try {
+      if (!isMultisig) {
+        throw new Error('not a multisig account');
+      }
+
+      if (!meta.who) {
+        throw new Error('signatories not found');
+      }
+
+      const signatories: string[] = meta.who;
+      const blob = new Blob([JSON.stringify(signatories, null, 2)], { type: 'application/json; charset=utf-8' });
+
+      FileSaver.saveAs(blob, `${accName}_${address}_${new Date().getTime()}.json`);
+    } catch (error) {
+      const status: ActionStatus = {
+        account: address,
+        action: 'export',
+        message: (error as Error).message,
+        status: 'error'
+      };
+
+      onStatusChange(status);
+    }
+  }, [accName, address, isMultisig, meta.who, onStatusChange]);
 
   const _clearDemocracyLocks = useCallback(
     () => democracyUnlockTx && queueExtrinsic({
@@ -380,6 +435,14 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
           onClick={toggleBackup}
         />
       ),
+      !(isInjected || isDevelopment) && isMultisig && (
+        <Menu.Item
+          icon='database'
+          key='backupJson'
+          label={t('Export JSON file with signatories')}
+          onClick={_onExportMultisig}
+        />
+      ),
       !(isExternal || isHardware || isInjected || isMultisig || isDevelopment) && (
         <Menu.Item
           icon='edit'
@@ -466,7 +529,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
       />
     ])
   ].filter((i) => i),
-  [_clearDemocracyLocks, _clearReferendaLocks, _showOnHardware, _vestingVest, api, apiIdentity.tx.identity, enableIdentity, delegation, democracyUnlockTx, genesisHash, identity, isDevelopment, isDevelopmentApiProps, isEthereumApiProps, isEditable, isEthereum, isExternal, isHardware, isInjected, isMultisig, multiInfos, onSetGenesisHash, proxy, referendaUnlockTx, recoveryInfo, t, toggleBackup, toggleDelegate, toggleDerive, toggleForget, toggleIdentityMain, toggleIdentitySub, toggleMultisig, togglePassword, toggleProxyOverview, toggleRecoverAccount, toggleRecoverSetup, toggleUndelegate, vestingVestTx]);
+  [_clearDemocracyLocks, _clearReferendaLocks, _showOnHardware, _vestingVest, _onExportMultisig, api, apiIdentity.tx.identity, enableIdentity, delegation, democracyUnlockTx, genesisHash, identity, isDevelopment, isDevelopmentApiProps, isEthereumApiProps, isEditable, isEthereum, isExternal, isHardware, isInjected, isMultisig, multiInfos, onSetGenesisHash, proxy, referendaUnlockTx, recoveryInfo, t, toggleBackup, toggleDelegate, toggleDerive, toggleForget, toggleIdentityMain, toggleIdentitySub, toggleMultisig, togglePassword, toggleProxyOverview, toggleRecoverAccount, toggleRecoverSetup, toggleUndelegate, vestingVestTx]);
 
   if (!isVisible) {
     return null;
@@ -720,6 +783,8 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
           <AddressInfo
             address={address}
             balancesAll={balancesAll}
+            vestingBestNumber={vestingBestNumber}
+            vestingInfo={vestingInfo}
             withBalance={BAL_OPTS_DEFAULT}
           />
         </td>
@@ -735,6 +800,8 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
             address={address}
             balancesAll={balancesAll}
             convictionLocks={convictionLocks}
+            vestingBestNumber={vestingBestNumber}
+            vestingInfo={vestingInfo}
             withBalance={BAL_OPTS_EXPANDED}
           />
           <Columar size='tiny'>

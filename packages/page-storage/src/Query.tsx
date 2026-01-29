@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/app-storage authors & contributors
+// Copyright 2017-2025 @polkadot/app-storage authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { QueryableStorageEntry } from '@polkadot/api/types';
@@ -131,7 +131,7 @@ function getCachedComponent (registry: Registry, query: QueryTypes): CacheInstan
     const defaultProps = { className: 'ui--output' };
     const Component = renderHelper(
       // By default we render a simple div node component with the query results in it
-      (value: unknown) => <pre>{valueToText(type, value as null)}</pre>,
+      (value: unknown) => <pre>{valueToText(type, value as null, undefined, true)}</pre>,
       defaultProps
     );
 

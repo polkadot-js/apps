@@ -7,7 +7,9 @@
   },
   "include": [
     "src/ctx/Api.tsx",
-    "src/ctx/types.ts"
+    "src/ctx/types.ts",
+    "src/types.ts",
+    "src/constants.ts",
   ],
   "references": [
     { "path": "../apps-config/tsconfig.build.json" }

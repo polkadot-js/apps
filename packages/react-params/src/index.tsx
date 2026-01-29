@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/react-params authors & contributors
+// Copyright 2017-2025 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { I18nProps } from '@polkadot/react-components/types';
@@ -32,6 +32,7 @@ interface Props extends I18nProps {
   values?: RawParams | null;
   withBorder?: boolean;
   withExpander?: boolean;
+  withLength?: boolean;
 }
 
 interface State {
@@ -84,7 +85,7 @@ class Params extends React.PureComponent<Props, State> {
   }
 
   public override render (): React.ReactNode {
-    const { children, className = '', isDisabled, isError, onEnter, onEscape, overrides, params, registry = statics.api.registry, withBorder = true, withExpander } = this.props;
+    const { children, className = '', isDisabled, isError, onEnter, onEscape, overrides, params, registry = statics.api.registry, withBorder = true, withExpander, withLength = true } = this.props;
     const { values = this.props.values } = this.state;
 
     if (!values?.length) {
@@ -113,6 +114,7 @@ class Params extends React.PureComponent<Props, State> {
                 overrides={overrides}
                 registry={registry}
                 type={type}
+                withLength={withLength}
               />
             ))}
             {children}

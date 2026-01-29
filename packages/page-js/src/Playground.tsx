@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/app-js authors & contributors
+// Copyright 2017-2025 @polkadot/app-js authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
@@ -66,8 +66,13 @@ function setupInjected ({ api, isDevelopment }: ApiProps, setIsRunning: (isRunni
     uiKeyring: isDevelopment
       ? uiKeyring
       : null,
-    util
+    util,
+    window
   };
+}
+
+interface IframeWithInjected extends HTMLIFrameElement {
+  contentWindow: (Window & { injected: Injected });
 }
 
 // FIXME This... ladies & gentlemen, is a mess that should be untangled
@@ -75,6 +80,7 @@ function Playground ({ basePath, className = '' }: Props): React.ReactElement<Pr
   const { t } = useTranslation();
   const apiProps = useApi();
   const injectedRef = useRef<Injected | null>(null);
+  const iframeRef = useRef<IframeWithInjected|null>(null);
   const [code, setCode] = useState('');
   const [isCustomExample, setIsCustomExample] = useState(false);
   const [isRunning, setIsRunning] = useState(false);
@@ -158,24 +164,55 @@ function Playground ({ basePath, className = '' }: Props): React.ReactElement<Pr
         await injectedRef.current.api.isReady;
 
         try {
-          // squash into a single line so exceptions (with line numbers) maps to the
-          // same line/origin as we have in the editor view
-          // TODO: Make the console.error here actually return the full stack
-          const exec = `(async ({${Object.keys(injectedRef.current).sort().join(',')}}) => { try { ${code} \n } catch (error) { console.error(error); setIsRunning(false); } })(injected);`;
+          if (iframeRef.current?.contentWindow) {
+            const iframeDoc = iframeRef.current.contentWindow.document;
 
-          // eslint-disable-next-line no-new-func,@typescript-eslint/no-unsafe-call,@typescript-eslint/no-implied-eval
-          new Function('injected', exec).bind({}, injectedRef.current)();
+            iframeDoc.open();
+            iframeDoc.write('<!DOCTYPE html><html><head></head><body></body></html>');
+            iframeDoc.close();
+
+            // Expose injected to iframe window
+            iframeRef.current.contentWindow.injected = injectedRef.current;
+
+            // Build destructured keys from injectedRef
+            const injectedKeys = Object.keys(iframeRef.current.contentWindow.injected).sort().slice(1).join(', ');
+
+            // Build the code to run (scoped with destructured injected keys)
+            const exec = `
+              (async ({ ${injectedKeys} }) => {
+                try {
+                  ${code}
+                } catch (error) {
+                  console.error(error);
+                } finally {
+                  if (typeof setIsRunning === 'function') {
+                    setIsRunning(false);
+                  } 
+                }
+              })(injected);
+            `;
+
+            // Create script tag to run code
+            const bridgeScript = iframeDoc.createElement('script');
+
+            // eslint-disable-next-line no-new-func, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-implied-eval, @typescript-eslint/no-unsafe-assignment
+            bridgeScript.innerText = new Function('injected', exec).bind({}, iframeRef.current.contentWindow.injected)();
+
+            iframeRef.current.contentWindow.document.body.appendChild(bridgeScript);
+          } else {
+            throw new Error('No window found to run code');
+          }
         } catch (error) {
-          injectedRef.current.console.error(error);
-        }
+          if (injectedRef.current) {
+            injectedRef.current.console.error(error);
+          }
 
-        setIsRunning(false);
+          setIsRunning(false);
+        }
       }
 
       run().catch(console.error);
-    },
-    [_clearConsole, _hookConsole, apiProps, code]
-  );
+    }, [_clearConsole, _hookConsole, apiProps, code]);
 
   const _selectExample = useCallback(
     (value: string): void => {
@@ -260,6 +297,11 @@ function Playground ({ basePath, className = '' }: Props): React.ReactElement<Pr
             saveSnippet={_saveSnippet}
             snippetName={snippetName}
             stopJs={_stopJs}
+          />
+          <iframe
+            ref={iframeRef}
+            sandbox='allow-scripts allow-same-origin'
+            style={{ display: 'none' }}
           />
           <Editor
             code={code}

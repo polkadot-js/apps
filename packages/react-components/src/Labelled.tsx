@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/react-components authors & contributors
+// Copyright 2017-2025 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
@@ -34,7 +34,8 @@ function Labelled ({ children, className = '', isFull, isHidden, isOuter, isSmal
       <label>{withEllipsis
         ? <div className='withEllipsis'>{label}</div>
         : label
-      }</label>
+      }
+      </label>
       {labelExtra && <div className='labelExtra'>{labelExtra}</div>}
       <div className='ui--Labelled-content'>
         {children}

@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/react-components authors & contributors
+// Copyright 2017-2025 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
@@ -122,7 +122,7 @@ const StyledDiv = styled.div`
   }
 
   table {
-    border-collapse: collapse;
+    *border-collapse: collapse;
     border-spacing: 0;
     max-width: 100%;
     overflow: hidden;

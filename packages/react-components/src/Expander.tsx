@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/react-components authors & contributors
+// Copyright 2017-2025 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Text } from '@polkadot/types';
@@ -52,7 +52,7 @@ function formatMeta (meta?: Meta): [React.ReactNode, React.ReactNode] | null {
     firstEmpty === -1
       ? strings
       : strings.slice(0, firstEmpty)
-  ).join(' ').replace(/#(<weight>| <weight>).*<\/weight>/, '');
+  ).join(' ').replace(/# ?<weight>[^<]*<\/weight>/, '');
   const parts = splitParts(combined.replace(/\\/g, '').replace(/`/g, ''));
 
   return [

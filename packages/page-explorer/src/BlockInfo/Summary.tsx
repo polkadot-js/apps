@@ -1,9 +1,10 @@
-// Copyright 2017-2024 @polkadot/app-explorer authors & contributors
+// Copyright 2017-2025 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { KeyedEvent } from '@polkadot/react-hooks/ctx/types';
 import type { V2Weight } from '@polkadot/react-hooks/useWeight';
 import type { Balance, DispatchInfo, SignedBlock } from '@polkadot/types/interfaces';
+import type { FrameSupportDispatchPerDispatchClassWeight } from '@polkadot/types/lookup';
 
 import React, { useMemo } from 'react';
 
@@ -11,20 +12,50 @@ import { CardSummary, SummaryBox } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { convertWeight } from '@polkadot/react-hooks/useWeight';
 import { FormatBalance } from '@polkadot/react-query';
-import { BN, BN_ONE, BN_THREE, BN_TWO, BN_ZERO, formatNumber } from '@polkadot/util';
+import { BN, BN_ONE, BN_THREE, BN_TWO, formatNumber, isBn } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
 
 interface Props {
   events?: KeyedEvent[] | null;
+  blockWeight?: FrameSupportDispatchPerDispatchClassWeight | null;
   maxBlockWeight?: BN;
   maxProofSize?: BN;
   signedBlock?: SignedBlock;
 }
 
+function accumulateWeights (
+  weight?: FrameSupportDispatchPerDispatchClassWeight | null
+): { totalRefTime: BN; totalProofSize: BN } {
+  const totalRefTime = new BN(0);
+  const totalProofSize = new BN(0);
+
+  if (!weight) {
+    return { totalProofSize, totalRefTime };
+  }
+
+  (['normal', 'operational', 'mandatory'] as const).forEach((cls) => {
+    const classWeight = weight[cls];
+
+    if (classWeight) {
+      // convertWeight handles both V1 and V2 weights
+      const { v2Weight } = convertWeight(classWeight as V2Weight);
+
+      totalRefTime.iadd(isBn(v2Weight.refTime) ? v2Weight.refTime : v2Weight.refTime.toBn());
+      totalProofSize.iadd(isBn(v2Weight.proofSize) ? v2Weight.proofSize : v2Weight.proofSize.toBn());
+    }
+  });
+
+  return { totalProofSize, totalRefTime };
+}
+
 function extractEventDetails (events?: KeyedEvent[] | null): [BN?, BN?, BN?, BN?] {
   return events
-    ? events.reduce(([deposits, transfers, weight], { record: { event: { data, method, section } } }) => {
+    ? events.reduce(([deposits, transfers, weight, proofSize], { record: { event: { data, method, section } } }) => {
+      const size = (convertWeight(
+        ((method === 'ExtrinsicSuccess' ? data[0] : data[1]) as DispatchInfo)?.weight
+      ).v2Weight as V2Weight).proofSize;
+
       return [
         section === 'balances' && method === 'Deposit'
           ? deposits.iadd(data[1] as Balance)
@@ -34,26 +65,35 @@ function extractEventDetails (events?: KeyedEvent[] | null): [BN?, BN?, BN?, BN?
           : transfers,
         section === 'system' && ['ExtrinsicFailed', 'ExtrinsicSuccess'].includes(method)
           ? weight.iadd(convertWeight(
-            ((method === 'ExtrinsicSuccess' ? data[0] : data[1]) as DispatchInfo).weight
+            ((method === 'ExtrinsicSuccess' ? data[0] : data[1]) as DispatchInfo)?.weight
           ).v1Weight)
           : weight,
         section === 'system' && ['ExtrinsicFailed', 'ExtrinsicSuccess'].includes(method)
-          ? (convertWeight(
-            ((method === 'ExtrinsicSuccess' ? data[0] : data[1]) as DispatchInfo).weight
-          ).v2Weight as V2Weight).proofSize.toBn()
-          : BN_ZERO
+          ? proofSize.iadd(isBn(size) ? size : size.toBn())
+          : proofSize
       ];
     }, [new BN(0), new BN(0), new BN(0), new BN(0)])
     : [];
 }
 
-function Summary ({ events, maxBlockWeight, maxProofSize, signedBlock }: Props): React.ReactElement<Props> | null {
+function Summary ({ blockWeight, events, maxBlockWeight, maxProofSize, signedBlock }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
 
   const [deposits, transfers, weight, size] = useMemo(
-    () => extractEventDetails(events),
-    [events]
+    () => {
+      const eventDetails = extractEventDetails(events);
+      const { totalProofSize, totalRefTime } = accumulateWeights(blockWeight);
+
+      // Block weight is the source of truth; using events data as fallback only
+      if (blockWeight) {
+        eventDetails[2] = totalRefTime;
+        eventDetails[3] = totalProofSize;
+      }
+
+      return eventDetails;
+    },
+    [blockWeight, events]
   );
 
   return (
@@ -81,7 +121,7 @@ function Summary ({ events, maxBlockWeight, maxProofSize, signedBlock }: Props):
       </section>
       <section>
         <CardSummary
-          label={t('block weight')}
+          label={t('ref time')}
           progress={{
             hideValue: true,
             isBlurred: !(maxBlockWeight && weight),

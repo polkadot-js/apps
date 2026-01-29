@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/app-staking authors & contributors
+// Copyright 2017-2025 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
@@ -80,7 +80,7 @@ function Create ({ className, isDisabled, ownAccounts, params: { minCreateBond, 
                 withExclude
               />
             </Modal.Columns>
-            <Modal.Columns hint={t('The initial value to assign to the pool. It is set to the maximum of the minimum bond and the minium nomination value.')}>
+            <Modal.Columns hint={t('The initial value to assign to the pool. It is set to the maximum of the minimum bond and the minimum nomination value.')}>
               <InputBalance
                 autoFocus
                 defaultValue={minValue}

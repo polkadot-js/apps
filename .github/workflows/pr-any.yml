@@ -13,6 +13,8 @@ jobs:
     - uses: actions/setup-node@v4
       with:
         node-version: 'lts/*'
+    - name: Set Execute Permissions
+      run: chmod +x ./scripts/*
     - name: ${{ matrix.step }}
       run: |
         yarn install --immutable

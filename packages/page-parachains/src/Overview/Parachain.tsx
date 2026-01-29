@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2025 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AccountId, GroupIndex, ParaId } from '@polkadot/types/interfaces';
@@ -74,12 +74,9 @@ function Parachain ({ bestNumber, className = '', id, lastBacked, lastInclusion,
   useEffect((): void => {
     if (sessionValidators) {
       if (paraInfo.pendingAvail) {
-        const list = paraInfo.pendingAvail.availabilityVotes.toHuman()
-          .slice(2)
-          .replace(/_/g, '')
-          .split('')
-          .map((c, index) => c === '0' ? sessionValidators[index] : null)
-          .filter((v, index): v is AccountId => !!v && index < sessionValidators.length);
+        const list = paraInfo.pendingAvail.availabilityVotes.toBoolArray()
+          .map((voted, index) => !voted && index < sessionValidators.length ? sessionValidators[index] : null)
+          .filter((v): v is AccountId => !!v);
 
         list.length !== sessionValidators.length && setNonBacked(list);
       } else {
@@ -96,6 +93,7 @@ function Parachain ({ bestNumber, className = '', id, lastBacked, lastInclusion,
           ? (
             <Badge
               color='orange'
+              hover={t('The parachain can be modified, replaced, or removed - it\'s neither protected nor in a transitional state')}
               icon='unlock'
             />
           )

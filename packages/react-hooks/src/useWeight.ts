@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2025 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Call } from '@polkadot/types/interfaces';
@@ -33,12 +33,20 @@ export const ZERO_ACCOUNT = '0x9876543210abcdef9876543210abcdef9876543210abcdef9
 const EMPTY_STATE: Partial<Result> = {
   encodedCallLength: 0,
   v1Weight: BN_ZERO,
-  v2Weight: { refTime: BN_ZERO },
+  v2Weight: { proofSize: BN_ZERO, refTime: BN_ZERO },
   weight: BN_ZERO
 };
 
 // return both v1 & v2 weight structures (would depend on actual use)
 export function convertWeight (weight: V1Weight | V2Weight): WeightResult {
+  // We need to handle it because sometimes input parameters are passed with type casting,
+  // which can result in them being undefined or null under certain conditions.
+  if (!weight) {
+    const refTime = BN_ZERO;
+
+    return { v1Weight: refTime, v2Weight: { proofSize: BN_ZERO, refTime } };
+  }
+
   if ((weight as V2Weight).proofSize) {
     // V2 weight
     const refTime = (weight as V2Weight).refTime.toBn();

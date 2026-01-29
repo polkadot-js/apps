@@ -1,9 +1,9 @@
-// Copyright 2017-2024 @polkadot/app-referenda authors & contributors
+// Copyright 2017-2025 @polkadot/app-referenda authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
 import type { Hash } from '@polkadot/types/interfaces';
-import type { PalletConvictionVotingTally, PalletRankedCollectiveTally, PalletReferendaDeposit, PalletReferendaReferendumStatusConvictionVotingTally, PalletReferendaReferendumStatusRankedCollectiveTally, PalletReferendaTrackInfo } from '@polkadot/types/lookup';
+import type { PalletConvictionVotingTally, PalletRankedCollectiveTally, PalletReferendaDeposit, PalletReferendaReferendumStatusConvictionVotingTally, PalletReferendaReferendumStatusRankedCollectiveTally, PalletReferendaTrackDetails } from '@polkadot/types/lookup';
 import type { BN } from '@polkadot/util';
 import type { HexString } from '@polkadot/util/types';
 import type { Referendum, ReferendumProps as Props } from '../types.js';
@@ -37,7 +37,7 @@ interface Expanded {
   tallyTotal: BN;
 }
 
-function expandOngoing (api: ApiPromise, info: Referendum['info'], track?: PalletReferendaTrackInfo): Expanded {
+function expandOngoing (api: ApiPromise, info: Referendum['info'], track?: PalletReferendaTrackDetails): Expanded {
   const ongoing = info.asOngoing;
   const proposalHash = getPreimageHash(api, ongoing.proposal || (ongoing as unknown as { proposalHash: Hash }).proposalHash).proposalHash;
   let prepareEnd: BN | null = null;

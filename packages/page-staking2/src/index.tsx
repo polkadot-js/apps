@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/app-staking authors & contributors
+// Copyright 2017-2025 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AppProps as Props } from '@polkadot/react-components/types';
@@ -23,7 +23,7 @@ function StakingApp ({ basePath }: Props): React.ReactElement<Props> {
 
   // on unmount anything else, ensure that for the next round we
   // are starting with a fresh cache (there could be large delays)
-  // between opening up staking (excuted inline, not via effect)
+  // between opening up staking (executed inline, not via effect)
   useEffect((): () => void => {
     return (): void => {
       clearCache();

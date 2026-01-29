@@ -1,11 +1,9 @@
-// Copyright 2017-2024 @polkadot/react-query authors & contributors
+// Copyright 2017-2025 @polkadot/react-query authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Moment } from '@polkadot/types/interfaces';
 
 import React, { useMemo } from 'react';
-
-import { useApi, useCall } from '@polkadot/react-hooks';
 
 import Elapsed from './Elapsed.js';
 
@@ -17,8 +15,7 @@ interface Props {
 }
 
 function TimeNow ({ children, className = '', label, value }: Props): React.ReactElement<Props> {
-  const { api } = useApi();
-  const timestamp = useCall<Moment>(!value && api.query.timestamp?.now);
+  const timestamp = Date.now();
 
   const [now, hasValue] = useMemo(
     () => [value || timestamp, !!(value || timestamp)],

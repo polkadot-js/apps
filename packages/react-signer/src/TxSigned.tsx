@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/react-signer authors & contributors
+// Copyright 2017-2025 @polkadot/react-signer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // This is for the use of `Ledger`
@@ -15,7 +15,7 @@ import type { Option } from '@polkadot/types';
 import type { Multisig, Timepoint } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
 import type { HexString } from '@polkadot/util/types';
-import type { AddressFlags, AddressProxy, QrState } from './types.js';
+import type { AddressFlags, AddressProxy, ExtendedSignerOptions, QrState } from './types.js';
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
@@ -29,6 +29,7 @@ import { addressEq } from '@polkadot/util-crypto';
 
 import { AccountSigner, LedgerSigner, QrSigner } from './signers/index.js';
 import Address from './Address.js';
+import PayWithAsset from './PayWithAsset.js';
 import Qr from './Qr.js';
 import SignFields from './SignFields.js';
 import Tip from './Tip.js';
@@ -172,7 +173,11 @@ async function wrapTx (api: ApiPromise, currentItem: QueueTx, { isMultiCall, mul
       timepoint = info.unwrap().when;
     }
 
-    tx = isMultiCall
+    // Check if this is the first approval (no existing multisig)
+    const isFirstApproval = info.isNone;
+    const shouldUseAsMulti = isFirstApproval || isMultiCall;
+
+    tx = shouldUseAsMulti
       ? api.tx[multiModule].asMulti.meta.args.length === 5
         // We are doing toHex here since we have a Vec<u8> input
         // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
@@ -243,7 +248,7 @@ function TxSigned ({ className, currentItem, isQueueSubmit, queueSize, requestAd
   const [isSubmit, setIsSubmit] = useState(true);
   const [passwordError, setPasswordError] = useState<string | null>(null);
   const [senderInfo, setSenderInfo] = useState<AddressProxy>(() => ({ isMultiCall: false, isUnlockCached: false, multiRoot: null, proxyRoot: null, signAddress: requestAddress, signPassword: '' }));
-  const [signedOptions, setSignedOptions] = useState<Partial<SignerOptions>>({});
+  const [signedOptions, setSignedOptions] = useState<ExtendedSignerOptions>({});
   const [signedTx, setSignedTx] = useState<string | null>(null);
   const [{ innerHash, innerTx }, setCallInfo] = useState<InnerTx>(EMPTY_INNER);
   const [tip, setTip] = useState<BN | undefined>();
@@ -339,7 +344,7 @@ function TxSigned ({ className, currentItem, isQueueSubmit, queueSize, requestAd
       if (senderInfo.signAddress) {
         const [tx, [status, pairOrAddress, options, isMockSign]] = await Promise.all([
           wrapTx(api, currentItem, senderInfo),
-          extractParams(api, senderInfo.signAddress, { nonce: -1, tip, withSignedTransaction: true }, getLedger, setQrState)
+          extractParams(api, senderInfo.signAddress, { nonce: -1, tip, withSignedTransaction: true, ...signedOptions }, getLedger, setQrState)
         ]);
 
         queueSetTxStatus(currentItem.id, status);
@@ -347,7 +352,7 @@ function TxSigned ({ className, currentItem, isQueueSubmit, queueSize, requestAd
         await signAndSend(queueSetTxStatus, currentItem, tx, pairOrAddress, options, api, isMockSign);
       }
     },
-    [api, getLedger, tip]
+    [api, getLedger, signedOptions, tip]
   );
 
   const _onSign = useCallback(
@@ -446,6 +451,7 @@ function TxSigned ({ className, currentItem, isQueueSubmit, queueSize, requestAd
                   accountId={senderInfo.signAddress}
                   currentItem={currentItem}
                   onError={toggleRenderError}
+                  signerOptions={signedOptions}
                 />
                 <Address
                   currentItem={currentItem}
@@ -455,7 +461,10 @@ function TxSigned ({ className, currentItem, isQueueSubmit, queueSize, requestAd
                   requestAddress={requestAddress}
                 />
                 {!currentItem.payload && (
-                  <Tip onChange={setTip} />
+                  <>
+                    <PayWithAsset onChangeFeeAsset={setSignedOptions} />
+                    <Tip onChange={setTip} />
+                  </>
                 )}
                 {!isSubmit && (
                   <SignFields

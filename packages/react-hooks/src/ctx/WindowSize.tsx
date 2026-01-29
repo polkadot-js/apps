@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2025 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // Adapted from https://hackernoon.com/simplifying-responsive-layouts-with-react-hooks-19db73893a7a

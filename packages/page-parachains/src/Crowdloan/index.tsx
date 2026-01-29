@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2025 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AuctionInfo, Campaigns, LeasePeriod, OwnedId } from '../types.js';
@@ -9,6 +9,7 @@ import { Button, MarkWarning } from '@polkadot/react-components';
 import { useBestNumber } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate.js';
+import BannerAssetHubMigration from './BannerAssetHubMigration.js';
 import FundAdd from './FundAdd.js';
 import Funds from './Funds.js';
 import Summary from './Summary.js';
@@ -27,6 +28,7 @@ function Crowdloan ({ auctionInfo, campaigns: { activeCap, activeRaised, funds, 
 
   return (
     <div className={className}>
+      <BannerAssetHubMigration />
       <MarkWarning
         className='warning centered'
         content={t('Crowdloans will be deprecated in favor of Coretime. When Coretime is active in Polkadot, this page will be removed.')}

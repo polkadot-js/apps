@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/apps-config authors & contributors
+// Copyright 2017-2025 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
@@ -25,6 +25,7 @@ export const PolkassemblyIo: ExternalDef = {
     Khala: 'khala',
     Kintsugi: 'kintsugi',
     Kusama: 'kusama',
+    'Kusama Asset Hub': 'kusama',
     'Kusama CC3': 'kusama',
     'Kusama People': 'kusama',
     Parallel: 'parallel',
@@ -33,6 +34,7 @@ export const PolkassemblyIo: ExternalDef = {
     'Pioneer Network': 'pioneer',
     'Polkadex Main Network': 'polkadex',
     Polkadot: 'polkadot',
+    'Polkadot Asset Hub': 'polkadot',
     Robonomics: 'robonomics',
     Rococo: 'rococo',
     Shibuya: 'shibuya',

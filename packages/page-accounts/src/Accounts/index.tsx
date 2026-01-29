@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2025 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
@@ -17,7 +17,9 @@ import { settings } from '@polkadot/ui-settings';
 import { BN_ZERO, isFunction } from '@polkadot/util';
 
 import CreateModal from '../modals/Create.js';
+import ExportAll from '../modals/ExportAll.js';
 import ImportModal from '../modals/Import.js';
+import ImportAll from '../modals/ImportAll.js';
 import Ledger from '../modals/Ledger.js';
 import Local from '../modals/LocalAdd.js';
 import Multisig from '../modals/MultisigCreate.js';
@@ -26,6 +28,7 @@ import Qr from '../modals/Qr.js';
 import { useTranslation } from '../translate.js';
 import { SORT_CATEGORY, sortAccounts } from '../util.js';
 import Account from './Account.js';
+import BannerAssetHubMigration from './BannerAssetHubMigration.js';
 import BannerClaims from './BannerClaims.js';
 import BannerExtension from './BannerExtension.js';
 import Summary from './Summary.js';
@@ -104,6 +107,8 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   const [isProxyOpen, toggleProxy] = useToggle();
   const [isLocalOpen, toggleLocal] = useToggle();
   const [isQrOpen, toggleQr] = useToggle();
+  const [isExportAll, toggleExportAll] = useToggle();
+  const [isImportAll, toggleImportAll] = useToggle();
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS);
   const [balances, setBalances] = useState<Balances>({ accounts: {} });
   const [filterOn, setFilter] = useState<string>('');
@@ -235,6 +240,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
           filter={filterOn}
           isFavorite={isFavorite}
           key={address}
+          onStatusChange={onStatusChange}
           proxy={proxies?.[index]}
           setBalance={setBalance}
           toggleFavorite={toggleFavorite}
@@ -243,7 +249,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
 
       return all;
     }, {}),
-    [accountsMap, filterOn, proxies, setBalance, toggleFavorite]
+    [accountsMap, filterOn, proxies, setBalance, toggleFavorite, onStatusChange]
   );
 
   const groups = useMemo(
@@ -317,6 +323,20 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
           onStatusChange={onStatusChange}
         />
       )}
+      {isExportAll && (
+        <ExportAll
+          accountsByGroup={grouped}
+          onClose={toggleExportAll}
+          onStatusChange={onStatusChange}
+        />
+      )}
+      {isImportAll && (
+        <ImportAll
+          onClose={toggleImportAll}
+          onStatusChange={onStatusChange}
+        />
+      )}
+      <BannerAssetHubMigration />
       <BannerExtension />
       <BannerClaims />
       <Summary balance={balances.summary} />
@@ -359,6 +379,16 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
               />
             </>
           )}
+          <Button
+            icon='file-import'
+            label={t('Import')}
+            onClick={toggleImportAll}
+          />
+          <Button
+            icon='file-export'
+            label={t('Export')}
+            onClick={toggleExportAll}
+          />
           <Button
             icon='qrcode'
             label={t('From Qr')}

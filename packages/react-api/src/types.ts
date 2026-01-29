@@ -1,4 +1,4 @@
-// Copyright 2017-2024 @polkadot/react-api authors & contributors
+// Copyright 2017-2025 @polkadot/react-api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Blockchain } from '@acala-network/chopsticks-core';
@@ -7,6 +7,7 @@ import type { ApiPromise } from '@polkadot/api';
 import type { SubmittableExtrinsicFunction } from '@polkadot/api/promise/types';
 import type { LinkOption } from '@polkadot/apps-config/endpoints/types';
 import type { InjectedExtension } from '@polkadot/extension-inject/types';
+import type { KeypairType } from '@polkadot/util-crypto/types';
 
 // helpers for HOC props
 export type OmitProps<T, K> = Pick<T, Exclude<keyof T, K>>;
@@ -23,6 +24,7 @@ export interface InjectedAccountExt {
     source: string;
     whenCreated: number;
   };
+  type: KeypairType;
 }
 
 export interface ApiState {
@@ -50,7 +52,7 @@ export interface ApiProps extends ApiState {
    */
   apiIdentity: ApiPromise;
   /**
-   * Used for checking if tx.idenitity.* should be used. Can be used for other scenarios as well.
+   * Used for checking if tx.identity.* should be used. Can be used for other scenarios as well.
    */
   enableIdentity: boolean;
   apiCoretime: ApiPromise;
