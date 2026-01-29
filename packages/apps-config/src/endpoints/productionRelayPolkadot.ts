@@ -939,7 +939,8 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       LuckyFriday: 'wss://rpc-coretime-polkadot.luckyfriday.io',
       OnFinality: 'wss://coretime-polkadot.api.onfinality.io/public-ws',
       Parity: 'wss://polkadot-coretime-rpc.polkadot.io',
-      Stakeworld: 'wss://dot-rpc.stakeworld.io/coretime'
+      Stakeworld: 'wss://dot-rpc.stakeworld.io/coretime',
+      RadiumBlock: 'wss://coretime-polkadot.public.curie.radiumblock.co/ws'
     },
     relayName: 'polkadot',
     teleport: [-1, 1000],
