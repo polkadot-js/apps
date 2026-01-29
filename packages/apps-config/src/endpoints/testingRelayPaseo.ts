@@ -429,7 +429,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'Xcavate',
     paraId: 4683,
     providers: {
-      Xcavate: 'wss://xcavate-paseo.api.onfinality.io/public-ws'
+      Xcavate_OnFinality: 'wss://xcavate-paseo.api.onfinality.io/public-ws'
     },
     text: 'Xcavate',
     ui: {
