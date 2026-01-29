@@ -30,6 +30,7 @@ const EMPTY_KEY = '0x';
 function InjectKeys ({ onClose }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { queueRpc } = useQueue();
+
   // this needs to align with what is set as the first value in `type`
   const [crypto, setCrypto] = useState<KeypairType>('sr25519');
   const [publicKey, setPublicKey] = useState(EMPTY_KEY);
@@ -86,6 +87,9 @@ function InjectKeys ({ onClose }: Props): React.ReactElement<Props> | null {
       size='large'
     >
       <Modal.Content>
+        <Modal.Columns>
+          <MarkWarning content={t('This operation will be performed on the relay chain.')} />
+        </Modal.Columns>
         <Modal.Columns hint={t('The seed and derivation path will be submitted to the validator node. this is an advanced operation, only to be performed when you are sure of the security and connection risks.')}>
           <Input
             autoFocus

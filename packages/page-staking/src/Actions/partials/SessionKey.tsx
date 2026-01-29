@@ -5,8 +5,8 @@ import type { SessionInfo } from './types.js';
 
 import React, { useEffect, useState } from 'react';
 
-import { Input, Modal } from '@polkadot/react-components';
-import { useApi } from '@polkadot/react-hooks';
+import { Input, MarkWarning, Modal } from '@polkadot/react-components';
+import { useApi, useStakingAsyncApis } from '@polkadot/react-hooks';
 import { isHex } from '@polkadot/util';
 
 import { useTranslation } from '../../translate.js';
@@ -26,22 +26,26 @@ const EMPTY_PROOF = new Uint8Array();
 function SessionKey ({ className = '', controllerId, onChange, stashId, withFocus, withSenders }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
+  const { isStakingAsync, rcApi } = useStakingAsyncApis();
   const [keys, setKeys] = useState<string | null>(null);
 
   useEffect((): void => {
     try {
       onChange({
         sessionTx: isHex(keys)
-          ? api.tx.session.setKeys(keys, EMPTY_PROOF)
+          ? (isStakingAsync ? rcApi : api)?.tx.session.setKeys(keys, EMPTY_PROOF)
           : null
       });
     } catch {
       onChange({ sessionTx: null });
     }
-  }, [api, keys, onChange]);
+  }, [api, isStakingAsync, keys, onChange, rcApi]);
 
   return (
     <div className={className}>
+      <Modal.Columns>
+        <MarkWarning content={t('This operation will be performed on the relay chain.')} />
+      </Modal.Columns>
       {withSenders && (
         <SenderInfo
           controllerId={controllerId}

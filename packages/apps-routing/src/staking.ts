@@ -13,6 +13,11 @@ import { assert, BN_ONE } from '@polkadot/util';
 
 function needsApiCheck (api: ApiPromise): boolean {
   try {
+    // Hide for every Asset Hub chain and for Relay chains which have stakingAhClient storagr
+    if (api.query.stakingAhClient || api.tx.stakingRcClient) {
+      return false;
+    }
+
     // we need a known Exposure type
     const { nominatorCount, own, pageCount, total } = api.registry.createType<SpStakingPagedExposureMetadata>(
       unwrapStorageType(api.registry, api.query.staking.erasStakersOverview.creator.meta.type),

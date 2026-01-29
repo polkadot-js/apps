@@ -96,16 +96,16 @@ function Teleport ({ onClose }: Props): React.ReactElement<Props> | null {
     [destinations]
   );
 
-  const url = useMemo(
+  const urls = useMemo(
     () => destinations.find(({ paraId }, index) =>
       recipientParaId === -1
         ? index === 0
         : recipientParaId === paraId
-    )?.value,
+    )?.providers,
     [destinations, recipientParaId]
   );
 
-  const destApi = useApiUrl(url);
+  const destApi = useApiUrl(urls);
 
   const params = useMemo(
     () => [

@@ -44,7 +44,7 @@ function xcmAttempted ({ data: [outcome] }: Event): string | null {
   } else if ((outcome as StagingXcmV5TraitsOutcome).isIncomplete) {
     const error = (outcome as StagingXcmV5TraitsOutcome).asIncomplete.error;
 
-    return `error: ${error.type}`;
+    return `error: ${error.error.type}`;
   }
 
   return null;

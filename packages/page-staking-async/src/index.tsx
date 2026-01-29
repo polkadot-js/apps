@@ -6,27 +6,37 @@ import type { AppProps as Props } from '@polkadot/react-components/types';
 import React from 'react';
 
 import { styled } from '@polkadot/react-components';
-import { useApi } from '@polkadot/react-hooks';
+import { useStakingAsyncApis } from '@polkadot/react-hooks';
 
 import StakingRelayApp from './Relay/index.js';
 import StakingSystemApp from './System/index.js';
 
 function StakingApp ({ basePath, className = '', onStatusChange }: Props): React.ReactElement<Props> {
-  const { api } = useApi();
+  const { ahApi, ahEndPoints, isRelayChain, rcApi, rcEndPoints } = useStakingAsyncApis();
 
   return (
     <StyledMain className={`${className} staking--App`}>
-      {api?.tx?.stakingAhClient
+      {isRelayChain
         ? (
           <StakingRelayApp
+            ahApi={ahApi}
+            ahEndPoints={ahEndPoints}
             basePath={basePath}
+            isRelayChain={isRelayChain}
             onStatusChange={onStatusChange}
+            rcApi={rcApi}
+            rcEndPoints={rcEndPoints}
           />
         )
         : (
           <StakingSystemApp
+            ahApi={ahApi}
+            ahEndPoints={ahEndPoints}
             basePath={basePath}
+            isRelayChain={isRelayChain}
             onStatusChange={onStatusChange}
+            rcApi={rcApi}
+            rcEndPoints={rcEndPoints}
           />
         )
       }

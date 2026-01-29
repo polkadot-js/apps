@@ -132,13 +132,13 @@ export const testParasWestendCommon: EndpointOption[] = [
       Dwellir: 'wss://asset-hub-westend-rpc.n.dwellir.com',
       'Dwellir Tunisia': 'wss://westmint-rpc-tn.dwellir.com',
       // OnFinality: 'wss://westmint.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/9955
-      Parity: 'wss://westend-asset-hub-rpc.polkadot.io',
-      'Permanence DAO EU': 'wss://asset-hub-westend.rpc.permanence.io'
+      Parity: 'wss://westend-asset-hub-rpc.polkadot.io'
+      // 'Permanence DAO EU': 'wss://asset-hub-westend.rpc.permanence.io'
       // Stakeworld: 'wss://wnd-rpc.stakeworld.io/assethub'
     },
     relayName: 'westend',
     teleport: [-1, 1002, 1001, 1005, 1004],
-    text: 'AssetHub',
+    text: 'Asset Hub',
     ui: {
       color: '#77bb77',
       logo: nodesAssetHubSVG
@@ -156,7 +156,7 @@ export const testParasWestendCommon: EndpointOption[] = [
     },
     relayName: 'westend',
     teleport: [-1, 1000],
-    text: 'BridgeHub',
+    text: 'Bridge Hub',
     ui: {
       logo: nodesBridgeHubSVG
     }
@@ -233,7 +233,7 @@ export const testRelayWestend: EndpointOption = {
     'light client': 'light://substrate-connect/westend'
   },
   teleport: getTeleports(testParasWestendCommon),
-  text: 'Westend',
+  text: 'Westend Relay',
   ui: {
     color: '#da68a7',
     identityIcon: 'polkadot',
