@@ -1,4 +1,4 @@
-// Copyright 2017-2025 @polkadot/app-coretime authors & contributors
+// Copyright 2017-2026 @polkadot/app-coretime authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { PhaseConfig } from '../types.js';
