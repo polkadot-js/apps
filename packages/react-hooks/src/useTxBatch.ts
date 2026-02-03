@@ -1,4 +1,4 @@
-// Copyright 2017-2025 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2026 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
@@ -32,13 +32,11 @@ interface Known {
 // converts a weight construct to only contain BN values
 function bnWeight (a: WeightSimple): BNWeight {
   return {
-    proofSize: a.proofSize
-      ? bnToBn(
-        isCompact(a.proofSize)
-          ? a.proofSize.unwrap()
-          : a.proofSize
-      )
-      : BN_ZERO,
+    proofSize: bnToBn(
+      isCompact(a.proofSize)
+        ? a.proofSize.unwrap()
+        : a.proofSize
+    ),
     refTime: bnToBn(
       isCompact(a.refTime)
         ? a.refTime.unwrap()

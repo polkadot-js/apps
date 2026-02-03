@@ -1,4 +1,4 @@
-// Copyright 2017-2025 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2026 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // This is for the use of `Ledger`
@@ -11,7 +11,7 @@ import type { DeriveDemocracyLock, DeriveStakingAccount } from '@polkadot/api-de
 import type { Ledger, LedgerGeneric } from '@polkadot/hw-ledger';
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
 import type { Option } from '@polkadot/types';
-import type { ProxyDefinition, RecoveryConfig } from '@polkadot/types/interfaces';
+import type { BlockNumber, ProxyDefinition, RecoveryConfig } from '@polkadot/types/interfaces';
 import type { KeyringAddress, KeyringJson$Meta } from '@polkadot/ui-keyring/types';
 import type { AccountBalance, Delegation } from '../types.js';
 
@@ -20,7 +20,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import useAccountLocks from '@polkadot/app-referenda/useAccountLocks';
 import { AddressInfo, AddressSmall, Badge, Button, ChainLock, Columar, CryptoType, Forget, LinkExternal, Menu, Popup, styled, Table, Tags, TransferModal } from '@polkadot/react-components';
-import { useAccountInfo, useApi, useBalancesAll, useBestNumber, useCall, useLedger, useQueue, useStakingInfo, useToggle } from '@polkadot/react-hooks';
+import { useAccountInfo, useApi, useBalancesAll, useBestNumberRelay, useCall, useLedger, useQueue, useStakingAsyncApis, useStakingInfo, useToggle, useVesting } from '@polkadot/react-hooks';
 import { keyring } from '@polkadot/ui-keyring';
 import { settings } from '@polkadot/ui-settings';
 import { BN, BN_ZERO, formatBalance, formatNumber, isFunction } from '@polkadot/util';
@@ -165,9 +165,26 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
   const { queueExtrinsic } = useQueue();
   const { api, apiIdentity, enableIdentity, isDevelopment: isDevelopmentApiProps, isEthereum: isEthereumApiProps } = useApi();
   const { getLedger } = useLedger();
-  const bestNumber = useBestNumber();
+  const { ahApi, isRelayChain, rcApi } = useStakingAsyncApis();
+  const bestNumber = useBestNumberRelay();
   const balancesAll = useBalancesAll(address);
+  const vestingInfoRaw = useVesting(address);
+  // Don't show vesting on relay chain - it's migrated to Asset Hub
+  // Users should connect to Asset Hub to view vesting info
+  const vestingInfo = isRelayChain ? undefined : vestingInfoRaw;
   const stakingInfo = useStakingInfo(address);
+
+  // Vesting schedules use relay chain blocks after Asset Hub migration.
+  // When on Asset Hub, query relay chain block number for accurate vesting calculations.
+  // For other chains, use normal block numbers (no cross-chain adjustment needed).
+  const relayBestNumber = useCall<BlockNumber>(
+    rcApi?.derive.chain.bestNumber
+  );
+
+  // Use relay chain block for vesting ONLY when on Asset Hub with relay connection available.
+  // This corrects the block number mismatch caused by Asset Hub migration.
+  // For all other chains, use undefined to let normal block numbers apply.
+  const vestingBestNumber = (vestingInfo && rcApi) ? relayBestNumber : undefined;
   const democracyLocks = useCall<DeriveDemocracyLock[]>(api.derive.democracy?.locks, [address]);
   const recoveryInfo = useCall<RecoveryConfig | null>(api.query.recovery?.recoverable, [address], transformRecovery);
   const multiInfos = useMultisigApprovals(address);
@@ -202,14 +219,24 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
         transferable: balancesAll.transferable || balancesAll.availableBalance,
         unbonding: calcUnbonding(stakingInfo)
       });
-
-      api.tx.vesting?.vest && setVestingTx(() =>
-        balancesAll.vestingLocked.isZero()
-          ? null
-          : api.tx.vesting.vest()
-      );
     }
-  }, [address, api, balancesAll, setBalance, stakingInfo]);
+  }, [address, balancesAll, setBalance, stakingInfo]);
+
+  useEffect((): void => {
+    // Vesting transactions must be sent to Asset Hub (after migration)
+    // Use ahApi when on relay chain, otherwise use the current api
+    const vestingApi = isRelayChain && ahApi ? ahApi : api;
+
+    if (vestingInfo && vestingApi.tx.vesting?.vest) {
+      setVestingTx(() =>
+        vestingInfo.vestingLocked.isZero()
+          ? null
+          : vestingApi.tx.vesting.vest()
+      );
+    } else {
+      setVestingTx(null);
+    }
+  }, [address, ahApi, api, isRelayChain, vestingInfo]);
 
   useEffect((): void => {
     bestNumber && democracyLocks && setDemocracyUnlock(
@@ -756,6 +783,8 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
           <AddressInfo
             address={address}
             balancesAll={balancesAll}
+            vestingBestNumber={vestingBestNumber}
+            vestingInfo={vestingInfo}
             withBalance={BAL_OPTS_DEFAULT}
           />
         </td>
@@ -771,6 +800,8 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
             address={address}
             balancesAll={balancesAll}
             convictionLocks={convictionLocks}
+            vestingBestNumber={vestingBestNumber}
+            vestingInfo={vestingInfo}
             withBalance={BAL_OPTS_EXPANDED}
           />
           <Columar size='tiny'>

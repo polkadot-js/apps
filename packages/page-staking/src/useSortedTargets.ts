@@ -1,4 +1,4 @@
-// Copyright 2017-2025 @polkadot/app-staking authors & contributors
+// Copyright 2017-2026 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
@@ -287,8 +287,9 @@ function extractBaseInfo (api: ApiPromise, allAccounts: string[], electedDerive:
   };
 }
 
-function useSortedTargetsImpl (favorites: string[], withLedger: boolean): SortedTargets {
-  const { api } = useApi();
+function useSortedTargetsImpl (favorites: string[], withLedger: boolean, apiOverride?: ApiPromise): SortedTargets {
+  const { api: connectedApi } = useApi();
+  const api = useMemo(() => apiOverride ?? connectedApi, [apiOverride, connectedApi]);
   const { allAccounts } = useAccounts();
   const { counterForNominators, counterForValidators, historyDepth, maxNominatorsCount, maxValidatorsCount, minNominatorBond, minValidatorBond, totalIssuance } = useCallMulti<MultiResult>([
     api.query.staking.historyDepth,

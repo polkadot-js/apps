@@ -1,4 +1,4 @@
-// Copyright 2017-2025 @polkadot/apps-config authors & contributors
+// Copyright 2017-2026 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
@@ -20,17 +20,20 @@ export const Subsquare: ExternalDef = {
     Crust: 'crust',
     Heima: 'heima',
     Hydration: 'hydration',
+    'Hyperbridge (Nexus)': 'hyperbridge',
     Interlay: 'interlay',
     Karura: 'karura',
-    Khala: 'khala',
     Kusama: 'kusama',
     'Kusama Asset Hub': 'kusama',
+    'Laos Network': 'laos',
+    'Paseo Asset Hub': 'paseo',
     'Paseo Testnet': 'paseo',
     Phala: 'phala',
     Polkadot: 'polkadot',
-    'Shibuya Testnet': 'shibuya',
+    'Polkadot Asset Hub': 'polkadot',
     'Vara Network': 'vara',
     Westend: 'westend',
+    'Westend Asset Hub': 'westend',
     Zeitgeist: 'zeitgeist',
     kintsugi: 'kintsugi'
   },

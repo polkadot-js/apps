@@ -1,4 +1,4 @@
-// Copyright 2017-2025 @polkadot/apps-config authors & contributors
+// Copyright 2017-2026 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { EndpointOption } from './types.js';
@@ -76,7 +76,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     providers: {
       Astar: 'wss://rpc.astar.network',
       // 'Automata 1RPC': 'wss://1rpc.io/astr', // https://github.com/polkadot-js/apps/issues/11827
-      Blast: 'wss://astar.public.blastapi.io',
+      // Blast: 'wss://astar.public.blastapi.io', // https://github.com/polkadot-js/apps/issues/11965
       Dwellir: 'wss://astar-rpc.n.dwellir.com',
       OnFinality: 'wss://astar.api.onfinality.io/public-ws',
       RadiumBlock: 'wss://astar.public.curie.radiumblock.co/ws',
@@ -225,7 +225,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     providers: {
       Darwinia: 'wss://rpc.darwinia.network',
       // Dcdao: 'wss://darwinia-rpc.dcdao.box', https://github.com/polkadot-js/apps/issues/11157
-      Dwellir: 'wss://darwinia-rpc.n.dwellir.com',
+      // Dwellir: 'wss://darwinia-rpc.n.dwellir.com', // https://github.com/polkadot-js/apps/issues/11965
       Subquery: 'wss://darwinia.rpc.subquery.network/public/ws'
     },
     text: 'Darwinia',
@@ -376,7 +376,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'integritee',
     paraId: 2039,
     providers: {
-      Integritee: 'wss://polkadot.api.integritee.network'
+      // Integritee: 'wss://polkadot.api.integritee.network' // https://github.com/polkadot-js/apps/issues/12052
     },
     text: 'Integritee Network',
     ui: {
@@ -444,8 +444,8 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     paraId: 2086,
     providers: {
       IBP1: 'wss://kilt.ibp.network',
-      IBP2: 'wss://kilt.dotters.network',
-      'KILT Foundation': 'wss://spiritnet.kilt.io/'
+      IBP2: 'wss://kilt.dotters.network'
+      // 'KILT Foundation': 'wss://spiritnet.kilt.io/' // https://github.com/polkadot-js/apps/issues/12076
     },
     text: 'KILT Spiritnet',
     ui: {
@@ -516,8 +516,8 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     providers: {
       Allnodes: 'wss://moonbeam-rpc.publicnode.com',
       // 'Automata 1RPC': 'wss://1rpc.io/glmr', // https://github.com/polkadot-js/apps/issues/10566
-      Blast: 'wss://moonbeam.public.blastapi.io',
-      Dwellir: 'wss://moonbeam-rpc.n.dwellir.com',
+      // Blast: 'wss://moonbeam.public.blastapi.io', // https://github.com/polkadot-js/apps/issues/11965
+      // Dwellir: 'wss://moonbeam-rpc.n.dwellir.com', // https://github.com/polkadot-js/apps/issues/11935
       IBP1: 'wss://moonbeam.ibp.network',
       IBP2: 'wss://moonbeam.dotters.network',
       'Moonbeam Foundation': 'wss://wss.api.moonbeam.network',
@@ -549,9 +549,6 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'mythos',
     paraId: 3369,
     providers: {
-      Helikon: 'wss://rpc.helikon.io/mythos',
-      IBP1: 'wss://mythos.ibp.network',
-      IBP2: 'wss://mythos.dotters.network',
       parity: 'wss://polkadot-mythos-rpc.polkadot.io'
     },
     text: 'Mythos',
@@ -578,7 +575,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'nodle',
     paraId: 2026,
     providers: {
-      Dwellir: 'wss://nodle-rpc.dwellir.com',
+      // Dwellir: 'wss://nodle-rpc.dwellir.com', // https://github.com/polkadot-js/apps/issues/11965
       OnFinality: 'wss://nodle-parachain.api.onfinality.io/public-ws'
     },
     text: 'Nodle',
@@ -661,8 +658,8 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     paraId: 2035,
     providers: {
       Dwellir: 'wss://phala-rpc.n.dwellir.com',
-      Helikon: 'wss://rpc.helikon.io/phala',
-      OnFinality: 'wss://phala.api.onfinality.io/public-ws',
+      // Helikon: 'wss://rpc.helikon.io/phala',
+      // OnFinality: 'wss://phala.api.onfinality.io/public-ws',
       // Phala: 'wss://api.phala.network/ws', // https://github.com/polkadot-js/apps/issues/11251
       RadiumBlock: 'wss://phala.public.curie.radiumblock.co/ws'
       // Rockx: 'wss://rockx-phala.w3node.com/polka-public-phala/ws' // https://github.com/polkadot-js/apps/issues/10728
@@ -789,11 +786,11 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
       // Dwellir: 'wss://unique-rpc.n.dwellir.com', // https://github.com/polkadot-js/apps/issues/11531
       'Geo Load Balancer': 'wss://ws.unique.network',
       IBP1: 'wss://unique.ibp.network',
-      IBP2: 'wss://unique.dotters.network',
+      IBP2: 'wss://unique.dotters.network'
       // OnFinality: 'wss://unique.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/10030
-      'Unique America': 'wss://us-ws.unique.network',
-      'Unique Asia': 'wss://asia-ws.unique.network',
-      'Unique Europe': 'wss://eu-ws.unique.network'
+      // 'Unique America': 'wss://us-ws.unique.network',
+      // 'Unique Asia': 'wss://asia-ws.unique.network',
+      // 'Unique Europe': 'wss://eu-ws.unique.network'
     },
     text: 'Unique Network',
     ui: {
@@ -874,6 +871,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       LuckyFriday: 'wss://rpc-asset-hub-polkadot.luckyfriday.io',
       OnFinality: 'wss://statemint.api.onfinality.io/public-ws',
       Parity: 'wss://polkadot-asset-hub-rpc.polkadot.io',
+      'Permanence DAO EU': 'wss://asset-hub-polkadot.rpc.permanence.io',
       RadiumBlock: 'wss://statemint.public.curie.radiumblock.co/ws',
       Stakeworld: 'wss://dot-rpc.stakeworld.io/assethub'
     },
@@ -995,7 +993,7 @@ export const prodRelayPolkadot: EndpointOption = {
     IBP2: 'wss://polkadot.dotters.network',
     LuckyFriday: 'wss://rpc-polkadot.luckyfriday.io',
     OnFinality: 'wss://polkadot.api.onfinality.io/public-ws',
-    'Permanence DAO EU': 'wss://polkadot.rpc.permanence.io',
+    // 'Permanence DAO EU': 'wss://polkadot.rpc.permanence.io', // https://github.com/polkadot-js/apps/issues/12078
     RadiumBlock: 'wss://polkadot.public.curie.radiumblock.co/ws',
     // RockX: 'wss://rockx-dot.w3node.com/polka-public-dot/ws', // https://github.com/polkadot-js/apps/issues/11439
     'Simply Staking': 'wss://spectrum-03.simplystaking.xyz/cG9sa2Fkb3QtMDMtOTFkMmYwZGYtcG9sa2Fkb3Q/LjwBJpV3dIKyWQ/polkadot/mainnet/',

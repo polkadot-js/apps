@@ -1,4 +1,4 @@
-// Copyright 2017-2025 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2026 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // we use augmented types in this tsconfig
@@ -38,6 +38,7 @@ export { useCoreDescriptor } from './useCoreDescriptor.js';
 export { useCoretimeConsts } from './useCoretimeConsts.js';
 export { useCoretimeEndpoint } from './useCoretimeEndpoint.js';
 export { useCoretimeInformation } from './useCoretimeInformation.js';
+export { useCurrencyToVote } from './useCurrencyToVote.js';
 export { useDebounce } from './useDebounce.js';
 export { useDelegations } from './useDelegations.js';
 export { useDeriveAccountFlags } from './useDeriveAccountFlags.js';
@@ -95,6 +96,8 @@ export { useTimer } from './useTimer.js';
 export { useToggle } from './useToggle.js';
 export { useTreasury } from './useTreasury.js';
 export { useTxBatch } from './useTxBatch.js';
+export type { VestingInfo } from './useVesting.js';
+export { useVesting } from './useVesting.js';
 export { useVotingStatus } from './useVotingStatus.js';
 export { useWeight } from './useWeight.js';
 export { useWindowColumns } from './useWindowColumns.js';

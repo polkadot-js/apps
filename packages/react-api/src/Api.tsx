@@ -1,4 +1,4 @@
-// Copyright 2017-2025 @polkadot/react-api authors & contributors
+// Copyright 2017-2026 @polkadot/react-api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Blockchain } from '@acala-network/chopsticks-core';
@@ -168,7 +168,7 @@ async function loadOnReady (api: ApiPromise, endpoint: LinkOption | null, fork: 
   // finally load the keyring
   isKeyringLoaded() || keyring.loadAll({
     genesisHash: api.genesisHash,
-    genesisHashAdd: endpoint && isNumber(endpoint.paraId) && (endpoint.paraId < 2000) && endpoint.genesisHashRelay
+    genesisHashAdd: !isEthereum && endpoint && isNumber(endpoint.paraId) && (endpoint.paraId < 2000) && endpoint.genesisHashRelay
       ? [endpoint.genesisHashRelay]
       : [],
     isDevelopment,

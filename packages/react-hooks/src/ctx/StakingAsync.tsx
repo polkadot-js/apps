@@ -1,4 +1,4 @@
-// Copyright 2017-2025 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2026 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { PropsWithChildren } from 'react';
@@ -56,7 +56,7 @@ export const StakingAsyncProvider = ({ children }: PropsWithChildren) => {
   const rcEndPoints = useMemo(() => {
     return (isRelayChain
       ? apiEndpoint?.providers
-      : apiEndpoint?.valueRelay) || [];
+      : apiEndpoint?.valueRelay)?.filter((e) => e.startsWith('wss://')) || [];
   }, [apiEndpoint, isRelayChain]);
 
   const ahEndPoints: string[] = useMemo(() => {
@@ -66,20 +66,24 @@ export const StakingAsyncProvider = ({ children }: PropsWithChildren) => {
       )?.providers || [];
     }
 
-    return apiEndpoint?.providers || [];
+    return apiEndpoint?.providers?.filter((e) => e.startsWith('wss://')) || [];
   }, [api, apiEndpoint, isRelayChain]);
 
   useEffect(() => {
     if (isRelayChain) {
       const ahUrl = ahEndPoints.at(Math.floor(Math.random() * ahEndPoints.length));
 
+      setRcApi(api);
+
       !!ahUrl && getApi(ahUrl).then(setAhApi).catch(console.error);
     } else {
       const rcUrl = rcEndPoints.at(Math.floor(Math.random() * rcEndPoints.length));
 
+      setAhApi(api);
+
       !!rcUrl && getApi(rcUrl).then(setRcApi).catch(console.error);
     }
-  }, [ahEndPoints, isRelayChain, rcEndPoints]);
+  }, [ahEndPoints, api, isRelayChain, rcEndPoints]);
 
   const state = useMemo(() => ({
     ahApi,

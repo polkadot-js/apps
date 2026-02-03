@@ -1,4 +1,4 @@
-// Copyright 2017-2025 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2026 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ParaId } from '@polkadot/types/interfaces';
@@ -6,7 +6,7 @@ import type { LeasePeriod, QueuedAction, ScheduledProposals } from '../types.js'
 
 import React, { useMemo, useRef } from 'react';
 
-import { Table } from '@polkadot/react-components';
+import { Icon, Table, Tooltip } from '@polkadot/react-components';
 import { useBestNumber, useIsParasLinked } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate.js';
@@ -63,8 +63,24 @@ function Parachains ({ actionsQueue, ids, leasePeriod, scheduled }: Props): Reac
     ['', 'media--1400'],
     [t('head'), 'start media--1500'],
     [t('lifecycle'), 'start'],
-    [],
-    [t('included'), undefined, 2],
+    [
+      <>
+        {t('inclusion delay')}
+        <Icon
+          icon='info-circle'
+          isPadded
+          tooltip='inclusion-delay-info'
+        />
+        <Tooltip
+          place='top'
+          text={t('Time since this parachain was last included in a relay chain block')}
+          trigger='inclusion-delay-info'
+        />
+      </>,
+      undefined,
+      2
+    ],
+    [t('included'), 'no-pad-left'],
     [t('backed'), 'no-pad-left media--900'],
     [t('timeout'), 'no-pad-left media--1600'],
     [t('chain'), 'no-pad-left'],

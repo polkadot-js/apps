@@ -1,4 +1,4 @@
-// Copyright 2017-2025 @polkadot/app-staking authors & contributors
+// Copyright 2017-2026 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveStakingOverview } from '@polkadot/api-derive/types';
@@ -185,7 +185,6 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
                 isInElection={isInElection}
                 nominatedBy={nominatedBy}
                 ownStashes={ownStashes}
-                stakingOverview={stakingOverview}
                 targets={targets}
                 toggleFavorite={toggleFavorite}
                 toggleLedger={toggleLedger}

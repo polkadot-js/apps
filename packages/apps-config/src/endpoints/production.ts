@@ -1,10 +1,10 @@
-// Copyright 2017-2025 @polkadot/apps-config authors & contributors
+// Copyright 2017-2026 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { EndpointOption } from './types.js';
 
 import { ZKVERIFY_GENESIS } from '../api/constants.js';
-import { chains3dpassSVG, chainsAlephSVG, chainsAnalogSVG, chainsBittensorPNG, chainsChainflipPNG, chainsCommuneaiPNG, chainsCreditcoinPNG, chainsDebioSVG, chainsFragnovaPNG, chainsJurPNG, chainsLiberlandPNG, chainsLogionPNG, chainsMyriadPNG, chainsPolkadotCircleSVG, chainsSpannerPNG, chainsTanglePNG, chainsTorusPNG, chainsVaraPNG, chainsVtbPNG } from '../ui/logos/chains/index.js';
+import { chains3dpassSVG, chainsAnalogSVG, chainsBittensorPNG, chainsChainflipPNG, chainsCommuneaiPNG, chainsCreditcoinPNG, chainsDebioSVG, chainsFragnovaPNG, chainsJurPNG, chainsLiberlandPNG, chainsLogionPNG, chainsMyriadPNG, chainsPolkadotCircleSVG, chainsSpannerPNG, chainsTanglePNG, chainsTorusPNG, chainsVaraPNG, chainsVtbPNG } from '../ui/logos/chains/index.js';
 import { nodesAresOdysseySVG, nodesAutonomysPNG, nodesCentrifugePNG, nodesCereSVG, nodesChainxSVG, nodesCompetitorsClubPNG, nodesCrownSterlingPNG, nodesCrustSVG, nodesDatahighwayPNG, nodesDockPNG, nodesEdgewareWhitePNG, nodesEfinitySVG, nodesElysiumPNG, nodesHanyonycashPNG, nodesHumanodePNG, nodesInnovatorPNG, nodesJoystreamSVG, nodesKulupuSVG, nodesKusariSVG, nodesMathSVG, nodesMinixPNG, nodesNftmartPNG, nodesNodleSVG, nodesPolkadexSVG, nodesPolymeshSVG, nodesRiochainSVG, nodesRobonomicsSVG, nodesSherpaxPNG, nodesSoraSubstrateSVG, nodesStafiPNG, nodesSubgameSVG, nodesSubsocialSVG, nodesSwapdexSVG, nodesTanssiSVG, nodesTernoaSVG, nodesThebifrostPNG, nodesTscsPNG, nodesUniartsPNG, nodesUnitnetworkPNG, nodesVFlowPNG, nodesZkVerifyPNG } from '../ui/logos/nodes/index.js';
 
 export * from './productionRelayKusama.js';
@@ -37,24 +37,13 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: '3dpass',
     providers: {
-      '3dpass': 'wss://rpc.3dpass.org'
+      '3dpass': 'wss://rpc.3dpass.org',
+      Lzmz: 'wss://rpc.p3d.top'
     },
     text: '3DPass',
     ui: {
       color: '#323232',
       logo: chains3dpassSVG
-    }
-  },
-  {
-    info: 'aleph',
-    providers: {
-      'Aleph Zero Foundation': 'wss://ws.azero.dev',
-      OnFinality: 'wss://aleph-zero.api.onfinality.io/public-ws'
-    },
-    text: 'Aleph Zero',
-    ui: {
-      color: '#00CCAB',
-      logo: chainsAlephSVG
     }
   },
   {
@@ -85,7 +74,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     info: 'autonomys-mainnet',
     providers: {
       Foundation: 'wss://rpc.mainnet.subspace.foundation/ws',
-      Labs: 'wss://rpc-0.mainnet.autonomys.xyz/ws'
+      Labs: 'wss://rpc.mainnet.autonomys.xyz/ws'
     },
     text: 'Autonomys',
     ui: {
@@ -202,7 +191,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'communeai',
     providers: {
-      Bitconnect: 'wss://commune-api-node-1.communeai.net'
+      // Bitconnect: 'wss://commune-api-node-1.communeai.net' // https://github.com/polkadot-js/apps/issues/11950
       // OnFinality: 'wss://commune.api.onfinality.io/public-ws'
     },
     text: 'Commune AI',
@@ -363,7 +352,8 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     info: 'joystream',
     providers: {
       Joyutils: 'wss://rpc.joyutils.org',
-      Jsgenesis: 'wss://rpc.joystream.org'
+      Jsgenesis: 'wss://rpc.joystream.org',
+      'l1.media': 'wss://rpc.l1.media'
     },
     text: 'Joystream',
     ui: {
@@ -497,8 +487,8 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     info: 'polkadex',
     providers: {
       // OnFinality: 'wss://polkadex.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/11827
-      PolkadexSup: 'wss://so.polkadex.ee',
-      RadiumBlock: 'wss://polkadex.public.curie.radiumblock.co/ws'
+      PolkadexSup: 'wss://so.polkadex.ee'
+      // RadiumBlock: 'wss://polkadex.public.curie.radiumblock.co/ws', // https://github.com/polkadot-js/apps/issues/12067
     },
     text: 'Polkadex',
     ui: {
@@ -555,8 +545,8 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     providers: {
       OnFinality: 'wss://sora.api.onfinality.io/public-ws',
       'SORA Parliament Ministry of Finance': 'wss://ws.mof.sora.org',
-      'SORA Parliament Ministry of Finance #2': 'wss://mof2.sora.org',
-      'SORA Parliament Ministry of Finance #3': 'wss://mof3.sora.org'
+      'SORA Parliament Ministry of Finance #2': 'wss://mof2.sora.org'
+      // 'SORA Parliament Ministry of Finance #3': 'wss://mof3.sora.org' // https://github.com/polkadot-js/apps/issues/12007
     },
     text: 'SORA',
     ui: {
@@ -633,6 +623,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   },
   {
     info: 'tanssi',
+    isPeople: true,
     providers: {
       'Tanssi Foundation': 'wss://services.tanssi-mainnet.network/tanssi'
     },

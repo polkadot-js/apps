@@ -1,4 +1,4 @@
-// Copyright 2017-2025 @polkadot/react-signer authors & contributors
+// Copyright 2017-2026 @polkadot/react-signer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // This is for the use of `Ledger`
@@ -173,7 +173,11 @@ async function wrapTx (api: ApiPromise, currentItem: QueueTx, { isMultiCall, mul
       timepoint = info.unwrap().when;
     }
 
-    tx = isMultiCall
+    // Check if this is the first approval (no existing multisig)
+    const isFirstApproval = info.isNone;
+    const shouldUseAsMulti = isFirstApproval || isMultiCall;
+
+    tx = shouldUseAsMulti
       ? api.tx[multiModule].asMulti.meta.args.length === 5
         // We are doing toHex here since we have a Vec<u8> input
         // eslint-disable-next-line @typescript-eslint/no-unsafe-argument

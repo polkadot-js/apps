@@ -1,4 +1,4 @@
-// Copyright 2017-2025 @polkadot/apps authors & contributors
+// Copyright 2017-2026 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // Do not edit. Auto-generated via node scripts/imgConvert.mjs
@@ -67,6 +67,7 @@ export { chainsQfNetworkPNG } from './generated/qf-networkPNG.js';
 export { chainsQpnPNG } from './generated/qpnPNG.js';
 export { chainsRiodefiPNG } from './generated/riodefiPNG.js';
 export { chainsRococoSVG } from './generated/rococoSVG.js';
+export { chainsShibuyaSVG } from './generated/shibuyaSVG.js';
 export { chainsShidenPNG } from './generated/shidenPNG.js';
 export { chainsSkyekiwiPNG } from './generated/skyekiwiPNG.js';
 export { chainsSnowbridgePNG } from './generated/snowbridgePNG.js';

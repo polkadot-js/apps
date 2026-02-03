@@ -1,4 +1,4 @@
-// Copyright 2017-2025 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2026 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
@@ -28,6 +28,7 @@ import Qr from '../modals/Qr.js';
 import { useTranslation } from '../translate.js';
 import { SORT_CATEGORY, sortAccounts } from '../util.js';
 import Account from './Account.js';
+import BannerAssetHubMigration from './BannerAssetHubMigration.js';
 import BannerClaims from './BannerClaims.js';
 import BannerExtension from './BannerExtension.js';
 import Summary from './Summary.js';
@@ -335,6 +336,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
           onStatusChange={onStatusChange}
         />
       )}
+      <BannerAssetHubMigration />
       <BannerExtension />
       <BannerClaims />
       <Summary balance={balances.summary} />

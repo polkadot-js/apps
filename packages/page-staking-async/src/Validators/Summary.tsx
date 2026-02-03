@@ -1,4 +1,4 @@
-// Copyright 2017-2025 @polkadot/app-staking-async authors & contributors
+// Copyright 2017-2026 @polkadot/app-staking-async authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveStakingOverview } from '@polkadot/api-derive/types';
@@ -8,12 +8,12 @@ import type { BN } from '@polkadot/util';
 
 import React, { useEffect, useState } from 'react';
 
-import SummarySession from '@polkadot/app-explorer/SummarySession';
 import { CardSummary, styled, SummaryBox } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate.js';
+import SummarySession from './SummarySession.js';
 
 interface Props {
   className?: string;

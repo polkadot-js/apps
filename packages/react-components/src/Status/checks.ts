@@ -1,4 +1,4 @@
-// Copyright 2017-2025 @polkadot/react-components authors & contributors
+// Copyright 2017-2026 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // we use augmented types in this tsconfig
@@ -44,7 +44,7 @@ function xcmAttempted ({ data: [outcome] }: Event): string | null {
   } else if ((outcome as StagingXcmV5TraitsOutcome).isIncomplete) {
     const error = (outcome as StagingXcmV5TraitsOutcome).asIncomplete.error;
 
-    return `error: ${error.type}`;
+    return `error: ${error.error.type}`;
   }
 
   return null;

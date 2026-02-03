@@ -1,4 +1,4 @@
-// Copyright 2017-2025 @polkadot/apps authors & contributors
+// Copyright 2017-2026 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { LinkOption } from '@polkadot/apps-config/endpoints/types';
@@ -424,7 +424,6 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
 
 const StyledSidebar = styled(Sidebar)`
   color: var(--color-text);
-  padding-top: 3.5rem;
 
   .customButton {
     position: absolute;

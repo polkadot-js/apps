@@ -1,4 +1,4 @@
-// Copyright 2017-2025 @polkadot/apps-config authors & contributors
+// Copyright 2017-2026 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { EndpointOption } from './types.js';
@@ -132,8 +132,8 @@ export const testParasWestendCommon: EndpointOption[] = [
       Dwellir: 'wss://asset-hub-westend-rpc.n.dwellir.com',
       'Dwellir Tunisia': 'wss://westmint-rpc-tn.dwellir.com',
       // OnFinality: 'wss://westmint.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/9955
-      Parity: 'wss://westend-asset-hub-rpc.polkadot.io',
-      'Permanence DAO EU': 'wss://asset-hub-westend.rpc.permanence.io'
+      Parity: 'wss://westend-asset-hub-rpc.polkadot.io'
+      // 'Permanence DAO EU': 'wss://asset-hub-westend.rpc.permanence.io'
       // Stakeworld: 'wss://wnd-rpc.stakeworld.io/assethub'
     },
     relayName: 'westend',

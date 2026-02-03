@@ -1,4 +1,4 @@
-// Copyright 2017-2025 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2026 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import '@polkadot/api-augment';
@@ -216,7 +216,7 @@ export interface Preimage extends PreimageBytes, PreimageStatus {
 
 export interface V2WeightConstruct {
   refTime: BN | ICompact<INumber>;
-  proofSize?: BN | ICompact<INumber>;
+  proofSize: BN | ICompact<INumber>;
 }
 
 export interface WeightResult {

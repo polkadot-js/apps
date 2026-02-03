@@ -1,4 +1,4 @@
-// Copyright 2017-2025 @polkadot/app-explorer authors & contributors
+// Copyright 2017-2026 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { KeyedEvent } from '@polkadot/react-hooks/ctx/types';
@@ -30,9 +30,20 @@ function accumulateWeights (
   const totalRefTime = new BN(0);
   const totalProofSize = new BN(0);
 
+  if (!weight) {
+    return { totalProofSize, totalRefTime };
+  }
+
   (['normal', 'operational', 'mandatory'] as const).forEach((cls) => {
-    totalRefTime.iadd(weight?.[cls].refTime.toBn() ?? new BN(0));
-    totalProofSize.iadd(weight?.[cls].proofSize.toBn() ?? new BN(0));
+    const classWeight = weight[cls];
+
+    if (classWeight) {
+      // convertWeight handles both V1 and V2 weights
+      const { v2Weight } = convertWeight(classWeight as V2Weight);
+
+      totalRefTime.iadd(isBn(v2Weight.refTime) ? v2Weight.refTime : v2Weight.refTime.toBn());
+      totalProofSize.iadd(isBn(v2Weight.proofSize) ? v2Weight.proofSize : v2Weight.proofSize.toBn());
+    }
   });
 
   return { totalProofSize, totalRefTime };
