@@ -872,8 +872,8 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       OnFinality: 'wss://statemint.api.onfinality.io/public-ws',
       Parity: 'wss://polkadot-asset-hub-rpc.polkadot.io',
       'Permanence DAO EU': 'wss://asset-hub-polkadot.rpc.permanence.io',
-      RadiumBlock: 'wss://statemint.public.curie.radiumblock.co/ws',
-      Stakeworld: 'wss://rpc-asset-hub-polkadot.stakeworld.io'
+      RadiumBlock: 'wss://statemint.public.curie.radiumblock.co/ws'
+      // Stakeworld: 'wss://rpc-asset-hub-polkadot.stakeworld.io'
     },
     relayName: 'polkadot',
     teleport: [-1, 1002, 1001, 1005, 1004],
@@ -895,8 +895,8 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       LuckyFriday: 'wss://rpc-bridge-hub-polkadot.luckyfriday.io',
       OnFinality: 'wss://bridgehub-polkadot.api.onfinality.io/public-ws',
       Parity: 'wss://polkadot-bridge-hub-rpc.polkadot.io',
-      RadiumBlock: 'wss://bridgehub-polkadot.public.curie.radiumblock.co/ws',
-      Stakeworld: 'wss://rpc-bridge-hub-polkadot.stakeworld.io'
+      RadiumBlock: 'wss://bridgehub-polkadot.public.curie.radiumblock.co/ws'
+      // Stakeworld: 'wss://rpc-bridge-hub-polkadot.stakeworld.io'
     },
     relayName: 'polkadot',
     teleport: [-1, 1000],
@@ -917,8 +917,8 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       LuckyFriday: 'wss://rpc-collectives-polkadot.luckyfriday.io',
       OnFinality: 'wss://collectives.api.onfinality.io/public-ws',
       Parity: 'wss://polkadot-collectives-rpc.polkadot.io',
-      RadiumBlock: 'wss://collectives.public.curie.radiumblock.co/ws',
-      Stakeworld: 'wss://rpc-collectives-polkadot.stakeworld.io'
+      RadiumBlock: 'wss://collectives.public.curie.radiumblock.co/ws'
+      // Stakeworld: 'wss://rpc-collectives-polkadot.stakeworld.io'
     },
     relayName: 'polkadot',
     teleport: [-1, 1000],
@@ -938,8 +938,8 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       IBP2: 'wss://coretime-polkadot.dotters.network',
       LuckyFriday: 'wss://rpc-coretime-polkadot.luckyfriday.io',
       OnFinality: 'wss://coretime-polkadot.api.onfinality.io/public-ws',
-      Parity: 'wss://polkadot-coretime-rpc.polkadot.io',
-      Stakeworld: 'wss://rpc-coretime-polkadot.stakeworld.io'
+      Parity: 'wss://polkadot-coretime-rpc.polkadot.io'
+      // Stakeworld: 'wss://rpc-coretime-polkadot.stakeworld.io'
     },
     relayName: 'polkadot',
     teleport: [-1, 1000],
@@ -957,9 +957,9 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       IBP2: 'wss://people-polkadot.dotters.network',
       LuckyFriday: 'wss://rpc-people-polkadot.luckyfriday.io',
       OnFinality: 'wss://people-polkadot.api.onfinality.io/public-ws',
-      Parity: 'wss://polkadot-people-rpc.polkadot.io',
+      Parity: 'wss://polkadot-people-rpc.polkadot.io'
       // RadiumBlock: 'wss://people-polkadot.public.curie.radiumblock.co/ws', // https://github.com/polkadot-js/apps/issues/11791
-      Stakeworld: 'wss://rpc-people-polkadot.stakeworld.io'
+      // Stakeworld: 'wss://rpc-people-polkadot.stakeworld.io'
     },
     relayName: 'polkadot',
     teleport: [-1, 1000],
