@@ -873,8 +873,8 @@ export const prodParasKusamaCommon: EndpointOption[] = [
       LuckyFriday: 'wss://rpc-asset-hub-kusama.luckyfriday.io',
       OnFinality: 'wss://assethub-kusama.api.onfinality.io/public-ws',
       Parity: 'wss://kusama-asset-hub-rpc.polkadot.io',
-      RadiumBlock: 'wss://statemine.public.curie.radiumblock.co/ws',
-      Stakeworld: 'wss://rpc-assethub-kusama.stakeworld.io'
+      RadiumBlock: 'wss://statemine.public.curie.radiumblock.co/ws'
+      // Stakeworld: 'wss://rpc-assethub-kusama.stakeworld.io'
     },
     relayName: 'kusama',
     teleport: [-1, 1002, 1005, 1001, 1004],
@@ -896,8 +896,8 @@ export const prodParasKusamaCommon: EndpointOption[] = [
       LuckyFriday: 'wss://rpc-bridge-hub-kusama.luckyfriday.io',
       OnFinality: 'wss://bridgehub-kusama.api.onfinality.io/public-ws',
       Parity: 'wss://kusama-bridge-hub-rpc.polkadot.io',
-      RadiumBlock: 'wss://bridgehub-kusama.public.curie.radiumblock.co/ws',
-      Stakeworld: 'wss://rpc-bridgehub-kusama.stakeworld.io'
+      RadiumBlock: 'wss://bridgehub-kusama.public.curie.radiumblock.co/ws'
+      // Stakeworld: 'wss://rpc-bridgehub-kusama.stakeworld.io'
     },
     relayName: 'kusama',
     teleport: [-1, 1000],
@@ -916,8 +916,8 @@ export const prodParasKusamaCommon: EndpointOption[] = [
       IBP2: 'wss://coretime-kusama.dotters.network',
       LuckyFriday: 'wss://rpc-coretime-kusama.luckyfriday.io',
       OnFinality: 'wss://coretime-kusama.api.onfinality.io/public-ws',
-      Parity: 'wss://kusama-coretime-rpc.polkadot.io',
-      Stakeworld: 'wss://rpc-coretime-kusama.stakeworld.io'
+      Parity: 'wss://kusama-coretime-rpc.polkadot.io'
+      // Stakeworld: 'wss://rpc-coretime-kusama.stakeworld.io'
     },
     relayName: 'kusama',
     teleport: [-1, 1000],
@@ -961,8 +961,8 @@ export const prodParasKusamaCommon: EndpointOption[] = [
       IBP2: 'wss://people-kusama.dotters.network',
       LuckyFriday: 'wss://rpc-people-kusama.luckyfriday.io',
       OnFinality: 'wss://people-kusama.api.onfinality.io/public-ws',
-      Parity: 'wss://kusama-people-rpc.polkadot.io',
-      Stakeworld: 'wss://rpc-people-kusama.stakeworld.io'
+      Parity: 'wss://kusama-people-rpc.polkadot.io'
+      // Stakeworld: 'wss://rpc-people-kusama.stakeworld.io'
     },
     relayName: 'kusama',
     teleport: [-1, 1000],
