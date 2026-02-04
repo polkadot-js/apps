@@ -584,8 +584,8 @@ export const testRelayPaseo: EndpointOption = {
     Amforc: 'wss://paseo.rpc.amforc.com',
     Dwellir: 'wss://paseo-rpc.n.dwellir.com',
     IBP1: 'wss://rpc.ibp.network/paseo',
-    IBP2: 'wss://paseo.dotters.network',
-    StakeWorld: 'wss://rpc-paseo.stakeworld.io'
+    IBP2: 'wss://paseo.dotters.network'
+    // StakeWorld: 'wss://rpc-paseo.stakeworld.io'
     // Zondax: 'wss://api2.zondax.ch/pas/node/rpc' // https://github.com/polkadot-js/apps/issues/11199
     // 'light client': 'light://substrate-connect/paseo'
   },
