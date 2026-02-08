@@ -1,6 +1,7 @@
 // Copyright 2017-2026 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+// eslint-disable-next-line header/header
 import type { EndpointOption } from './types.js';
 
 import { chainsAmplitudeSVG, chainsCoretimeKusamaSVG, chainsFrequencyPaseoSVG, chainsHydrationPaseoSVG, chainsKreivoSVG, chainsLaosSigmaPNG, chainsMyxcavPNG, chainsNeurowebTestnetPNG, chainsPaseoPNG, chainsPeoplePolkadotSVG, chainsPopNetworkSVG, chainsQfNetworkPNG, chainsShibuyaSVG, chainsWatrPNG, chainsWeTEESVG } from '@polkadot/apps-config/ui/logos/chains';
@@ -428,7 +429,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'Xcavate',
     paraId: 4683,
     providers: {
-      Xcavate: 'wss://rpc2-paseo.xcavate.io'
+      Xcavate_OnFinality: 'wss://xcavate-paseo.api.onfinality.io/public-ws'
     },
     text: 'Xcavate',
     ui: {
