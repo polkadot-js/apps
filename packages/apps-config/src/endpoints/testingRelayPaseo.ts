@@ -474,7 +474,7 @@ export const testParasPaseoCommon: EndpointOption[] = [
       Dwellir: 'wss://asset-hub-paseo-rpc.n.dwellir.com',
       IBP1: 'wss://sys.ibp.network/asset-hub-paseo',
       IBP2: 'wss://asset-hub-paseo.dotters.network',
-      StakeWorld: 'wss://pas-rpc.stakeworld.io/assethub',
+      // StakeWorld: 'wss://rpc-assethub-paseo.stakeworld.io',
       TurboFlakes: 'wss://sys.turboflakes.io/asset-hub-paseo'
     },
     relayName: 'paseo',
@@ -585,8 +585,8 @@ export const testRelayPaseo: EndpointOption = {
     Amforc: 'wss://paseo.rpc.amforc.com',
     Dwellir: 'wss://paseo-rpc.n.dwellir.com',
     IBP1: 'wss://rpc.ibp.network/paseo',
-    IBP2: 'wss://paseo.dotters.network',
-    StakeWorld: 'wss://pas-rpc.stakeworld.io'
+    IBP2: 'wss://paseo.dotters.network'
+    // StakeWorld: 'wss://rpc-paseo.stakeworld.io'
     // Zondax: 'wss://api2.zondax.ch/pas/node/rpc' // https://github.com/polkadot-js/apps/issues/11199
     // 'light client': 'light://substrate-connect/paseo'
   },
