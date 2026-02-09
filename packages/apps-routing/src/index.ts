@@ -29,6 +29,7 @@ import nis from './nis.js';
 import parachains from './parachains.js';
 import poll from './poll.js';
 import preimages from './preimages.js';
+import priceOracle from './priceOracle.js';
 import ranked from './ranked.js';
 import referenda from './referenda.js';
 import rpc from './rpc.js';
@@ -85,6 +86,7 @@ export default function create (t: TFunction): Routes {
     // other governance-related
     treasury(t),
     bounties(t),
+    priceOracle(t),
     // others
     parachains(t),
     assets(t),

@@ -1,0 +1,26 @@
+{
+  "bugs": "https://github.com/polkadot-js/apps/issues",
+  "engines": {
+    "node": ">=18"
+  },
+  "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/page-price-oracle#readme",
+  "license": "Apache-2.0",
+  "name": "@polkadot/app-price-oracle",
+  "private": true,
+  "repository": {
+    "directory": "packages/page-price-oracle",
+    "type": "git",
+    "url": "https://github.com/polkadot-js/apps.git"
+  },
+  "sideEffects": false,
+  "type": "module",
+  "version": "0.169.2-19-x",
+  "dependencies": {
+    "@polkadot/react-components": "^0.169.2-19-x"
+  },
+  "peerDependencies": {
+    "react": "*",
+    "react-dom": "*",
+    "react-is": "*"
+  }
+}
