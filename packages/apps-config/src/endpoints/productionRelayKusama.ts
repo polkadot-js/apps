@@ -408,8 +408,8 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     isPeopleForIdentity: true,
     paraId: 2281,
     providers: {
-      // Kippu: 'wss://kreivo.kippu.rocks/' // https://github.com/polkadot-js/apps/issues/12069
-      // Virto: 'wss://kreivo.io/' // https://github.com/polkadot-js/apps/issues/11544
+      Kippu: 'wss://kreivo.kippu.rocks/',
+      Virto: 'wss://kreivo.io/'
     },
     relayName: 'kusama',
     text: 'Kreivo - By Virto',
