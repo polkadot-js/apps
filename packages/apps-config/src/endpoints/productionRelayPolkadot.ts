@@ -816,6 +816,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     providers: {
       IBP1: 'wss://xcavate.ibp.network',
       IBP2: 'wss://xcavate.dotters.network',
+      Onfinality: 'wss://xcavate-paseo.api.onfinality.io/public-ws',
       Xcavate: 'wss://rpc1-polkadot.xcavate.io'
     },
     relayName: 'polkadot',
