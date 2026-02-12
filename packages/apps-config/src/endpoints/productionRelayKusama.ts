@@ -868,7 +868,7 @@ export const prodParasKusamaCommon: EndpointOption[] = [
     providers: {
       Dwellir: 'wss://asset-hub-kusama-rpc.n.dwellir.com',
       'Dwellir Tunisia': 'wss://statemine-rpc-tn.dwellir.com',
-      IBP1: 'wss://sys.ibp.network/asset-hub-kusama',
+      IBP1: 'wss://asset-hub-kusama.ibp.network',
       IBP2: 'wss://asset-hub-kusama.dotters.network',
       LuckyFriday: 'wss://rpc-asset-hub-kusama.luckyfriday.io',
       OnFinality: 'wss://assethub-kusama.api.onfinality.io/public-ws',
@@ -891,7 +891,7 @@ export const prodParasKusamaCommon: EndpointOption[] = [
     providers: {
       Dwellir: 'wss://bridge-hub-kusama-rpc.n.dwellir.com',
       'Dwellir Tunisia': 'wss://kusama-bridge-hub-rpc-tn.dwellir.com',
-      IBP1: 'wss://sys.ibp.network/bridgehub-kusama',
+      IBP1: 'wss://bridge-hub-kusama.ibp.network',
       IBP2: 'wss://bridge-hub-kusama.dotters.network',
       LuckyFriday: 'wss://rpc-bridge-hub-kusama.luckyfriday.io',
       OnFinality: 'wss://bridgehub-kusama.api.onfinality.io/public-ws',
@@ -912,7 +912,7 @@ export const prodParasKusamaCommon: EndpointOption[] = [
     paraId: 1005,
     providers: {
       Dwellir: 'wss://coretime-kusama-rpc.n.dwellir.com',
-      IBP1: 'wss://sys.ibp.network/coretime-kusama',
+      IBP1: 'wss://coretime-kusama.ibp.network',
       IBP2: 'wss://coretime-kusama.dotters.network',
       LuckyFriday: 'wss://rpc-coretime-kusama.luckyfriday.io',
       OnFinality: 'wss://coretime-kusama.api.onfinality.io/public-ws',
@@ -935,7 +935,7 @@ export const prodParasKusamaCommon: EndpointOption[] = [
     providers: {
       Dwellir: 'wss://encointer-kusama-rpc.n.dwellir.com',
       'Encointer Association': 'wss://kusama.api.encointer.org',
-      IBP1: 'wss://sys.ibp.network/encointer-kusama',
+      IBP1: 'wss://encointer-kusama.ibp.network',
       IBP2: 'wss://encointer-kusama.dotters.network',
       LuckyFriday: 'wss://rpc-encointer-kusama.luckyfriday.io'
       // OnFinality: 'wss://encointer.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/9986
@@ -957,7 +957,7 @@ export const prodParasKusamaCommon: EndpointOption[] = [
     providers: {
       Dwellir: 'wss://people-kusama-rpc.n.dwellir.com',
       Helixstreet: 'wss://rpc-people-kusama.helixstreet.io',
-      IBP1: 'wss://sys.ibp.network/people-kusama',
+      IBP1: 'wss://people-kusama.ibp.network',
       IBP2: 'wss://people-kusama.dotters.network',
       LuckyFriday: 'wss://rpc-people-kusama.luckyfriday.io',
       OnFinality: 'wss://people-kusama.api.onfinality.io/public-ws',
@@ -991,7 +991,7 @@ export const prodRelayKusama: EndpointOption = {
     Dwellir: 'wss://kusama-rpc.n.dwellir.com',
     'Dwellir Tunisia': 'wss://kusama-rpc-tn.dwellir.com',
     Helixstreet: 'wss://rpc-kusama.helixstreet.io',
-    IBP1: 'wss://rpc.ibp.network/kusama',
+    IBP1: 'wss://kusama.ibp.network',
     IBP2: 'wss://kusama.dotters.network',
     LuckyFriday: 'wss://rpc-kusama.luckyfriday.io',
     OnFinality: 'wss://kusama.api.onfinality.io/public-ws',

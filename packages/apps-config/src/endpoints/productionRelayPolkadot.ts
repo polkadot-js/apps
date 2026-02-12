@@ -814,8 +814,6 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'xcavate',
     paraId: 3413,
     providers: {
-      IBP1: 'wss://xcavate.ibp.network',
-      IBP2: 'wss://xcavate.dotters.network',
       Xcavate: 'wss://rpc1-polkadot.xcavate.io'
     },
     relayName: 'polkadot',
@@ -864,7 +862,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
     providers: {
       Dwellir: 'wss://asset-hub-polkadot-rpc.n.dwellir.com',
       'Dwellir Tunisia': 'wss://statemint-rpc-tn.dwellir.com',
-      IBP1: 'wss://sys.ibp.network/asset-hub-polkadot',
+      IBP1: 'wss://asset-hub-polkadot.ibp.network',
       IBP2: 'wss://asset-hub-polkadot.dotters.network',
       LuckyFriday: 'wss://rpc-asset-hub-polkadot.luckyfriday.io',
       OnFinality: 'wss://statemint.api.onfinality.io/public-ws',
@@ -888,7 +886,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
     providers: {
       Dwellir: 'wss://bridge-hub-polkadot-rpc.n.dwellir.com',
       'Dwellir Tunisia': 'wss://polkadot-bridge-hub-rpc-tn.dwellir.com',
-      IBP1: 'wss://sys.ibp.network/bridgehub-polkadot',
+      IBP1: 'wss://bridge-hub-polkadot.ibp.network',
       IBP2: 'wss://bridge-hub-polkadot.dotters.network',
       LuckyFriday: 'wss://rpc-bridge-hub-polkadot.luckyfriday.io',
       OnFinality: 'wss://bridgehub-polkadot.api.onfinality.io/public-ws',
@@ -910,7 +908,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
     providers: {
       Dwellir: 'wss://collectives-polkadot-rpc.n.dwellir.com',
       'Dwellir Tunisia': 'wss://polkadot-collectives-rpc-tn.dwellir.com',
-      IBP1: 'wss://sys.ibp.network/collectives-polkadot',
+      IBP1: 'wss://collectives-polkadot.ibp.network',
       IBP2: 'wss://collectives-polkadot.dotters.network',
       LuckyFriday: 'wss://rpc-collectives-polkadot.luckyfriday.io',
       OnFinality: 'wss://collectives.api.onfinality.io/public-ws',
@@ -932,7 +930,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
     paraId: 1005,
     providers: {
       Dwellir: 'wss://coretime-polkadot-rpc.n.dwellir.com',
-      IBP1: 'wss://sys.ibp.network/coretime-polkadot',
+      IBP1: 'wss://coretime-polkadot.ibp.network',
       IBP2: 'wss://coretime-polkadot.dotters.network',
       LuckyFriday: 'wss://rpc-coretime-polkadot.luckyfriday.io',
       OnFinality: 'wss://coretime-polkadot.api.onfinality.io/public-ws',
@@ -951,7 +949,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
     paraId: 1004,
     providers: {
       Dwellir: 'wss://people-polkadot-rpc.n.dwellir.com',
-      IBP1: 'wss://sys.ibp.network/people-polkadot',
+      IBP1: 'wss://people-polkadot.ibp.network',
       IBP2: 'wss://people-polkadot.dotters.network',
       LuckyFriday: 'wss://rpc-people-polkadot.luckyfriday.io',
       OnFinality: 'wss://people-polkadot.api.onfinality.io/public-ws',
@@ -986,7 +984,7 @@ export const prodRelayPolkadot: EndpointOption = {
     Dwellir: 'wss://polkadot-rpc.n.dwellir.com',
     'Dwellir Tunisia': 'wss://polkadot-rpc-tn.dwellir.com',
     Helixstreet: 'wss://rpc-polkadot.helixstreet.io',
-    IBP1: 'wss://rpc.ibp.network/polkadot',
+    IBP1: 'wss://polkadot.ibp.network',
     IBP2: 'wss://polkadot.dotters.network',
     LuckyFriday: 'wss://rpc-polkadot.luckyfriday.io',
     OnFinality: 'wss://polkadot.api.onfinality.io/public-ws',
