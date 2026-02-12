@@ -169,6 +169,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'bitcountry-node': bitcountry,
   'bitcountry-parachain': bitcountryParachain,
   bittensor,
+  'bulletin-paseo': bulletin,
   'bulletin-polkadot': bulletin,
   'bulletin-westend': bulletin,
   centrifuge,
