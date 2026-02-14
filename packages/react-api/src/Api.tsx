@@ -26,6 +26,7 @@ import { settings } from '@polkadot/ui-settings';
 import { formatBalance, isNumber, isTestChain, objectSpread, stringify } from '@polkadot/util';
 import { defaults as addressDefaults } from '@polkadot/util-crypto/address/defaults';
 
+import { registerDynamicExtensions } from './dynamicExtensions.js';
 import { lightSpecs, relaySpecs } from './light/index.js';
 import { statics } from './statics.js';
 import { decodeUrlTypes } from './urlTypes.js';
@@ -359,6 +360,8 @@ export function ApiCtxRoot ({ apiUrl, beforeApiInit, children, isElectron, store
         statics.api.on('disconnected', () => setIsApiConnected(false));
         statics.api.on('error', onError);
         statics.api.on('ready', (): void => {
+          registerDynamicExtensions(statics.api);
+
           const injectedPromise = web3Enable('polkadot-js/apps');
 
           injectedPromise
