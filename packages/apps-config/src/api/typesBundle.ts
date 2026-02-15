@@ -20307,6 +20307,99 @@ export const typesBundle = {
         }
       ]
     },
+    "bulletin-paseo": {
+      "types": [
+        {
+          "minmax": [
+            0,
+            null
+          ],
+          "types": {
+            "HashingAlgorithm": {
+              "_enum": [
+                "Blake2b256",
+                "Sha2_256",
+                "Keccak256"
+              ]
+            },
+            "CidConfig": {
+              "codec": "u64",
+              "hashing": "HashingAlgorithm"
+            }
+          }
+        }
+      ],
+      "signedExtensions": {
+        "ProvideCidConfig": {
+          "extrinsic": {
+            "cidConfig": "Option<CidConfig>"
+          },
+          "payload": {}
+        }
+      }
+    },
+    "bulletin-polkadot": {
+      "types": [
+        {
+          "minmax": [
+            0,
+            null
+          ],
+          "types": {
+            "HashingAlgorithm": {
+              "_enum": [
+                "Blake2b256",
+                "Sha2_256",
+                "Keccak256"
+              ]
+            },
+            "CidConfig": {
+              "codec": "u64",
+              "hashing": "HashingAlgorithm"
+            }
+          }
+        }
+      ],
+      "signedExtensions": {
+        "ProvideCidConfig": {
+          "extrinsic": {
+            "cidConfig": "Option<CidConfig>"
+          },
+          "payload": {}
+        }
+      }
+    },
+    "bulletin-westend": {
+      "types": [
+        {
+          "minmax": [
+            0,
+            null
+          ],
+          "types": {
+            "HashingAlgorithm": {
+              "_enum": [
+                "Blake2b256",
+                "Sha2_256",
+                "Keccak256"
+              ]
+            },
+            "CidConfig": {
+              "codec": "u64",
+              "hashing": "HashingAlgorithm"
+            }
+          }
+        }
+      ],
+      "signedExtensions": {
+        "ProvideCidConfig": {
+          "extrinsic": {
+            "cidConfig": "Option<CidConfig>"
+          },
+          "payload": {}
+        }
+      }
+    },
     "centrifuge": {
       "types": [
         {

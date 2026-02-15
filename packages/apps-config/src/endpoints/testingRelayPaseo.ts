@@ -1,9 +1,10 @@
 // Copyright 2017-2026 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+// eslint-disable-next-line header/header
 import type { EndpointOption } from './types.js';
 
-import { chainsAmplitudeSVG, chainsCoretimeKusamaSVG, chainsFrequencyPaseoSVG, chainsHydrationPaseoSVG, chainsKreivoSVG, chainsLaosSigmaPNG, chainsMyxcavPNG, chainsNeurowebTestnetPNG, chainsPaseoPNG, chainsPeoplePolkadotSVG, chainsPopNetworkSVG, chainsQfNetworkPNG, chainsShibuyaSVG, chainsWatrPNG, chainsWeTEESVG } from '@polkadot/apps-config/ui/logos/chains';
+import { chainsAmplitudeSVG, chainsCoretimeKusamaSVG, chainsFrequencyPaseoSVG, chainsHydrationPaseoSVG, chainsKreivoSVG, chainsLaosSigmaPNG, chainsMyxcavPNG, chainsNeurowebTestnetPNG, chainsPaseoPNG, chainsPeoplePolkadotSVG, chainsPolkadotCircleSVG, chainsPopNetworkSVG, chainsQfNetworkPNG, chainsShibuyaSVG, chainsWatrPNG, chainsWeTEESVG } from '@polkadot/apps-config/ui/logos/chains';
 import { nodesAjunaPNG, nodesAssetHubSVG, nodesAventusSVG, nodesBajunPNG, nodesBifrostSVG, nodesBridgeHubSVG, nodesCollectivesSVG, nodesDarwiniaKoiSVG, nodesFintraSVG, nodesHeimaPaseoPNG, nodesHyperbridgePNG, nodesIdealNetworkSVG, nodesIdncSVG, nodesIntegriteeSVG, nodesKiltIconSVG, nodesMandalaPNG, nodesMusePNG, nodesMyriadPaseoSVG, nodesNodleSVG, nodesOpalLogoPNG, nodesRegionxPNG, nodesRexSVG, nodesXodePNG, nodesZeitgeistPNG } from '@polkadot/apps-config/ui/logos/nodes';
 
 import { PASEO_GENESIS } from '../api/constants.js';
@@ -61,7 +62,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'paseoAventus',
     paraId: 2056,
     providers: {
-      // Aventus: 'wss://public-rpc.testnet.aventus.io' // https://github.com/polkadot-js/apps/issues/11827
+      Aventus: 'wss://avn-parachain.testnet.aventus.io'
     },
     text: 'Aventus',
     ui: {
@@ -94,6 +95,18 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: '#5a25f0',
       logo: nodesBifrostSVG
+    }
+  },
+  {
+    info: 'bulletin',
+    paraId: 5118,
+    providers: {
+      Parity: 'wss://paseo-bulletin-rpc.polkadot.io'
+    },
+    text: 'Bulletin (Paseo)',
+    ui: {
+      color: '#6B2D84',
+      logo: chainsPolkadotCircleSVG
     }
   },
   {
@@ -428,7 +441,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'Xcavate',
     paraId: 4683,
     providers: {
-      Xcavate: 'wss://rpc2-paseo.xcavate.io'
+      Xcavate_OnFinality: 'wss://xcavate-paseo.api.onfinality.io/public-ws'
     },
     text: 'Xcavate',
     ui: {
@@ -473,7 +486,7 @@ export const testParasPaseoCommon: EndpointOption[] = [
       Dwellir: 'wss://asset-hub-paseo-rpc.n.dwellir.com',
       IBP1: 'wss://sys.ibp.network/asset-hub-paseo',
       IBP2: 'wss://asset-hub-paseo.dotters.network',
-      StakeWorld: 'wss://pas-rpc.stakeworld.io/assethub',
+      // StakeWorld: 'wss://rpc-assethub-paseo.stakeworld.io',
       TurboFlakes: 'wss://sys.turboflakes.io/asset-hub-paseo'
     },
     relayName: 'paseo',
@@ -584,8 +597,8 @@ export const testRelayPaseo: EndpointOption = {
     Amforc: 'wss://paseo.rpc.amforc.com',
     Dwellir: 'wss://paseo-rpc.n.dwellir.com',
     IBP1: 'wss://rpc.ibp.network/paseo',
-    IBP2: 'wss://paseo.dotters.network',
-    StakeWorld: 'wss://pas-rpc.stakeworld.io'
+    IBP2: 'wss://paseo.dotters.network'
+    // StakeWorld: 'wss://rpc-paseo.stakeworld.io'
     // Zondax: 'wss://api2.zondax.ch/pas/node/rpc' // https://github.com/polkadot-js/apps/issues/11199
     // 'light client': 'light://substrate-connect/paseo'
   },
