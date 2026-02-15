@@ -11,25 +11,22 @@ import { allExtensions } from '@polkadot/types/extrinsic/signedExtensions';
 
 /**
  * Convert a TypeDef (from the portable registry) into an ExtTypes field mapping.
- * - Null / empty tuple → {} (no fields)
+ *
+ * - Null / empty tuple → {} (no fields, zero-sized extension)
  * - Struct with named sub fields → { fieldName: encodedType }
- * - Anything else → {} with a warning
+ * - Other types (Option, Compact, etc.) → { syntheticName: encodedType }
+ *   These are newtype wrappers or direct types in the metadata; we generate
+ *   a synthetic field name since ExtTypes requires named fields.
  */
-function typeDefToExtTypes (api: ApiPromise, typeDef: TypeDef): ExtTypes {
+function typeDefToExtTypes (api: ApiPromise, typeDef: TypeDef, identifier: string): ExtTypes {
   if (typeDef.info === TypeDefInfo.Null) {
     return {};
   }
 
   if (typeDef.info === TypeDefInfo.Tuple) {
-    // Empty tuple () is Null, but a non-empty tuple with no named fields
-    // can't be mapped to ExtTypes. If sub is empty or undefined, treat as empty.
     if (!typeDef.sub || (Array.isArray(typeDef.sub) && typeDef.sub.length === 0)) {
       return {};
     }
-
-    console.warn('Dynamic extension resolution: tuple type with fields encountered, treating as no-effect');
-
-    return {};
   }
 
   if (typeDef.info === TypeDefInfo.Struct) {
@@ -41,7 +38,6 @@ function typeDefToExtTypes (api: ApiPromise, typeDef: TypeDef): ExtTypes {
 
     const fields = Array.isArray(sub) ? sub : [sub];
 
-    // Check that all fields are named
     if (fields.length > 0 && fields.every((f) => f.name)) {
       const result: ExtTypes = {};
 
@@ -51,15 +47,22 @@ function typeDefToExtTypes (api: ApiPromise, typeDef: TypeDef): ExtTypes {
 
       return result;
     }
-
-    console.warn('Dynamic extension resolution: struct with unnamed fields encountered, treating as no-effect');
-
-    return {};
   }
 
-  console.warn(`Dynamic extension resolution: unexpected type info ${TypeDefInfo[typeDef.info]}, treating as no-effect`);
+  // For non-struct types (Option, Compact, Tuple with fields, etc.) or
+  // structs with unnamed fields: encode the whole type as a single field.
+  // Use a synthetic field name derived from the extension identifier.
+  //
+  // Strip displayName/lookupName from the top-level TypeDef to force
+  // structural encoding. getTypeDef unwraps newtype composites (e.g.,
+  // ProvideCidConfig(Option<CidConfig>) → info=Option) but preserves
+  // the composite's name. If we pass that name to the registry, it
+  // resolves back to the composite wrapper instead of the inner type.
+  const stripped = { ...typeDef, displayName: undefined, lookupName: undefined };
+  const encoded = encodeTypeDef(api.registry, stripped);
+  const fieldName = identifier[0].toLowerCase() + identifier.slice(1);
 
-  return {};
+  return { [fieldName]: encoded };
 }
 
 /**
@@ -94,10 +97,12 @@ export function registerDynamicExtensions (api: ApiPromise): void {
       const extrinsicTypeDef = api.registry.lookup.getTypeDef(ext.type);
       const implicitTypeDef = api.registry.lookup.getTypeDef(ext.implicit);
 
-      dynamicExtensions[identifier] = {
-        extrinsic: typeDefToExtTypes(api, extrinsicTypeDef),
-        payload: typeDefToExtTypes(api, implicitTypeDef)
-      };
+      const extrinsic = typeDefToExtTypes(api, extrinsicTypeDef, identifier);
+      const payload = typeDefToExtTypes(api, implicitTypeDef, identifier);
+
+      dynamicExtensions[identifier] = { extrinsic, payload };
+
+      console.log(`  ${identifier}: extrinsic=${JSON.stringify(extrinsic)}, payload=${JSON.stringify(payload)} (type info=${TypeDefInfo[extrinsicTypeDef.info]}, implicit info=${TypeDefInfo[implicitTypeDef.info]})`);
 
       dynamicCount++;
     } catch (error) {
