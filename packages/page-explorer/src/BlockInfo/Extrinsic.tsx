@@ -126,6 +126,7 @@ function ExtrinsicDisplay ({ blockNumber, className = '', events, index, maxBloc
           mortality={mortality}
           tip={value.tip?.toBn()}
           value={value}
+          withExtensions
           withHash
           withSignature
         />

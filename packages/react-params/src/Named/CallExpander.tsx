@@ -23,12 +23,13 @@ interface Props {
   tip?: BN;
   value?: Call | Extrinsic | null;
   withBorder?: boolean;
+  withExtensions?: boolean;
   withHash?: boolean;
   withSignature?: boolean;
   isExpanded?: boolean
 }
 
-function CallExpander ({ children, className = '', isExpanded, isHeader, labelHash, labelSignature, mortality, onError, stringId, tip, value, withBorder, withHash, withSignature }: Props): React.ReactElement<Props> | null {
+function CallExpander ({ children, className = '', isExpanded, isHeader, labelHash, labelSignature, mortality, onError, stringId, tip, value, withBorder, withExtensions, withHash, withSignature }: Props): React.ReactElement<Props> | null {
   const call = useMemo(
     () => value?.callIndex
       ? value.registry.findMetaCall(value.callIndex)
@@ -64,6 +65,7 @@ function CallExpander ({ children, className = '', isExpanded, isHeader, labelHa
           value={value}
           withBorder={withBorder}
           withExpander
+          withExtensions={withExtensions}
           withHash={withHash}
           withSignature={withSignature}
         />

@@ -8,7 +8,7 @@ import type { ComponentMap } from '../types.js';
 
 import React, { useEffect, useState } from 'react';
 
-import { Static, styled } from '@polkadot/react-components';
+import { Expander, Static, styled } from '@polkadot/react-components';
 import Params from '@polkadot/react-params';
 import { FormatBalance } from '@polkadot/react-query';
 import { Enum, getTypeDef } from '@polkadot/types';
@@ -27,6 +27,7 @@ export interface Props {
   value?: IExtrinsic | IMethod | null;
   withBorder?: boolean;
   withExpander?: boolean;
+  withExtensions?: boolean;
   withHash?: boolean;
   withSignature?: boolean;
   tip?: BN;
@@ -42,7 +43,13 @@ interface Value {
   value: Codec;
 }
 
+interface ExtensionEntry {
+  name: string;
+  value: string;
+}
+
 interface Extracted {
+  extensions?: ExtensionEntry[];
   hash?: string | null;
   overrides?: ComponentMap;
   params?: Param[];
@@ -61,7 +68,9 @@ function getRawSignature (value: IExtrinsic): ExtrinsicSignature | undefined {
   return (value as any)._raw?.signature?.multiSignature as ExtrinsicSignature;
 }
 
-function extractState (value?: IExtrinsic | IMethod | null, withHash?: boolean, withSignature?: boolean, callName?: string): Extracted {
+const SIGNATURE_CORE_FIELDS = ['signer', 'signature', 'transactionExtensionVersion'];
+
+function extractState (value?: IExtrinsic | IMethod | null, withHash?: boolean, withSignature?: boolean, withExtensions?: boolean, callName?: string): Extracted {
   const overrides = callName && balanceCalls.includes(callName)
     ? balanceCallsOverrides
     : undefined;
@@ -78,26 +87,51 @@ function extractState (value?: IExtrinsic | IMethod | null, withHash?: boolean, 
     : null;
   let signature: string | null = null;
   let signatureType: string | null = null;
+  let extensions: ExtensionEntry[] | undefined;
 
-  if (withSignature && isExtrinsic(value) && value.isSigned) {
-    const raw = getRawSignature(value);
+  if (isExtrinsic(value) && value.isSigned) {
+    if (withSignature) {
+      const raw = getRawSignature(value);
 
-    signature = value.signature.toHex();
-    signatureType = raw instanceof Enum
-      ? raw.type
-      : null;
+      signature = value.signature.toHex();
+      signatureType = raw instanceof Enum
+        ? raw.type
+        : null;
+    }
+
+    if (withExtensions) {
+      try {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any
+        const sigStruct = (value as any).inner?.signature;
+
+        if (sigStruct && typeof sigStruct.entries === 'function') {
+          extensions = [];
+
+          for (const [key, val] of sigStruct.entries() as IterableIterator<[string, Codec]>) {
+            if (!SIGNATURE_CORE_FIELDS.includes(key)) {
+              extensions.push({
+                name: key,
+                value: JSON.stringify(val.toHuman())
+              });
+            }
+          }
+        }
+      } catch {
+        // silently ignore extraction errors
+      }
+    }
   }
 
-  return { hash, overrides, params, signature, signatureType, values };
+  return { extensions, hash, overrides, params, signature, signatureType, values };
 }
 
-function Call ({ callName, children, className = '', labelHash, labelSignature, mortality, onError, tip, value, withBorder, withExpander, withHash, withSignature }: Props): React.ReactElement<Props> {
+function Call ({ callName, children, className = '', labelHash, labelSignature, mortality, onError, tip, value, withBorder, withExpander, withExtensions, withHash, withSignature }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const [{ hash, overrides, params, signature, signatureType, values }, setExtracted] = useState<Extracted>({ hash: null, params: [], signature: null, signatureType: null, values: [] });
+  const [{ extensions, hash, overrides, params, signature, signatureType, values }, setExtracted] = useState<Extracted>({ hash: null, params: [], signature: null, signatureType: null, values: [] });
 
   useEffect((): void => {
-    setExtracted(extractState(value, withHash, withSignature, callName));
-  }, [callName, value, withHash, withSignature]);
+    setExtracted(extractState(value, withHash, withSignature, withExtensions, callName));
+  }, [callName, value, withExtensions, withHash, withSignature]);
 
   return (
     <StyledDiv className={`${className} ui--Call`}>
@@ -142,6 +176,20 @@ function Call ({ callName, children, className = '', labelHash, labelSignature, 
               label={t('tip')}
               value={<FormatBalance value={tip} />}
             />
+          )}
+          {extensions && extensions.length > 0 && (
+            <Expander
+              isLeft
+              summary={t('transaction extensions')}
+            >
+              {extensions.map(({ name, value }) => (
+                <Static
+                  key={name}
+                  label={name}
+                  value={value}
+                />
+              ))}
+            </Expander>
           )}
         </div>
       </Params>
