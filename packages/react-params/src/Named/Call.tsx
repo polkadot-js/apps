@@ -101,13 +101,13 @@ function extractState (value?: IExtrinsic | IMethod | null, withHash?: boolean, 
 
     if (withExtensions) {
       try {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any
-        const sigStruct = (value as any).inner?.signature;
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
+        const sigStruct: Map<string, Codec> | undefined = (value as any).inner?.signature;
 
         if (sigStruct && typeof sigStruct.entries === 'function') {
           extensions = [];
 
-          for (const [key, val] of sigStruct.entries() as IterableIterator<[string, Codec]>) {
+          for (const [key, val] of sigStruct.entries()) {
             if (!SIGNATURE_CORE_FIELDS.includes(key)) {
               extensions.push({
                 name: key,

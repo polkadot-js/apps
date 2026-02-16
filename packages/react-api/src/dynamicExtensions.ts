@@ -2,12 +2,12 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
-import type { TypeDef } from '@polkadot/types-create/types';
 import type { ExtDef, ExtTypes } from '@polkadot/types/extrinsic/signedExtensions/types';
+import type { TypeDef } from '@polkadot/types-create/types';
 
 import { typesBundle } from '@polkadot/apps-config';
-import { encodeTypeDef, TypeDefInfo } from '@polkadot/types-create';
 import { allExtensions } from '@polkadot/types/extrinsic/signedExtensions';
+import { encodeTypeDef, TypeDefInfo } from '@polkadot/types-create';
 
 /**
  * Convert a TypeDef (from the portable registry) into an ExtTypes field mapping.
@@ -42,7 +42,9 @@ function typeDefToExtTypes (api: ApiPromise, typeDef: TypeDef, identifier: strin
       const result: ExtTypes = {};
 
       for (const field of fields) {
-        result[field.name as string] = encodeTypeDef(api.registry, field);
+        if (field.name) {
+          result[field.name] = encodeTypeDef(api.registry, field);
+        }
       }
 
       return result;
