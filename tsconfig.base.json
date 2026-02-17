@@ -61,6 +61,7 @@
       "@polkadot/app-referenda/Referenda": ["page-referenda/src/Referenda/index.tsx"],
       "@polkadot/app-referenda/useAccountLocks": ["page-referenda/src/useAccountLocks.ts"],
       "@polkadot/app-referenda/useCounter": ["page-referenda/src/useCounter.ts"],
+      "@polkadot/app-reputation-voting": ["page-reputation-voting/src/index.tsx"],
       "@polkadot/app-rpc": ["page-rpc/src/index.tsx"],
       "@polkadot/app-runtime": ["page-runtime/src/index.tsx"],
       "@polkadot/app-scheduler": ["page-scheduler/src/index.tsx"],
