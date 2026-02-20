@@ -16,7 +16,7 @@ const zeroGraph = { approval: [BN_ZERO], support: [BN_ZERO], x: [BN_ZERO] };
 
 function expandTracks (tracks: [BN, PalletReferendaTrackDetails][]): TrackDescription[] {
   return tracks.map(([id, info]) => ({
-    graph: info.decisionDeposit && info.minApproval && info.minSupport ? calcCurves(info) : zeroGraph,
+    graph: info.decisionPeriod && info.minApproval && info.minSupport ? calcCurves(info) : zeroGraph,
     id,
     info
   }));
