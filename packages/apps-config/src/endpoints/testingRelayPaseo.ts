@@ -547,23 +547,6 @@ export const testParasPaseoCommon: EndpointOption[] = [
     }
   },
   {
-    info: 'PAssetHub - Contracts',
-    isPeopleForIdentity: true,
-    paraId: 1111,
-    providers: {
-      IBP1: 'wss://passet-hub-paseo.ibp.network',
-      IBP2: 'wss://passet-hub-paseo.dotters.network',
-      Parity: 'wss://testnet-passet-hub.polkadot.io'
-    },
-    relayName: 'paseo',
-    teleport: [-1, 1000],
-    text: 'PAssetHub - Contracts',
-    ui: {
-      color: '#77bb77',
-      logo: nodesAssetHubSVG
-    }
-  },
-  {
     info: 'PaseoPeopleChain',
     isPeople: true,
     isPeopleForIdentity: false,
