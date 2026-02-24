@@ -1,5 +1,43 @@
 # CHANGELOG
 
+## 0.170.1 Feb 24, 2026
+
+Contributed:
+
+- Remove passet hub ([#12178](https://github.com/polkadot-js/apps/pull/12178)) (Thanks to https://github.com/nprt)
+- Add custom logo for Bulletin Chain ([#12170](https://github.com/polkadot-js/apps/pull/12170)) (Thanks to https://github.com/mudigal)
+- Maintenance of IBP endpoints ([#12157](https://github.com/polkadot-js/apps/pull/12157)) (Thanks to https://github.com/miloskriz)
+- Add Bulletin endpoint for Paseo testnet ([#12163](https://github.com/polkadot-js/apps/pull/12163)) (Thanks to https://github.com/bkontur)
+- Add custom extension for Bulletin ([#12160](https://github.com/polkadot-js/apps/pull/12160)) (Thanks to https://github.com/bkontur)
+- Updated uniform naming schema for stakeworld endpoints ([#12100](https://github.com/polkadot-js/apps/pull/12100)) (Thanks to https://github.com/stakeworld)
+- Change Aventus public rpc endpoints ([#12105](https://github.com/polkadot-js/apps/pull/12105)) (Thanks to https://github.com/vukomir)
+- Remove IBP support to `kilt` ([#12132](https://github.com/polkadot-js/apps/pull/12132)) (Thanks to https://github.com/miloskriz)
+- xcavate-endpoint-update ([#12136](https://github.com/polkadot-js/apps/pull/12136)) (Thanks to https://github.com/ganesh1997oli)
+- Removed Blockops Polkadot and Kusama endpoints ([#12145](https://github.com/polkadot-js/apps/pull/12145)) (Thanks to https://github.com/calvin-puram)
+- Return Robonomics endpoint ([#12077](https://github.com/polkadot-js/apps/pull/12077)) (Thanks to https://github.com/dergudzon)
+- Enable Identity support on zkVerify-Volta ([#12071](https://github.com/polkadot-js/apps/pull/12071)) (Thanks to https://github.com/95DDB)
+- Update xcavate endpoints ([#12059](https://github.com/polkadot-js/apps/pull/12059)) (Thanks to https://github.com/ganesh1997oli)
+- Remove Helikon RPC endpoint for Mythos ([#12057](https://github.com/polkadot-js/apps/pull/12057)) (Thanks to https://github.com/kukabi)
+- Remove IBP endpoints for Mythos ([#12049](https://github.com/polkadot-js/apps/pull/12049)) (Thanks to https://github.com/miloskriz)
+- Add Permanence DAO EU Polkadot Asset Hub RPC endpoint ([#12047](https://github.com/polkadot-js/apps/pull/12047)) (Thanks to https://github.com/kukabi)
+- Add Lzmz RPC provider for 3dpass chain ([#12043](https://github.com/polkadot-js/apps/pull/12043)) (Thanks to https://github.com/PaulSff)
+- Decommission paseo-people-next parachain ([#12034](https://github.com/polkadot-js/apps/pull/12034)) (Thanks to https://github.com/ArshamTeymouri)
+
+
+Changes:
+
+- Fix: Show referenda approval/support curves on Kusama, Paseo & Westend ([#12168](https://github.com/polkadot-js/apps/pull/12168))
+- Update copyright year ([#12142](https://github.com/polkadot-js/apps/pull/12142))
+- fix: use asMulti for first multisig approval to store call data ([#12062](https://github.com/polkadot-js/apps/pull/12062))
+- fix: correctly handle v1 weights for historical blocks ([#12065](https://github.com/polkadot-js/apps/pull/12065))
+- fix: Correct bag threshold display with CurrencyToVote conversion ([#12058](https://github.com/polkadot-js/apps/pull/12058))
+- fix: getProxyTypeInstance to derive proxy type name from addProxy call arguments ([#12053](https://github.com/polkadot-js/apps/pull/12053))
+- Add column header for 'inclusion delay' on parachains page ([#12030](https://github.com/polkadot-js/apps/pull/12030))
+- fix: referenda list collapse issue ([#11796](https://github.com/polkadot-js/apps/pull/11796))
+- fix: disable ASCII decoding for binary data in chain state display ([#12027](https://github.com/polkadot-js/apps/pull/12027))
+- Disable unreachable endpoints ([#12083](https://github.com/polkadot-js/apps/pull/12083) [#12073](https://github.com/polkadot-js/apps/pull/12073) [#12056](https://github.com/polkadot-js/apps/pull/12056) [#12039](https://github.com/polkadot-js/apps/pull/12039))
+
+
 ## 0.169.1 Nov 26, 2025
 
 Contributed:
