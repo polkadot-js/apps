@@ -39,7 +39,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     },
     text: 'Acurast Canary',
     ui: {
-      color: '#b4e600',
+      color: '#000000',
       logo: chainsAcurastSVG
     }
   },
