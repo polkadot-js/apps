@@ -1,0 +1,22 @@
+// Copyright 2017-2026 @polkadot/apps-routing authors & contributors
+// SPDX-License-Identifier: Apache-2.0
+
+import type { Route, TFunction } from './types.js';
+
+import Component, { useCounter } from '@polkadot/app-price-oracle';
+
+export default function create (t: TFunction): Route {
+  return {
+    Component,
+    display: {
+      needsApi: [
+        'query.priceOracle.price'
+      ]
+    },
+    group: 'governance',
+    icon: 'chart-line',
+    name: 'priceOracle',
+    text: t('nav.priceOracle', 'Price Oracle', { ns: 'apps-routing' }),
+    useCounter
+  };
+}

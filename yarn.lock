@@ -1900,6 +1900,18 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@polkadot/app-price-oracle@workspace:packages/page-price-oracle":
+  version: 0.0.0-use.local
+  resolution: "@polkadot/app-price-oracle@workspace:packages/page-price-oracle"
+  dependencies:
+    "@polkadot/react-components": "npm:^0.169.2-19-x"
+  peerDependencies:
+    react: "*"
+    react-dom: "*"
+    react-is: "*"
+  languageName: unknown
+  linkType: soft
+
 "@polkadot/app-ranked@workspace:packages/page-ranked":
   version: 0.0.0-use.local
   resolution: "@polkadot/app-ranked@workspace:packages/page-ranked"
