@@ -390,6 +390,7 @@
        1	Brian Wu                      	Add additional RPC endpoints for Crust Mainnet, Crust-Parachain, Crust-Shadow (#10703)
        1	Burnww                        	WeTEE added to Paseo (#11254)
        1	Carl                          	Update Subscan link config (#6194)
+       1	Carlos Rodríguez              	Enable Shibuya Endpoint (#12140)
        1	CCBro                         	add `armonia-eva` and `armonia-wall-e` for ethereumChains (#7732)
        1	Charly                        	docs(readme): install dependencies faster (#11822)
        1	CherryLiang                   	show play/stop button (#1804)
