@@ -402,7 +402,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'PaseoShibuyaChain',
     paraId: 2000,
     providers: {
-      // Astar: 'wss://rpc.shibuya.astar.network' // https://github.com/polkadot-js/apps/issues/11950
+      Astar: 'wss://rpc.shibuya.astar.network'
     },
     relayName: 'paseo',
     text: 'Shibuya Testnet (Astar)',
