@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FF7A45"/>
+      <stop offset="50%" style="stop-color:#FF6B35"/>
+      <stop offset="100%" style="stop-color:#E04E1A"/>
+    </linearGradient>
+    <!-- Subtle inner glow -->
+    <radialGradient id="glow" cx="35%" cy="30%" r="65%">
+      <stop offset="0%" style="stop-color:white;stop-opacity:0.15"/>
+      <stop offset="100%" style="stop-color:white;stop-opacity:0"/>
+    </radialGradient>
+    <!-- Soft shadow for letters - glow effect to make them float -->
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#000" flood-opacity="0.2"/>
+    </filter>
+  </defs>
+  <!-- Rounded square background -->
+  <rect width="128" height="128" rx="28" ry="28" fill="url(#bg)"/>
+  <!-- Glass/light overlay -->
+  <rect width="128" height="128" rx="28" ry="28" fill="url(#glow)"/>
+  <!-- Subtle top edge highlight -->
+  <rect x="2" y="2" width="124" height="62" rx="27" ry="27" fill="white" opacity="0.06"/>
+  <!-- Letter D - centered -->
+  <g filter="url(#shadow)">
+    <path d="M18 30h16c18 0 32 14 32 34s-14 34-32 34H18V30z" fill="white"/>
+    <path d="M32 46h2c10 0 18 8 18 18s-8 18-18 18h-2V46z" fill="url(#bg)"/>
+  </g>
+  <!-- Letter P - centered, separated -->
+  <g filter="url(#shadow)">
+    <path d="M74 30h20c12 0 20 9 20 20s-8 20-20 20H88v28H74V30z" fill="white"/>
+    <path d="M88 46h4c5 0 8 3 8 4s-3 4-8 4h-4V46z" fill="url(#bg)"/>
+  </g>
+  <!-- Bottom subtle reflection line -->
+  <rect x="20" y="108" width="88" height="1" rx="0.5" fill="white" opacity="0.1"/>
+</svg>
