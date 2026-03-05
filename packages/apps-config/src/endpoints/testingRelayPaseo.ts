@@ -1,9 +1,10 @@
-// Copyright 2017-2025 @polkadot/apps-config authors & contributors
+// Copyright 2017-2026 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+// eslint-disable-next-line header/header
 import type { EndpointOption } from './types.js';
 
-import { chainsAmplitudeSVG, chainsCoretimeKusamaSVG, chainsFrequencyPaseoSVG, chainsHydrationPaseoSVG, chainsKreivoSVG, chainsLaosSigmaPNG, chainsMyxcavPNG, chainsNeurowebTestnetPNG, chainsPaseoPNG, chainsPeoplePolkadotSVG, chainsPopNetworkSVG, chainsQfNetworkPNG, chainsShibuyaSVG, chainsWatrPNG, chainsWeTEESVG } from '@polkadot/apps-config/ui/logos/chains';
+import { chainsAmplitudeSVG, chainsBulletinPNG, chainsCoretimeKusamaSVG, chainsFrequencyPaseoSVG, chainsHydrationPaseoSVG, chainsKreivoSVG, chainsLaosSigmaPNG, chainsMyxcavPNG, chainsNeurowebTestnetPNG, chainsPaseoPNG, chainsPeoplePolkadotSVG, chainsPopNetworkSVG, chainsQfNetworkPNG, chainsShibuyaSVG, chainsWatrPNG, chainsWeTEESVG } from '@polkadot/apps-config/ui/logos/chains';
 import { nodesAjunaPNG, nodesAssetHubSVG, nodesAventusSVG, nodesBajunPNG, nodesBifrostSVG, nodesBridgeHubSVG, nodesCollectivesSVG, nodesDarwiniaKoiSVG, nodesFintraSVG, nodesHeimaPaseoPNG, nodesHyperbridgePNG, nodesIdealNetworkSVG, nodesIdncSVG, nodesIntegriteeSVG, nodesKiltIconSVG, nodesMandalaPNG, nodesMusePNG, nodesMyriadPaseoSVG, nodesNodleSVG, nodesOpalLogoPNG, nodesRegionxPNG, nodesRexSVG, nodesXodePNG, nodesZeitgeistPNG } from '@polkadot/apps-config/ui/logos/nodes';
 
 import { PASEO_GENESIS } from '../api/constants.js';
@@ -61,7 +62,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'paseoAventus',
     paraId: 2056,
     providers: {
-      // Aventus: 'wss://public-rpc.testnet.aventus.io' // https://github.com/polkadot-js/apps/issues/11827
+      Aventus: 'wss://avn-parachain.testnet.aventus.io'
     },
     text: 'Aventus',
     ui: {
@@ -94,6 +95,18 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: '#5a25f0',
       logo: nodesBifrostSVG
+    }
+  },
+  {
+    info: 'bulletin',
+    paraId: 5118,
+    providers: {
+      Parity: 'wss://paseo-bulletin-rpc.polkadot.io'
+    },
+    text: 'Bulletin (Paseo)',
+    ui: {
+      color: '#6B2D84',
+      logo: chainsBulletinPNG
     }
   },
   {
@@ -389,7 +402,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'PaseoShibuyaChain',
     paraId: 2000,
     providers: {
-      // Astar: 'wss://rpc.shibuya.astar.network' // https://github.com/polkadot-js/apps/issues/11950
+      Astar: 'wss://rpc.shibuya.astar.network'
     },
     relayName: 'paseo',
     text: 'Shibuya Testnet (Astar)',
@@ -428,7 +441,7 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     info: 'Xcavate',
     paraId: 4683,
     providers: {
-      Xcavate: 'wss://rpc2-paseo.xcavate.io'
+      Xcavate_OnFinality: 'wss://xcavate-paseo.api.onfinality.io/public-ws'
     },
     text: 'Xcavate',
     ui: {
@@ -471,9 +484,9 @@ export const testParasPaseoCommon: EndpointOption[] = [
     paraId: 1000,
     providers: {
       Dwellir: 'wss://asset-hub-paseo-rpc.n.dwellir.com',
-      IBP1: 'wss://sys.ibp.network/asset-hub-paseo',
+      IBP1: 'wss://asset-hub-paseo.ibp.network',
       IBP2: 'wss://asset-hub-paseo.dotters.network',
-      StakeWorld: 'wss://pas-rpc.stakeworld.io/assethub',
+      // StakeWorld: 'wss://rpc-assethub-paseo.stakeworld.io',
       TurboFlakes: 'wss://sys.turboflakes.io/asset-hub-paseo'
     },
     relayName: 'paseo',
@@ -489,7 +502,7 @@ export const testParasPaseoCommon: EndpointOption[] = [
     isPeopleForIdentity: true,
     paraId: 1002,
     providers: {
-      IBP1: 'wss://sys.ibp.network/bridgehub-paseo',
+      IBP1: 'wss://bridge-hub-paseo.ibp.network',
       IBP2: 'wss://bridge-hub-paseo.dotters.network'
     },
     relayName: 'paseo',
@@ -505,7 +518,7 @@ export const testParasPaseoCommon: EndpointOption[] = [
     isPeopleForIdentity: true,
     paraId: 1001,
     providers: {
-      IBP1: 'wss://collectives-paseo.rpc.amforc.com',
+      IBP1: 'wss://collectives-paseo.ibp.network',
       IBP2: 'wss://collectives-paseo.dotters.network'
     },
     relayName: 'paseo',
@@ -521,7 +534,7 @@ export const testParasPaseoCommon: EndpointOption[] = [
     isPeopleForIdentity: true,
     paraId: 1005,
     providers: {
-      IBP1: 'wss://sys.ibp.network/coretime-paseo',
+      IBP1: 'wss://coretime-paseo.ibp.network',
       IBP2: 'wss://coretime-paseo.dotters.network'
       // ParaNodes: 'wss://paseo-coretime.paranodes.io', // https://github.com/polkadot-js/apps/issues/11587
     },
@@ -534,30 +547,13 @@ export const testParasPaseoCommon: EndpointOption[] = [
     }
   },
   {
-    info: 'PAssetHub - Contracts',
-    isPeopleForIdentity: true,
-    paraId: 1111,
-    providers: {
-      IBP1: 'wss://passet-hub-paseo.ibp.network',
-      IBP2: 'wss://passet-hub-paseo.dotters.network',
-      Parity: 'wss://testnet-passet-hub.polkadot.io'
-    },
-    relayName: 'paseo',
-    teleport: [-1, 1000],
-    text: 'PAssetHub - Contracts',
-    ui: {
-      color: '#77bb77',
-      logo: nodesAssetHubSVG
-    }
-  },
-  {
     info: 'PaseoPeopleChain',
     isPeople: true,
     isPeopleForIdentity: false,
     paraId: 1004,
     providers: {
       Amforc: 'wss://people-paseo.rpc.amforc.com',
-      IBP1: 'wss://sys.ibp.network/people-paseo',
+      IBP1: 'wss://people-paseo.ibp.network',
       IBP2: 'wss://people-paseo.dotters.network'
     },
     relayName: 'paseo',
@@ -583,9 +579,9 @@ export const testRelayPaseo: EndpointOption = {
   providers: {
     Amforc: 'wss://paseo.rpc.amforc.com',
     Dwellir: 'wss://paseo-rpc.n.dwellir.com',
-    IBP1: 'wss://rpc.ibp.network/paseo',
-    IBP2: 'wss://paseo.dotters.network',
-    StakeWorld: 'wss://pas-rpc.stakeworld.io'
+    IBP1: 'wss://paseo.ibp.network',
+    IBP2: 'wss://paseo.dotters.network'
+    // StakeWorld: 'wss://rpc-paseo.stakeworld.io'
     // Zondax: 'wss://api2.zondax.ch/pas/node/rpc' // https://github.com/polkadot-js/apps/issues/11199
     // 'light client': 'light://substrate-connect/paseo'
   },
