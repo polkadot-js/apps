@@ -905,7 +905,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       OnFinality: 'wss://bridgehub-polkadot.api.onfinality.io/public-ws',
       Parity: 'wss://polkadot-bridge-hub-rpc.polkadot.io',
       RadiumBlock: 'wss://bridgehub-polkadot.public.curie.radiumblock.co/ws',
-      Spectrum: 'wss://spectrum-03.simplystaking.xyz/cG9sa2Fkb3QtMDMtOTFkMmYwZGYtcG9sa2Fkb3Q/mgX--uWlEtmNKw/polkadotbridgehub/mainnet/',
+      Spectrum: 'wss://spectrum-03.simplystaking.xyz/cG9sa2Fkb3QtMDMtOTFkMmYwZGYtcG9sa2Fkb3Q/mgX--uWlEtmNKw/polkadotbridgehub/mainnet/'
       // Stakeworld: 'wss://rpc-bridge-hub-polkadot.stakeworld.io'
     },
     relayName: 'polkadot',
