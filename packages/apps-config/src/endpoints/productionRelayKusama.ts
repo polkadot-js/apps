@@ -962,7 +962,8 @@ export const prodParasKusamaCommon: EndpointOption[] = [
       IBP2: 'wss://people-kusama.dotters.network',
       LuckyFriday: 'wss://rpc-people-kusama.luckyfriday.io',
       OnFinality: 'wss://people-kusama.api.onfinality.io/public-ws',
-      Parity: 'wss://kusama-people-rpc.polkadot.io'
+      Parity: 'wss://kusama-people-rpc.polkadot.io',
+      RadiumBlock: 'wss://people-kusama.public.curie.radiumblock.co/ws'
       // Stakeworld: 'wss://rpc-people-kusama.stakeworld.io'
     },
     relayName: 'kusama',
