@@ -380,6 +380,7 @@
        1	augustocollado                	Enables identity on Tanssi and Dancelight (#11924)
        1	Bart200c                      	add kylin network (#7865)
        1	Bastian Köcher                	Update copyright year to make CI happy (#12142)
+       1	Bear Wang                     	refactor: remove references to Darwinia Crab and associated assets (#12131)
        1	Beqa Abuladze                 	Rename Creditcoin Classic to CC Enterprise (#10878)
        1	blackjooohn                   	NFTMart is available (#11606)
        1	Blake Byrnes                  	Add Argon Protocol Testnet (#10871)
