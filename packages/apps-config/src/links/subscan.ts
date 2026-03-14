@@ -1,4 +1,4 @@
-// Copyright 2017-2025 @polkadot/apps-config authors & contributors
+// Copyright 2017-2026 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BN } from '@polkadot/util';
@@ -23,6 +23,7 @@ export const Subscan: ExternalDef = {
     Bifrost: 'bifrost-kusama',
     'Bifrost Polkadot': 'bifrost',
     BridgeHub: 'bridgehub-polkadot',
+    'CC Enterprise': 'cc-enterprise',
     'Calamari Parachain': 'calamari',
     Centrifuge: 'centrifuge',
     ChainX: 'chainx',
@@ -33,10 +34,12 @@ export const Subscan: ExternalDef = {
     'Continuum Network': 'continuum',
     Coretime: 'coretime-polkadot',
     Creditcoin: 'creditcoin',
+    'Creditcoin PoS Testnet': 'cc-enterprise-testnet',
     'Creditcoin3 Testnet': 'creditcoin3-testnet',
     Crust: 'crust',
     'Crust Network': 'crust-parachain',
     'Crust Shadow': 'shadow',
+    Dancelight: 'dancelight',
     Darwinia: 'darwinia',
     Darwinia2: 'darwinia',
     Dock: 'dock',
@@ -95,14 +98,20 @@ export const Subscan: ExternalDef = {
     'Shibuya Testnet': 'shibuya',
     Shiden: 'shiden',
     Stafi: 'stafi',
+    Tanssi: 'tanssi',
     'Turing Network': 'turing',
     UNIQUE: 'unique',
     Unique: 'unique',
     Vara: 'vara',
     'Vara Network': 'vara',
     Westend: 'westend',
+    'Westend Asset Hub': 'assethub-westend',
+    'Westend BridgeHub': 'bridgehub-westend',
+    'Westend Coretime': 'coretime-westend',
+    'Westend People': 'people-westend',
     Zeitgeist: 'zeitgeist',
-    kintsugi: 'kintsugi'
+    kintsugi: 'kintsugi',
+    'krest-network': 'krest'
   },
   create: (chain: string, path: string, data: BN | number | string): string =>
     `https://${chain}.subscan.io/${path}/${data.toString()}`,

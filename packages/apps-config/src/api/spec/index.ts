@@ -1,4 +1,4 @@
-// Copyright 2017-2025 @polkadot/apps-config authors & contributors
+// Copyright 2017-2026 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { OverrideBundleDefinition } from '@polkadot/types/types';
@@ -21,6 +21,7 @@ import bitcountry from './bitcountry.js';
 import bitcountryPioneer from './bitcountry-pioneer.js';
 import bitcountryParachain from './bitcountry-rococo.js';
 import bittensor from './bittensor.js';
+import bulletin from './bulletin.js';
 import centrifuge from './centrifuge.js';
 import centrifugeChain from './centrifuge-chain.js';
 import chainx from './chainx.js';
@@ -168,6 +169,9 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'bitcountry-node': bitcountry,
   'bitcountry-parachain': bitcountryParachain,
   bittensor,
+  'bulletin-paseo': bulletin,
+  'bulletin-polkadot': bulletin,
+  'bulletin-westend': bulletin,
   centrifuge,
   'centrifuge-chain': centrifugeChain,
   chainx,

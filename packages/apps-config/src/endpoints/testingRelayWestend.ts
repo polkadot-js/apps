@@ -1,10 +1,10 @@
-// Copyright 2017-2025 @polkadot/apps-config authors & contributors
+// Copyright 2017-2026 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { EndpointOption } from './types.js';
 
 import { WESTEND_GENESIS } from '../api/constants.js';
-import { chainsKaruraSVG, chainsPeoplePolkadotSVG, chainsStandardPNG } from '../ui/logos/chains/index.js';
+import { chainsBulletinPNG, chainsKaruraSVG, chainsPeoplePolkadotSVG, chainsStandardPNG } from '../ui/logos/chains/index.js';
 import { nodesAssetHubSVG, nodesBridgeHubSVG, nodesCentrifugePNG, nodesIntegriteeSVG, nodesInterlaySVG, nodesKhalaSVG, nodesKylinPNG, nodesMoonshadowPNG, nodesWestendColourSVG } from '../ui/logos/nodes/index.js';
 import { getTeleports } from './util.js';
 
@@ -16,6 +16,18 @@ import { getTeleports } from './util.js';
 //
 // IMPORTANT: Alphabetical based on text
 export const testParasWestend: Omit<EndpointOption, 'teleport'>[] = [
+  {
+    info: 'bulletin',
+    paraId: 2487,
+    providers: {
+      Parity: 'wss://westend-bulletin-rpc.polkadot.io'
+    },
+    text: 'Bulletin (Westend)',
+    ui: {
+      color: '#6B2D84',
+      logo: chainsBulletinPNG
+    }
+  },
   {
     info: 'charcoal',
     paraId: 2086,
