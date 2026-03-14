@@ -139,7 +139,7 @@ function extractSingle (api: ApiPromise, allAccounts: string[], derive: DeriveSt
     const { accountId, claimedRewardsEras, exposureMeta, exposurePaged, stakingLedger, validatorPrefs } = derive.info[i];
     const exp = exposurePaged.isSome && exposurePaged.unwrap();
     const expMeta = exposureMeta.isSome && exposureMeta.unwrap();
-    // some overrides (e.g. Darwinia Crab) does not have the own/total field in Exposure
+    // some overrides do not have the own/total field in Exposure
     let [bondOwn, bondTotal] = exp && expMeta
       ? [expMeta.own.unwrap(), expMeta.total.unwrap()]
       : [BN_ZERO, BN_ZERO];
@@ -150,7 +150,7 @@ function extractSingle (api: ApiPromise, allAccounts: string[], derive: DeriveSt
       bondTotal = bondOwn = stakingLedger.total?.unwrap() || BN_ZERO;
     }
 
-    // some overrides (e.g. Darwinia Crab) does not have the value field in IndividualExposure
+    // some overrides do not have the value field in IndividualExposure
     const minNominated = ((exp && exp.others) || []).reduce((min: BN, { value = api.createType('Compact<Balance>') }): BN => {
       const actual = value.unwrap();
 
