@@ -103910,6 +103910,15 @@ export const typesBundle = {
             null
           ],
           "types": {
+            "Juror": {
+              "status": "JurorStatus"
+            },
+            "JurorStatus": {
+              "_enum": [
+                "OK",
+                "Tardy"
+              ]
+            },
             "Address": "MultiAddress",
             "Amount": "i128",
             "AmountOf": "i128",
@@ -104035,6 +104044,197 @@ export const typesBundle = {
               ]
             },
             "VestingBlockNumber": "u32",
+            "OrderSide": {
+              "_enum": [
+                "Bid",
+                "Ask"
+              ]
+            },
+            "Order": {
+              "side": "OrderSide",
+              "maker": "AccountId",
+              "taker": "Option<AccountId>",
+              "asset": "Asset",
+              "total": "Balance",
+              "price": "Balance",
+              "filled": "Balance"
+            },
+            "MarketCreation": {
+              "_enum": [
+                "Permissionless",
+                "Advised"
+              ]
+            },
+            "MarketPeriod": {
+              "_enum": {
+                "Block": "Range<BlockNumber>",
+                "Timestamp": "Range<Moment>"
+              }
+            },
+            "MarketId": "u128",
+            "MarketType": {
+              "_enum": {
+                "Categorical": "u16",
+                "Scalar": "RangeInclusive<u128>"
+              }
+            },
+            "MarketStatus": {
+              "_enum": [
+                "Proposed",
+                "Active",
+                "Suspended",
+                "Closed",
+                "CollectingSubsidy",
+                "InsufficientSubsidy",
+                "Reported",
+                "Disputed",
+                "Resolved"
+              ]
+            },
+            "Market": {
+              "creator": "AccountId",
+              "creation": "MarketCreation",
+              "creatorFee": "u8",
+              "oracle": "AccountId",
+              "metadata": "Vec<u8>",
+              "marketType": "MarketType",
+              "period": "MarketPeriod",
+              "scoringRule": "ScoringRule",
+              "status": "MarketStatus",
+              "report": "Option<Report>",
+              "resolvedOutcome": "Option<OutcomeReport>",
+              "disputeMechanism": "MarketDisputeMechanism"
+            },
+            "ScoringRule": {
+              "_enum": [
+                "CPMM",
+                "RikiddoSigmoidFeeMarketEma"
+              ]
+            },
+            "OutcomeReport": {
+              "_enum": {
+                "Categorical": "u16",
+                "Scalar": "u128"
+              }
+            },
+            "Report": {
+              "at": "BlockNumber",
+              "by": "AccountId",
+              "outcome": "OutcomeReport"
+            },
+            "MarketDispute": {
+              "at": "BlockNumber",
+              "by": "AccountId",
+              "outcome": "OutcomeReport"
+            },
+            "MarketDisputeMechanism": {
+              "_enum": {
+                "Authorized": "AccountId",
+                "Court": null,
+                "SimpleDisputes": null
+              }
+            },
+            "EmaConfig": {
+              "emaPeriod": "Timespan",
+              "emaPeriodEstimateAfter": "Option<Timespan>",
+              "smoothing": "u128"
+            },
+            "EmaMarketVolume": {
+              "config": "EmaConfig",
+              "ema": "u128",
+              "multiplier": "u128",
+              "lastTime": "UnixTimestamp",
+              "state": "MarketVolumeState",
+              "startTime": "UnixTimestamp",
+              "volumesPerPeriod": "u128"
+            },
+            "FeeSigmoid": {
+              "config": "FeeSigmoidConfig"
+            },
+            "FeeSigmoidConfig": {
+              "m": "i128",
+              "p": "i128",
+              "n": "i128",
+              "initialFee": "i128",
+              "minRevenue": "i128"
+            },
+            "MarketVolumeState": {
+              "_enum": [
+                "Uninitialized",
+                "DataCollectionStarted",
+                "DataCollected"
+              ]
+            },
+            "Rikiddo": {
+              "config": "RikiddoConfig",
+              "fees": "FeeSigmoid",
+              "maShort": "EmaMarketVolume",
+              "maLong": "EmaMarketVolume"
+            },
+            "RikiddoConfig": {
+              "initialFee": "i128",
+              "log2E": "i128"
+            },
+            "Timespan": {
+              "_enum": {
+                "Seconds": "u32",
+                "Minutes": "u32",
+                "Hours": "u32",
+                "Days": "u16",
+                "Weeks": "u16"
+              }
+            },
+            "UnixTimestamp": "u64",
+            "Pool": {
+              "assets": "Vec<Asset>",
+              "baseAsset": "Asset",
+              "marketId": "MarketId",
+              "poolStatus": "PoolStatus",
+              "scoringRule": "ScoringRule",
+              "swapFee": "Option<Balance>",
+              "totalSubsidy": "Option<Balance>",
+              "totalWeight": "Option<u128>",
+              "weights": "Option<BTreeMap<Asset, u128>>"
+            },
+            "CommonPoolEventParams": {
+              "poolId": "u128",
+              "who": "AccountId"
+            },
+            "PoolAssetEvent": {
+              "asset": "Asset",
+              "bound": "Balance",
+              "cpep": "CommonPoolEventParams<AccountId>",
+              "transferred": "Balance"
+            },
+            "PoolAssetsEvent": {
+              "assets": "Vec<Asset>",
+              "bounds": "Vec<Balance>",
+              "cpep": "CommonPoolEventParams<AccountId>",
+              "transferred": "Vec<Balance>"
+            },
+            "PoolId": "u128",
+            "PoolStatus": {
+              "_enum": [
+                "Active",
+                "CollectingSubsidy",
+                "Closed",
+                "Clean",
+                "Initialized"
+              ]
+            },
+            "SubsidyUntil": {
+              "marketId": "MarketId",
+              "period": "MarketPeriod"
+            },
+            "SwapEvent": {
+              "assetAmountIn": "Balance",
+              "assetAmountOut": "Balance",
+              "assetBound": "Balance",
+              "assetIn": "Asset",
+              "assetOut": "Asset",
+              "cpep": "CommonPoolEventParams<AccountId>",
+              "maxPrice": "Balance"
+            },
             "TokensAccountData": {
               "free": "Balance",
               "frozen": "Balance",
