@@ -841,9 +841,9 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'xode',
     paraId: 3417,
     providers: {
-      XodeCommunity: 'wss://polkadot-rpcnode.xode.net',
       RakSonCebu: 'wss://rakson-ceb-rpc.xode.net',
       RakSonKorea: 'wss://rakson-rpc.xode.net',
+      XodeCommunity: 'wss://polkadot-rpcnode.xode.net'
     },
     text: 'Xode',
     ui: {
