@@ -452,9 +452,9 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
   {
     homepage: 'https://xode.net',
     info: 'paseoXode',
-    paraId: 4607,
+    paraId: 5160,
     providers: {
-      // XodeCommunity: 'wss://paseo-rpcnode.xode.net' // https://github.com/polkadot-js/apps/issues/12007
+      XodeCommunity: 'wss://paseo-rpcnode.xode.net'
     },
     text: 'Xode',
     ui: {
