@@ -24,6 +24,7 @@
   "app-preimages.json",
   "app-ranked.json",
   "app-referenda.json",
+  "app-reputation-voting.json",
   "app-rpc.json",
   "app-runtime.json",
   "app-scheduler.json",
