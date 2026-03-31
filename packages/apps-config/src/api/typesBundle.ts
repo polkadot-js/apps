@@ -63230,6 +63230,35 @@ export const typesBundle = {
         }
       }
     },
+    "people-paseo-next": {
+      "types": [
+        {
+          "minmax": [
+            0,
+            null
+          ],
+          "types": {
+            "VerifyMultiSignature": {
+              "_enum": {
+                "Signed": {
+                  "signature": "MultiSignature",
+                  "account": "AccountId"
+                },
+                "Disabled": "Null"
+              }
+            }
+          }
+        }
+      ],
+      "signedExtensions": {
+        "VerifyMultiSignature": {
+          "extrinsic": {
+            "verifySignature": "VerifyMultiSignature"
+          },
+          "payload": {}
+        }
+      }
+    },
     "peerplays": {
       "rpc": {
         "fractionalNft": {

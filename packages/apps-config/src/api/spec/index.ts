@@ -96,6 +96,7 @@ import opportunity from './opportunity.js';
 import parallel from './parallel.js';
 import parami from './parami.js';
 import peaq from './peaq.js';
+import people from './people.js';
 import peerplays from './peerplays.js';
 import pendulum from './pendulum.js';
 import phoenix from './phoenix.js';
@@ -272,6 +273,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'peaq-node': peaq,
   'peaq-node-dev': peaq,
   'peaq-node-krest': peaq,
+  'people-paseo-next': people,
   peerplays,
   pendulum,
   'phoenix-node': phoenix,
