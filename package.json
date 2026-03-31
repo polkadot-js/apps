@@ -121,7 +121,9 @@
     "@polkadot/x-textencoder": "^13.5.9",
     "@polkadot/x-ws": "^13.5.9",
     "@zondax/ledger-substrate": "1.1.1",
-    "axios": "1.9.0",
+    "@pinata/sdk/axios": "0.21.4",
+    "@polkadot/app-files/axios": "1.9.0",
+    "@zondax/ledger-substrate/axios": "1.9.0",
     "typescript": "^5.5.4"
   }
 }
