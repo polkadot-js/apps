@@ -636,7 +636,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
     info: 'moonbaseAlpha',
     providers: {
       // Blast: 'wss://moonbase-alpha.public.blastapi.io', // https://github.com/polkadot-js/apps/issues/11608
-      // Dwellir: 'wss://moonbase-rpc.n.dwellir.com', // https://github.com/polkadot-js/apps/issues/11935
+      Dwellir: 'wss://moonbase-alpha-rpc.n.dwellir.com',
       'Moonbeam Foundation': 'wss://wss.api.moonbase.moonbeam.network',
       OnFinality: 'wss://moonbeam-alpha.api.onfinality.io/public-ws',
       RadiumBlock: 'wss://moonbase.public.curie.radiumblock.co/ws'
