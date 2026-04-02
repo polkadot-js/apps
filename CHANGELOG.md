@@ -1,5 +1,25 @@
 # CHANGELOG
 
+## 0.171.1 Apr 1, 2026
+
+Contributed:
+
+- Added: New RPC for XODE MAINET and ParaID changes in XODE PASEO ([#12213](https://github.com/polkadot-js/apps/pull/12213)) (Thanks to https://github.com/pcodimern)
+- Remove Permanence DAO RPC endpoints ([#12110](https://github.com/polkadot-js/apps/pull/12110)) (Thanks to https://github.com/kukabi)
+- Refactor: remove references to Darwinia Crab and associated assets ([#12131](https://github.com/polkadot-js/apps/pull/12131)) (Thanks to https://github.com/peterding)
+- Add Radiumblock endpoints to People Kusama and Coretime Polkadot ([#12137](https://github.com/polkadot-js/apps/pull/12137)) (Thanks to https://github.com/nickkupriyanov)
+- Added Spectrum Provider for Kusama Relay, Kusama Bridge Hub, and Polkadot Bridge Hub ([#12138](https://github.com/polkadot-js/apps/pull/12138)) (Thanks to https://github.com/daniel-spectrumnetwork)
+- Remove Nodle onfinality provider ([#12192](https://github.com/polkadot-js/apps/pull/12192)) (Thanks to https://github.com/leoonf)
+- Enable Shibuya Endpoint ([#12140](https://github.com/polkadot-js/apps/pull/12140)) (Thanks to https://github.com/nickkupriyanov)
+- Chore: update subscan link configs ([#12148](https://github.com/polkadot-js/apps/pull/12148)) (Thanks to https://github.com/nickkupriyanov)
+- Add Acurast mainnet ([#12184](https://github.com/polkadot-js/apps/pull/12184)) (Thanks to https://github.com/AndreasGassmann)
+
+Changes:
+
+- Bump polkadot-js deps ([#12221](https://github.com/polkadot-js/apps/pull/12221))
+- Pin axios to safe version ([#12220](https://github.com/polkadot-js/apps/pull/12220))
+
+
 ## 0.170.1 Feb 24, 2026
 
 Contributed:
