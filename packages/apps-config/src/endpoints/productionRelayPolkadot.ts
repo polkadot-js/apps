@@ -376,7 +376,8 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     providers: {
       BlockOps: 'wss://hyperbridge-nexus-rpc.blockops.network',
       IBP1: 'wss://nexus.ibp.network',
-      IBP2: 'wss://nexus.dotters.network'
+      IBP2: 'wss://nexus.dotters.network',
+      'Polytope Labs': 'wss://nexus.rpc.polytope.technology'
     },
     text: 'Hyperbridge (Nexus)',
     ui: {
