@@ -858,8 +858,8 @@ export const prodParasKusamaCommon: EndpointOption[] = [
       LuckyFriday: 'wss://rpc-asset-hub-kusama.luckyfriday.io',
       OnFinality: 'wss://assethub-kusama.api.onfinality.io/public-ws',
       Parity: 'wss://kusama-asset-hub-rpc.polkadot.io',
-      RadiumBlock: 'wss://statemine.public.curie.radiumblock.co/ws'
-      // Stakeworld: 'wss://rpc-assethub-kusama.stakeworld.io'
+      RadiumBlock: 'wss://statemine.public.curie.radiumblock.co/ws',
+      Stakeworld: 'wss://rpc-assethub-kusama.stakeworld.io'
     },
     relayName: 'kusama',
     teleport: [-1, 1002, 1005, 1001, 1004],
@@ -985,7 +985,7 @@ export const prodRelayKusama: EndpointOption = {
     RadiumBlock: 'wss://kusama.public.curie.radiumblock.co/ws',
     // RockX: 'wss://rockx-ksm.w3node.com/polka-public-ksm/ws', // https://github.com/polkadot-js/apps/issues/11477
     Spectrum: 'wss://spectrum-03.simplystaking.xyz/cG9sa2Fkb3QtMDMtOTFkMmYwZGYtcG9sa2Fkb3Q/QXq7QZ6Q60NDzA/kusama/mainnet/',
-    Stakeworld: 'wss://rpc-kusama.stakeworld.io',
+    Stakeworld: 'wss://ksm-rpc.stakeworld.io',
     // SubQuery: 'wss://kusama.rpc.subquery.network/public/ws', https://github.com/polkadot-js/apps/issues/11026
     'light client': 'light://substrate-connect/kusama'
   },
