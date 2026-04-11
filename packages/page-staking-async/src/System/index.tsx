@@ -26,6 +26,7 @@ import { isFunction } from '@polkadot/util';
 import Actions from '../Actions/index.js';
 import CommandCenter from '../CommandCenter/index.js';
 import { STORE_FAVS_BASE } from '../constants.js';
+import Pots from '../Pots/index.js';
 import { useTranslation } from '../translate.js';
 import Validators from '../Validators/index.js';
 
@@ -148,6 +149,10 @@ function StakingApp ({ ahApi, ahEndPoints, basePath, isRelayChain, rcApi, rcEndP
     {
       name: 'command-center',
       text: t('Command Center')
+    },
+    (api.consts.staking as any)?.disableMinting?.isTrue && {
+      name: 'pots',
+      text: t('Reward Pots')
     }
   ].filter((q): q is { name: string; text: string } => !!q), [api, hasStashes, slashes, t]);
 
@@ -227,6 +232,12 @@ function StakingApp ({ ahApi, ahEndPoints, basePath, isRelayChain, rcApi, rcEndP
               />
             }
             path='slashes'
+          />
+          <Route
+            element={
+              <Pots />
+            }
+            path='pots'
           />
           <Route
             element={
