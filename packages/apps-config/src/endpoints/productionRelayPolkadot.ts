@@ -864,7 +864,6 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
     paraId: 1000,
     providers: {
       Dwellir: 'wss://asset-hub-polkadot-rpc.n.dwellir.com',
-      'Dwellir Tunisia': 'wss://statemint-rpc-tn.dwellir.com',
       IBP1: 'wss://asset-hub-polkadot.ibp.network',
       IBP2: 'wss://asset-hub-polkadot.dotters.network',
       LuckyFriday: 'wss://rpc-asset-hub-polkadot.luckyfriday.io',
@@ -887,7 +886,6 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
     paraId: 1002,
     providers: {
       Dwellir: 'wss://bridge-hub-polkadot-rpc.n.dwellir.com',
-      'Dwellir Tunisia': 'wss://polkadot-bridge-hub-rpc-tn.dwellir.com',
       IBP1: 'wss://bridge-hub-polkadot.ibp.network',
       IBP2: 'wss://bridge-hub-polkadot.dotters.network',
       LuckyFriday: 'wss://rpc-bridge-hub-polkadot.luckyfriday.io',
@@ -910,7 +908,6 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
     paraId: 1001,
     providers: {
       Dwellir: 'wss://collectives-polkadot-rpc.n.dwellir.com',
-      'Dwellir Tunisia': 'wss://polkadot-collectives-rpc-tn.dwellir.com',
       IBP1: 'wss://collectives-polkadot.ibp.network',
       IBP2: 'wss://collectives-polkadot.dotters.network',
       LuckyFriday: 'wss://rpc-collectives-polkadot.luckyfriday.io',
@@ -986,7 +983,6 @@ export const prodRelayPolkadot: EndpointOption = {
     // 'Geometry Labs': 'wss://polkadot.geometry.io/websockets', // https://github.com/polkadot-js/apps/pull/6746
     // 'Automata 1RPC': 'wss://1rpc.io/dot',
     Dwellir: 'wss://polkadot-rpc.n.dwellir.com',
-    'Dwellir Tunisia': 'wss://polkadot-rpc-tn.dwellir.com',
     Helixstreet: 'wss://rpc-polkadot.helixstreet.io',
     IBP1: 'wss://polkadot.ibp.network',
     IBP2: 'wss://polkadot.dotters.network',

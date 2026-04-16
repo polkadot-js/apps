@@ -852,7 +852,6 @@ export const prodParasKusamaCommon: EndpointOption[] = [
     paraId: 1000,
     providers: {
       Dwellir: 'wss://asset-hub-kusama-rpc.n.dwellir.com',
-      'Dwellir Tunisia': 'wss://statemine-rpc-tn.dwellir.com',
       IBP1: 'wss://asset-hub-kusama.ibp.network',
       IBP2: 'wss://asset-hub-kusama.dotters.network',
       LuckyFriday: 'wss://rpc-asset-hub-kusama.luckyfriday.io',
@@ -875,7 +874,6 @@ export const prodParasKusamaCommon: EndpointOption[] = [
     paraId: 1002,
     providers: {
       Dwellir: 'wss://bridge-hub-kusama-rpc.n.dwellir.com',
-      'Dwellir Tunisia': 'wss://kusama-bridge-hub-rpc-tn.dwellir.com',
       IBP1: 'wss://bridge-hub-kusama.ibp.network',
       IBP2: 'wss://bridge-hub-kusama.dotters.network',
       LuckyFriday: 'wss://rpc-bridge-hub-kusama.luckyfriday.io',
@@ -976,7 +974,6 @@ export const prodRelayKusama: EndpointOption = {
     // 'Automata 1RPC': 'wss://1rpc.io/ksm',
     Allnodes: 'wss://kusama-rpc.publicnode.com',
     Dwellir: 'wss://kusama-rpc.n.dwellir.com',
-    'Dwellir Tunisia': 'wss://kusama-rpc-tn.dwellir.com',
     Helixstreet: 'wss://rpc-kusama.helixstreet.io',
     IBP1: 'wss://kusama.ibp.network',
     IBP2: 'wss://kusama.dotters.network',
