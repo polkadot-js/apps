@@ -1,4 +1,4 @@
-// Copyright 2017-2025 @polkadot/app-staking authors & contributors
+// Copyright 2017-2026 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
@@ -135,7 +135,7 @@ function extractSingle (api: ApiPromise, allAccounts: string[], derive: DeriveSt
   for (let i = 0; i < derive.info.length; i++) {
     const { accountId, exposureEraStakers = emptyExposure, stakingLedger, validatorPrefs } = derive.info[i];
 
-    // some overrides (e.g. Darwinia Crab) does not have the own/total field in Exposure
+    // some overrides do not have the own/total field in Exposure
     let [bondOwn, bondTotal] = exposureEraStakers.total
       ? [exposureEraStakers.own.unwrap(), exposureEraStakers.total.unwrap()]
       : [BN_ZERO, BN_ZERO];
@@ -146,7 +146,7 @@ function extractSingle (api: ApiPromise, allAccounts: string[], derive: DeriveSt
       bondTotal = bondOwn = stakingLedger.total?.unwrap() || BN_ZERO;
     }
 
-    // some overrides (e.g. Darwinia Crab) does not have the value field in IndividualExposure
+    // some overrides do not have the value field in IndividualExposure
     const minNominated = (exposureEraStakers.others || []).reduce((min: BN, { value = api.createType('Compact<Balance>') }): BN => {
       const actual = value.unwrap();
 

@@ -1,4 +1,4 @@
-// Copyright 2017-2025 @polkadot/apps-config authors & contributors
+// Copyright 2017-2026 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { EndpointOption } from './types.js';
@@ -636,10 +636,10 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
     info: 'moonbaseAlpha',
     providers: {
       // Blast: 'wss://moonbase-alpha.public.blastapi.io', // https://github.com/polkadot-js/apps/issues/11608
-      // Dwellir: 'wss://moonbase-rpc.n.dwellir.com', // https://github.com/polkadot-js/apps/issues/11935
+      Dwellir: 'wss://moonbase-alpha-rpc.n.dwellir.com',
       'Moonbeam Foundation': 'wss://wss.api.moonbase.moonbeam.network',
-      OnFinality: 'wss://moonbeam-alpha.api.onfinality.io/public-ws',
-      RadiumBlock: 'wss://moonbase.public.curie.radiumblock.co/ws'
+      OnFinality: 'wss://moonbeam-alpha.api.onfinality.io/public-ws'
+      // RadiumBlock: 'wss://moonbase.public.curie.radiumblock.co/ws'
       // UnitedBloc: 'wss://moonbase.unitedbloc.com' // https://github.com/polkadot-js/apps/issues/11992
     },
     text: 'Moonbase Alpha',

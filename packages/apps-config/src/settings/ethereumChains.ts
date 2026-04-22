@@ -1,4 +1,4 @@
-// Copyright 2017-2025 @polkadot/apps-config authors & contributors
+// Copyright 2017-2026 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // The list of Ethereum networks, for these the UI will default to Ethereum-only accounts
@@ -9,7 +9,6 @@ export const ethereumChains = [
   'altbeacon-dev',
   'armonia-eva',
   'armonia-wall-e',
-  'Crab2',
   'Darwinia Koi',
   'Darwinia2',
   'datahaven-stagenet',
