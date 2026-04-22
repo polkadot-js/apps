@@ -25,6 +25,13 @@ export interface RecipientRow {
   lastMint?: BN;
 }
 
+export interface IncentiveConfig {
+  hardCapSelfStake: BN;
+  optimumSelfStake: BN;
+  /** Perbill parts (0..1_000_000_000). */
+  slopeFactor: BN;
+}
+
 export interface DapInfo {
   /** Session index at which the active era started (`BondedEras` last entry). */
   activeEraStartSession?: number;
@@ -32,6 +39,8 @@ export interface DapInfo {
   disableMintingGuard?: number;
   hasDapApi: boolean;
   historyDepth?: number;
+  /** Validator self-stake incentive curve config (all zero = feature disabled). */
+  incentiveConfig?: IncentiveConfig;
   isDapActive: boolean;
   isDapPending: boolean;
   lastDripTimestamp?: number;
@@ -42,6 +51,10 @@ export interface DapInfo {
   maxElapsedPerDripMs?: number;
   planningEra?: number;
   recipients: RecipientRow[];
+  /** DAP staging account holding burned/slashed funds until `on_idle` drains them. */
+  stagingAccount?: string;
+  /** Live balance of the staging account. */
+  stagingBalance?: BN;
 }
 
 function decodeKey (raw: Uint8Array): string {
@@ -115,20 +128,50 @@ export function useDapInfo (): DapInfo {
     ] as [Uint8Array, string, BN]);
   }, [recipientsResult]);
 
+  // `Dap::staging` view function returns the sub-account derived from the DAP
+  // pallet id. Cheap to query; needed so we can subscribe to its balance.
+  const stagingResult = useViewFunction('Dap', 'staging', hasDapApi ? { args: [] } : {});
+
+  const stagingAccount = useMemo(
+    () => stagingResult ? (stagingResult as any).toString() as string : undefined,
+    [stagingResult]
+  );
+
   const accounts = useMemo(
     () => recipientsRaw?.map(([, account]) => account) ?? [],
     [recipientsRaw]
   );
 
   // Memoized so `useCallMulti` doesn't see a fresh outer array every render.
-  const accountQueries = useMemo(
-    () => (accounts.length && api.query.system?.account)
-      ? accounts.map((a) => [api.query.system.account, a] as [typeof api.query.system.account, string])
-      : null,
-    [accounts, api]
-  );
+  // The staging account (when resolved) is appended at the end so we can still
+  // index recipients 0..N while reading stagingBalance at position N.
+  const accountQueries = useMemo(() => {
+    if (!api.query.system?.account) {
+      return null;
+    }
+
+    const list = accounts.map(
+      (a) => [api.query.system.account, a] as [typeof api.query.system.account, string]
+    );
+
+    if (stagingAccount) {
+      list.push([api.query.system.account, stagingAccount]);
+    }
+
+    return list.length ? list : null;
+  }, [accounts, api, stagingAccount]);
 
   const accountInfos = useCallMulti<FrameSystemAccountInfo[]>(accountQueries);
+
+  const stagingBalance = useMemo<BN | undefined>(() => {
+    if (!stagingAccount || !accountInfos?.length) {
+      return undefined;
+    }
+
+    const info = accountInfos[accounts.length];
+
+    return info?.data?.free as unknown as BN | undefined;
+  }, [accountInfos, accounts.length, stagingAccount]);
 
   const lastDripTimestamp = useCall<any>(api.query.dap?.lastIssuanceTimestamp);
   const disableMintingGuard = useCall<any>(api.query.staking?.disableMintingGuard);
@@ -141,6 +184,14 @@ export function useDapInfo (): DapInfo {
   // `BondedEras` stores `(era, first_session_of_era)`; the matching entry is
   // the current active era's start session.
   const bondedEras = useCall<any>(api.query.staking?.bondedEras);
+
+  // Validator self-stake incentive curve parameters. Default is zero, which
+  // means the feature is disabled and elected validators earn no incentive
+  // weight. Surfaced so the UI can distinguish "not configured" from
+  // "configured but zero budget".
+  const optimumSelfStake = useCall<any>(api.query.staking?.optimumSelfStake);
+  const hardCapSelfStake = useCall<any>(api.query.staking?.hardCapSelfStake);
+  const selfStakeSlopeFactor = useCall<any>(api.query.staking?.selfStakeSlopeFactor);
 
   // Track the amount minted in the most recent `dap.IssuanceMinted` event.
   // This only captures events observed while the page is open — refreshing
@@ -279,12 +330,25 @@ export function useDapInfo (): DapInfo {
     });
   }, [recipientsRaw, accountInfos, lastMintAmount]);
 
+  const incentiveConfig = useMemo<IncentiveConfig | undefined>(() => {
+    if (!optimumSelfStake || !hardCapSelfStake || !selfStakeSlopeFactor) {
+      return undefined;
+    }
+
+    return {
+      hardCapSelfStake: (hardCapSelfStake as any).toBn() as BN,
+      optimumSelfStake: (optimumSelfStake as any).toBn() as BN,
+      slopeFactor: (selfStakeSlopeFactor as any).toBn() as BN
+    };
+  }, [optimumSelfStake, hardCapSelfStake, selfStakeSlopeFactor]);
+
   return {
     activeEraStartSession,
     cadenceMs,
     disableMintingGuard: guardEra,
     hasDapApi,
     historyDepth,
+    incentiveConfig,
     isDapActive,
     isDapPending,
     lastDripTimestamp: lastDripTimestamp ? (lastDripTimestamp as any).toNumber() : undefined,
@@ -292,6 +356,8 @@ export function useDapInfo (): DapInfo {
     lastSessionReportEndingIndex,
     maxElapsedPerDripMs,
     planningEra,
-    recipients
+    recipients,
+    stagingAccount,
+    stagingBalance
   };
 }

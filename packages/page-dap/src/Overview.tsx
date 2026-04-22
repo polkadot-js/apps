@@ -211,6 +211,27 @@ function Overview (): React.ReactElement {
             </td>
           </tr>
         ))}
+        {info.stagingAccount && (
+          <tr key={info.stagingAccount}>
+            <td className='start'>
+              <code>{t('staging')}</code>
+              <div style={{ fontSize: '0.8rem', opacity: 0.6 }}>
+                {t('drained to buffer on idle')}
+              </div>
+            </td>
+            <td className='address'>
+              <AddressMini value={info.stagingAccount} />
+            </td>
+            <td className='number'>—</td>
+            <td className='number'>—</td>
+            <td className='number'>
+              {info.stagingBalance
+                ? <FormatBalance value={info.stagingBalance} />
+                : '—'
+              }
+            </td>
+          </tr>
+        )}
       </Table>
       <h2 style={headingStyle}>{t('Staking eras')}</h2>
       <SummaryBox>
@@ -238,6 +259,30 @@ function Overview (): React.ReactElement {
           </CardSummary>
         </section>
       </SummaryBox>
+      {info.incentiveConfig && (
+        <>
+          <h2 style={headingStyle}>{t('Validator incentive config')}</h2>
+          <SummaryBox>
+            <section style={sectionStyle}>
+              <CardSummary label={t('optimum self-stake')}>
+                {info.incentiveConfig.optimumSelfStake.isZero()
+                  ? <span style={{ opacity: 0.6 }}>{t('disabled')}</span>
+                  : <FormatBalance value={info.incentiveConfig.optimumSelfStake} />
+                }
+              </CardSummary>
+              <CardSummary label={t('hard cap')}>
+                {info.incentiveConfig.hardCapSelfStake.isZero()
+                  ? <span style={{ opacity: 0.6 }}>{t('disabled')}</span>
+                  : <FormatBalance value={info.incentiveConfig.hardCapSelfStake} />
+                }
+              </CardSummary>
+              <CardSummary label={t('slope factor')}>
+                {formatPerbill(info.incentiveConfig.slopeFactor)}
+              </CardSummary>
+            </section>
+          </SummaryBox>
+        </>
+      )}
       <EraPots
         activeEra={info.planningEra}
         historyDepth={info.historyDepth}
