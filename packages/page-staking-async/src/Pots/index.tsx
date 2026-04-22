@@ -1,11 +1,15 @@
 // Copyright 2017-2026 @polkadot/app-staking-async authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+// View-function results are dynamically typed codecs; positional access is
+// intentionally untyped here, matching `useViewFunction`'s own posture.
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access */
+
 import React from 'react';
 
 import { CardSummary, SummaryBox, Table } from '@polkadot/react-components';
-import { FormatBalance } from '@polkadot/react-query';
 import { useViewFunction } from '@polkadot/react-hooks';
+import { FormatBalance } from '@polkadot/react-query';
 
 import { useTranslation } from '../translate.js';
 
@@ -56,7 +60,7 @@ function Pots (): React.ReactElement {
         empty={eraPotsHuman && eraPotsHuman.length === 0 && t('No era pots found')}
         header={headerRef.current}
       >
-        {eraPotsHuman && eraPotsHuman.map((entry, index) => (
+        {eraPotsHuman?.map((entry, index) => (
           <tr key={index}>
             <td className='number'>{entry[0]}</td>
             <td className='address'>{entry[1]}</td>

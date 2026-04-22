@@ -150,6 +150,7 @@ function StakingApp ({ ahApi, ahEndPoints, basePath, isRelayChain, rcApi, rcEndP
       name: 'command-center',
       text: t('Command Center')
     },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
     (api.consts.staking as any)?.disableMinting?.isTrue && {
       name: 'pots',
       text: t('Reward Pots')
