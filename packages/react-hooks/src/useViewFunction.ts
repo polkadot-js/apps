@@ -1,27 +1,34 @@
 // Copyright 2017-2026 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+// The polkadot-js metadata API is dynamically typed — lookups and created
+// types are all `any`. These checks are disabled file-wide to keep the hook
+// readable. This matches the pre-existing posture of this file.
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return, @typescript-eslint/prefer-for-of */
+
 import type { ApiPromise } from '@polkadot/api';
 import type { Codec } from '@polkadot/types/types';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 
+import { compactToU8a, u8aConcat, u8aToHex } from '@polkadot/util';
 import { xxhashAsU8a } from '@polkadot/util-crypto';
 
 import { useApi } from './useApi.js';
+import { useMemoValue } from './useMemoValue.js';
 
 interface ViewFunctionInfo {
   id: Uint8Array;
+  inputTypeIds: number[];
   outputTypeId?: number;
 }
 
-/**
- * Find the 32-byte view function ID and output type from metadata v16,
- * or compute the ID from twox_128 hashes.
- */
-function findViewFunction (api: ApiPromise, palletName: string, fnName: string): ViewFunctionInfo | undefined {
-  // api.registry.metadata returns MetadataLatest (the inner content, already v16 if
-  // the runtime supports it). It has .pallets directly — no .version or .asV16 wrapper.
+// One cache per registry (i.e. per chain connection). Lookups are keyed by
+// `pallet::fn`; a miss is cached as `undefined` too so we don't repeat the
+// metadata walk + warn log every render.
+const viewFunctionCache = new WeakMap<object, Map<string, ViewFunctionInfo | undefined>>();
+
+function resolveViewFunction (api: ApiPromise, palletName: string, fnName: string): ViewFunctionInfo | undefined {
   try {
     const metadata = api.registry.metadata as any;
     const pallets = metadata.pallets;
@@ -31,10 +38,17 @@ function findViewFunction (api: ApiPromise, palletName: string, fnName: string):
         const pallet = pallets[i];
 
         if (pallet.name.toString() === palletName) {
+          // `viewFunctions` only exists on metadata v16+. On older metadata the
+          // getter is undefined (not an empty Vec).
           const vfs = pallet.viewFunctions;
 
-          if (!vfs || vfs.length === 0) {
-            console.warn(`useViewFunction: pallet "${palletName}" has no view functions in metadata — is the runtime rebuilt?`);
+          if (!vfs) {
+            console.warn(`useViewFunction: pallet "${palletName}" metadata has no viewFunctions field — runtime is probably on metadata < v16`);
+            break;
+          }
+
+          if (vfs.length === 0) {
+            console.warn(`useViewFunction: pallet "${palletName}" has an empty viewFunctions vec — pallet exposes none?`);
             break;
           }
 
@@ -42,23 +56,27 @@ function findViewFunction (api: ApiPromise, palletName: string, fnName: string):
             if (vfs[j].name.toString() === fnName) {
               return {
                 id: vfs[j].id.toU8a(),
+                inputTypeIds: vfs[j].inputs.map((arg: any) => arg.type.toNumber()),
                 outputTypeId: vfs[j].output.toNumber()
               };
             }
           }
 
-          console.warn(`useViewFunction: pallet "${palletName}" has ${vfs.length} view functions but "${fnName}" not found`);
+          console.warn(`useViewFunction: pallet "${palletName}" has ${vfs.length} view functions but "${fnName}" not found. Available: ${vfs.map((v: any) => v.name.toString()).join(', ')}`);
           break;
         }
       }
+
+      console.warn(`useViewFunction: pallet "${palletName}" not found in metadata. Available pallets: ${pallets.map((p: any) => p.name.toString()).join(', ')}`);
     }
   } catch (e) {
     console.warn('useViewFunction: metadata lookup failed, falling back to hash:', e);
   }
 
-  // Fallback: compute IDs from twox_128(pallet) ++ twox_128(fnName).
-  // NOTE: FRAME hashes the full signature (e.g. "fn_name(ArgType) -> RetType") for
-  // the suffix, so this fallback will likely produce incorrect IDs.
+  // Fallback: compute IDs from twox_128(pallet) ++ twox_128(fnName). FRAME
+  // actually hashes the full signature, so this will only work for zero-arg
+  // fns where the computed id happens to match. Keep as a last-ditch escape
+  // hatch.
   console.warn(`useViewFunction: using hash fallback for ${palletName}::${fnName} — IDs may not match runtime`);
 
   try {
@@ -69,7 +87,7 @@ function findViewFunction (api: ApiPromise, palletName: string, fnName: string):
     id.set(prefix, 0);
     id.set(suffix, 16);
 
-    return { id };
+    return { id, inputTypeIds: [] };
   } catch (e) {
     console.error('useViewFunction: hash computation failed:', e);
 
@@ -78,34 +96,105 @@ function findViewFunction (api: ApiPromise, palletName: string, fnName: string):
 }
 
 /**
- * Hook to call a runtime view function and return the decoded result.
+ * Resolve a pallet view function from metadata (v16+): its 32-byte id, the
+ * type ids of each input argument, and the output type id. Falls back to a
+ * computed id via twox_128 hashes if metadata lookup fails. Cached per
+ * registry so repeat callers (multiple EraPots columns etc.) don't re-walk
+ * metadata.
+ */
+function findViewFunction (api: ApiPromise, palletName: string, fnName: string): ViewFunctionInfo | undefined {
+  let byName = viewFunctionCache.get(api.registry);
+
+  if (!byName) {
+    byName = new Map();
+    viewFunctionCache.set(api.registry, byName);
+  }
+
+  const cacheKey = `${palletName}::${fnName}`;
+
+  if (byName.has(cacheKey)) {
+    return byName.get(cacheKey);
+  }
+
+  const info = resolveViewFunction(api, palletName, fnName);
+
+  byName.set(cacheKey, info);
+
+  return info;
+}
+
+/**
+ * SCALE-encode user-provided arguments using the input type ids resolved from
+ * metadata. Returns the concatenated bytes. Throws if the arg count does not
+ * match the signature.
+ */
+function encodeArgs (api: ApiPromise, info: ViewFunctionInfo, args: readonly unknown[]): Uint8Array {
+  if (args.length !== info.inputTypeIds.length) {
+    throw new Error(`view fn expects ${info.inputTypeIds.length} argument(s), got ${args.length}`);
+  }
+
+  if (args.length === 0) {
+    return new Uint8Array();
+  }
+
+  const encoded = info.inputTypeIds.map((typeId, idx) => {
+    const typeDef = api.registry.lookup.getTypeDef(typeId);
+
+    return api.registry.createType(typeDef.type, args[idx]).toU8a();
+  });
+
+  return u8aConcat(...encoded);
+}
+
+interface Options {
+  /**
+   * Arguments encoded via metadata-resolved input types.
+   *
+   *   - `undefined`: skip the call entirely (no subscription, no encoding).
+   *     Use this when a caller conditionally wants to skip (e.g. era is unknown).
+   *   - `[]`: zero-arg view function; call with empty input.
+   *   - non-empty array: encode and call.
+   */
+  args?: readonly unknown[];
+}
+
+/**
+ * Call a FRAME pallet view function and return the decoded result.
  *
- * @param palletName - Pallet name as in construct_runtime (e.g. "Dap")
- * @param fnName - View function name (e.g. "buffer_balance")
- * @param input - SCALE-encoded input args (empty Uint8Array for no-arg functions)
+ * @param palletName - Pallet name as in construct_runtime (e.g. "Staking")
+ * @param fnName - View function name (e.g. "pot_account")
+ * @param options - `args` encoded via metadata types. Pass `{}` or
+ *                  `{ args: undefined }` to skip the call entirely.
  */
 export function useViewFunction (
   palletName: string,
   fnName: string,
-  input: Uint8Array = new Uint8Array()
+  options: Options = {}
 ): Codec | undefined {
   const { api, isApiReady } = useApi();
   const [result, setResult] = useState<Codec | undefined>();
 
-  // Stabilize the input reference
-  const inputHex = useMemo(
-    () => Array.from(input).map((b) => b.toString(16).padStart(2, '0')).join(''),
-    [input]
-  );
+  // Caller indicated "skip" by omitting args. Lets consumers respect the
+  // rules of hooks (always call useViewFunction) while deferring the actual
+  // runtime call until inputs are known.
+  const skip = options.args === undefined;
+
+  // Identity-stable args reference — `useMemoValue` compares by value (BN-
+  // aware via `@polkadot/util.stringify`) so re-renders with fresh array
+  // literals don't re-trigger the effect.
+  const stableArgs = useMemoValue(options.args);
+
+  // Clear any stale result when the caller transitions back to "skip" — e.g.
+  // era unset on prop change. Prevents a previously-resolved value from
+  // lingering while the view function is no longer being requested.
+  useEffect(() => {
+    if (skip) {
+      setResult(undefined);
+    }
+  }, [skip]);
 
   useEffect(() => {
-    if (!isApiReady) {
-      return;
-    }
-
-    if (!api.call?.runtimeViewFunction?.executeViewFunction) {
-      console.warn(`useViewFunction: runtimeViewFunction API not available for ${palletName}::${fnName}`);
-
+    if (!isApiReady || skip) {
       return;
     }
 
@@ -117,42 +206,76 @@ export function useViewFunction (
       return;
     }
 
-    const viewFunctionId = api.registry.createType('FrameSupportViewFunctionsViewFunctionId', {
-      prefix: Array.from(info.id.slice(0, 16)),
-      suffix: Array.from(info.id.slice(16, 32))
-    });
+    let input: Uint8Array;
 
-    api.call.runtimeViewFunction
-      .executeViewFunction(viewFunctionId, input)
-      .then((rawResult: any) => {
-        if (rawResult.isOk) {
-          const resultBytes: Uint8Array = rawResult.asOk.toU8a(true);
+    try {
+      input = encodeArgs(api, info, stableArgs ?? []);
+    } catch (e) {
+      console.error(`useViewFunction: input encoding failed for ${palletName}::${fnName}:`, e);
 
-          // Decode using the output type from metadata if available
+      return;
+    }
+
+    // Raw `state_call` rather than `api.call.runtimeViewFunction.executeViewFunction`:
+    // the latter's auto-generated decoder has proven fragile (observed: `Bytes:
+    // required length less than remainder` from malformed Result-envelope decoding).
+    // Going raw lets us decode the `Result<Vec<u8>, DispatchError>` envelope on
+    // our terms. The RPC expects the input as `(ViewFunctionId, Vec<u8>)` scale-
+    // encoded: 32-byte id, compact length, then the input bytes.
+    const callArgs = u8aConcat(info.id, compactToU8a(input.length), input);
+
+    let cancelled = false;
+
+    (api.rpc.state.call as any)('RuntimeViewFunction_execute_view_function', u8aToHex(callArgs))
+      .then((rawBytes: any) => {
+        if (cancelled) {
+          return;
+        }
+
+        try {
+          // `rawBytes.toU8a(true)` strips the outer length prefix so we
+          // start at the Result discriminator.
+          const envelopeBytes = rawBytes?.toU8a ? rawBytes.toU8a(true) : rawBytes;
+          const result = api.registry.createType(
+            'Result<Bytes, FrameSupportViewFunctionsViewFunctionDispatchError>',
+            envelopeBytes
+          );
+
+          if (result.isErr) {
+            console.error(`useViewFunction: ${palletName}::${fnName} returned error:`, result.asErr.toString());
+
+            return;
+          }
+
+          const payload: Uint8Array = result.asOk.toU8a(true);
+
           if (info.outputTypeId !== undefined) {
             try {
-              const typeDef = api.registry.lookup.getTypeDef(info.outputTypeId);
-              const decoded = api.registry.createType(typeDef.type, resultBytes);
+              const typeName = api.registry.createLookupType(info.outputTypeId);
 
-              setResult(decoded);
+              setResult(api.registry.createType(typeName, payload));
 
               return;
             } catch (e) {
-              console.warn(`useViewFunction: type-based decoding failed for ${palletName}::${fnName}, returning raw:`, e);
+              console.warn(`useViewFunction: output decode failed for ${palletName}::${fnName}, returning raw Bytes:`, e);
             }
           }
 
-          // Fallback: return raw Bytes
-          setResult(api.registry.createType('Bytes', resultBytes));
-        } else {
-          console.error(`useViewFunction: ${palletName}::${fnName} returned error:`, rawResult.asErr?.toString());
+          setResult(api.registry.createType('Bytes', payload));
+        } catch (e) {
+          console.error(`useViewFunction: result envelope decode failed for ${palletName}::${fnName}:`, e);
         }
       })
       .catch((e: Error) => {
-        console.error(`useViewFunction: call failed for ${palletName}::${fnName}:`, e);
+        if (!cancelled) {
+          console.error(`useViewFunction: raw state_call failed for ${palletName}::${fnName}:`, e);
+        }
       });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [api, isApiReady, palletName, fnName, inputHex]);
+
+    return () => {
+      cancelled = true;
+    };
+  }, [api, isApiReady, skip, palletName, fnName, stableArgs]);
 
   return result;
 }

@@ -1,17 +1,22 @@
 // Copyright 2017-2026 @polkadot/app-dap authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
-import { CardSummary, SummaryBox, Table } from '@polkadot/react-components';
+import { AddressMini, CardSummary, MarkWarning, SummaryBox, Table, Tag } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
-import { useApi, useViewFunction } from '@polkadot/react-hooks';
+import { BN, BN_ZERO, formatNumber } from '@polkadot/util';
 
+import EraPots from './EraPots.js';
+import { headingStyle, sectionStyle } from './styles.js';
 import { useTranslation } from './translate.js';
+import { useDapInfo } from './useDapInfo.js';
 
-function formatCadence (ms: number): string {
+const PERBILL = new BN(1_000_000_000);
+
+function formatDuration (ms: number, prefix: 'every' | 'max'): string {
   if (ms === 0) {
-    return 'every block';
+    return prefix === 'max' ? 'max per block' : 'every block';
   }
 
   const seconds = Math.floor(ms / 1_000);
@@ -21,95 +26,222 @@ function formatCadence (ms: number): string {
   if (hours > 0) {
     const remMin = minutes % 60;
 
-    return remMin > 0 ? `every ${hours}h ${remMin}m` : `every ${hours}h`;
+    return remMin > 0 ? `${prefix} ${hours}h ${remMin}m` : `${prefix} ${hours}h`;
   }
 
   if (minutes > 0) {
     const remSec = seconds % 60;
 
-    return remSec > 0 ? `every ${minutes}m ${remSec}s` : `every ${minutes}m`;
+    return remSec > 0 ? `${prefix} ${minutes}m ${remSec}s` : `${prefix} ${minutes}m`;
   }
 
-  return `every ${seconds}s`;
+  return `${prefix} ${seconds}s`;
+}
+
+// Perbill → "12.345%" up to three decimals, trailing zeros stripped so round
+// values render as "20%" rather than "20.000%".
+function formatPerbill (parts: BN): string {
+  if (parts.isZero()) {
+    return '0%';
+  }
+
+  const scaled = parts.muln(100_000).div(PERBILL).toNumber();
+  const whole = Math.floor(scaled / 1000);
+  const fracRaw = (scaled % 1000).toString().padStart(3, '0').replace(/0+$/, '');
+
+  return fracRaw.length === 0 ? `${whole}%` : `${whole}.${fracRaw}%`;
+}
+
+function formatRelativeAgo (ms: number): string {
+  if (ms < 0) {
+    return 'just now';
+  }
+
+  const seconds = Math.floor(ms / 1_000);
+
+  if (seconds < 60) {
+    return `${seconds}s ago`;
+  }
+
+  const minutes = Math.floor(seconds / 60);
+  const remSec = seconds % 60;
+
+  if (minutes < 60) {
+    return remSec > 0 ? `${minutes}m ${remSec}s ago` : `${minutes}m ago`;
+  }
+
+  const hours = Math.floor(minutes / 60);
+  const remMin = minutes % 60;
+
+  return remMin > 0 ? `${hours}h ${remMin}m ago` : `${hours}h ago`;
+}
+
+// Isolated so the 1-Hz rerender stays scoped to the label and doesn't cascade
+// through the whole Overview tree (including the EraPots table).
+function LastDripLabel ({ minted, timestamp }: { minted?: BN; timestamp: number }): React.ReactElement {
+  const [now, setNow] = useState(() => Date.now());
+
+  useEffect(() => {
+    const id = setInterval(() => setNow(Date.now()), 1_000);
+
+    return () => clearInterval(id);
+  }, []);
+
+  return (
+    <>
+      <div>{formatRelativeAgo(now - timestamp)}</div>
+      {minted && (
+        <div style={{ fontSize: '0.85rem', marginTop: '0.15rem', opacity: 0.75 }}>
+          <FormatBalance value={minted} />
+        </div>
+      )}
+    </>
+  );
+}
+
+function ModeTag ({ isDapActive, isDapPending, t }: { isDapActive: boolean; isDapPending: boolean; t: (s: string) => string }): React.ReactElement {
+  if (isDapActive) {
+    return (
+      <Tag
+        color='green'
+        label={t('DAP active')}
+      />
+    );
+  }
+
+  if (isDapPending) {
+    return (
+      <Tag
+        color='yellow'
+        label={t('DAP pending')}
+      />
+    );
+  }
+
+  return (
+    <Tag
+      color='grey'
+      label={t('Legacy (minting)')}
+    />
+  );
 }
 
 function Overview (): React.ReactElement {
   const { t } = useTranslation();
-  const { api } = useApi();
+  const info = useDapInfo();
 
-  // buffer_balance() -> (AccountId, Balance)
-  const bufferResult = useViewFunction('Dap', 'buffer_balance');
-  // budgets() -> Vec<(BudgetKey, AccountId, Perbill, Balance)>
-  const budgetsResult = useViewFunction('Dap', 'budgets');
+  const totalAllocated = useMemo(
+    () => info.recipients.reduce((sum, r) => sum.add(r.allocation), BN_ZERO),
+    [info.recipients]
+  );
 
-  const bufferHuman = bufferResult?.toHuman() as [string, string] | undefined;
-  const budgetsHuman = budgetsResult?.toHuman() as [string, string, string, string][] | undefined;
-
-  const cadenceLabel = useMemo((): string | undefined => {
-    try {
-      const cadenceMs = (api.consts.dap as any)?.issuanceCadence;
-
-      if (cadenceMs) {
-        return formatCadence(cadenceMs.toNumber());
-      }
-    } catch {
-      // constant not available
-    }
-
-    return undefined;
-  }, [api]);
+  const allocationSumsToOne = totalAllocated.eq(PERBILL);
 
   const headerRef = React.useRef<[React.ReactNode?, string?, number?][]>([
     [t('budget key'), 'start'],
     [t('pot account'), 'address'],
     [t('allocation'), 'number'],
-    [t('balance'), 'balances']
+    [t('last mint'), 'number'],
+    [t('live balance'), 'number']
   ]);
-
-  // Extract the raw balance from the tuple for FormatBalance
-  let bufferBalance: string | undefined;
-
-  try {
-    bufferBalance = (bufferResult as any)?.[1]?.toString();
-  } catch {
-    // fallback
-  }
 
   return (
     <>
       <SummaryBox>
-        <section>
-          <CardSummary label={t('DAP buffer balance')}>
-            {bufferBalance
-              ? <FormatBalance value={bufferBalance} />
-              : <span>-</span>
-            }
+        <section style={sectionStyle}>
+          <CardSummary label={t('mode')}>
+            <ModeTag
+              isDapActive={info.isDapActive}
+              isDapPending={info.isDapPending}
+              t={t}
+            />
           </CardSummary>
-          {cadenceLabel && (
-            <CardSummary label={t('Minting cadence')}>
-              {cadenceLabel}
+          {info.cadenceMs !== undefined && (
+            <CardSummary label={t('drip cadence')}>
+              {formatDuration(info.cadenceMs, 'every')}
+            </CardSummary>
+          )}
+          {info.maxElapsedPerDripMs !== undefined && (
+            <CardSummary label={t('drip ceiling')}>
+              {formatDuration(info.maxElapsedPerDripMs, 'max')}
+            </CardSummary>
+          )}
+          {info.lastDripTimestamp !== undefined && (
+            <CardSummary label={t('last drip')}>
+              <LastDripLabel
+                minted={info.lastMintAmount}
+                timestamp={info.lastDripTimestamp}
+              />
             </CardSummary>
           )}
         </section>
       </SummaryBox>
+      {!info.hasDapApi && (
+        <MarkWarning content={t('The connected runtime does not expose the Dap pallet. Connect to a chain that has DAP enabled.')} />
+      )}
+      {info.hasDapApi && info.recipients.length > 0 && totalAllocated.isZero() && (
+        <MarkWarning content={t('BudgetAllocation is empty — no issuance is being distributed.')} />
+      )}
+      {info.hasDapApi && info.recipients.length > 0 && !totalAllocated.isZero() && !allocationSumsToOne && (
+        <MarkWarning content={t('Allocations sum to {{sum}} — must equal 100% exactly.', { replace: { sum: formatPerbill(totalAllocated) } })} />
+      )}
+      <h2 style={headingStyle}>{t('Budget recipients')}</h2>
       <Table
-        empty={budgetsHuman && budgetsHuman.length === 0 && t('No budget recipients found')}
+        empty={info.recipients.length === 0 && info.hasDapApi && t('No registered budget recipients')}
         header={headerRef.current}
       >
-        {budgetsHuman && budgetsHuman.map((entry, index) => (
-          <tr key={index}>
-            <td className='start'>{entry[0]}</td>
-            <td className='address'>{entry[1]}</td>
-            <td className='number'>{entry[2]}</td>
-            <td className='balances'>
-              {(budgetsResult as any)?.[index]?.[3]
-                ? <FormatBalance value={(budgetsResult as any)[index][3].toString()} />
-                : entry[3]
+        {info.recipients.map((r) => (
+          <tr key={r.account}>
+            <td className='start'><code>{r.key}</code></td>
+            <td className='address'>
+              <AddressMini value={r.account} />
+            </td>
+            <td className='number'>{formatPerbill(r.allocation)}</td>
+            <td className='number'>
+              {r.lastMint
+                ? <FormatBalance value={r.lastMint} />
+                : '—'
+              }
+            </td>
+            <td className='number'>
+              {r.balance
+                ? <FormatBalance value={r.balance} />
+                : '—'
               }
             </td>
           </tr>
         ))}
       </Table>
+      <h2 style={headingStyle}>{t('Staking eras')}</h2>
+      <SummaryBox>
+        <section style={sectionStyle}>
+          {info.planningEra !== undefined && (
+            <CardSummary label={t('active era')}>
+              {formatNumber(info.planningEra)}
+            </CardSummary>
+          )}
+          {info.activeEraStartSession !== undefined && (
+            <CardSummary label={t('era started at session')}>
+              {formatNumber(info.activeEraStartSession)}
+            </CardSummary>
+          )}
+          {info.lastSessionReportEndingIndex !== undefined && (
+            <CardSummary label={t('last ended session')}>
+              {formatNumber(info.lastSessionReportEndingIndex)}
+            </CardSummary>
+          )}
+          <CardSummary label={t('minting disabled (staking-async)')}>
+            {info.disableMintingGuard !== undefined
+              ? t('since era {{era}}', { replace: { era: info.disableMintingGuard } })
+              : <span style={{ opacity: 0.6 }}>{t('unset')}</span>
+            }
+          </CardSummary>
+        </section>
+      </SummaryBox>
+      <EraPots
+        activeEra={info.planningEra}
+        historyDepth={info.historyDepth}
+      />
     </>
   );
 }
