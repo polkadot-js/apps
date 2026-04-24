@@ -190,48 +190,58 @@ function Overview (): React.ReactElement {
         empty={info.recipients.length === 0 && info.hasDapApi && t('No registered budget recipients')}
         header={headerRef.current}
       >
-        {info.recipients.map((r) => (
-          <tr key={r.account}>
-            <td className='start'><code>{r.key}</code></td>
-            <td className='address'>
-              <AddressMini value={r.account} />
-            </td>
-            <td className='number'>{formatPerbill(r.allocation)}</td>
-            <td className='number'>
-              {r.lastMint
-                ? <FormatBalance value={r.lastMint} />
-                : '—'
-              }
-            </td>
-            <td className='number'>
-              {r.balance
-                ? <FormatBalance value={r.balance} />
-                : '—'
-              }
-            </td>
-          </tr>
-        ))}
-        {info.stagingAccount && (
-          <tr key={info.stagingAccount}>
-            <td className='start'>
-              <code>{t('staging')}</code>
-              <div style={{ fontSize: '0.8rem', opacity: 0.6 }}>
-                {t('drained to buffer on idle')}
-              </div>
-            </td>
-            <td className='address'>
-              <AddressMini value={info.stagingAccount} />
-            </td>
-            <td className='number'>—</td>
-            <td className='number'>—</td>
-            <td className='number'>
-              {info.stagingBalance
-                ? <FormatBalance value={info.stagingBalance} />
-                : '—'
-              }
-            </td>
-          </tr>
-        )}
+        {(() => {
+          // Staging is an implementation detail of the buffer recipient: funds
+          // sit there until `on_idle` sweeps them into buffer. Render it as a
+          // nested sub-row directly under `buffer`. With no buffer recipient
+          // registered, staging has nothing to drain into — skip it.
+          const bufferIdx = info.recipients.findIndex((r) => r.key === 'buffer');
+
+          const rows = info.recipients.map((r) => (
+            <tr key={r.account}>
+              <td className='start'><code>{r.key}</code></td>
+              <td className='address'>
+                <AddressMini value={r.account} />
+              </td>
+              <td className='number'>{formatPerbill(r.allocation)}</td>
+              <td className='number'>
+                {r.lastMint
+                  ? <FormatBalance value={r.lastMint} />
+                  : '—'
+                }
+              </td>
+              <td className='number'>
+                {r.balance
+                  ? <FormatBalance value={r.balance} />
+                  : '—'
+                }
+              </td>
+            </tr>
+          ));
+
+          if (info.stagingAccount && bufferIdx >= 0) {
+            rows.splice(bufferIdx + 1, 0, (<tr key={info.stagingAccount}>
+              <td className='start'>
+                <span style={{ opacity: 0.5, paddingLeft: '0.5rem' }}>↳</span>
+                <code style={{ marginLeft: '0.4rem' }}>{t('staging')}</code>
+              </td>
+              <td className='address'>
+                <AddressMini value={info.stagingAccount} />
+              </td>
+              <td className='number'>—</td>
+              <td className='number'>—</td>
+              <td className='number'>
+                {info.stagingBalance
+                  ? <FormatBalance value={info.stagingBalance} />
+                  : '—'
+                }
+              </td>
+            </tr>
+            ));
+          }
+
+          return rows;
+        })()}
       </Table>
       <h2 style={headingStyle}>{t('Staking eras')}</h2>
       <SummaryBox>
@@ -249,6 +259,11 @@ function Overview (): React.ReactElement {
           {info.lastSessionReportEndingIndex !== undefined && (
             <CardSummary label={t('last ended session')}>
               {formatNumber(info.lastSessionReportEndingIndex)}
+            </CardSummary>
+          )}
+          {info.historyDepth !== undefined && (
+            <CardSummary label={t('history depth')}>
+              {formatNumber(info.historyDepth)}
             </CardSummary>
           )}
           <CardSummary label={t('minting disabled (staking-async)')}>

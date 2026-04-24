@@ -3,7 +3,7 @@
 
 import React, { useCallback, useMemo, useState } from 'react';
 
-import { AddressMini, Button, Table } from '@polkadot/react-components';
+import { AddressMini, Input, Table } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
 import { BN, BN_ZERO } from '@polkadot/util';
 
@@ -15,8 +15,6 @@ interface Props {
   activeEra?: number;
   historyDepth?: number;
 }
-
-const WINDOW_SIZE = 3;
 
 // Compute `budget - remaining` as a percentage of budget with 1-decimal
 // precision. Returns undefined when budget is absent or zero, so the UI can
@@ -157,76 +155,63 @@ function PotRows ({ pick, snapshots, t, title }: PotRowsProps): React.ReactEleme
 function EraPots ({ activeEra, historyDepth }: Props): React.ReactElement | null {
   const { t } = useTranslation();
 
-  // `anchor` = newest era in the visible window. Defaults to the active era,
-  // and the window extends backwards from there. Clamped so we can't scroll
-  // past history depth (oldest) or past the active era (newest).
-  const [anchor, setAnchor] = useState<number | undefined>();
-  const effectiveAnchor = anchor ?? activeEra;
-
-  const minEra = useMemo(() => {
+  // First era still retained in storage. With `activeEra` ongoing, the last
+  // `historyDepth` *completed* eras `[activeEra - historyDepth, activeEra - 1]`
+  // are retained. Anything below `firstRetainedEra` is a pruning candidate.
+  const firstRetainedEra = useMemo(() => {
     if (activeEra === undefined || historyDepth === undefined) {
-      return 0;
+      return undefined;
     }
 
-    return Math.max(0, activeEra - historyDepth + 1);
+    return Math.max(0, activeEra - historyDepth);
   }, [activeEra, historyDepth]);
 
-  // Eras displayed as columns, newest first. If anchor is 5, shows [5, 4, 3].
-  // Window collapses naturally at the low end (e.g. anchor=1 → [1, 0]).
-  const eras = useMemo(() => {
-    if (effectiveAnchor === undefined) {
-      return [];
+  // The last completed era is always `active - 1`; undefined at genesis.
+  const lastCompletedEra = activeEra !== undefined && activeEra > 0
+    ? activeEra - 1
+    : undefined;
+
+  // Raw input string so the user can clear/retype freely; we only commit the
+  // parsed value when it's a non-negative integer <= activeEra. Pre-history
+  // eras are allowed so the user can confirm cleanup.
+  const [customInput, setCustomInput] = useState<string>('');
+
+  const customEra = useMemo(() => {
+    const trimmed = customInput.trim();
+
+    if (trimmed === '' || activeEra === undefined) {
+      return undefined;
     }
 
-    const list: number[] = [];
-
-    for (let i = 0; i < WINDOW_SIZE; i++) {
-      const e = effectiveAnchor - i;
-
-      if (e >= minEra) {
-        list.push(e);
-      }
+    if (!/^\d+$/.test(trimmed)) {
+      return undefined;
     }
 
-    return list;
-  }, [effectiveAnchor, minEra]);
+    const n = parseInt(trimmed, 10);
 
-  // Can go earlier whenever the oldest visible era is above `minEra`. This lets
-  // you walk all the way down to era 0 (or `active - HistoryDepth`) even when
-  // the final window is partial (e.g. just [0] or [1, 0]).
-  const canGoEarlier = eras.length > 0 && eras[eras.length - 1] > minEra;
-  const canGoLater = effectiveAnchor !== undefined && activeEra !== undefined && effectiveAnchor < activeEra;
-
-  const onEarlier = useCallback(() => {
-    if (effectiveAnchor === undefined) {
-      return;
+    if (n > activeEra) {
+      return undefined;
     }
 
-    // Shift anchor back by one window. Never drop below `minEra` — instead
-    // clamp so the leftmost column is at `minEra + WINDOW_SIZE - 1` at worst,
-    // or `minEra` if that's already below.
-    setAnchor(Math.max(minEra, effectiveAnchor - WINDOW_SIZE));
-  }, [effectiveAnchor, minEra]);
+    return n;
+  }, [activeEra, customInput]);
 
-  const onLater = useCallback(() => {
-    if (effectiveAnchor === undefined || activeEra === undefined) {
-      return;
-    }
+  const customInvalid = customInput.trim() !== '' && customEra === undefined;
+  // Pruning runs synchronously at era-end, so an era below `firstRetainedEra`
+  // is always pruned — no on-chain lookup needed.
+  const customIsPruned = customEra !== undefined && firstRetainedEra !== undefined && customEra < firstRetainedEra;
 
-    setAnchor(Math.min(activeEra, effectiveAnchor + WINDOW_SIZE));
-  }, [effectiveAnchor, activeEra]);
+  const onChangeCustom = useCallback((value: string) => {
+    setCustomInput(value);
+  }, []);
 
-  const onReset = useCallback(() => setAnchor(undefined), []);
+  // Hooks must be called in a stable order — always two era slots.
+  const snapLast = useEraSnapshot(lastCompletedEra, activeEra);
+  const snapCustom = useEraSnapshot(customEra, activeEra);
 
-  // Fixed window of 3 slots — `useEraSnapshot` MUST be called in a stable order
-  // per React's rules of hooks, so we always call 3 regardless of how many
-  // columns are visible.
-  const snap0 = useEraSnapshot(eras[0], activeEra);
-  const snap1 = useEraSnapshot(eras[1], activeEra);
-  const snap2 = useEraSnapshot(eras[2], activeEra);
   const snapshots = useMemo(
-    () => [snap0, snap1, snap2].filter((s): s is EraSnapshot => s !== undefined),
-    [snap0, snap1, snap2]
+    () => [snapLast, snapCustom].filter((s): s is EraSnapshot => s !== undefined),
+    [snapLast, snapCustom]
   );
 
   if (activeEra === undefined) {
@@ -235,42 +220,43 @@ function EraPots ({ activeEra, historyDepth }: Props): React.ReactElement | null
 
   return (
     <>
-      <div style={{ alignItems: 'center', display: 'flex', gap: '0.5rem', margin: '1.5rem 0 0.75rem' }}>
+      <div style={{ alignItems: 'center', display: 'flex', gap: '0.75rem', margin: '1.5rem 0 0.75rem' }}>
         <h2 style={{ ...headingStyle, margin: 0 }}>
           {t('Reward eras')}
         </h2>
         <div style={{ flex: 1 }} />
-        <Button
-          icon='arrow-left'
-          isDisabled={!canGoEarlier}
-          label={t('earlier')}
-          onClick={onEarlier}
-        />
-        <Button
-          icon='arrow-right'
-          isDisabled={!canGoLater}
-          label={t('later')}
-          onClick={onLater}
-        />
-        <Button
-          icon='rotate'
-          isDisabled={anchor === undefined}
-          label={t('active')}
-          onClick={onReset}
-        />
+        <div style={{ minWidth: '16rem' }}>
+          <Input
+            isError={customInvalid}
+            label={t('inspect era')}
+            onChange={onChangeCustom}
+            placeholder={t('any era up to {{max}}', { replace: { max: activeEra } })}
+            value={customInput}
+          />
+        </div>
       </div>
       <Table
         header={[
           [t('era'), 'start'],
-          ...snapshots.map((s): [React.ReactNode, string] => [
-            (
+          ...(lastCompletedEra !== undefined
+            ? [[
               <>
-                {t('era {{era}}', { replace: { era: s.era } })}
-                {s.isCurrent && <span style={{ marginLeft: '0.4rem', opacity: 0.65 }}>({t('active')})</span>}
-              </>
-            ),
-            'start'
-          ])
+                {t('era {{era}}', { replace: { era: lastCompletedEra } })}
+                <span style={{ marginLeft: '0.4rem', opacity: 0.65 }}>({t('last completed')})</span>
+              </>,
+              'start'
+            ] as [React.ReactNode, string]]
+            : []),
+          ...(customEra !== undefined
+            ? [[
+              <>
+                {t('era {{era}}', { replace: { era: customEra } })}
+                {customEra === activeEra && <span style={{ marginLeft: '0.4rem', opacity: 0.65 }}>({t('active')})</span>}
+                {customIsPruned && <span style={{ marginLeft: '0.4rem', opacity: 0.65 }}>({t('pruned')})</span>}
+              </>,
+              'start'
+            ] as [React.ReactNode, string]]
+            : [])
         ]}
       >
         <tr>
