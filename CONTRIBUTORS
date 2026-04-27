@@ -510,6 +510,7 @@
        1	Mickaël Canu                  	fix error on validator word (#7110)
        1	Mickael Faust                 	Added TerraBioDAO to the GM nodes list (#8010)
        1	Mike Godenzi                  	Acurast added to Rococo (#8546)
+       1	Mikola Samardak               	Change the provider for the Mythos parachain (#12258)
        1	mmaurello                     	add moonbeam apps as external resource for referenda (#9790)
        1	Mokhtar Naamani               	Fix app-accounts Restore feature (#761)
        1	motinados                     	fill in all empty values in all languageCaches. (#3606)
