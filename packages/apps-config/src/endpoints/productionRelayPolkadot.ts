@@ -551,7 +551,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'mythos',
     paraId: 3369,
     providers: {
-      parity: 'wss://polkadot-mythos-rpc.polkadot.io'
+      dmarket: 'wss://mythos-rpc.dmarket.com/'
     },
     text: 'Mythos',
     ui: {
