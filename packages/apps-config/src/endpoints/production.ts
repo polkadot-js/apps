@@ -3,9 +3,9 @@
 
 import type { EndpointOption } from './types.js';
 
-import { ZKVERIFY_GENESIS } from '../api/constants.js';
+import { ERA_GENESIS, ZKVERIFY_GENESIS } from '../api/constants.js';
 import { chains3dpassSVG, chainsAnalogSVG, chainsBittensorPNG, chainsBulletinPNG, chainsChainflipPNG, chainsCommuneaiPNG, chainsCreditcoinPNG, chainsDebioSVG, chainsFragnovaPNG, chainsJurPNG, chainsLiberlandPNG, chainsLogionPNG, chainsMyriadPNG, chainsSpannerPNG, chainsTanglePNG, chainsTorusPNG, chainsVaraPNG, chainsVtbPNG } from '../ui/logos/chains/index.js';
-import { nodesAresOdysseySVG, nodesAutonomysPNG, nodesCentrifugePNG, nodesCereSVG, nodesChainxSVG, nodesCompetitorsClubPNG, nodesCrownSterlingPNG, nodesCrustSVG, nodesDatahighwayPNG, nodesDockPNG, nodesEdgewareWhitePNG, nodesEfinitySVG, nodesElysiumPNG, nodesHanyonycashPNG, nodesHumanodePNG, nodesInnovatorPNG, nodesJoystreamSVG, nodesKulupuSVG, nodesKusariSVG, nodesMathSVG, nodesMinixPNG, nodesNftmartPNG, nodesNodleSVG, nodesPolkadexSVG, nodesPolymeshSVG, nodesRiochainSVG, nodesRobonomicsSVG, nodesSherpaxPNG, nodesSoraSubstrateSVG, nodesStafiPNG, nodesSubgameSVG, nodesSubsocialSVG, nodesSwapdexSVG, nodesTanssiSVG, nodesTernoaSVG, nodesThebifrostPNG, nodesTscsPNG, nodesUniartsPNG, nodesUnitnetworkPNG, nodesVFlowPNG, nodesZkVerifyPNG } from '../ui/logos/nodes/index.js';
+import { nodesAresOdysseySVG, nodesAutonomysPNG, nodesCentrifugePNG, nodesCereSVG, nodesChainxSVG, nodesCompetitorsClubPNG, nodesCrownSterlingPNG, nodesCrustSVG, nodesDatahighwayPNG, nodesDockPNG, nodesEdgewareWhitePNG, nodesEfinitySVG, nodesElysiumPNG, nodesHanyonycashPNG, nodesHumanodePNG, nodesInnovatorPNG, nodesJoystreamSVG, nodesKulupuSVG, nodesKusariSVG, nodesMathSVG, nodesMinixPNG, nodesNftmartPNG, nodesNodleSVG, nodesPolkadexSVG, nodesPolymeshSVG, nodesRiochainSVG, nodesRobonomicsSVG, nodesSherpaxPNG, nodesSoraSubstrateSVG, nodesStafiPNG, nodesSubgameSVG, nodesSubsocialSVG, nodesSubstrateCircleSVG, nodesSwapdexSVG, nodesTanssiSVG, nodesTernoaSVG, nodesThebifrostPNG, nodesTscsPNG, nodesUniartsPNG, nodesUnitnetworkPNG, nodesVFlowPNG, nodesZkVerifyPNG } from '../ui/logos/nodes/index.js';
 
 export * from './productionRelayKusama.js';
 export * from './productionRelayPolkadot.js';
@@ -303,6 +303,19 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: '#140533',
       logo: nodesElysiumPNG
+    }
+  },
+  {
+    genesisHash: ERA_GENESIS,
+    homepage: 'https://eraprojects.io/',
+    info: 'era',
+    providers: {
+      ERA: 'wss://eraprojects.org/'
+    },
+    text: 'ERA',
+    ui: {
+      color: '#111111',
+      logo: nodesSubstrateCircleSVG
     }
   },
   {
