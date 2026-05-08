@@ -874,7 +874,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       // Stakeworld: 'wss://rpc-asset-hub-polkadot.stakeworld.io'
     },
     relayName: 'polkadot',
-    teleport: [-1, 1002, 1001, 1005, 1004],
+    teleport: [-1, 1002, 1001, 1005, 1004, 1010],
     text: 'Asset Hub',
     ui: {
       color: '#86e62a',
@@ -913,6 +913,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       Spectrum: 'wss://spectrum-03.simplystaking.xyz/cG9sa2Fkb3QtMDMtOTFkMmYwZGYtcG9sa2Fkb3Q/9QbAeudedsupNA/polkadotbulletin/mainnet/'
     },
     relayName: 'polkadot',
+    teleport: [-1, 1000],
     text: 'Bulletin',
     ui: {
       color: '#6B2D84',
