@@ -4,7 +4,7 @@
 import type { EndpointOption } from './types.js';
 
 import { POLKADOT_GENESIS } from '../api/constants.js';
-import { chainsAcalaSVG, chainsAcurastSVG, chainsBitgreenPNG, chainsComposableFinancePNG, chainsEquilibriumSVG, chainsFrequencySVG, chainsGeminisPNG, chainsHydrationSVG, chainsInvarchJPEG, chainsLaosPNG, chainsLogionPNG, chainsMyxcavPNG, chainsNeurowebPNG, chainsOakPNG, chainsPeaqPNG, chainsPendulumSVG, chainsPeoplePolkadotSVG, chainsPolkadotCircleSVG, chainsTotemSVG, chainsWatrPNG } from '../ui/logos/chains/index.js';
+import { chainsAcalaSVG, chainsAcurastSVG, chainsBitgreenPNG, chainsBulletinSVG, chainsComposableFinancePNG, chainsEquilibriumSVG, chainsFrequencySVG, chainsGeminisPNG, chainsHydrationSVG, chainsInvarchJPEG, chainsLaosPNG, chainsLogionPNG, chainsMyxcavPNG, chainsNeurowebPNG, chainsOakPNG, chainsPeaqPNG, chainsPendulumSVG, chainsPeoplePolkadotSVG, chainsPolkadotCircleSVG, chainsTotemSVG, chainsWatrPNG } from '../ui/logos/chains/index.js';
 import { nodesAjunaPNG, nodesAresOdysseySVG, nodesAssetHubSVG, nodesAstarPNG, nodesAventusSVG, nodesBifrostSVG, nodesBridgeHubSVG, nodesCentrifugePNG, nodesCloverSVG, nodesCoinversationPNG, nodesCollectivesSVG, nodesContinuumPNG, nodesCrustParachainSVG, nodesDarwiniaSVG, nodesEfinitySVG, nodesEwxSVG, nodesHashedPNG, nodesHeimaSVG, nodesHyperbridgePNG, nodesIntegriteeSVG, nodesInterlaySVG, nodesJamtonSVG, nodesKiltIconSVG, nodesKylinPNG, nodesMantaPNG, nodesMoonbeamSVG, nodesMoonsamaSVG, nodesMythosPNG, nodesNodleSVG, nodesOmnibtcSVG, nodesParallelSVG, nodesPhalaSVG, nodesPolkadexSVG, nodesRobonomicsSVG, nodesSoraSubstrateSVG, nodesSubdaoPNG, nodesSubgameSVG, nodesSubsocialSVG, nodesT3rnPNG, nodesUniqueSVG, nodesXodePNG, nodesZeitgeistPNG } from '../ui/logos/nodes/index.js';
 import { getTeleports } from './util.js';
 
@@ -874,7 +874,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       // Stakeworld: 'wss://rpc-asset-hub-polkadot.stakeworld.io'
     },
     relayName: 'polkadot',
-    teleport: [-1, 1002, 1001, 1005, 1004],
+    teleport: [-1, 1002, 1001, 1005, 1004, 1010],
     text: 'Asset Hub',
     ui: {
       color: '#86e62a',
@@ -902,6 +902,22 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
     text: 'Bridge Hub',
     ui: {
       logo: nodesBridgeHubSVG
+    }
+  },
+  {
+    info: 'polkadotBulletin',
+    isPeopleForIdentity: true,
+    paraId: 1010,
+    providers: {
+      Parity: 'wss://bulletin-rpc.polkadot.io',
+      Spectrum: 'wss://spectrum-03.simplystaking.xyz/cG9sa2Fkb3QtMDMtOTFkMmYwZGYtcG9sa2Fkb3Q/9QbAeudedsupNA/polkadotbulletin/mainnet/'
+    },
+    relayName: 'polkadot',
+    teleport: [-1, 1000],
+    text: 'Bulletin',
+    ui: {
+      color: '#6B2D84',
+      logo: chainsBulletinSVG
     }
   },
   {
