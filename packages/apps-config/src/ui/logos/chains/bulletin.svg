@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500">
+  <g>
+    <circle cx="250" cy="250" r="250"/>
+  </g>
+  <g transform="matrix(1, 0, 0, 1, 51, 10)">
+    <rect x="100" y="135.432" width="200" height="207.769" style="fill: rgb(251, 251, 251);"/>
+    <ellipse cx="200" cy="345.398" rx="100" ry="35.398" style="stroke-width: 1;"/>
+    <rect x="100" y="265.126" width="200" height="72.254" style="fill: rgb(255, 255, 255);"/>
+    <ellipse cx="200" cy="345.342" rx="100" ry="35.398" style="stroke-width: 1; fill: rgb(255, 255, 255);"/>
+    <ellipse cx="200" cy="264.602" rx="100" ry="35.398" style="stroke-width: 1;"/>
+    <rect x="100" y="195.401" width="200" height="72.254" style="fill: rgb(255, 255, 255); stroke-width: 1;"/>
+    <ellipse cx="200" cy="257.356" rx="100" ry="35.398" style="stroke-width: 1; fill: rgb(255, 255, 255);"/>
+    <ellipse cx="200" cy="198.813" rx="100" ry="35.398" style="stroke-width: 1;"/>
+    <ellipse cx="200" cy="191.511" rx="100" ry="35.398" style="stroke-width: 1; fill: rgb(255, 255, 255);"/>
+    <ellipse cx="200" cy="138.847" rx="100" ry="40.977" style="stroke-width: 1; fill: rgb(255, 255, 255);"/>
+    <ellipse cx="200" cy="136.746" rx="91.867" ry="35.46" style=""/>
+    <circle cx="197.447" cy="439.17" r="32.178" style="fill: rgb(255, 255, 255);"/>
+    <circle cx="200.249" cy="38.994" r="32.178" style="fill: rgb(255, 255, 255); stroke-width: 1;"/>
+    <circle cx="340.653" cy="381.7" r="32.178" style="fill: rgb(255, 255, 255); stroke-width: 1;"/>
+    <circle cx="339.837" cy="108.762" r="32.178" style="fill: rgb(255, 255, 255); stroke-width: 1;"/>
+    <circle cx="396.71" cy="247.398" r="32.178" style="fill: rgb(255, 255, 255); stroke-width: 1;"/>
+    <circle cx="41.426" cy="116.79" r="32.178" style="fill: rgb(255, 255, 255); stroke-width: 1;"/>
+    <circle cx="-4.788" cy="248.87" r="32.178" style="fill: rgb(255, 255, 255); stroke-width: 1;"/>
+    <circle cx="55.212" cy="378.87" r="32.178" style="fill: rgb(255, 255, 255); stroke-width: 1;"/>
+  </g>
+</svg>

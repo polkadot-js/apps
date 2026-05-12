@@ -17,7 +17,7 @@ export { chainsAssethubKusamaSVG } from './generated/assethub-kusamaSVG.js';
 export { chainsBitgreenPNG } from './generated/bitgreenPNG.js';
 export { chainsBittensorPNG } from './generated/bittensorPNG.js';
 export { chainsBrainstormPNG } from './generated/brainstormPNG.js';
-export { chainsBulletinPNG } from './generated/bulletinPNG.js';
+export { chainsBulletinSVG } from './generated/bulletinSVG.js';
 export { chainsChainflipPNG } from './generated/chainflipPNG.js';
 export { chainsCommuneaiPNG } from './generated/communeaiPNG.js';
 export { chainsComposableFinancePNG } from './generated/composableFinancePNG.js';
