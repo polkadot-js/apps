@@ -4,7 +4,7 @@
 import type { EndpointOption } from './types.js';
 
 import { WESTEND_GENESIS } from '../api/constants.js';
-import { chainsBulletinPNG, chainsKaruraSVG, chainsPeoplePolkadotSVG, chainsStandardPNG } from '../ui/logos/chains/index.js';
+import { chainsBulletinSVG, chainsKaruraSVG, chainsPeoplePolkadotSVG, chainsStandardPNG } from '../ui/logos/chains/index.js';
 import { nodesAssetHubSVG, nodesBridgeHubSVG, nodesCentrifugePNG, nodesIntegriteeSVG, nodesInterlaySVG, nodesKhalaSVG, nodesKylinPNG, nodesMoonshadowPNG, nodesWestendColourSVG } from '../ui/logos/nodes/index.js';
 import { getTeleports } from './util.js';
 
@@ -25,7 +25,7 @@ export const testParasWestend: Omit<EndpointOption, 'teleport'>[] = [
     text: 'Bulletin (Westend)',
     ui: {
       color: '#6B2D84',
-      logo: chainsBulletinPNG
+      logo: chainsBulletinSVG
     }
   },
   {
@@ -142,7 +142,6 @@ export const testParasWestendCommon: EndpointOption[] = [
     paraId: 1000,
     providers: {
       Dwellir: 'wss://asset-hub-westend-rpc.n.dwellir.com',
-      'Dwellir Tunisia': 'wss://westmint-rpc-tn.dwellir.com',
       // OnFinality: 'wss://westmint.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/9955
       Parity: 'wss://westend-asset-hub-rpc.polkadot.io'
       // 'Permanence DAO EU': 'wss://asset-hub-westend.rpc.permanence.io'
@@ -162,7 +161,6 @@ export const testParasWestendCommon: EndpointOption[] = [
     paraId: 1002,
     providers: {
       Dwellir: 'wss://bridge-hub-westend-rpc.n.dwellir.com',
-      'Dwellir Tunisia': 'wss://westend-bridge-hub-rpc-tn.dwellir.com',
       // OnFinality: 'wss://bridgehub-westend.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/9960
       Parity: 'wss://westend-bridge-hub-rpc.polkadot.io'
     },
@@ -179,7 +177,6 @@ export const testParasWestendCommon: EndpointOption[] = [
     paraId: 1001,
     providers: {
       Dwellir: 'wss://collectives-westend-rpc.n.dwellir.com',
-      'Dwellir Tunisia': 'wss://westend-collectives-rpc-tn.dwellir.com',
       Parity: 'wss://westend-collectives-rpc.polkadot.io'
     },
     relayName: 'westend',
@@ -236,7 +233,6 @@ export const testRelayWestend: EndpointOption = {
   ],
   providers: {
     Dwellir: 'wss://westend-rpc.n.dwellir.com',
-    'Dwellir Tunisia': 'wss://westend-rpc-tn.dwellir.com',
     // LuckyFriday: 'wss://rpc-westend.luckyfriday.io', // https://github.com/polkadot-js/apps/issues/10728
     OnFinality: 'wss://westend.api.onfinality.io/public-ws',
     Parity: 'wss://westend-rpc.polkadot.io',

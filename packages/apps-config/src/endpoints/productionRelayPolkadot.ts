@@ -4,7 +4,7 @@
 import type { EndpointOption } from './types.js';
 
 import { POLKADOT_GENESIS } from '../api/constants.js';
-import { chainsAcalaSVG, chainsAcurastSVG, chainsBitgreenPNG, chainsComposableFinancePNG, chainsEquilibriumSVG, chainsFrequencySVG, chainsGeminisPNG, chainsHydrationSVG, chainsInvarchJPEG, chainsLaosPNG, chainsLogionPNG, chainsMyxcavPNG, chainsNeurowebPNG, chainsOakPNG, chainsPeaqPNG, chainsPendulumSVG, chainsPeoplePolkadotSVG, chainsPolkadotCircleSVG, chainsTotemSVG, chainsWatrPNG } from '../ui/logos/chains/index.js';
+import { chainsAcalaSVG, chainsAcurastSVG, chainsBitgreenPNG, chainsBulletinSVG, chainsComposableFinancePNG, chainsEquilibriumSVG, chainsFrequencySVG, chainsGeminisPNG, chainsHydrationSVG, chainsInvarchJPEG, chainsLaosPNG, chainsLogionPNG, chainsMyxcavPNG, chainsNeurowebPNG, chainsOakPNG, chainsPeaqPNG, chainsPendulumSVG, chainsPeoplePolkadotSVG, chainsPolkadotCircleSVG, chainsTotemSVG, chainsWatrPNG } from '../ui/logos/chains/index.js';
 import { nodesAjunaPNG, nodesAresOdysseySVG, nodesAssetHubSVG, nodesAstarPNG, nodesAventusSVG, nodesBifrostSVG, nodesBridgeHubSVG, nodesCentrifugePNG, nodesCloverSVG, nodesCoinversationPNG, nodesCollectivesSVG, nodesContinuumPNG, nodesCrustParachainSVG, nodesDarwiniaSVG, nodesEfinitySVG, nodesEwxSVG, nodesHashedPNG, nodesHeimaSVG, nodesHyperbridgePNG, nodesIntegriteeSVG, nodesInterlaySVG, nodesJamtonSVG, nodesKiltIconSVG, nodesKylinPNG, nodesMantaPNG, nodesMoonbeamSVG, nodesMoonsamaSVG, nodesMythosPNG, nodesNodleSVG, nodesOmnibtcSVG, nodesParallelSVG, nodesPhalaSVG, nodesPolkadexSVG, nodesRobonomicsSVG, nodesSoraSubstrateSVG, nodesSubdaoPNG, nodesSubgameSVG, nodesSubsocialSVG, nodesT3rnPNG, nodesUniqueSVG, nodesXodePNG, nodesZeitgeistPNG } from '../ui/logos/nodes/index.js';
 import { getTeleports } from './util.js';
 
@@ -551,7 +551,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'mythos',
     paraId: 3369,
     providers: {
-      parity: 'wss://polkadot-mythos-rpc.polkadot.io'
+      dmarket: 'wss://mythos-rpc.dmarket.com/'
     },
     text: 'Mythos',
     ui: {
@@ -864,7 +864,6 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
     paraId: 1000,
     providers: {
       Dwellir: 'wss://asset-hub-polkadot-rpc.n.dwellir.com',
-      'Dwellir Tunisia': 'wss://statemint-rpc-tn.dwellir.com',
       IBP1: 'wss://asset-hub-polkadot.ibp.network',
       IBP2: 'wss://asset-hub-polkadot.dotters.network',
       LuckyFriday: 'wss://rpc-asset-hub-polkadot.luckyfriday.io',
@@ -874,7 +873,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       // Stakeworld: 'wss://rpc-asset-hub-polkadot.stakeworld.io'
     },
     relayName: 'polkadot',
-    teleport: [-1, 1002, 1001, 1005, 1004],
+    teleport: [-1, 1002, 1001, 1005, 1004, 1010],
     text: 'Asset Hub',
     ui: {
       color: '#86e62a',
@@ -887,7 +886,6 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
     paraId: 1002,
     providers: {
       Dwellir: 'wss://bridge-hub-polkadot-rpc.n.dwellir.com',
-      'Dwellir Tunisia': 'wss://polkadot-bridge-hub-rpc-tn.dwellir.com',
       IBP1: 'wss://bridge-hub-polkadot.ibp.network',
       IBP2: 'wss://bridge-hub-polkadot.dotters.network',
       LuckyFriday: 'wss://rpc-bridge-hub-polkadot.luckyfriday.io',
@@ -905,12 +903,27 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
     }
   },
   {
+    info: 'polkadotBulletin',
+    isPeopleForIdentity: true,
+    paraId: 1010,
+    providers: {
+      Parity: 'wss://bulletin-rpc.polkadot.io',
+      Spectrum: 'wss://spectrum-03.simplystaking.xyz/cG9sa2Fkb3QtMDMtOTFkMmYwZGYtcG9sa2Fkb3Q/9QbAeudedsupNA/polkadotbulletin/mainnet/'
+    },
+    relayName: 'polkadot',
+    teleport: [-1, 1000],
+    text: 'Bulletin',
+    ui: {
+      color: '#6B2D84',
+      logo: chainsBulletinSVG
+    }
+  },
+  {
     info: 'polkadotCollectives',
     isPeopleForIdentity: true,
     paraId: 1001,
     providers: {
       Dwellir: 'wss://collectives-polkadot-rpc.n.dwellir.com',
-      'Dwellir Tunisia': 'wss://polkadot-collectives-rpc-tn.dwellir.com',
       IBP1: 'wss://collectives-polkadot.ibp.network',
       IBP2: 'wss://collectives-polkadot.dotters.network',
       LuckyFriday: 'wss://rpc-collectives-polkadot.luckyfriday.io',
@@ -986,7 +999,6 @@ export const prodRelayPolkadot: EndpointOption = {
     // 'Geometry Labs': 'wss://polkadot.geometry.io/websockets', // https://github.com/polkadot-js/apps/pull/6746
     // 'Automata 1RPC': 'wss://1rpc.io/dot',
     Dwellir: 'wss://polkadot-rpc.n.dwellir.com',
-    'Dwellir Tunisia': 'wss://polkadot-rpc-tn.dwellir.com',
     Helixstreet: 'wss://rpc-polkadot.helixstreet.io',
     IBP1: 'wss://polkadot.ibp.network',
     IBP2: 'wss://polkadot.dotters.network',
