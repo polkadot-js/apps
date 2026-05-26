@@ -19,6 +19,7 @@
     { "path": "../page-contracts/tsconfig.build.json" },
     { "path": "../page-coretime/tsconfig.build.json" },
     { "path": "../page-council/tsconfig.build.json" },
+    { "path": "../page-dap/tsconfig.build.json" },
     { "path": "../page-democracy/tsconfig.build.json" },
     { "path": "../page-explorer/tsconfig.build.json" },
     { "path": "../page-extrinsics/tsconfig.build.json" },
