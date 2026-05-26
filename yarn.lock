@@ -2485,7 +2485,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/react-components@npm:0.171.2-6-x, @polkadot/react-components@npm:^0.171.2-6-x, @polkadot/react-components@workspace:packages/react-components":
+"@polkadot/react-components@npm:0.171.2-6-x, @polkadot/react-components@npm:^0.171.2-2-x, @polkadot/react-components@npm:^0.171.2-6-x, @polkadot/react-components@workspace:packages/react-components":
   version: 0.0.0-use.local
   resolution: "@polkadot/react-components@workspace:packages/react-components"
   dependencies:
@@ -2609,7 +2609,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/react-query@npm:0.171.2-6-x, @polkadot/react-query@npm:^0.171.2-6-x, @polkadot/react-query@workspace:packages/react-query":
+"@polkadot/react-query@npm:0.171.2-6-x, @polkadot/react-query@npm:^0.171.2-2-x, @polkadot/react-query@npm:^0.171.2-6-x, @polkadot/react-query@workspace:packages/react-query":
   version: 0.0.0-use.local
   resolution: "@polkadot/react-query@workspace:packages/react-query"
   peerDependencies:
