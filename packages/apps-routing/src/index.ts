@@ -16,6 +16,7 @@ import collator from './collator.js';
 import contracts from './contracts.js';
 import coretime from './coretime.js';
 import council from './council.js';
+import dap from './dap.js';
 import democracy from './democracy.js';
 import explorer from './explorer.js';
 import extrinsics from './extrinsics.js';
@@ -59,6 +60,8 @@ export default function create (t: TFunction): Routes {
     poll(t),
     transfer(t),
     teleport(t),
+    // DAP (Dynamic Allocation Pool)
+    dap(t),
     // Staking for AssetHub Migration
     stakingAsync(t),
     staking(t),

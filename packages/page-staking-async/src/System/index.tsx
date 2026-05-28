@@ -26,10 +26,17 @@ import { isFunction } from '@polkadot/util';
 import Actions from '../Actions/index.js';
 import CommandCenter from '../CommandCenter/index.js';
 import { STORE_FAVS_BASE } from '../constants.js';
+import Pots from '../Pots/index.js';
 import { useTranslation } from '../translate.js';
 import Validators from '../Validators/index.js';
 
 const HIDDEN_ACC = ['actions', 'payout'];
+
+interface StakingConsts {
+  disableMinting?: {
+    isTrue: boolean;
+  };
+}
 
 const OPT_MULTI = {
   defaultValue: [false, undefined, {}] as [boolean, BN | undefined, Record<string, boolean>],
@@ -43,6 +50,10 @@ const OPT_MULTI = {
       : {}
   ]
 };
+
+function hasRewardPots (api: ApiPromise): boolean {
+  return !!(api.consts.staking as unknown as StakingConsts | undefined)?.disableMinting?.isTrue;
+}
 
 interface Props extends AppProps {
   ahApi?: ApiPromise
@@ -148,6 +159,10 @@ function StakingApp ({ ahApi, ahEndPoints, basePath, isRelayChain, rcApi, rcEndP
     {
       name: 'command-center',
       text: t('Command Center')
+    },
+    hasRewardPots(api) && {
+      name: 'pots',
+      text: t('Reward Pots')
     }
   ].filter((q): q is { name: string; text: string } => !!q), [api, hasStashes, slashes, t]);
 
@@ -227,6 +242,12 @@ function StakingApp ({ ahApi, ahEndPoints, basePath, isRelayChain, rcApi, rcEndP
               />
             }
             path='slashes'
+          />
+          <Route
+            element={
+              <Pots />
+            }
+            path='pots'
           />
           <Route
             element={
