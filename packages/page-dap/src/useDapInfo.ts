@@ -133,7 +133,7 @@ export function useDapInfo (): DapInfo {
   const stagingResult = useViewFunction('Dap', 'staging', hasDapApi ? { args: [] } : {});
 
   const stagingAccount = useMemo(
-    () => stagingResult ? (stagingResult as any).toString() as string : undefined,
+    () => stagingResult?.toString(),
     [stagingResult]
   );
 
@@ -198,17 +198,17 @@ export function useDapInfo (): DapInfo {
   // resets the tracker until the next drip lands. Acceptable for a debug
   // view; the first post-refresh drip repopulates it (typically within a few
   // blocks given `IssuanceCadence`).
-  const blockEvents = useBlockEvents();
+  const { events: blockEvents } = useBlockEvents();
   const [lastMintAmount, setLastMintAmount] = useState<BN | undefined>();
 
   useEffect(() => {
-    if (!blockEvents?.events?.length) {
+    if (!blockEvents.length) {
       return;
     }
 
     let latest: BN | undefined;
 
-    for (const keyed of blockEvents.events) {
+    for (const keyed of blockEvents) {
       const { event } = keyed.record;
 
       if (event.section === 'dap' && event.method === 'IssuanceMinted') {
@@ -225,7 +225,6 @@ export function useDapInfo (): DapInfo {
 
       setLastMintAmount((prev) => prev && prev.eq(next) ? prev : next);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [blockEvents]);
 
   // `ActiveEra` is set at genesis and monotonically increases — it's never

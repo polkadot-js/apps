@@ -198,7 +198,7 @@ function Overview (): React.ReactElement {
           const bufferIdx = info.recipients.findIndex((r) => r.key === 'buffer');
 
           const rows = info.recipients.map((r) => (
-            <tr key={r.account}>
+            <tr key={`${r.key}:${r.account}`}>
               <td className='start'><code>{r.key}</code></td>
               <td className='address'>
                 <AddressMini value={r.account} />

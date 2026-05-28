@@ -1,10 +1,10 @@
 // Copyright 2017-2026 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-// The polkadot-js metadata API is dynamically typed — lookups and created
+// The polkadot-js metadata API is dynamically typed - lookups and created
 // types are all `any`. These checks are disabled file-wide to keep the hook
 // readable. This matches the pre-existing posture of this file.
-/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return, @typescript-eslint/prefer-for-of */
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return */
 
 import type { ApiPromise } from '@polkadot/api';
 import type { Codec } from '@polkadot/types/types';
@@ -12,7 +12,6 @@ import type { Codec } from '@polkadot/types/types';
 import { useEffect, useState } from 'react';
 
 import { compactToU8a, u8aConcat, u8aToHex } from '@polkadot/util';
-import { xxhashAsU8a } from '@polkadot/util-crypto';
 
 import { useApi } from './useApi.js';
 import { useMemoValue } from './useMemoValue.js';
@@ -27,6 +26,7 @@ interface ViewFunctionInfo {
 // `pallet::fn`; a miss is cached as `undefined` too so we don't repeat the
 // metadata walk + warn log every render.
 const viewFunctionCache = new WeakMap<object, Map<string, ViewFunctionInfo | undefined>>();
+const EMPTY_ARGS: readonly unknown[] = [];
 
 function resolveViewFunction (api: ApiPromise, palletName: string, fnName: string): ViewFunctionInfo | undefined {
   try {
@@ -34,73 +34,52 @@ function resolveViewFunction (api: ApiPromise, palletName: string, fnName: strin
     const pallets = metadata.pallets;
 
     if (pallets) {
-      for (let i = 0; i < pallets.length; i++) {
-        const pallet = pallets[i];
+      const pallet = pallets.find((pallet: any) => pallet.name.toString() === palletName);
 
-        if (pallet.name.toString() === palletName) {
-          // `viewFunctions` only exists on metadata v16+. On older metadata the
-          // getter is undefined (not an empty Vec).
-          const vfs = pallet.viewFunctions;
+      if (!pallet) {
+        console.warn(`useViewFunction: pallet "${palletName}" not found in metadata. Available pallets: ${pallets.map((pallet: any) => pallet.name.toString()).join(', ')}`);
 
-          if (!vfs) {
-            console.warn(`useViewFunction: pallet "${palletName}" metadata has no viewFunctions field — runtime is probably on metadata < v16`);
-            break;
-          }
-
-          if (vfs.length === 0) {
-            console.warn(`useViewFunction: pallet "${palletName}" has an empty viewFunctions vec — pallet exposes none?`);
-            break;
-          }
-
-          for (let j = 0; j < vfs.length; j++) {
-            if (vfs[j].name.toString() === fnName) {
-              return {
-                id: vfs[j].id.toU8a(),
-                inputTypeIds: vfs[j].inputs.map((arg: any) => arg.type.toNumber()),
-                outputTypeId: vfs[j].output.toNumber()
-              };
-            }
-          }
-
-          console.warn(`useViewFunction: pallet "${palletName}" has ${vfs.length} view functions but "${fnName}" not found. Available: ${vfs.map((v: any) => v.name.toString()).join(', ')}`);
-          break;
-        }
+        return undefined;
       }
 
-      console.warn(`useViewFunction: pallet "${palletName}" not found in metadata. Available pallets: ${pallets.map((p: any) => p.name.toString()).join(', ')}`);
+      // `viewFunctions` only exists on metadata v16+. On older metadata the
+      // getter is undefined (not an empty Vec), so there is no reliable id to
+      // call.
+      const vfs = pallet.viewFunctions;
+
+      if (!vfs) {
+        console.warn(`useViewFunction: pallet "${palletName}" metadata has no viewFunctions field - runtime is probably on metadata < v16`);
+
+        return undefined;
+      }
+
+      const viewFunction = vfs.find((viewFunction: any) => viewFunction.name.toString() === fnName);
+
+      if (!viewFunction) {
+        console.warn(`useViewFunction: pallet "${palletName}" has ${vfs.length} view functions but "${fnName}" not found. Available: ${vfs.map((viewFunction: any) => viewFunction.name.toString()).join(', ')}`);
+
+        return undefined;
+      }
+
+      return {
+        id: viewFunction.id.toU8a(),
+        inputTypeIds: viewFunction.inputs.map((arg: any) => arg.type.toNumber()),
+        outputTypeId: viewFunction.output.toNumber()
+      };
     }
+
+    console.warn('useViewFunction: metadata has no pallets');
   } catch (e) {
-    console.warn('useViewFunction: metadata lookup failed, falling back to hash:', e);
+    console.warn('useViewFunction: metadata lookup failed:', e);
   }
 
-  // Fallback: compute IDs from twox_128(pallet) ++ twox_128(fnName). FRAME
-  // actually hashes the full signature, so this will only work for zero-arg
-  // fns where the computed id happens to match. Keep as a last-ditch escape
-  // hatch.
-  console.warn(`useViewFunction: using hash fallback for ${palletName}::${fnName} — IDs may not match runtime`);
-
-  try {
-    const prefix = xxhashAsU8a(palletName, 128);
-    const suffix = xxhashAsU8a(fnName, 128);
-    const id = new Uint8Array(32);
-
-    id.set(prefix, 0);
-    id.set(suffix, 16);
-
-    return { id, inputTypeIds: [] };
-  } catch (e) {
-    console.error('useViewFunction: hash computation failed:', e);
-
-    return undefined;
-  }
+  return undefined;
 }
 
 /**
  * Resolve a pallet view function from metadata (v16+): its 32-byte id, the
- * type ids of each input argument, and the output type id. Falls back to a
- * computed id via twox_128 hashes if metadata lookup fails. Cached per
- * registry so repeat callers (multiple EraPots columns etc.) don't re-walk
- * metadata.
+ * type ids of each input argument, and the output type id. Cached per registry
+ * so repeat callers (multiple EraPots columns etc.) don't re-walk metadata.
  */
 function findViewFunction (api: ApiPromise, palletName: string, fnName: string): ViewFunctionInfo | undefined {
   let byName = viewFunctionCache.get(api.registry);
@@ -137,11 +116,9 @@ function encodeArgs (api: ApiPromise, info: ViewFunctionInfo, args: readonly unk
     return new Uint8Array();
   }
 
-  const encoded = info.inputTypeIds.map((typeId, idx) => {
-    const typeDef = api.registry.lookup.getTypeDef(typeId);
-
-    return api.registry.createType(typeDef.type, args[idx]).toU8a();
-  });
+  const encoded = info.inputTypeIds.map((typeId, idx) =>
+    api.registry.createType(api.registry.createLookupType(typeId), args[idx]).toU8a()
+  );
 
   return u8aConcat(...encoded);
 }
@@ -150,8 +127,9 @@ interface Options {
   /**
    * Arguments encoded via metadata-resolved input types.
    *
-   *   - `undefined`: skip the call entirely (no subscription, no encoding).
-   *     Use this when a caller conditionally wants to skip (e.g. era is unknown).
+   *   - omitted options: zero-arg view function; call with empty input.
+   *   - `undefined`: skip the call entirely (no encoding/RPC). Use this when
+   *     a caller conditionally wants to skip (e.g. era is unknown).
    *   - `[]`: zero-arg view function; call with empty input.
    *   - non-empty array: encode and call.
    */
@@ -164,34 +142,35 @@ interface Options {
  * @param palletName - Pallet name as in construct_runtime (e.g. "Staking")
  * @param fnName - View function name (e.g. "pot_account")
  * @param options - `args` encoded via metadata types. Pass `{}` or
- *                  `{ args: undefined }` to skip the call entirely.
+ *                  `{ args: undefined }` to skip the call entirely; omit
+ *                  options for zero-argument view functions.
  */
 export function useViewFunction (
   palletName: string,
   fnName: string,
-  options: Options = {}
+  options?: Options
 ): Codec | undefined {
   const { api, isApiReady } = useApi();
   const [result, setResult] = useState<Codec | undefined>();
 
-  // Caller indicated "skip" by omitting args. Lets consumers respect the
-  // rules of hooks (always call useViewFunction) while deferring the actual
-  // runtime call until inputs are known.
-  const skip = options.args === undefined;
+  // Caller indicated "skip" by supplying options without args. This lets
+  // consumers respect the rules of hooks (always call useViewFunction) while
+  // deferring the actual runtime call until inputs are known.
+  const skip = options !== undefined && options.args === undefined;
 
-  // Identity-stable args reference — `useMemoValue` compares by value (BN-
+  // Identity-stable args reference - `useMemoValue` compares by value (BN-
   // aware via `@polkadot/util.stringify`) so re-renders with fresh array
   // literals don't re-trigger the effect.
-  const stableArgs = useMemoValue(options.args);
+  const stableArgs = useMemoValue(options?.args ?? EMPTY_ARGS);
 
   // Clear any stale result when the caller transitions back to "skip" — e.g.
   // era unset on prop change. Prevents a previously-resolved value from
   // lingering while the view function is no longer being requested.
   useEffect(() => {
-    if (skip) {
+    if (skip || !isApiReady) {
       setResult(undefined);
     }
-  }, [skip]);
+  }, [isApiReady, skip]);
 
   useEffect(() => {
     if (!isApiReady || skip) {
@@ -202,6 +181,7 @@ export function useViewFunction (
 
     if (!info) {
       console.warn(`useViewFunction: could not resolve ${palletName}::${fnName}`);
+      setResult(undefined);
 
       return;
     }
@@ -212,6 +192,7 @@ export function useViewFunction (
       input = encodeArgs(api, info, stableArgs ?? []);
     } catch (e) {
       console.error(`useViewFunction: input encoding failed for ${palletName}::${fnName}:`, e);
+      setResult(undefined);
 
       return;
     }
@@ -225,6 +206,8 @@ export function useViewFunction (
     const callArgs = u8aConcat(info.id, compactToU8a(input.length), input);
 
     let cancelled = false;
+
+    setResult(undefined);
 
     (api.rpc.state.call as any)('RuntimeViewFunction_execute_view_function', u8aToHex(callArgs))
       .then((rawBytes: any) => {

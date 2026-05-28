@@ -129,7 +129,7 @@ function PotRows ({ pick, snapshots, t, title }: PotRowsProps): React.ReactEleme
           const pot = pick(s);
           const rem = effectiveRemaining(pot.budget, pot.remaining, s.isEnded);
           const pct = spentPct(pot.budget, rem);
-          const spentBn = pot.budget && rem
+          const spentBn = pot.budget && !pot.budget.isZero() && rem
             ? BN.max(BN_ZERO, pot.budget.sub(rem))
             : undefined;
 

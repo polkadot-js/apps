@@ -32,6 +32,12 @@ import Validators from '../Validators/index.js';
 
 const HIDDEN_ACC = ['actions', 'payout'];
 
+interface StakingConsts {
+  disableMinting?: {
+    isTrue: boolean;
+  };
+}
+
 const OPT_MULTI = {
   defaultValue: [false, undefined, {}] as [boolean, BN | undefined, Record<string, boolean>],
   transform: ([eraElectionStatus, minValidatorBond, validators, activeValidatorIndices]: [ElectionStatus | null, BN | undefined, ValidatorId[] | null, ParaValidatorIndex[] | null]): [boolean, BN | undefined, Record<string, boolean>] => [
@@ -44,6 +50,10 @@ const OPT_MULTI = {
       : {}
   ]
 };
+
+function hasRewardPots (api: ApiPromise): boolean {
+  return !!(api.consts.staking as unknown as StakingConsts | undefined)?.disableMinting?.isTrue;
+}
 
 interface Props extends AppProps {
   ahApi?: ApiPromise
@@ -150,8 +160,7 @@ function StakingApp ({ ahApi, ahEndPoints, basePath, isRelayChain, rcApi, rcEndP
       name: 'command-center',
       text: t('Command Center')
     },
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
-    (api.consts.staking as any)?.disableMinting?.isTrue && {
+    hasRewardPots(api) && {
       name: 'pots',
       text: t('Reward Pots')
     }
