@@ -88,7 +88,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
       // Blast: 'wss://astar.public.blastapi.io', // https://github.com/polkadot-js/apps/issues/11965
       Dwellir: 'wss://astar-rpc.n.dwellir.com',
       OnFinality: 'wss://astar.api.onfinality.io/public-ws',
-      RadiumBlock: 'wss://astar.public.curie.radiumblock.co/ws',
+      //RadiumBlock: 'wss://astar.public.curie.radiumblock.co/ws',
       'light client': 'light://substrate-connect/polkadot/astar'
     },
     text: 'Astar',
@@ -663,7 +663,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
       // Helikon: 'wss://rpc.helikon.io/phala',
       // OnFinality: 'wss://phala.api.onfinality.io/public-ws',
       // Phala: 'wss://api.phala.network/ws', // https://github.com/polkadot-js/apps/issues/11251
-      RadiumBlock: 'wss://phala.public.curie.radiumblock.co/ws'
+      //RadiumBlock: 'wss://phala.public.curie.radiumblock.co/ws'
       // Rockx: 'wss://rockx-phala.w3node.com/polka-public-phala/ws' // https://github.com/polkadot-js/apps/issues/10728
     },
     text: 'Phala Network',
@@ -869,7 +869,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       LuckyFriday: 'wss://rpc-asset-hub-polkadot.luckyfriday.io',
       OnFinality: 'wss://statemint.api.onfinality.io/public-ws',
       Parity: 'wss://polkadot-asset-hub-rpc.polkadot.io',
-      RadiumBlock: 'wss://statemint.public.curie.radiumblock.co/ws'
+      //RadiumBlock: 'wss://statemint.public.curie.radiumblock.co/ws'
       // Stakeworld: 'wss://rpc-asset-hub-polkadot.stakeworld.io'
     },
     relayName: 'polkadot',
@@ -891,7 +891,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       LuckyFriday: 'wss://rpc-bridge-hub-polkadot.luckyfriday.io',
       OnFinality: 'wss://bridgehub-polkadot.api.onfinality.io/public-ws',
       Parity: 'wss://polkadot-bridge-hub-rpc.polkadot.io',
-      RadiumBlock: 'wss://bridgehub-polkadot.public.curie.radiumblock.co/ws',
+      //RadiumBlock: 'wss://bridgehub-polkadot.public.curie.radiumblock.co/ws',
       Spectrum: 'wss://spectrum-03.simplystaking.xyz/cG9sa2Fkb3QtMDMtOTFkMmYwZGYtcG9sa2Fkb3Q/mgX--uWlEtmNKw/polkadotbridgehub/mainnet/'
       // Stakeworld: 'wss://rpc-bridge-hub-polkadot.stakeworld.io'
     },
@@ -929,7 +929,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       LuckyFriday: 'wss://rpc-collectives-polkadot.luckyfriday.io',
       OnFinality: 'wss://collectives.api.onfinality.io/public-ws',
       Parity: 'wss://polkadot-collectives-rpc.polkadot.io',
-      RadiumBlock: 'wss://collectives.public.curie.radiumblock.co/ws'
+      //RadiumBlock: 'wss://collectives.public.curie.radiumblock.co/ws'
       // Stakeworld: 'wss://rpc-collectives-polkadot.stakeworld.io'
     },
     relayName: 'polkadot',
@@ -951,7 +951,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       LuckyFriday: 'wss://rpc-coretime-polkadot.luckyfriday.io',
       OnFinality: 'wss://coretime-polkadot.api.onfinality.io/public-ws',
       Parity: 'wss://polkadot-coretime-rpc.polkadot.io',
-      RadiumBlock: 'wss://coretime-polkadot.public.curie.radiumblock.co/ws'
+      //RadiumBlock: 'wss://coretime-polkadot.public.curie.radiumblock.co/ws'
       // Stakeworld: 'wss://rpc-coretime-polkadot.stakeworld.io'
     },
     relayName: 'polkadot',
@@ -971,7 +971,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       LuckyFriday: 'wss://rpc-people-polkadot.luckyfriday.io',
       OnFinality: 'wss://people-polkadot.api.onfinality.io/public-ws',
       Parity: 'wss://polkadot-people-rpc.polkadot.io',
-      RadiumBlock: 'wss://people-polkadot.public.curie.radiumblock.co/ws'
+      //RadiumBlock: 'wss://people-polkadot.public.curie.radiumblock.co/ws'
       // Stakeworld: 'wss://rpc-people-polkadot.stakeworld.io'
     },
     relayName: 'polkadot',
@@ -1004,7 +1004,7 @@ export const prodRelayPolkadot: EndpointOption = {
     IBP2: 'wss://polkadot.dotters.network',
     LuckyFriday: 'wss://rpc-polkadot.luckyfriday.io',
     OnFinality: 'wss://polkadot.api.onfinality.io/public-ws',
-    RadiumBlock: 'wss://polkadot.public.curie.radiumblock.co/ws',
+    //RadiumBlock: 'wss://polkadot.public.curie.radiumblock.co/ws',
     // RockX: 'wss://rockx-dot.w3node.com/polka-public-dot/ws', // https://github.com/polkadot-js/apps/issues/11439
     Spectrum: 'wss://spectrum-03.simplystaking.xyz/cG9sa2Fkb3QtMDMtOTFkMmYwZGYtcG9sa2Fkb3Q/LjwBJpV3dIKyWQ/polkadot/mainnet/',
     Stakeworld: 'wss://rpc-polkadot.stakeworld.io',
