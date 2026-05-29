@@ -856,7 +856,7 @@ export const prodParasKusamaCommon: EndpointOption[] = [
       IBP2: 'wss://asset-hub-kusama.dotters.network',
       LuckyFriday: 'wss://rpc-asset-hub-kusama.luckyfriday.io',
       OnFinality: 'wss://assethub-kusama.api.onfinality.io/public-ws',
-      Parity: 'wss://kusama-asset-hub-rpc.polkadot.io',
+      Parity: 'wss://kusama-asset-hub-rpc.polkadot.io'
       // RadiumBlock: 'wss://statemine.public.curie.radiumblock.co/ws'
       // Stakeworld: 'wss://rpc-assethub-kusama.stakeworld.io'
     },
@@ -945,7 +945,7 @@ export const prodParasKusamaCommon: EndpointOption[] = [
       IBP2: 'wss://people-kusama.dotters.network',
       LuckyFriday: 'wss://rpc-people-kusama.luckyfriday.io',
       OnFinality: 'wss://people-kusama.api.onfinality.io/public-ws',
-      Parity: 'wss://kusama-people-rpc.polkadot.io',
+      Parity: 'wss://kusama-people-rpc.polkadot.io'
       // RadiumBlock: 'wss://people-kusama.public.curie.radiumblock.co/ws'
       // Stakeworld: 'wss://rpc-people-kusama.stakeworld.io'
     },
