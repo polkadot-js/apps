@@ -907,6 +907,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
     isPeopleForIdentity: true,
     paraId: 1010,
     providers: {
+      LuckyFriday: 'wss://rpc-bulletin.luckyfriday.io',
       Parity: 'wss://bulletin-rpc.polkadot.io',
       Spectrum: 'wss://spectrum-03.simplystaking.xyz/cG9sa2Fkb3QtMDMtOTFkMmYwZGYtcG9sa2Fkb3Q/9QbAeudedsupNA/polkadotbulletin/mainnet/'
     },
