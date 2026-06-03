@@ -544,6 +544,7 @@
        1	Piotr Mikołajczyk             	Fix `jsonrpc` attribute (#9576)
        1	Pioua                         	typo fix (#10123)
        1	Polkassembly                  	Added fellowship refrenda (#9135)
+       1	porticodotlabs                	Adding Zondax RPC fpr Paseo Testnet (#12307)
        1	Preschian Febryantara         	add KodaDot logo (#7151)
        1	Progress Ochuko Eyaadah       	Fix: Show referenda approval/support curves on Kusama, Paseo & Westend (no more blank charts) (#12168)
        1	Puneet Saraswat               	Frequency rococo  (#8076)
