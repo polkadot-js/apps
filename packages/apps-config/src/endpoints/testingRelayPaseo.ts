@@ -485,8 +485,6 @@ export const testParasPaseoCommon: EndpointOption[] = [
     paraId: 1000,
     providers: {
       Dwellir: 'wss://asset-hub-paseo-rpc.n.dwellir.com',
-      IBP1: 'wss://asset-hub-paseo.ibp.network',
-      IBP2: 'wss://asset-hub-paseo.dotters.network',
       // StakeWorld: 'wss://rpc-assethub-paseo.stakeworld.io',
       TurboFlakes: 'wss://sys.turboflakes.io/asset-hub-paseo',
       Zondax: 'wss://api2.zondax.ch/pas/assethub/node/rpc'
@@ -504,8 +502,6 @@ export const testParasPaseoCommon: EndpointOption[] = [
     isPeopleForIdentity: true,
     paraId: 1002,
     providers: {
-      IBP1: 'wss://bridge-hub-paseo.ibp.network',
-      IBP2: 'wss://bridge-hub-paseo.dotters.network',
       Zondax: 'wss://api2.zondax.ch/pas/bridgehub/node/rpc'
     },
     relayName: 'paseo',
@@ -521,8 +517,6 @@ export const testParasPaseoCommon: EndpointOption[] = [
     isPeopleForIdentity: true,
     paraId: 1001,
     providers: {
-      IBP1: 'wss://collectives-paseo.ibp.network',
-      IBP2: 'wss://collectives-paseo.dotters.network',
       Zondax: 'wss://api2.zondax.ch/pas/collectives/node/rpc'
     },
     relayName: 'paseo',
@@ -538,8 +532,6 @@ export const testParasPaseoCommon: EndpointOption[] = [
     isPeopleForIdentity: true,
     paraId: 1005,
     providers: {
-      IBP1: 'wss://coretime-paseo.ibp.network',
-      IBP2: 'wss://coretime-paseo.dotters.network',
       // ParaNodes: 'wss://paseo-coretime.paranodes.io', // https://github.com/polkadot-js/apps/issues/11587
       Zondax: 'wss://api2.zondax.ch/pas/coretime/node/rpc'
     },
@@ -558,8 +550,6 @@ export const testParasPaseoCommon: EndpointOption[] = [
     paraId: 1004,
     providers: {
       Amforc: 'wss://people-paseo.rpc.amforc.com',
-      IBP1: 'wss://people-paseo.ibp.network',
-      IBP2: 'wss://people-paseo.dotters.network',
       Zondax: 'wss://api2.zondax.ch/pas/people/node/rpc'
     },
     relayName: 'paseo',
@@ -585,8 +575,6 @@ export const testRelayPaseo: EndpointOption = {
   providers: {
     Amforc: 'wss://paseo.rpc.amforc.com',
     Dwellir: 'wss://paseo-rpc.n.dwellir.com',
-    IBP1: 'wss://paseo.ibp.network',
-    IBP2: 'wss://paseo.dotters.network',
     // StakeWorld: 'wss://rpc-paseo.stakeworld.io'
     Zondax: 'wss://api2.zondax.ch/pas/relay/node/rpc'
     // 'light client': 'light://substrate-connect/paseo'

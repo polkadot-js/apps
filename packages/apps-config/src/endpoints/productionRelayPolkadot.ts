@@ -351,9 +351,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     providers: {
       Dwellir: 'wss://hydration-rpc.n.dwellir.com',
       'Galactic Council': 'wss://rpc.hydradx.cloud',
-      Helikon: 'wss://rpc.helikon.io/hydradx',
-      IBP1: 'wss://hydration.ibp.network',
-      IBP2: 'wss://hydration.dotters.network'
+      Helikon: 'wss://rpc.helikon.io/hydradx'
       // OnFinality: 'wss://hydradx.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/9986
       // ZeePrime: 'wss://rpc-lb.data6.zp-labs.net:8443/hydradx/ws/?token=2ZGuGivPJJAxXiT1hR1Yg2MXGjMrhEBYFjgbdPi' // https://github.com/polkadot-js/apps/issues/9760
     },
@@ -864,8 +862,6 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
     paraId: 1000,
     providers: {
       Dwellir: 'wss://asset-hub-polkadot-rpc.n.dwellir.com',
-      IBP1: 'wss://asset-hub-polkadot.ibp.network',
-      IBP2: 'wss://asset-hub-polkadot.dotters.network',
       LuckyFriday: 'wss://rpc-asset-hub-polkadot.luckyfriday.io',
       OnFinality: 'wss://statemint.api.onfinality.io/public-ws',
       Parity: 'wss://polkadot-asset-hub-rpc.polkadot.io',
@@ -886,8 +882,6 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
     paraId: 1002,
     providers: {
       Dwellir: 'wss://bridge-hub-polkadot-rpc.n.dwellir.com',
-      IBP1: 'wss://bridge-hub-polkadot.ibp.network',
-      IBP2: 'wss://bridge-hub-polkadot.dotters.network',
       LuckyFriday: 'wss://rpc-bridge-hub-polkadot.luckyfriday.io',
       OnFinality: 'wss://bridgehub-polkadot.api.onfinality.io/public-ws',
       Parity: 'wss://polkadot-bridge-hub-rpc.polkadot.io',
@@ -924,8 +918,6 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
     paraId: 1001,
     providers: {
       Dwellir: 'wss://collectives-polkadot-rpc.n.dwellir.com',
-      IBP1: 'wss://collectives-polkadot.ibp.network',
-      IBP2: 'wss://collectives-polkadot.dotters.network',
       LuckyFriday: 'wss://rpc-collectives-polkadot.luckyfriday.io',
       OnFinality: 'wss://collectives.api.onfinality.io/public-ws',
       Parity: 'wss://polkadot-collectives-rpc.polkadot.io',
@@ -946,8 +938,6 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
     paraId: 1005,
     providers: {
       Dwellir: 'wss://coretime-polkadot-rpc.n.dwellir.com',
-      IBP1: 'wss://coretime-polkadot.ibp.network',
-      IBP2: 'wss://coretime-polkadot.dotters.network',
       LuckyFriday: 'wss://rpc-coretime-polkadot.luckyfriday.io',
       OnFinality: 'wss://coretime-polkadot.api.onfinality.io/public-ws',
       Parity: 'wss://polkadot-coretime-rpc.polkadot.io',
@@ -966,8 +956,6 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
     paraId: 1004,
     providers: {
       Dwellir: 'wss://people-polkadot-rpc.n.dwellir.com',
-      IBP1: 'wss://people-polkadot.ibp.network',
-      IBP2: 'wss://people-polkadot.dotters.network',
       LuckyFriday: 'wss://rpc-people-polkadot.luckyfriday.io',
       OnFinality: 'wss://people-polkadot.api.onfinality.io/public-ws',
       Parity: 'wss://polkadot-people-rpc.polkadot.io',
@@ -1000,8 +988,6 @@ export const prodRelayPolkadot: EndpointOption = {
     // 'Automata 1RPC': 'wss://1rpc.io/dot',
     Dwellir: 'wss://polkadot-rpc.n.dwellir.com',
     Helixstreet: 'wss://rpc-polkadot.helixstreet.io',
-    IBP1: 'wss://polkadot.ibp.network',
-    IBP2: 'wss://polkadot.dotters.network',
     LuckyFriday: 'wss://rpc-polkadot.luckyfriday.io',
     OnFinality: 'wss://polkadot.api.onfinality.io/public-ws',
     RadiumBlock: 'wss://polkadot.public.curie.radiumblock.co/ws',

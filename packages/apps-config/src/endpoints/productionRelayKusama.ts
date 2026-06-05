@@ -852,8 +852,6 @@ export const prodParasKusamaCommon: EndpointOption[] = [
     paraId: 1000,
     providers: {
       Dwellir: 'wss://asset-hub-kusama-rpc.n.dwellir.com',
-      IBP1: 'wss://asset-hub-kusama.ibp.network',
-      IBP2: 'wss://asset-hub-kusama.dotters.network',
       LuckyFriday: 'wss://rpc-asset-hub-kusama.luckyfriday.io',
       OnFinality: 'wss://assethub-kusama.api.onfinality.io/public-ws',
       Parity: 'wss://kusama-asset-hub-rpc.polkadot.io',
@@ -874,8 +872,6 @@ export const prodParasKusamaCommon: EndpointOption[] = [
     paraId: 1002,
     providers: {
       Dwellir: 'wss://bridge-hub-kusama-rpc.n.dwellir.com',
-      IBP1: 'wss://bridge-hub-kusama.ibp.network',
-      IBP2: 'wss://bridge-hub-kusama.dotters.network',
       LuckyFriday: 'wss://rpc-bridge-hub-kusama.luckyfriday.io',
       OnFinality: 'wss://bridgehub-kusama.api.onfinality.io/public-ws',
       Parity: 'wss://kusama-bridge-hub-rpc.polkadot.io',
@@ -896,8 +892,6 @@ export const prodParasKusamaCommon: EndpointOption[] = [
     paraId: 1005,
     providers: {
       Dwellir: 'wss://coretime-kusama-rpc.n.dwellir.com',
-      IBP1: 'wss://coretime-kusama.ibp.network',
-      IBP2: 'wss://coretime-kusama.dotters.network',
       LuckyFriday: 'wss://rpc-coretime-kusama.luckyfriday.io',
       OnFinality: 'wss://coretime-kusama.api.onfinality.io/public-ws',
       Parity: 'wss://kusama-coretime-rpc.polkadot.io'
@@ -919,8 +913,6 @@ export const prodParasKusamaCommon: EndpointOption[] = [
     providers: {
       Dwellir: 'wss://encointer-kusama-rpc.n.dwellir.com',
       'Encointer Association': 'wss://kusama.api.encointer.org',
-      IBP1: 'wss://encointer-kusama.ibp.network',
-      IBP2: 'wss://encointer-kusama.dotters.network',
       LuckyFriday: 'wss://rpc-encointer-kusama.luckyfriday.io'
       // OnFinality: 'wss://encointer.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/9986
       // Stakeworld: 'wss://ksm-rpc.stakeworld.io/encointer'
@@ -941,8 +933,6 @@ export const prodParasKusamaCommon: EndpointOption[] = [
     providers: {
       Dwellir: 'wss://people-kusama-rpc.n.dwellir.com',
       Helixstreet: 'wss://rpc-people-kusama.helixstreet.io',
-      IBP1: 'wss://people-kusama.ibp.network',
-      IBP2: 'wss://people-kusama.dotters.network',
       LuckyFriday: 'wss://rpc-people-kusama.luckyfriday.io',
       OnFinality: 'wss://people-kusama.api.onfinality.io/public-ws',
       Parity: 'wss://kusama-people-rpc.polkadot.io',
@@ -975,8 +965,6 @@ export const prodRelayKusama: EndpointOption = {
     Allnodes: 'wss://kusama-rpc.publicnode.com',
     Dwellir: 'wss://kusama-rpc.n.dwellir.com',
     Helixstreet: 'wss://rpc-kusama.helixstreet.io',
-    IBP1: 'wss://kusama.ibp.network',
-    IBP2: 'wss://kusama.dotters.network',
     LuckyFriday: 'wss://rpc-kusama.luckyfriday.io',
     OnFinality: 'wss://kusama.api.onfinality.io/public-ws',
     RadiumBlock: 'wss://kusama.public.curie.radiumblock.co/ws',
