@@ -11,6 +11,7 @@ import '@polkadot/api-augment/substrate';
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 
+import { initQuipSigner } from './initQuipSigner.js';
 import Root from './Root.js';
 
 const rootId = 'root';
@@ -20,6 +21,12 @@ if (!rootElement) {
   throw new Error(`Unable to find element with id '${rootId}'`);
 }
 
-createRoot(rootElement).render(
-  <Root isElectron={false} />
-);
+void initQuipSigner()
+  .catch((error): void => {
+    console.error('Quip dev signer initialization failed', error);
+  })
+  .finally((): void => {
+    createRoot(rootElement).render(
+      <Root isElectron={false} />
+    );
+  });

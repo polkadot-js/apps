@@ -25,6 +25,7 @@ import Local from '../modals/LocalAdd.js';
 import Multisig from '../modals/MultisigCreate.js';
 import Proxy from '../modals/ProxiedAdd.js';
 import Qr from '../modals/Qr.js';
+import QuipMnemonic from '../modals/QuipMnemonic.js';
 import { useTranslation } from '../translate.js';
 import { SORT_CATEGORY, sortAccounts } from '../util.js';
 import Account from './Account.js';
@@ -107,8 +108,10 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   const [isProxyOpen, toggleProxy] = useToggle();
   const [isLocalOpen, toggleLocal] = useToggle();
   const [isQrOpen, toggleQr] = useToggle();
+  const [isQuipOpen, toggleQuip] = useToggle();
   const [isExportAll, toggleExportAll] = useToggle();
   const [isImportAll, toggleImportAll] = useToggle();
+  const hasQuipSigner = typeof globalThis !== 'undefined' && !!(globalThis as { quipSigner?: unknown }).quipSigner;
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS);
   const [balances, setBalances] = useState<Balances>({ accounts: {} });
   const [filterOn, setFilter] = useState<string>('');
@@ -323,6 +326,12 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
           onStatusChange={onStatusChange}
         />
       )}
+      {isQuipOpen && (
+        <QuipMnemonic
+          onClose={toggleQuip}
+          onStatusChange={onStatusChange}
+        />
+      )}
       {isExportAll && (
         <ExportAll
           accountsByGroup={grouped}
@@ -394,6 +403,13 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
             label={t('From Qr')}
             onClick={toggleQr}
           />
+          {hasQuipSigner && (
+            <Button
+              icon='shield-halved'
+              label={t('From Quip mnemonic')}
+              onClick={toggleQuip}
+            />
+          )}
           {isLedgerEnabled && (
             <Button
               icon='project-diagram'

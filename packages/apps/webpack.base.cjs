@@ -135,6 +135,7 @@ function createWebpack (context, mode = 'production') {
       new webpack.DefinePlugin({
         'process.env': {
           NODE_ENV: JSON.stringify(mode),
+          QUIP_DEV_SIGNER: JSON.stringify(process.env.QUIP_DEV_SIGNER),
           WS_URL: JSON.stringify(process.env.WS_URL)
         }
       }),
@@ -149,6 +150,10 @@ function createWebpack (context, mode = 'production') {
         '.js': ['.js', '.ts', '.tsx']
       },
       extensions: ['.js', '.jsx', '.mjs', '.ts', '.tsx'],
+      modules: [
+        'node_modules',
+        path.resolve(context, '../../node_modules')
+      ],
       fallback: {
         assert: require.resolve('assert/'),
         crypto: require.resolve('crypto-browserify'),
