@@ -17,8 +17,8 @@ function useMultisigApprovalsImpl (address: string): [H256, Multisig][] | undefi
   const prevEventsRef = useRef<string>('');
 
   // increment the trigger by looking at all events
-  //   - filter the by multisig module (old utility is not supported)
-  //   - find anything data item where the type is AccountId
+  //   - filter by the multisig module (old utility is not supported)
+  //   - find any data item where the type is AccountId
   //   - increment the trigger when at least one matches our address and is different from previous multisig events
   useEffect((): void => {
     const multisigEvents = events.filter(({ record: { event: { data, section } } }) =>

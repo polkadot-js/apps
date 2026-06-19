@@ -37,7 +37,7 @@ export function addrToChecksum (_address: string): string {
   return result;
 }
 
-// convert a give public key to an Ethereum address (the last 20 bytes of an _exapnded_ key keccack)
+// convert a given public key to an Ethereum address (the last 20 bytes of the keccak hash)
 export function publicToAddr (publicKey: Uint8Array): string {
   return addrToChecksum(`0x${keccakAsHex(publicKey).slice(-40)}`);
 }
@@ -50,7 +50,7 @@ export function hashMessage (message: string): Buffer {
   return u8aToBuffer(hashed);
 }
 
-// split is 65-byte signature into the r, s (combined) and recovery number (derived from v)
+// split a 65-byte signature into the r, s (combined) and recovery number (derived from v)
 export function sigToParts (_signature: string): SignatureParts {
   const signature = hexToU8a(_signature);
 
@@ -72,7 +72,7 @@ export function sigToParts (_signature: string): SignatureParts {
   };
 }
 
-// recover an address from a given message and a recover/signature combination
+// recover an address from a given message and a recovery/signature combination
 export function recoverAddress (message: string, { recovery, signature }: SignatureParts): string {
   const msgHash = hashMessage(message);
   const senderPubKey = secp256k1.recover(msgHash, signature, recovery);
