@@ -864,8 +864,9 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       Dwellir: 'wss://asset-hub-polkadot-rpc.n.dwellir.com',
       LuckyFriday: 'wss://rpc-asset-hub-polkadot.luckyfriday.io',
       OnFinality: 'wss://statemint.api.onfinality.io/public-ws',
-      Parity: 'wss://polkadot-asset-hub-rpc.polkadot.io'
+      Parity: 'wss://polkadot-asset-hub-rpc.polkadot.io',
       // RadiumBlock: 'wss://statemint.public.curie.radiumblock.co/ws'
+      Spectrum: 'wss://spectrum-03.simplystaking.xyz/RcHPQCOlyKRDTS/v4uorCoEDm5uOA/polkadotassethub/mn/420420419/dedicated_polkadot/archive/ws/'
       // Stakeworld: 'wss://rpc-asset-hub-polkadot.stakeworld.io'
     },
     relayName: 'polkadot',
