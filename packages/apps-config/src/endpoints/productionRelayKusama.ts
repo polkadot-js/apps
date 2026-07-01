@@ -970,7 +970,7 @@ export const prodRelayKusama: EndpointOption = {
     // RadiumBlock: 'wss://kusama.public.curie.radiumblock.co/ws',
     // RockX: 'wss://rockx-ksm.w3node.com/polka-public-ksm/ws', // https://github.com/polkadot-js/apps/issues/11477
     Spectrum: 'wss://spectrum-03.simplystaking.xyz/cG9sa2Fkb3QtMDMtOTFkMmYwZGYtcG9sa2Fkb3Q/QXq7QZ6Q60NDzA/kusama/mainnet/',
-    Stakeworld: 'wss://rpc-kusama.stakeworld.io',
+    // Stakeworld: 'wss://rpc-kusama.stakeworld.io',
     // SubQuery: 'wss://kusama.rpc.subquery.network/public/ws', https://github.com/polkadot-js/apps/issues/11026
     'light client': 'light://substrate-connect/kusama'
   },
