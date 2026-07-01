@@ -867,6 +867,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       Parity: 'wss://polkadot-asset-hub-rpc.polkadot.io',
       // RadiumBlock: 'wss://statemint.public.curie.radiumblock.co/ws'
       Stakeworld: 'wss://rpc-asset-hub-polkadot.stakeworld.io'
+      Helixstreet: 'wss://rpc-asset-hub-polkadot.helixstreet.io',
     },
     relayName: 'polkadot',
     teleport: [-1, 1002, 1001, 1005, 1004, 1010],
@@ -962,6 +963,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       Parity: 'wss://polkadot-people-rpc.polkadot.io',
       // RadiumBlock: 'wss://people-polkadot.public.curie.radiumblock.co/ws'
       Stakeworld: 'wss://rpc-people-polkadot.stakeworld.io'
+      Helixstreet: 'wss://rpc-people-polkadot.helixstreet.io',
     },
     relayName: 'polkadot',
     teleport: [-1, 1000],
