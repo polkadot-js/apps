@@ -989,6 +989,7 @@ export const prodRelayPolkadot: EndpointOption = {
     // 'Automata 1RPC': 'wss://1rpc.io/dot',
     Dwellir: 'wss://polkadot-rpc.n.dwellir.com',
     Helixstreet: 'wss://rpc-polkadot.helixstreet.io',
+    interweb: 'wss://rpc.interweb-it.com/polkadot',
     LuckyFriday: 'wss://rpc-polkadot.luckyfriday.io',
     OnFinality: 'wss://polkadot.api.onfinality.io/public-ws',
     // RadiumBlock: 'wss://polkadot.public.curie.radiumblock.co/ws',
