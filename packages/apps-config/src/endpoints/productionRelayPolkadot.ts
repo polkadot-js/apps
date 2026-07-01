@@ -1008,4 +1008,3 @@ export const prodRelayPolkadot: EndpointOption = {
     logo: chainsPolkadotCircleSVG
   }
 };
-  
