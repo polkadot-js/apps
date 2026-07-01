@@ -575,7 +575,7 @@ export const testRelayPaseo: EndpointOption = {
   providers: {
     Amforc: 'wss://paseo.rpc.amforc.com',
     Dwellir: 'wss://paseo-rpc.n.dwellir.com',
-    // StakeWorld: 'wss://rpc-paseo.stakeworld.io'
+    StakeWorld: 'wss://rpc-paseo.stakeworld.io',
     Zondax: 'wss://api2.zondax.ch/pas/relay/node/rpc'
     // 'light client': 'light://substrate-connect/paseo'
   },
