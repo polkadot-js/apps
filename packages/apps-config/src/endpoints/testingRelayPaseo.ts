@@ -550,7 +550,8 @@ export const testParasPaseoCommon: EndpointOption[] = [
     paraId: 1004,
     providers: {
       Amforc: 'wss://people-paseo.rpc.amforc.com',
-      Zondax: 'wss://api2.zondax.ch/pas/people/node/rpc'
+      Zondax: 'wss://api2.zondax.ch/pas/people/node/rpc',
+      interweb: 'wss://rpc.interweb-it.com/people-paseo'
     },
     relayName: 'paseo',
     teleport: [-1],
