@@ -550,7 +550,8 @@ export const testParasPaseoCommon: EndpointOption[] = [
     paraId: 1004,
     providers: {
       Amforc: 'wss://people-paseo.rpc.amforc.com',
-      Zondax: 'wss://api2.zondax.ch/pas/people/node/rpc'
+      Zondax: 'wss://api2.zondax.ch/pas/people/node/rpc',
+      interweb: 'wss://rpc.interweb-it.com/people-paseo'
     },
     relayName: 'paseo',
     teleport: [-1],
@@ -576,7 +577,8 @@ export const testRelayPaseo: EndpointOption = {
     Amforc: 'wss://paseo.rpc.amforc.com',
     Dwellir: 'wss://paseo-rpc.n.dwellir.com',
     StakeWorld: 'wss://rpc-paseo.stakeworld.io',
-    Zondax: 'wss://api2.zondax.ch/pas/relay/node/rpc'
+    Zondax: 'wss://api2.zondax.ch/pas/relay/node/rpc',
+    interweb: 'wss://rpc.interweb-it.com/paseo'
     // 'light client': 'light://substrate-connect/paseo'
   },
   teleport: getTeleports(testParasPaseoCommon),
