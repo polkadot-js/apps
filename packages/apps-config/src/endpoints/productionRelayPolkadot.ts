@@ -862,6 +862,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
     paraId: 1000,
     providers: {
       Dwellir: 'wss://asset-hub-polkadot-rpc.n.dwellir.com',
+      Helixstreet: 'wss://rpc-asset-hub-polkadot.helixstreet.io',
       LuckyFriday: 'wss://rpc-asset-hub-polkadot.luckyfriday.io',
       OnFinality: 'wss://statemint.api.onfinality.io/public-ws',
       Parity: 'wss://polkadot-asset-hub-rpc.polkadot.io',
@@ -957,6 +958,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
     paraId: 1004,
     providers: {
       Dwellir: 'wss://people-polkadot-rpc.n.dwellir.com',
+      Helixstreet: 'wss://rpc-people-polkadot.helixstreet.io',
       LuckyFriday: 'wss://rpc-people-polkadot.luckyfriday.io',
       OnFinality: 'wss://people-polkadot.api.onfinality.io/public-ws',
       Parity: 'wss://polkadot-people-rpc.polkadot.io',
