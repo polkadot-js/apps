@@ -550,6 +550,7 @@ export const testParasPaseoCommon: EndpointOption[] = [
     paraId: 1004,
     providers: {
       Amforc: 'wss://people-paseo.rpc.amforc.com',
+      'Gatotech Unlimited': 'wss://people-paseo.gatotech.network',
       Zondax: 'wss://api2.zondax.ch/pas/people/node/rpc',
       interweb: 'wss://rpc.interweb-it.com/people-paseo'
     },
