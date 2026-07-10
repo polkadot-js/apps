@@ -497,6 +497,21 @@ export const testParasPaseoCommon: EndpointOption[] = [
     }
   },
   {
+    info: 'PaseoBulletin',
+    isPeopleForIdentity: true,
+    paraId: 1010,
+    providers: {
+      StakingLand: 'wss://bulletin-paseo.tservices.es:8443'
+    },
+    relayName: 'paseo',
+    teleport: [-1, 1000],
+    text: 'Bulletin',
+    ui: {
+      color: '#6B2D84',
+      logo: chainsBulletinSVG
+    }
+  },
+  {
     info: 'PaseoPeopleChain',
     isPeople: true,
     isPeopleForIdentity: false,
