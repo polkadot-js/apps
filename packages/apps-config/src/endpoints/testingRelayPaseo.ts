@@ -517,6 +517,7 @@ export const testParasPaseoCommon: EndpointOption[] = [
     isPeopleForIdentity: false,
     paraId: 1004,
     providers: {
+      'Gatotech Unlimited': 'wss://people-paseo.gatotech.network',
       Rotko: 'wss://people-paseo.rotko.net',
       interweb: 'wss://rpc.interweb-it.com/people-paseo'
     },

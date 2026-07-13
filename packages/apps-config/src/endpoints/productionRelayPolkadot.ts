@@ -862,6 +862,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
     paraId: 1000,
     providers: {
       Dwellir: 'wss://asset-hub-polkadot-rpc.n.dwellir.com',
+      'Gatotech Unlimited': 'wss://asset-hub-polkadot.gatotech.network',
       Helixstreet: 'wss://rpc-asset-hub-polkadot.helixstreet.io',
       LuckyFriday: 'wss://rpc-asset-hub-polkadot.luckyfriday.io',
       OnFinality: 'wss://statemint.api.onfinality.io/public-ws',
@@ -990,6 +991,7 @@ export const prodRelayPolkadot: EndpointOption = {
     // 'Geometry Labs': 'wss://polkadot.geometry.io/websockets', // https://github.com/polkadot-js/apps/pull/6746
     // 'Automata 1RPC': 'wss://1rpc.io/dot',
     Dwellir: 'wss://polkadot-rpc.n.dwellir.com',
+    'Gatotech Unlimited': 'wss://polkadot.gatotech.network',
     Helixstreet: 'wss://rpc-polkadot.helixstreet.io',
     LuckyFriday: 'wss://rpc-polkadot.luckyfriday.io',
     OnFinality: 'wss://polkadot.api.onfinality.io/public-ws',

@@ -964,6 +964,7 @@ export const prodRelayKusama: EndpointOption = {
     // 'Automata 1RPC': 'wss://1rpc.io/ksm',
     Allnodes: 'wss://kusama-rpc.publicnode.com',
     Dwellir: 'wss://kusama-rpc.n.dwellir.com',
+    'Gatotech Unlimited': 'wss://kusama.gatotech.network',
     Helixstreet: 'wss://rpc-kusama.helixstreet.io',
     LuckyFriday: 'wss://rpc-kusama.luckyfriday.io',
     OnFinality: 'wss://kusama.api.onfinality.io/public-ws',
