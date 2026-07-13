@@ -367,6 +367,7 @@
        1	Aidan Starke                  	Add `Root Network` types (#8034)
        1	Albert                        	Apply Nunito fonts globally (#3882)
        1	Albrecht                      	Rename KILT Protocol to "BOTLabs" (#10032)
+       1	Alex Bean                     	Remove Bridge Hub, Collectives and Coretime from Paseo, update RPC providers (#12369)
        1	Alex Sedighi                  	Update URL for Nodle Testing Parachain on Rococo (#7810)
        1	Alex Won                      	support ethereum compatibility for bifrost network (#8733)
        1	Alexander Wilke               	add t3rn parachain (#9195)
