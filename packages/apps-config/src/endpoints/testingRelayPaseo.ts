@@ -4,8 +4,8 @@
 // eslint-disable-next-line header/header
 import type { EndpointOption } from './types.js';
 
-import { chainsAmplitudeSVG, chainsBulletinSVG, chainsCoretimeKusamaSVG, chainsFrequencyPaseoSVG, chainsHydrationPaseoSVG, chainsKreivoSVG, chainsLaosSigmaPNG, chainsMyxcavPNG, chainsNeurowebTestnetPNG, chainsPaseoPNG, chainsPeoplePolkadotSVG, chainsPopNetworkSVG, chainsQfNetworkPNG, chainsShibuyaSVG, chainsWatrPNG, chainsWeTEESVG } from '@polkadot/apps-config/ui/logos/chains';
-import { nodesAjunaPNG, nodesAssetHubSVG, nodesAventusSVG, nodesBajunPNG, nodesBifrostSVG, nodesBridgeHubSVG, nodesCollectivesSVG, nodesDarwiniaKoiSVG, nodesFintraSVG, nodesHeimaPaseoPNG, nodesHyperbridgePNG, nodesIdealNetworkSVG, nodesIdncSVG, nodesIntegriteeSVG, nodesKiltIconSVG, nodesMandalaPNG, nodesMusePNG, nodesMyriadPaseoSVG, nodesNodleSVG, nodesOpalLogoPNG, nodesRegionxPNG, nodesRexSVG, nodesXodePNG, nodesZeitgeistPNG } from '@polkadot/apps-config/ui/logos/nodes';
+import { chainsAmplitudeSVG, chainsBulletinSVG, chainsFrequencyPaseoSVG, chainsHydrationPaseoSVG, chainsKreivoSVG, chainsLaosSigmaPNG, chainsMyxcavPNG, chainsNeurowebTestnetPNG, chainsPaseoPNG, chainsPeoplePolkadotSVG, chainsPopNetworkSVG, chainsQfNetworkPNG, chainsShibuyaSVG, chainsWatrPNG, chainsWeTEESVG } from '@polkadot/apps-config/ui/logos/chains';
+import { nodesAjunaPNG, nodesAssetHubSVG, nodesAventusSVG, nodesBajunPNG, nodesBifrostSVG, nodesDarwiniaKoiSVG, nodesFintraSVG, nodesHeimaPaseoPNG, nodesHyperbridgePNG, nodesIdealNetworkSVG, nodesIdncSVG, nodesIntegriteeSVG, nodesKiltIconSVG, nodesMandalaPNG, nodesMusePNG, nodesMyriadPaseoSVG, nodesNodleSVG, nodesOpalLogoPNG, nodesRegionxPNG, nodesRexSVG, nodesXodePNG, nodesZeitgeistPNG } from '@polkadot/apps-config/ui/logos/nodes';
 
 import { PASEO_GENESIS } from '../api/constants.js';
 // import { testnetParachainSVG } from '../ui/logos/nodes/index.js';
@@ -486,8 +486,7 @@ export const testParasPaseoCommon: EndpointOption[] = [
     providers: {
       Dwellir: 'wss://asset-hub-paseo-rpc.n.dwellir.com',
       // StakeWorld: 'wss://rpc-assethub-paseo.stakeworld.io',
-      TurboFlakes: 'wss://sys.turboflakes.io/asset-hub-paseo',
-      Zondax: 'wss://api2.zondax.ch/pas/assethub/node/rpc'
+      TurboFlakes: 'wss://sys.turboflakes.io/asset-hub-paseo'
     },
     relayName: 'paseo',
     teleport: [-1, 1002, 1111],
@@ -498,49 +497,18 @@ export const testParasPaseoCommon: EndpointOption[] = [
     }
   },
   {
-    info: 'PaseoBridgeHub',
+    info: 'PaseoBulletin',
     isPeopleForIdentity: true,
-    paraId: 1002,
+    paraId: 1010,
     providers: {
-      Zondax: 'wss://api2.zondax.ch/pas/bridgehub/node/rpc'
+      StakingLand: 'wss://bulletin-paseo.tservices.es:8443'
     },
     relayName: 'paseo',
     teleport: [-1, 1000],
-    text: 'Bridge Hub',
+    text: 'Bulletin',
     ui: {
-      color: '#AAADD7',
-      logo: nodesBridgeHubSVG
-    }
-  },
-  {
-    info: 'PaseoCollectives',
-    isPeopleForIdentity: true,
-    paraId: 1001,
-    providers: {
-      Zondax: 'wss://api2.zondax.ch/pas/collectives/node/rpc'
-    },
-    relayName: 'paseo',
-    teleport: [-1, 1000],
-    text: 'Collectives',
-    ui: {
-      color: '#e6777a',
-      logo: nodesCollectivesSVG
-    }
-  },
-  {
-    info: 'PaseoCoretime',
-    isPeopleForIdentity: true,
-    paraId: 1005,
-    providers: {
-      // ParaNodes: 'wss://paseo-coretime.paranodes.io', // https://github.com/polkadot-js/apps/issues/11587
-      Zondax: 'wss://api2.zondax.ch/pas/coretime/node/rpc'
-    },
-    relayName: 'paseo',
-    teleport: [-1],
-    text: 'Coretime',
-    ui: {
-      color: '#113911',
-      logo: chainsCoretimeKusamaSVG
+      color: '#6B2D84',
+      logo: chainsBulletinSVG
     }
   },
   {
@@ -549,10 +517,9 @@ export const testParasPaseoCommon: EndpointOption[] = [
     isPeopleForIdentity: false,
     paraId: 1004,
     providers: {
-      Amforc: 'wss://people-paseo.rpc.amforc.com',
       'Gatotech Unlimited': 'wss://people-paseo.gatotech.network',
-      Zondax: 'wss://api2.zondax.ch/pas/people/node/rpc',
-      interweb: 'wss://rpc.interweb-it.com/people-paseo'
+      interweb: 'wss://rpc.interweb-it.com/people-paseo',
+      Rotko: 'wss://people-paseo.rotko.net'
     },
     relayName: 'paseo',
     teleport: [-1],
@@ -575,10 +542,9 @@ export const testRelayPaseo: EndpointOption = {
     ...testParasPaseo
   ],
   providers: {
-    Amforc: 'wss://paseo.rpc.amforc.com',
     Dwellir: 'wss://paseo-rpc.n.dwellir.com',
     StakeWorld: 'wss://rpc-paseo.stakeworld.io',
-    Zondax: 'wss://api2.zondax.ch/pas/relay/node/rpc',
+    TurboFlakes: 'wss://paseo-v2.rpc.turboflakes.io',
     interweb: 'wss://rpc.interweb-it.com/paseo'
     // 'light client': 'light://substrate-connect/paseo'
   },

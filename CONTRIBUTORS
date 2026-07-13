@@ -252,6 +252,7 @@
        2	AgoL5866                      	Adding RockX phala/khala endpoints (#10406)
        2	akashi6824                    	fix PolkaFoundry color (#4985)
        2	Albrecht                      	chore: update WILT paraID & KILT types (#6005)
+       2	Alex Bean                     	Add Bulletin system chain to Paseo testnet endpoints (#12365)
        2	Alexander Popiak              	Add extra Input types to the UI (#2324)
        2	Alistair Singh                	Add new Snowbridge forks (#9837)
        2	André Silva                   	Fix typo in chain specifications (#5659)
