@@ -518,8 +518,8 @@ export const testParasPaseoCommon: EndpointOption[] = [
     paraId: 1004,
     providers: {
       'Gatotech Unlimited': 'wss://people-paseo.gatotech.network',
-      interweb: 'wss://rpc.interweb-it.com/people-paseo',
-      Rotko: 'wss://people-paseo.rotko.net'
+      Rotko: 'wss://people-paseo.rotko.net',
+      interweb: 'wss://rpc.interweb-it.com/people-paseo'
     },
     relayName: 'paseo',
     teleport: [-1],
