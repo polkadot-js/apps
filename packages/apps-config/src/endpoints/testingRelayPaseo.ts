@@ -501,7 +501,9 @@ export const testParasPaseoCommon: EndpointOption[] = [
     isPeopleForIdentity: true,
     paraId: 1010,
     providers: {
-      StakingLand: 'wss://bulletin-paseo.tservices.es:8443'
+      SIK: 'wss://bullet.sik.rocks',
+      StakingLand: 'wss://bulletin-paseo.tservices.es:8443',
+      TunaStaking: 'wss://bullet.tunastaking.eu'
     },
     relayName: 'paseo',
     teleport: [-1, 1000],
