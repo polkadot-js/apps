@@ -44,6 +44,7 @@
     { "path": "./packages/page-preimages/tsconfig.build.json" },
     { "path": "./packages/page-ranked/tsconfig.build.json" },
     { "path": "./packages/page-referenda/tsconfig.build.json" },
+    { "path": "./packages/page-reputation-voting/tsconfig.build.json" },
     { "path": "./packages/page-rpc/tsconfig.build.json" },
     { "path": "./packages/page-runtime/tsconfig.build.json" },
     { "path": "./packages/page-scheduler/tsconfig.build.json" },

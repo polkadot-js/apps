@@ -1922,6 +1922,16 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@polkadot/app-reputation-voting@workspace:packages/page-reputation-voting":
+  version: 0.0.0-use.local
+  resolution: "@polkadot/app-reputation-voting@workspace:packages/page-reputation-voting"
+  peerDependencies:
+    react: "*"
+    react-dom: "*"
+    react-is: "*"
+  languageName: unknown
+  linkType: soft
+
 "@polkadot/app-rpc@workspace:packages/page-rpc":
   version: 0.0.0-use.local
   resolution: "@polkadot/app-rpc@workspace:packages/page-rpc"
