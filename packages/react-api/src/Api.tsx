@@ -18,7 +18,7 @@ import { deriveMapCache, setDeriveCache } from '@polkadot/api-derive/util';
 import { ethereumChains, typesBundle } from '@polkadot/apps-config';
 import { web3Accounts, web3Enable } from '@polkadot/extension-dapp';
 import { TokenUnit } from '@polkadot/react-components/InputConsts/units';
-import { useApiUrl, useCoretimeEndpoint, useEndpoint, usePeopleEndpoint, useQueue } from '@polkadot/react-hooks';
+import { useApiUrl, useCoretimeEndpoint, useEndpoint, useNotifications, usePeopleEndpoint, useQueue } from '@polkadot/react-hooks';
 import { ApiCtx } from '@polkadot/react-hooks/ctx/Api';
 import { ApiSigner } from '@polkadot/react-signer/signers';
 import { keyring } from '@polkadot/ui-keyring';
@@ -300,6 +300,7 @@ async function createApi (apiUrl: string, signer: ApiSigner, isLocalFork: boolea
 }
 
 export function ApiCtxRoot ({ apiUrl, beforeApiInit, children, isElectron, store: keyringStore }: Props): React.ReactElement<Props> | null {
+  const { setGenesisHash } = useNotifications();
   const { queuePayload, queueSetTxStatus } = useQueue();
   const [state, setState] = useState<ApiState>(EMPTY_STATE);
   const [isApiConnected, setIsApiConnected] = useState(false);
@@ -383,6 +384,14 @@ export function ApiCtxRoot ({ apiUrl, beforeApiInit, children, isElectron, store
       })
       .catch(onError);
   }, [apiEndpoint, apiUrl, queuePayload, queueSetTxStatus, keyringStore, isLocalFork]);
+
+  useEffect(() => {
+    if (!statics.api || !value.isApiReady) {
+      return;
+    }
+
+    setGenesisHash(statics.api.genesisHash.toHex());
+  }, [value.isApiReady, setGenesisHash]);
 
   if (!value.isApiInitialized) {
     return <>{beforeApiInit}</>;
