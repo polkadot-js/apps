@@ -8,7 +8,6 @@ import { externalMoonbeamAppsSVG } from '../ui/logos/external/index.js';
 
 export const MoonbeamApps: ExternalDef = {
   chains: {
-    'Moonbase Alpha': 'moonbase-alpha',
     Moonbeam: 'moonbeam',
     Moonriver: 'moonriver'
   },

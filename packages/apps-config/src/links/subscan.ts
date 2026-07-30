@@ -60,7 +60,6 @@ export const Subscan: ExternalDef = {
     'Kusama Asset Hub': 'assethub-kusama',
     'Mangata Kusama Mainnet': 'mangatax',
     Manta: 'manta',
-    'Moonbase Alpha': 'moonbase',
     Moonbeam: 'moonbeam',
     Moonriver: 'moonriver',
     Mythos: 'mythos',
