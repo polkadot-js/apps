@@ -1,7 +1,8 @@
 // Copyright 2017-2026 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Nominations, ValidatorPrefs } from '@polkadot/types/interfaces';
+import type { Option } from '@polkadot/types';
+import type { Nominations, StorageData } from '@polkadot/types/interfaces';
 import type { KeyringJson$Meta } from '@polkadot/ui-keyring/types';
 import type { HexString } from '@polkadot/util/types';
 import type { AddressFlags, AddressIdentity, UseAccountInfo } from './types.js';
@@ -11,7 +12,6 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { keyring } from '@polkadot/ui-keyring';
 import { isFunction, isHex } from '@polkadot/util';
 
-import { isEmpty } from './utils/isEmpty.js';
 import { createNamedHook } from './createNamedHook.js';
 import { useApi } from './useApi.js';
 import { useCall } from './useCall.js';
@@ -45,8 +45,18 @@ function useAccountInfoImpl (value: string | null, isContract = false): UseAccou
   const { accounts: { isAccount }, addresses: { isAddress } } = useKeyring();
   const accountInfo = useDeriveAccountInfo(value);
   const accountFlags = useDeriveAccountFlags(value);
-  const nominator = useCall<Nominations>(api.query.staking?.nominators, [value]);
-  const validator = useCall<ValidatorPrefs>(api.query.staking?.validators, [value]);
+  const nominator = useCall<Option<Nominations>>(api.query.staking?.nominators, [value]);
+  const validatorKey = useMemo(
+    () => value && api.query.staking?.validators
+      ? api.query.staking.validators.key(value)
+      : null,
+    [api, value]
+  );
+  // `staking.validators` is a ValueQuery map, so the value of an entry cannot tell a
+  // validator apart from an account that never validated - test for the entry itself.
+  // One key per request: a request with more than one key falls back to a cache shared
+  // with the typed reads of these keys, which yields a value that has no `isNone`
+  const validator = useCall<[Option<StorageData>]>(!!validatorKey && api.rpc.state.subscribeStorage, [[validatorKey]]);
   const [accountIndex, setAccountIndex] = useState<string | undefined>(undefined);
   const [tags, setSortedTags] = useState<string[]>([]);
   const [name, setName] = useState('');
@@ -60,14 +70,15 @@ function useAccountInfoImpl (value: string | null, isContract = false): UseAccou
   useEffect((): void => {
     validator && setFlags((flags) => ({
       ...flags,
-      isValidator: !isEmpty(validator)
+      isValidator: !validator[0].isNone
     }));
   }, [validator]);
 
+  // `Nominators` is an OptionQuery map, so absence is representable on the value itself
   useEffect((): void => {
     nominator && setFlags((flags) => ({
       ...flags,
-      isNominator: !isEmpty(nominator)
+      isNominator: !nominator.isNone
     }));
   }, [nominator]);
 

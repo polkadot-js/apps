@@ -159,8 +159,11 @@ function getOptions (blockTime: BN, eraLength: BN | undefined, historyDepth: BN 
 function Payouts ({ className = '', historyDepth, isInElection, ownPools, ownValidators }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const [hasOwnValidators] = useState(() => ownValidators.length !== 0);
-  const [myStashesIndex, setMyStashesIndex] = useState(() => hasOwnValidators ? 0 : 1);
+  const [selectedIndex, setMyStashesIndex] = useState<number | undefined>();
+  const hasOwnValidators = ownValidators.length !== 0;
+  // `ownValidators` can resolve after mount, so the default has to follow it rather than
+  // latch in a `useState` initializer - otherwise "Own validators" never becomes selectable
+  const myStashesIndex = selectedIndex ?? (hasOwnValidators ? 0 : 1);
   const [eraSelectionIndex, setEraSelectionIndex] = useState(0);
   const eraLength = useCall<BN>(api.derive.session.eraLength);
   const blockTime = useBlockInterval();
