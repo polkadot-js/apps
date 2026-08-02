@@ -37,11 +37,8 @@ const QUERY_OPTS = {
 
 function getStakerState (stashId: string, allAccounts: string[], [isOwnStash, { claimedRewardsEras, controllerId: _controllerId, exposureMeta, exposurePaged, nextSessionIds: _nextSessionIds, nominators, rewardDestination, sessionIds: _sessionIds, stakingLedger, validatorPrefs }, validateInfo]: [boolean, DeriveStakingAccount, ValidatorInfo]): StakerState {
   const isStashNominating = !!(nominators?.length);
-  // `staking.validators` is a ValueQuery map, so a non-validator returns a default
-  // `ValidatorPrefs` that is indistinguishable from a real 0%-commission validator -
-  // `isStorageFallback` is set only when there was no entry and the default was
-  // substituted, so it answers the presence question the value itself cannot.
-  // (it is `undefined`, not `false`, when the entry exists)
+  // `staking.validators` is a ValueQuery map, so a non-validator reads as the default
+  // prefs - only `isStorageFallback` separates them (`undefined` when the entry exists)
   const isStashValidating = !validateInfo.isStorageFallback;
   const nextSessionIds = _nextSessionIds instanceof Map
     ? [..._nextSessionIds.values()]

@@ -57,11 +57,8 @@ function useAccountInfoImpl (value: string | null, isContract = false): UseAccou
   const [isEditingName, toggleIsEditingName, setIsEditingName] = useToggle();
   const [isEditingTags, toggleIsEditingTags, setIsEditingTags] = useToggle();
 
-  // `Validators` is a ValueQuery map, so the value of an entry cannot tell a validator
-  // apart from an account that never validated - `isStorageFallback` is set only when
-  // there was no entry and the pallet default was substituted, so it answers the
-  // presence question the value itself cannot. (it is `undefined`, not `false`, when
-  // the entry exists)
+  // `staking.validators` is a ValueQuery map, so a non-validator reads as the default
+  // prefs - only `isStorageFallback` separates them (`undefined` when the entry exists)
   useEffect((): void => {
     validator && setFlags((flags) => ({
       ...flags,
@@ -69,7 +66,7 @@ function useAccountInfoImpl (value: string | null, isContract = false): UseAccou
     }));
   }, [validator]);
 
-  // `Nominators` is an OptionQuery map, so absence is representable on the value itself
+  // `staking.nominators` is an OptionQuery map, so absence shows on the value itself
   useEffect((): void => {
     nominator && setFlags((flags) => ({
       ...flags,
