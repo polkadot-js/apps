@@ -4,8 +4,8 @@
 import type { ApiPromise } from '@polkadot/api';
 import type { CombinatorFunction } from '@polkadot/api/promise/Combinator';
 import type { DeriveStakingAccount } from '@polkadot/api-derive/types';
-import type { Option } from '@polkadot/types';
-import type { AccountId, StorageData } from '@polkadot/types/interfaces';
+import type { AccountId, ValidatorPrefs } from '@polkadot/types/interfaces';
+import type { Codec, ITuple } from '@polkadot/types/types';
 import type { StakerState } from './types.js';
 
 import { useEffect, useMemo, useState } from 'react';
@@ -18,9 +18,7 @@ import { useApi } from './useApi.js';
 import { useIsMountedRef } from './useIsMountedRef.js';
 import { useOwnStashes } from './useOwnStashes.js';
 
-// The raw `staking.validators` storage value for a stash, as returned by
-// state_subscribeStorage - `isNone` when the stash has no entry, i.e. is not validating
-type ValidatorInfo = Option<StorageData>;
+type ValidatorInfo = ITuple<[ValidatorPrefs, Codec]> | ValidatorPrefs;
 type Queried = Record<string, [boolean, DeriveStakingAccount, ValidatorInfo]>;
 
 function toIdString (id?: AccountId | null): string | null {
@@ -41,8 +39,10 @@ function getStakerState (stashId: string, allAccounts: string[], [isOwnStash, { 
   const isStashNominating = !!(nominators?.length);
   // `staking.validators` is a ValueQuery map, so a non-validator returns a default
   // `ValidatorPrefs` that is indistinguishable from a real 0%-commission validator -
-  // test for the presence of the storage entry instead of the emptiness of its value
-  const isStashValidating = !validateInfo.isNone;
+  // `isStorageFallback` is set only when there was no entry and the default was
+  // substituted, so it answers the presence question the value itself cannot.
+  // (it is `undefined`, not `false`, when the entry exists)
+  const isStashValidating = !validateInfo.isStorageFallback;
   const nextSessionIds = _nextSessionIds instanceof Map
     ? [..._nextSessionIds.values()]
     : _nextSessionIds;
@@ -93,22 +93,16 @@ function useOwnStashInfosImpl (apiOverride?: ApiPromise): StakerState[] | undefi
     if (ownStashes) {
       if (ownStashes.length) {
         const stashIds = ownStashes.map(([stashId]) => stashId);
-        // One single-key subscription per stash, rather than one request for all the
-        // keys: state_subscribeStorage only falls back to its internal per-key cache
-        // when a request carries more than one key, and that cache is shared with the
-        // typed staking.validators reads the derive above performs on these very keys -
-        // so a multi-key request here intermittently yields a decoded ValidatorPrefs
-        // (which has no isNone) in place of the raw optional value
         const fns = [
           [api.derive.staking.accounts, stashIds, QUERY_OPTS],
-          ...stashIds.map((stashId) => [api.rpc.state.subscribeStorage, [api.query.staking.validators.key(stashId)]])
+          [api.query.staking.validators.multi, stashIds]
         ] as unknown as CombinatorFunction[];
 
-        api.combineLatest<[DeriveStakingAccount[], ...ValidatorInfo[][]]>(fns, ([accounts, ...validators]): void => {
+        api.combineLatest<[DeriveStakingAccount[], ValidatorInfo[]]>(fns, ([accounts, validators]): void => {
           mountedRef.current && ownStashes.length === accounts.length && ownStashes.length === validators.length && setQueried(
             ownStashes.reduce((queried: Queried, [stashId, isOwnStash], index): Queried => ({
               ...queried,
-              [stashId]: [isOwnStash, accounts[index], validators[index][0]]
+              [stashId]: [isOwnStash, accounts[index], validators[index]]
             }), {})
           );
         }).then((u): void => {
