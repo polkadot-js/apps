@@ -162,7 +162,7 @@ function getOptions (blockTime: BN, eraLength: BN | undefined, historyDepth: BN 
 function Payouts ({ className = '', historyDepth, isInElection, ownPools, ownValidators }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const [selectedIndex, setMyStashesIndex] = useState<number | undefined>();
+  const [selectedIndex, setSelectedIndex] = useState<number | undefined>();
   const hasOwnValidators = ownValidators.length !== 0;
   // `ownValidators` can resolve after mount, so the default has to follow it rather than
   // latch in a `useState` initializer - otherwise "Own validators" never becomes selectable
@@ -232,7 +232,7 @@ function Payouts ({ className = '', historyDepth, isInElection, ownPools, ownVal
     <StyledDiv className={className}>
       <Button.Group>
         <ToggleGroup
-          onChange={setMyStashesIndex}
+          onChange={setSelectedIndex}
           options={valOptions}
           value={myStashesIndex}
         />
