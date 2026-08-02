@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Option } from '@polkadot/types';
-import type { Nominations, StorageData } from '@polkadot/types/interfaces';
+import type { Nominations, ValidatorPrefs } from '@polkadot/types/interfaces';
 import type { KeyringJson$Meta } from '@polkadot/ui-keyring/types';
 import type { HexString } from '@polkadot/util/types';
 import type { AddressFlags, AddressIdentity, UseAccountInfo } from './types.js';
@@ -46,17 +46,7 @@ function useAccountInfoImpl (value: string | null, isContract = false): UseAccou
   const accountInfo = useDeriveAccountInfo(value);
   const accountFlags = useDeriveAccountFlags(value);
   const nominator = useCall<Option<Nominations>>(api.query.staking?.nominators, [value]);
-  const validatorKey = useMemo(
-    () => value && api.query.staking?.validators
-      ? api.query.staking.validators.key(value)
-      : null,
-    [api, value]
-  );
-  // `staking.validators` is a ValueQuery map, so the value of an entry cannot tell a
-  // validator apart from an account that never validated - test for the entry itself.
-  // One key per request: a request with more than one key falls back to a cache shared
-  // with the typed reads of these keys, which yields a value that has no `isNone`
-  const validator = useCall<[Option<StorageData>]>(!!validatorKey && api.rpc.state.subscribeStorage, [[validatorKey]]);
+  const validator = useCall<ValidatorPrefs>(api.query.staking?.validators, [value]);
   const [accountIndex, setAccountIndex] = useState<string | undefined>(undefined);
   const [tags, setSortedTags] = useState<string[]>([]);
   const [name, setName] = useState('');
@@ -67,10 +57,15 @@ function useAccountInfoImpl (value: string | null, isContract = false): UseAccou
   const [isEditingName, toggleIsEditingName, setIsEditingName] = useToggle();
   const [isEditingTags, toggleIsEditingTags, setIsEditingTags] = useToggle();
 
+  // `Validators` is a ValueQuery map, so the value of an entry cannot tell a validator
+  // apart from an account that never validated - `isStorageFallback` is set only when
+  // there was no entry and the pallet default was substituted, so it answers the
+  // presence question the value itself cannot. (it is `undefined`, not `false`, when
+  // the entry exists)
   useEffect((): void => {
     validator && setFlags((flags) => ({
       ...flags,
-      isValidator: !validator[0].isNone
+      isValidator: !validator.isStorageFallback
     }));
   }, [validator]);
 
