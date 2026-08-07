@@ -425,6 +425,7 @@
        1	dm4                           	Add Geminis parachain information (#7034)
        1	Dmytro Filippov               	Targets page: fix validators sorting (#6886)
        1	Dominik Fedor                 	Search/filter functionality of selection dropdowns (#9766)
+       1	Dominique                     	fix: validators reported as idle in staking accounts (#12391)
        1	DorianSternVukotic            	Add Liberland network (#10266)
        1	Douglas Acosta                	Update new testnet wss url for Nodle - testingRelayRococo.ts (#10005)
        1	Eddie Machado                 	not truncating the address (#4311)
