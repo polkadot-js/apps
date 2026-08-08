@@ -7,6 +7,7 @@ import { CereStats } from './cerestats.js';
 import { Commonwealth } from './commonwealth.js';
 import { Dotreasury } from './dotreasury.js';
 import { Edgscan } from './edgscan.js';
+import { HeimaExplorer } from './heimaExplorer.js';
 import { KodaDot } from './kodadot.js';
 import { MoonbeamApps } from './moonbeamApps.js';
 import { PolkassemblyIo, PolkassemblyNetwork } from './polkassembly.js';
@@ -20,6 +21,7 @@ export const externalLinks: Record<string, ExternalDef> = {
   Commonwealth,
   Dotreasury,
   Edgscan,
+  'Heima Explorer': HeimaExplorer,
   KodaDot,
   MoonbeamApps,
   PolkassemblyIo,
