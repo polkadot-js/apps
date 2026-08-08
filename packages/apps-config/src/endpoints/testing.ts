@@ -783,7 +783,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'qf-testnet',
     providers: {
-      'QF Network': 'wss://test.qfnetwork.xyz'
+      'QF Network': 'wss://testnet.qfnode.net'
     },
     text: 'QF Network Testnet',
     ui: {
