@@ -23,7 +23,6 @@ export const ethereumChains = [
   'jaz',
   'laos',
   'masverse',
-  'moonbase',
   'moonbeam',
   'moonriver',
   'moonsama',

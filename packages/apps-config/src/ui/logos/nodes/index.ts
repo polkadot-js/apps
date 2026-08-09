@@ -99,7 +99,6 @@ export { nodesMantaPNG } from './generated/mantaPNG.js';
 export { nodesMathSVG } from './generated/mathSVG.js';
 export { nodesMd5PNG } from './generated/md5PNG.js';
 export { nodesMinixPNG } from './generated/minixPNG.js';
-export { nodesMoonbaseAlphaSVG } from './generated/moonbase_alphaSVG.js';
 export { nodesMoonbeamSVG } from './generated/moonbeamSVG.js';
 export { nodesMoonriverSVG } from './generated/moonriverSVG.js';
 export { nodesMoonrockPNG } from './generated/moonrockPNG.js';

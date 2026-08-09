@@ -250,7 +250,6 @@ const spec: Record<string, OverrideBundleDefinition> = {
   mathchain,
   'mathchain-galois': galois,
   messier: hyperbridge,
-  moonbase: moonbeam,
   moonbeam,
   moonriver: moonbeam,
   moonshadow: moonbeam,
