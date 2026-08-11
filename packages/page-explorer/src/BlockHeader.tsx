@@ -6,7 +6,7 @@ import type { AugmentedBlockHeader } from '@polkadot/react-hooks/ctx/types';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { AddressSmall, styled } from '@polkadot/react-components';
+import { AddressSmall, Icon, styled, Tooltip } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
 
 interface Props {
@@ -14,7 +14,7 @@ interface Props {
 }
 
 function formatValue (value: number, type = 's', withDecimal = false): React.ReactNode {
-  const [pre, post] = value.toFixed().split('.');
+  const [pre, post] = value.toFixed(1).split('.');
 
   return withDecimal && post?.trim()?.length > 0
     ? <>{pre}.{post} <span className='timeUnit'>{type} ago</span></>
@@ -23,7 +23,7 @@ function formatValue (value: number, type = 's', withDecimal = false): React.Rea
 
 function getDisplayValue (elapsed: number): React.ReactNode {
   return (elapsed < 60)
-    ? formatValue(elapsed, 'secs', elapsed < 15)
+    ? formatValue(elapsed, 'secs', elapsed < 60)
     : (elapsed < 3600)
       ? formatValue(elapsed / 60, 'mins')
       : formatValue(elapsed / 3600, 'hrs');
@@ -57,7 +57,23 @@ function BlockHeader ({ headers }: Props): React.ReactElement<Props> | null {
               className='all --digits blockTime'
               key={Date.now()}
             >
-              {getDisplayValue((Date.now() - value.timestamp.toNumber()) / 1000)}
+              {getDisplayValue((Date.now() - value.offchainTimestamp.toNumber()) / 1000)}
+              {' '}({new Date(value.offchainTimestamp.toNumber()).toLocaleTimeString('en-US', {
+                hour: '2-digit',
+                hour12: true,
+                minute: '2-digit',
+                second: '2-digit'
+              })}
+              <Icon
+                icon='info-circle'
+                isPadded
+                tooltip='offchain-timestamp'
+              />
+              <Tooltip
+                place='top'
+                text={'Time when the client receives the block'}
+                trigger='offchain-timestamp'
+              />)
             </td>
           </StyledTr>
         );
