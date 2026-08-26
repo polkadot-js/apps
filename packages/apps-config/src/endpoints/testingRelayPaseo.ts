@@ -387,7 +387,8 @@ export const testRelayPaseo: EndpointOption = {
     Dwellir: 'wss://paseo-rpc.n.dwellir.com',
     StakeWorld: 'wss://rpc-paseo.stakeworld.io',
     TurboFlakes: 'wss://paseo-v2.rpc.turboflakes.io',
-    interweb: 'wss://rpc.interweb-it.com/paseo'
+    interweb: 'wss://rpc.interweb-it.com/paseo',
+    Paranodes: 'wss://rpc-paseo.paranodes.io'
     // 'light client': 'light://substrate-connect/paseo'
   },
   teleport: getTeleports(testParasPaseoCommon),
