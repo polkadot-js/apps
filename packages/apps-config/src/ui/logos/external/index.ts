@@ -13,7 +13,6 @@ export { externalKodadotSVG } from './generated/kodadotSVG.js';
 export { externalMoonbeamAppsSVG } from './generated/moonbeamAppsSVG.js';
 export { externalPolkaholicPNG } from './generated/polkaholicPNG.js';
 export { externalPolkascanPNG } from './generated/polkascanPNG.js';
-export { externalPolkassemblyPNG } from './generated/polkassemblyPNG.js';
 export { externalPolkastatsPNG } from './generated/polkastatsPNG.js';
 export { externalSingularSVG } from './generated/singularSVG.js';
 export { externalStatescanSVG } from './generated/statescanSVG.js';
