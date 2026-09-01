@@ -37,8 +37,8 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: '3dpass',
     providers: {
-      '3dpass': 'wss://rpc.3dpass.org',
-      Lzmz: 'wss://rpc.p3d.top'
+      '3dpass': 'wss://rpc.3dpass.org'
+      // Lzmz: 'wss://rpc.p3d.top' // https://github.com/polkadot-js/apps/issues/12425
     },
     text: '3DPass',
     ui: {
@@ -166,7 +166,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'chainx',
     providers: {
-      ChainX: 'wss://mainnet.chainx.org/ws'
+      // ChainX: 'wss://mainnet.chainx.org/ws' // https://github.com/polkadot-js/apps/issues/12425
     },
     text: 'ChainX',
     ui: {
@@ -338,7 +338,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     info: 'joystream',
     providers: {
       Joyutils: 'wss://rpc.joyutils.org',
-      Jsgenesis: 'wss://rpc.joystream.org',
+      // Jsgenesis: 'wss://rpc.joystream.org', // https://github.com/polkadot-js/apps/issues/12425
       'l1.media': 'wss://rpc.l1.media'
     },
     text: 'Joystream',
@@ -529,7 +529,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'sora-substrate',
     providers: {
-      OnFinality: 'wss://sora.api.onfinality.io/public-ws',
+      // OnFinality: 'wss://sora.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/12425
       'SORA Parliament Ministry of Finance': 'wss://ws.mof.sora.org',
       'SORA Parliament Ministry of Finance #2': 'wss://mof2.sora.org'
       // 'SORA Parliament Ministry of Finance #3': 'wss://mof3.sora.org' // https://github.com/polkadot-js/apps/issues/12007
@@ -598,7 +598,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'tangle',
     providers: {
-      Dwellir: 'wss://tangle-mainnet-rpc.n.dwellir.com',
+      // Dwellir: 'wss://tangle-mainnet-rpc.n.dwellir.com', // https://github.com/polkadot-js/apps/issues/12425
       Webb: 'wss://rpc.tangle.tools'
     },
     text: 'Tangle',
@@ -611,7 +611,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
     info: 'tanssi',
     isPeople: true,
     providers: {
-      'Tanssi Foundation': 'wss://services.tanssi-mainnet.network/tanssi'
+      // 'Tanssi Foundation': 'wss://services.tanssi-mainnet.network/tanssi' // https://github.com/polkadot-js/apps/issues/12425
     },
     text: 'Tanssi',
     ui: {
