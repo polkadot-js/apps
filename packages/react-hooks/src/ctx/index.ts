@@ -5,6 +5,7 @@ export { ApiStatsCtxRoot } from './ApiStats.js';
 export { BlockAuthorsCtxRoot } from './BlockAuthors.js';
 export { BlockEventsCtxRoot } from './BlockEvents.js';
 export { KeyringCtxRoot } from './Keyring.js';
+export { NotificationCtxRoot } from './Notifications.js';
 export { PayWithAssetCtxRoot } from './PayWithAsset.js';
 export { QueueCtxRoot } from './Queue.js';
 export { StakingAsyncApisCtxRoot } from './StakingAsync.js';
