@@ -166,7 +166,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'chainx',
     providers: {
-      ChainX: 'wss://mainnet.chainx.org/ws'
+      ChainX: 'wss://rpc-canary-1.geb.network/ws'
     },
     text: 'ChainX',
     ui: {
