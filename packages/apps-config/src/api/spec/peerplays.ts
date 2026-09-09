@@ -305,6 +305,19 @@ const definitions: OverrideBundleDefinition = {
           parent: 'Option<AccountId>',
           children: 'Vec<AccountId>'
         },
+        VoteDirection: {
+          _enum: ['Aye', 'Nay']
+        },
+        VoteRecord: {
+          direction: 'VoteDirection',
+          reputation: 'u32',
+          voted_at: 'BlockNumber'
+        },
+        ReputationTally: {
+          ayes: 'u128',
+          nays: 'u128',
+          turnout: 'u32'
+        },
         WildcardThresholdType: 'u32'
       }
     }
