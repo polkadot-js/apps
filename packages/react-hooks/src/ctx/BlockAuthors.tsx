@@ -39,8 +39,9 @@ export function BlockAuthorsCtxRoot ({ children }: Props): React.ReactElement<Pr
       api.derive.chain.subscribeNewHeads(async (header: HeaderExtended): Promise<void> => {
         if (header?.number) {
           const timestamp = await ((await api.at(header.hash)).query.timestamp.now());
+          const offchainTimestamp = Date.now();
 
-          const lastHeader = Object.assign(header, { timestamp }) as AugmentedBlockHeader;
+          const lastHeader = Object.assign(header, { offchainTimestamp: api.createType('Moment', offchainTimestamp), timestamp }) as AugmentedBlockHeader;
           const blockNumber = lastHeader.number.unwrap();
           let thisBlockAuthor = '';
 
