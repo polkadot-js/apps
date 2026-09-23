@@ -859,7 +859,6 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
     paraId: 1000,
     providers: {
       Dwellir: 'wss://asset-hub-polkadot-rpc.n.dwellir.com',
-      LuckyFriday: 'wss://rpc-asset-hub-polkadot.luckyfriday.io',
       OnFinality: 'wss://statemint.api.onfinality.io/public-ws',
       Parity: 'wss://polkadot-asset-hub-rpc.polkadot.io'
       // RadiumBlock: 'wss://statemint.public.curie.radiumblock.co/ws'
@@ -879,7 +878,6 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
     paraId: 1002,
     providers: {
       Dwellir: 'wss://bridge-hub-polkadot-rpc.n.dwellir.com',
-      LuckyFriday: 'wss://rpc-bridge-hub-polkadot.luckyfriday.io',
       OnFinality: 'wss://bridgehub-polkadot.api.onfinality.io/public-ws',
       Parity: 'wss://polkadot-bridge-hub-rpc.polkadot.io',
       // RadiumBlock: 'wss://bridgehub-polkadot.public.curie.radiumblock.co/ws',
@@ -916,7 +914,6 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
     paraId: 1001,
     providers: {
       Dwellir: 'wss://collectives-polkadot-rpc.n.dwellir.com',
-      LuckyFriday: 'wss://rpc-collectives-polkadot.luckyfriday.io',
       OnFinality: 'wss://collectives.api.onfinality.io/public-ws',
       Parity: 'wss://polkadot-collectives-rpc.polkadot.io'
       // RadiumBlock: 'wss://collectives.public.curie.radiumblock.co/ws'
@@ -936,7 +933,6 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
     paraId: 1005,
     providers: {
       Dwellir: 'wss://coretime-polkadot-rpc.n.dwellir.com',
-      LuckyFriday: 'wss://rpc-coretime-polkadot.luckyfriday.io',
       OnFinality: 'wss://coretime-polkadot.api.onfinality.io/public-ws',
       Parity: 'wss://polkadot-coretime-rpc.polkadot.io'
       // RadiumBlock: 'wss://coretime-polkadot.public.curie.radiumblock.co/ws'
@@ -954,7 +950,6 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
     paraId: 1004,
     providers: {
       Dwellir: 'wss://people-polkadot-rpc.n.dwellir.com',
-      LuckyFriday: 'wss://rpc-people-polkadot.luckyfriday.io',
       OnFinality: 'wss://people-polkadot.api.onfinality.io/public-ws',
       Parity: 'wss://polkadot-people-rpc.polkadot.io'
       // RadiumBlock: 'wss://people-polkadot.public.curie.radiumblock.co/ws'
