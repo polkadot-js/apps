@@ -133,9 +133,7 @@ async function retrieve (api: ApiPromise, injectedPromise: Promise<InjectedExten
   };
 }
 
-async function loadOnReady (api: ApiPromise, endpoint: LinkOption | null, fork: Blockchain | null, injectedPromise: Promise<InjectedExtension[]>, store: KeyringStore | undefined, types: Record<string, Record<string, string>>, urlIsEthereum = false): Promise<ApiState> {
-  statics.registry.register(types);
-
+async function loadOnReady (api: ApiPromise, endpoint: LinkOption | null, fork: Blockchain | null, injectedPromise: Promise<InjectedExtension[]>, store: KeyringStore | undefined, urlIsEthereum = false): Promise<ApiState> {
   const { injectedAccounts, properties, systemChain, systemChainType, systemName, systemVersion } = await retrieve(api, injectedPromise);
   const chainSS58 = properties.ss58Format.unwrapOr(DEFAULT_SS58).toNumber();
   const ss58Format = settings.prefix === -1
@@ -354,7 +352,7 @@ export function ApiCtxRoot ({ apiUrl, beforeApiInit, children, isElectron, store
     };
 
     createApi(apiUrl, new ApiSigner(statics.registry, queuePayload, queueSetTxStatus), isLocalFork, onError)
-      .then(({ fork, types }): void => {
+      .then(({ fork }): void => {
         statics.api.on('connected', () => setIsApiConnected(true));
         statics.api.on('disconnected', () => setIsApiConnected(false));
         statics.api.on('error', onError);
@@ -367,7 +365,7 @@ export function ApiCtxRoot ({ apiUrl, beforeApiInit, children, isElectron, store
 
           const urlIsEthereum = !!location.href.includes('keyring-type=ethereum');
 
-          loadOnReady(statics.api, apiEndpoint, fork, injectedPromise, keyringStore, types, urlIsEthereum)
+          loadOnReady(statics.api, apiEndpoint, fork, injectedPromise, keyringStore, urlIsEthereum)
             .then(setState)
             .catch(onError);
         });
