@@ -34,6 +34,7 @@ function filter (records: EventRecord[]): Changes<Hash> {
 
 function usePreimagesImpl (): HexString[] | undefined {
   const { api } = useApi();
+  // eslint-disable-next-line deprecation/deprecation
   const startValueStatusFor = useMapKeys(api.query.preimage.statusFor, EMPTY_PARAMS, OPT_HASH);
   const startvalueRequstStatusFor = useMapKeys(api.query.preimage.requestStatusFor, EMPTY_PARAMS, OPT_HASH);
   const hashes = useEventChanges([

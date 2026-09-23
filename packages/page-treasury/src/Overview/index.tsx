@@ -29,6 +29,7 @@ function Overview ({ className, isMember, members }: Props): React.ReactElement<
         proposalCount={info?.proposals.length}
       />
       {
+        // eslint-disable-next-line deprecation/deprecation
         api.tx.treasury.proposeSpend || !!api.tx.treasury.spendLocal
           ? <Button.Group>
             <ProposalCreate />
