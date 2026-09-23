@@ -159,8 +159,13 @@ function getOptions (blockTime: BN, eraLength: BN | undefined, historyDepth: BN 
 function Payouts ({ className = '', historyDepth, isInElection, ownPools, ownValidators }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const [hasOwnValidators] = useState(() => ownValidators.length !== 0);
-  const [myStashesIndex, setMyStashesIndex] = useState(() => hasOwnValidators ? 0 : 1);
+  const [selectedIndex, setSelectedIndex] = useState<number | undefined>();
+  const hasOwnValidators = ownValidators.length !== 0;
+  // "Own validators" (index 0) is disabled when there are none. Testing that before
+  // `selectedIndex` means we neither default to it, nor stay on it if the list empties.
+  const myStashesIndex = hasOwnValidators
+    ? (selectedIndex ?? 0)
+    : 1;
   const [eraSelectionIndex, setEraSelectionIndex] = useState(0);
   const eraLength = useCall<BN>(api.derive.session.eraLength);
   const blockTime = useBlockInterval();
@@ -226,7 +231,7 @@ function Payouts ({ className = '', historyDepth, isInElection, ownPools, ownVal
     <StyledDiv className={className}>
       <Button.Group>
         <ToggleGroup
-          onChange={setMyStashesIndex}
+          onChange={setSelectedIndex}
           options={valOptions}
           value={myStashesIndex}
         />

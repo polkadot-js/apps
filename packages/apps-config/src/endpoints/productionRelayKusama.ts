@@ -964,13 +964,14 @@ export const prodRelayKusama: EndpointOption = {
     // 'Automata 1RPC': 'wss://1rpc.io/ksm',
     Allnodes: 'wss://kusama-rpc.publicnode.com',
     Dwellir: 'wss://kusama-rpc.n.dwellir.com',
+    'Gatotech Unlimited': 'wss://kusama.gatotech.network',
     Helixstreet: 'wss://rpc-kusama.helixstreet.io',
     LuckyFriday: 'wss://rpc-kusama.luckyfriday.io',
     OnFinality: 'wss://kusama.api.onfinality.io/public-ws',
     // RadiumBlock: 'wss://kusama.public.curie.radiumblock.co/ws',
     // RockX: 'wss://rockx-ksm.w3node.com/polka-public-ksm/ws', // https://github.com/polkadot-js/apps/issues/11477
     Spectrum: 'wss://spectrum-03.simplystaking.xyz/cG9sa2Fkb3QtMDMtOTFkMmYwZGYtcG9sa2Fkb3Q/QXq7QZ6Q60NDzA/kusama/mainnet/',
-    Stakeworld: 'wss://rpc-kusama.stakeworld.io',
+    // Stakeworld: 'wss://rpc-kusama.stakeworld.io',
     // SubQuery: 'wss://kusama.rpc.subquery.network/public/ws', https://github.com/polkadot-js/apps/issues/11026
     'light client': 'light://substrate-connect/kusama'
   },

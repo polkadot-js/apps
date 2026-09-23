@@ -12,7 +12,6 @@ import { useEffect, useMemo, useState } from 'react';
 
 import { u8aConcat, u8aToHex } from '@polkadot/util';
 
-import { isEmpty } from './utils/isEmpty.js';
 import { createNamedHook } from './createNamedHook.js';
 import { useAccounts } from './useAccounts.js';
 import { useApi } from './useApi.js';
@@ -38,7 +37,9 @@ const QUERY_OPTS = {
 
 function getStakerState (stashId: string, allAccounts: string[], [isOwnStash, { claimedRewardsEras, controllerId: _controllerId, exposureMeta, exposurePaged, nextSessionIds: _nextSessionIds, nominators, rewardDestination, sessionIds: _sessionIds, stakingLedger, validatorPrefs }, validateInfo]: [boolean, DeriveStakingAccount, ValidatorInfo]): StakerState {
   const isStashNominating = !!(nominators?.length);
-  const isStashValidating = !(Array.isArray(validateInfo) ? isEmpty(validateInfo[1] as ValidatorPrefs) : isEmpty(validateInfo));
+  // `staking.validators` is a ValueQuery map, so a non-validator reads as the default
+  // prefs - only `isStorageFallback` separates them (`undefined` when the entry exists)
+  const isStashValidating = !validateInfo.isStorageFallback;
   const nextSessionIds = _nextSessionIds instanceof Map
     ? [..._nextSessionIds.values()]
     : _nextSessionIds;

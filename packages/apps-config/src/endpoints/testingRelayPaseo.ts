@@ -4,8 +4,8 @@
 // eslint-disable-next-line header/header
 import type { EndpointOption } from './types.js';
 
-import { chainsAmplitudeSVG, chainsBulletinSVG, chainsCoretimeKusamaSVG, chainsFrequencyPaseoSVG, chainsHydrationPaseoSVG, chainsKreivoSVG, chainsLaosSigmaPNG, chainsMyxcavPNG, chainsNeurowebTestnetPNG, chainsPaseoPNG, chainsPeoplePolkadotSVG, chainsPopNetworkSVG, chainsQfNetworkPNG, chainsShibuyaSVG, chainsWatrPNG, chainsWeTEESVG } from '@polkadot/apps-config/ui/logos/chains';
-import { nodesAjunaPNG, nodesAssetHubSVG, nodesAventusSVG, nodesBajunPNG, nodesBifrostSVG, nodesBridgeHubSVG, nodesCollectivesSVG, nodesDarwiniaKoiSVG, nodesFintraSVG, nodesHeimaPaseoPNG, nodesHyperbridgePNG, nodesIdealNetworkSVG, nodesIdncSVG, nodesIntegriteeSVG, nodesKiltIconSVG, nodesMandalaPNG, nodesMusePNG, nodesMyriadPaseoSVG, nodesNodleSVG, nodesOpalLogoPNG, nodesRegionxPNG, nodesRexSVG, nodesXodePNG, nodesZeitgeistPNG } from '@polkadot/apps-config/ui/logos/nodes';
+import { chainsAmplitudeSVG, chainsBulletinSVG, chainsFrequencyPaseoSVG, chainsHydrationPaseoSVG, chainsNeurowebTestnetPNG, chainsPaseoPNG, chainsPeoplePolkadotSVG, chainsQfNetworkPNG, chainsShibuyaSVG, chainsWatrPNG, chainsWeTEESVG } from '@polkadot/apps-config/ui/logos/chains';
+import { nodesAssetHubSVG, nodesAventusSVG, nodesBajunPNG, nodesDarwiniaKoiSVG, nodesFintraSVG, nodesHeimaPaseoPNG, nodesHyperbridgePNG, nodesIntegriteeSVG, nodesKiltIconSVG, nodesMyriadPaseoSVG, nodesNodleSVG, nodesOpalLogoPNG, nodesRegionxPNG, nodesZeitgeistPNG } from '@polkadot/apps-config/ui/logos/nodes';
 
 import { PASEO_GENESIS } from '../api/constants.js';
 // import { testnetParachainSVG } from '../ui/logos/nodes/index.js';
@@ -32,19 +32,6 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
   //     logo: testnetParachainSVG
   //   }
   // }
-  {
-    homepage: 'https://ajuna.io/',
-    info: 'Ajuna(paseo)',
-    paraId: 2051,
-    providers: {
-      BajunNetwork: 'wss://rpc-paseo.ajuna.network'
-    },
-    text: 'Ajuna Network (Paseo)',
-    ui: {
-      color: '#161212',
-      logo: nodesAjunaPNG
-    }
-  },
   {
     info: 'paseoAmplitude',
     paraId: 2124,
@@ -81,20 +68,6 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: '#161212',
       logo: nodesBajunPNG
-    }
-  },
-  {
-    homepage: 'https://bifrost.io',
-    info: 'Bifrost(Paseo)',
-    paraId: 2030,
-    providers: {
-      Liebi: 'wss://bifrost-rpc.paseo.liebi.com/ws',
-      Liebi2: 'wss://bifrost-rpc.paseo2.liebi.com/ws'
-    },
-    text: 'Bifrost',
-    ui: {
-      color: '#5a25f0',
-      logo: nodesBifrostSVG
     }
   },
   {
@@ -191,32 +164,6 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    homepage: 'https://idealabs.network/',
-    info: 'Ideal Network',
-    paraId: 4502,
-    providers: {
-      'IDN Node': 'wss://idn0-testnet.idealabs.network'
-    },
-    text: 'Ideal Network',
-    ui: {
-      color: 'rgb(17, 35, 77)',
-      logo: nodesIdealNetworkSVG
-    }
-  },
-  {
-    homepage: 'https://idealabs.network/',
-    info: 'IDN Consumer',
-    paraId: 4594,
-    providers: {
-      'IDN Node': 'wss://idnc0-testnet.idealabs.network'
-    },
-    text: 'IDN Consumer',
-    ui: {
-      color: 'rgb(241,208,84)',
-      logo: nodesIdncSVG
-    }
-  },
-  {
     homepage: 'https://integritee.network',
     info: 'integritee',
     paraId: 2039,
@@ -239,61 +186,6 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: 'linear-gradient(45deg, #D73D80 0%, #161B3B 100%)',
       logo: nodesKiltIconSVG
-    }
-  },
-  {
-    homepage: 'https://virto.network/',
-    info: 'kreivo',
-    isPeopleForIdentity: true,
-    paraId: 2281,
-    providers: {
-      Kippu: 'wss://testnet.kreivo.kippu.rocks/'
-    },
-    relayName: 'paseo',
-    text: 'Kreivo de Paseo - By Virto',
-    ui: {
-      color: '#294940',
-      identityIcon: 'polkadot',
-      logo: chainsKreivoSVG
-    }
-  },
-  {
-    homepage: 'https://laosnetwork.io/',
-    info: 'laos-sigma',
-    paraId: 4006,
-    providers: {
-      'freeverse.io': 'wss://rpc.laossigma.laosfoundation.io'
-    },
-    text: 'Laos Sigma',
-    ui: {
-      color: '#363435',
-      logo: chainsLaosSigmaPNG
-    }
-  },
-  {
-    homepage: 'https://mandalachain.io',
-    info: 'Mandala',
-    paraId: 4818,
-    providers: {
-      Autobot: 'wss://rpc1.paseo.mandalachain.io',
-      Bumblebee: 'wss://rpc2.paseo.mandalachain.io'
-    },
-    text: 'Mandala',
-    ui: {
-      color: '#0036ac',
-      logo: nodesMandalaPNG
-    }
-  },
-  {
-    info: 'muse',
-    paraId: 3369,
-    providers: {
-      Parity: 'wss://paseo-muse-rpc.polkadot.io'
-    },
-    text: 'Muse network',
-    ui: {
-      color: '#110ff9',
-      logo: nodesMusePNG
     }
   },
   {
@@ -345,32 +237,6 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     ui: {
       color: '#3B9C9D',
       logo: nodesOpalLogoPNG
-    }
-  },
-  {
-    info: 'paseoEwx',
-    paraId: 3345,
-    providers: {
-      'Energy Web': 'wss://public-rpc.testnet.energywebx.com/'
-    },
-    text: 'PEX',
-    ui: {
-      color: '#452E66',
-      logo: nodesRexSVG
-    }
-  },
-  {
-    homepage: 'https://popnetwork.xyz/',
-    info: 'Pop Network',
-    paraId: 4001,
-    providers: {
-      'R0GUE-RPC1': 'wss://rpc1.paseo.popnetwork.xyz'
-      // 'R0GUE-RPC2': 'wss://rpc2.paseo.popnetwork.xyz', // https://github.com/polkadot-js/apps/issues/11629
-    },
-    text: 'Pop Network',
-    ui: {
-      color: 'linear-gradient(to right, rgb(230, 0, 122), rgb(83, 15, 160))',
-      logo: chainsPopNetworkSVG
     }
   },
   {
@@ -438,32 +304,6 @@ export const testParasPaseo: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    homepage: 'https://xcavate.io/',
-    info: 'Xcavate',
-    paraId: 4683,
-    providers: {
-      Xcavate_OnFinality: 'wss://xcavate-paseo.api.onfinality.io/public-ws'
-    },
-    text: 'Xcavate',
-    ui: {
-      color: '#FF0083',
-      logo: chainsMyxcavPNG
-    }
-  },
-  {
-    homepage: 'https://xode.net',
-    info: 'paseoXode',
-    paraId: 5160,
-    providers: {
-      XodeCommunity: 'wss://paseo-rpcnode.xode.net'
-    },
-    text: 'Xode',
-    ui: {
-      color: '#ed1f7a',
-      logo: nodesXodePNG
-    }
-  },
-  {
     homepage: 'zeitgeist.pm',
     info: 'ZeitgeistBatteryStation',
     paraId: 2101,
@@ -486,8 +326,7 @@ export const testParasPaseoCommon: EndpointOption[] = [
     providers: {
       Dwellir: 'wss://asset-hub-paseo-rpc.n.dwellir.com',
       // StakeWorld: 'wss://rpc-assethub-paseo.stakeworld.io',
-      TurboFlakes: 'wss://sys.turboflakes.io/asset-hub-paseo',
-      Zondax: 'wss://api2.zondax.ch/pas/assethub/node/rpc'
+      TurboFlakes: 'wss://sys.turboflakes.io/asset-hub-paseo'
     },
     relayName: 'paseo',
     teleport: [-1, 1002, 1111],
@@ -498,49 +337,20 @@ export const testParasPaseoCommon: EndpointOption[] = [
     }
   },
   {
-    info: 'PaseoBridgeHub',
+    info: 'PaseoBulletin',
     isPeopleForIdentity: true,
-    paraId: 1002,
+    paraId: 1010,
     providers: {
-      Zondax: 'wss://api2.zondax.ch/pas/bridgehub/node/rpc'
+      SIK: 'wss://bullet.sik.rocks',
+      StakingLand: 'wss://bulletin-paseo.tservices.es:8443',
+      TunaStaking: 'wss://bullet.tunastaking.eu'
     },
     relayName: 'paseo',
     teleport: [-1, 1000],
-    text: 'Bridge Hub',
+    text: 'Bulletin',
     ui: {
-      color: '#AAADD7',
-      logo: nodesBridgeHubSVG
-    }
-  },
-  {
-    info: 'PaseoCollectives',
-    isPeopleForIdentity: true,
-    paraId: 1001,
-    providers: {
-      Zondax: 'wss://api2.zondax.ch/pas/collectives/node/rpc'
-    },
-    relayName: 'paseo',
-    teleport: [-1, 1000],
-    text: 'Collectives',
-    ui: {
-      color: '#e6777a',
-      logo: nodesCollectivesSVG
-    }
-  },
-  {
-    info: 'PaseoCoretime',
-    isPeopleForIdentity: true,
-    paraId: 1005,
-    providers: {
-      // ParaNodes: 'wss://paseo-coretime.paranodes.io', // https://github.com/polkadot-js/apps/issues/11587
-      Zondax: 'wss://api2.zondax.ch/pas/coretime/node/rpc'
-    },
-    relayName: 'paseo',
-    teleport: [-1],
-    text: 'Coretime',
-    ui: {
-      color: '#113911',
-      logo: chainsCoretimeKusamaSVG
+      color: '#6B2D84',
+      logo: chainsBulletinSVG
     }
   },
   {
@@ -549,8 +359,9 @@ export const testParasPaseoCommon: EndpointOption[] = [
     isPeopleForIdentity: false,
     paraId: 1004,
     providers: {
-      Amforc: 'wss://people-paseo.rpc.amforc.com',
-      Zondax: 'wss://api2.zondax.ch/pas/people/node/rpc'
+      'Gatotech Unlimited': 'wss://people-paseo.gatotech.network',
+      Rotko: 'wss://people-paseo.rotko.net',
+      interweb: 'wss://rpc.interweb-it.com/people-paseo'
     },
     relayName: 'paseo',
     teleport: [-1],
@@ -573,10 +384,10 @@ export const testRelayPaseo: EndpointOption = {
     ...testParasPaseo
   ],
   providers: {
-    Amforc: 'wss://paseo.rpc.amforc.com',
     Dwellir: 'wss://paseo-rpc.n.dwellir.com',
-    // StakeWorld: 'wss://rpc-paseo.stakeworld.io'
-    Zondax: 'wss://api2.zondax.ch/pas/relay/node/rpc'
+    StakeWorld: 'wss://rpc-paseo.stakeworld.io',
+    TurboFlakes: 'wss://paseo-v2.rpc.turboflakes.io',
+    interweb: 'wss://rpc.interweb-it.com/paseo'
     // 'light client': 'light://substrate-connect/paseo'
   },
   teleport: getTeleports(testParasPaseoCommon),
