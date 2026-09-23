@@ -906,7 +906,7 @@ export const prodParasKusamaCommon: EndpointOption[] = [
     paraId: 1001,
     providers: {
       Dwellir: 'wss://encointer-kusama-rpc.n.dwellir.com',
-      'Encointer Association': 'wss://kusama.api.encointer.org',
+      'Encointer Association': 'wss://kusama.api.encointer.org'
       // OnFinality: 'wss://encointer.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/9986
       // Stakeworld: 'wss://ksm-rpc.stakeworld.io/encointer'
     },
