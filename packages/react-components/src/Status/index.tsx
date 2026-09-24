@@ -2,9 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { IconName } from '@fortawesome/fontawesome-svg-core';
+import type { SubmittableResult } from '@polkadot/api';
 import type { QueueStatus, QueueTx, QueueTxStatus } from './types.js';
 
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import { useQueue } from '@polkadot/react-hooks';
 
@@ -98,7 +100,7 @@ function renderStatus ({ account, action, id, message, removeItem, status }: Que
   );
 }
 
-function renderItem ({ error, extrinsic, id, removeItem, rpc, status }: QueueTx): React.ReactNode {
+function renderItem ({ error, extrinsic, id, removeItem, result, rpc, status }: QueueTx): React.ReactNode {
   let { method, section } = rpc;
 
   if (extrinsic) {
@@ -111,6 +113,7 @@ function renderItem ({ error, extrinsic, id, removeItem, rpc, status }: QueueTx)
   }
 
   const icon = signerIconName(status) as 'ban' | 'spinner';
+  const blockNumber = (result as SubmittableResult)?.blockNumber?.toNumber?.();
 
   return (
     <div
@@ -132,8 +135,18 @@ function renderItem ({ error, extrinsic, id, removeItem, rpc, status }: QueueTx)
             }
           </div>
           <div className='desc'>
-            <div className='header'>
-              {section}.{method}
+            <div className='headerWrapper'>
+              <div className='header'>
+                {section}.{method}
+              </div>
+              {blockNumber && blockNumber > 0 &&
+                <Link
+                  style={{ textDecoration: 'underline' }}
+                  to={`/explorer/query/${blockNumber}`}
+                >
+                  view details
+                </Link>
+              }
             </div>
             <div className='status'>
               {error ? (error.message || error.toString()) : status}
@@ -237,6 +250,18 @@ const StyledDiv = styled.div`
 
       .header {
         opacity: 0.66;
+      }
+
+      .headerWrapper {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+
+        a {
+          color: var(--bg-input);
+          opacity: 0.8;
+        }
       }
 
       .short {
