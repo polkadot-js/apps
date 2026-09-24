@@ -23,6 +23,8 @@ function Propose ({ className }: Props): React.ReactElement<Props> | null {
   const [beneficiary, setBeneficiary] = useState<string | null>(null);
   const [isOpen, toggleOpen] = useToggle();
   const [value, setValue] = useState<BN | undefined>();
+  // eslint-disable-next-line deprecation/deprecation
+  const spendTx = api.tx.treasury.spendLocal ?? api.tx.treasury.proposeSpend;
   const hasValue = value?.gtn(0);
 
   const [bondMin, bondMax, bondPercentage] = useMemo(
@@ -111,7 +113,7 @@ function Propose ({ className }: Props): React.ReactElement<Props> | null {
               label={t('Submit proposal')}
               onStart={toggleOpen}
               params={[value, beneficiary]}
-              tx={api.tx.treasury.spendLocal ?? api.tx.treasury.proposeSpend}
+              tx={spendTx}
             />
           </Modal.Actions>
         </Modal>

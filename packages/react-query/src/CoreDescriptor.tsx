@@ -1,7 +1,7 @@
 // Copyright 2017-2026 @polkadot/react-query authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { PolkadotRuntimeParachainsAssignerCoretimeCoreDescriptor } from '@polkadot/types/lookup';
+import type { PolkadotRuntimeParachainsSchedulerAssignerCoretimeCoreDescriptor } from '@polkadot/types/lookup';
 
 import React from 'react';
 
@@ -15,7 +15,7 @@ interface Props {
 
 function BrokerStatus ({ children, className = '', query }: Props): React.ReactElement<Props> {
   const { api } = useApi();
-  const status = useCall<PolkadotRuntimeParachainsAssignerCoretimeCoreDescriptor>(api.query.broker?.status);
+  const status = useCall<PolkadotRuntimeParachainsSchedulerAssignerCoretimeCoreDescriptor>(api.query.broker?.status);
   const strStatus = status === undefined ? '' : status.toJSON()[query];
 
   return (

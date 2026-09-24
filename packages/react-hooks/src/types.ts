@@ -9,7 +9,7 @@ import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { DeriveAccountFlags, DeriveAccountRegistration } from '@polkadot/api-derive/types';
 import type { Option, u32, u128, Vec } from '@polkadot/types';
 import type { AccountId, BlockNumber, Call, Hash, SessionIndex, ValidatorPrefs } from '@polkadot/types/interfaces';
-import type { PalletAssetsAssetDetails, PalletAssetsAssetMetadata, PalletPreimageRequestStatus, PalletStakingRewardDestination, PalletStakingStakingLedger, PolkadotRuntimeParachainsAssignerCoretimeCoreDescriptor, SpStakingExposurePage, SpStakingPagedExposureMetadata } from '@polkadot/types/lookup';
+import type { PalletAssetsAssetDetails, PalletAssetsAssetMetadata, PalletPreimageRequestStatus, PalletStakingRewardDestination, PalletStakingStakingLedger, PolkadotRuntimeParachainsSchedulerAssignerCoretimeCoreDescriptor, SpStakingExposurePage, SpStakingPagedExposureMetadata } from '@polkadot/types/lookup';
 import type { ICompact, IExtrinsic, INumber } from '@polkadot/types/types';
 import type { KeyringJson$Meta } from '@polkadot/ui-keyring/types';
 import type { BN } from '@polkadot/util';
@@ -226,7 +226,7 @@ export interface WeightResult {
 
 export interface CoreDescription {
   core: number;
-  info: PolkadotRuntimeParachainsAssignerCoretimeCoreDescriptor[];
+  info: PolkadotRuntimeParachainsSchedulerAssignerCoretimeCoreDescriptor[];
 }
 
 export interface CoreDescriptorAssignment {

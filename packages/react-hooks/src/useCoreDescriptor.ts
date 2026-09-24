@@ -3,7 +3,7 @@
 
 import type { ApiPromise } from '@polkadot/api';
 import type { StorageKey, u32 } from '@polkadot/types';
-import type { PalletBrokerCoretimeInterfaceCoreAssignment, PolkadotRuntimeParachainsAssignerCoretimeAssignmentState, PolkadotRuntimeParachainsAssignerCoretimeCoreDescriptor, PolkadotRuntimeParachainsAssignerCoretimeQueueDescriptor, PolkadotRuntimeParachainsAssignerCoretimeWorkState } from '@polkadot/types/lookup';
+import type { PalletBrokerCoretimeInterfaceCoreAssignment, PolkadotRuntimeParachainsSchedulerAssignerCoretimeAssignmentState, PolkadotRuntimeParachainsSchedulerAssignerCoretimeCoreDescriptor, PolkadotRuntimeParachainsSchedulerAssignerCoretimeQueueDescriptor, PolkadotRuntimeParachainsSchedulerAssignerCoretimeWorkState } from '@polkadot/types/lookup';
 import type { CoreDescriptor } from './types.js';
 
 import { useEffect, useState } from 'react';
@@ -11,16 +11,16 @@ import { useEffect, useState } from 'react';
 import { createNamedHook, useCall, useMapKeys } from '@polkadot/react-hooks';
 import { BN } from '@polkadot/util';
 
-function extractInfo (info: PolkadotRuntimeParachainsAssignerCoretimeCoreDescriptor, core: number): CoreDescriptor {
-  const currentWork: PolkadotRuntimeParachainsAssignerCoretimeWorkState | null = info?.currentWork.isSome ? info.currentWork.unwrap() : null;
-  const queue: PolkadotRuntimeParachainsAssignerCoretimeQueueDescriptor | null = info?.queue.isSome ? info.queue.unwrap() : null;
+function extractInfo (info: PolkadotRuntimeParachainsSchedulerAssignerCoretimeCoreDescriptor, core: number): CoreDescriptor {
+  const currentWork: PolkadotRuntimeParachainsSchedulerAssignerCoretimeWorkState | null = info?.currentWork.isSome ? info.currentWork.unwrap() : null;
+  const queue: PolkadotRuntimeParachainsSchedulerAssignerCoretimeQueueDescriptor | null = info?.queue.isSome ? info.queue.unwrap() : null;
   const assignments = currentWork?.assignments || [];
 
   return {
     core,
     info: {
       currentWork: {
-        assignments: assignments?.map((one: [PalletBrokerCoretimeInterfaceCoreAssignment, PolkadotRuntimeParachainsAssignerCoretimeAssignmentState]) => {
+        assignments: assignments?.map((one: [PalletBrokerCoretimeInterfaceCoreAssignment, PolkadotRuntimeParachainsSchedulerAssignerCoretimeAssignmentState]) => {
           return ({
             isPool: one[0]?.isPool,
             isTask: one[0]?.isTask,
@@ -55,7 +55,7 @@ function useCoreDescriptorImpl (api: ApiPromise, ready: boolean): CoreDescriptor
 
   sanitizedKeys?.pop();
 
-  const coreDescriptors = useCall<[[number[]], PolkadotRuntimeParachainsAssignerCoretimeCoreDescriptor[]]>(ready && api.query.coretimeAssignmentProvider.coreDescriptors.multi, [sanitizedKeys], { withParams: true });
+  const coreDescriptors = useCall<[[number[]], PolkadotRuntimeParachainsSchedulerAssignerCoretimeCoreDescriptor[]]>(ready && api.query.coretimeAssignmentProvider.coreDescriptors.multi, [sanitizedKeys], { withParams: true });
   const [state, setState] = useState<CoreDescriptor[] | undefined>();
 
   useEffect((): void => {
