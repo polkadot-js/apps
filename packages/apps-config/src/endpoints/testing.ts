@@ -271,7 +271,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
     info: 'Dancelight',
     isPeople: true,
     providers: {
-      'Tanssi Foundation': 'wss://services.tanssi-testnet.network/dancelight'
+      // 'Tanssi Foundation': 'wss://services.tanssi-testnet.network/dancelight' // https://github.com/polkadot-js/apps/issues/12425
     },
     text: 'Dancelight',
     ui: {
@@ -783,7 +783,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'qf-testnet',
     providers: {
-      'QF Network': 'wss://test.qfnetwork.xyz'
+      // 'QF Network': 'wss://test.qfnetwork.xyz' // https://github.com/polkadot-js/apps/issues/12425
     },
     text: 'QF Network Testnet',
     ui: {
@@ -1060,7 +1060,7 @@ export const testChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'vara-testnet',
     providers: {
-      Gear: 'wss://testnet.vara.network'
+      // Gear: 'wss://testnet.vara.network' // https://github.com/polkadot-js/apps/issues/12425
     },
     text: 'Vara Testnet',
     ui: {
