@@ -18,10 +18,10 @@ export function setupContentSecurityPolicy (_: string): void {
           " connect-src 'self' wss: ws:;" +
           " img-src 'self' data:;" +
           // react-qr-reader uses an embedded blob
-          " worker-src 'self' blob: filesystem:;" +
+          " worker-src 'self' blob:;" +
           // unsafe-eval is needed for the WASM content - same as the extension
           // script hashes here are for the window.top script (not technically needed)
-          " script-src 'self' 'unsafe-eval' 'sha256-02/ejyoV/iwRdJ4NAsxjzF6WVUtLMPM6Nv96EbAm6u8=' 'sha256-wW/WsLudCDaPo/ibpeK0KslHqYpCzcAKNFxFBXwCHJg='"
+          " script-src 'self' app: 'unsafe-eval' 'sha256-02/ejyoV/iwRdJ4NAsxjzF6WVUtLMPM6Nv96EbAm6u8=' 'sha256-wW/WsLudCDaPo/ibpeK0KslHqYpCzcAKNFxFBXwCHJg='"
         ]
       }
     });
