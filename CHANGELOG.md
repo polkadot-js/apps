@@ -1,5 +1,40 @@
 # CHANGELOG
 
+## 0.171.2 Sep 26, 2026
+
+Contributed:
+
+- Remove dead external links ([#12427](https://github.com/polkadot-js/apps/pull/12427)) (Thanks to https://github.com/shawntabrizi)
+- Remove Polkassembly external links ([#12426](https://github.com/polkadot-js/apps/pull/12426)) (Thanks to https://github.com/shawntabrizi)
+- fix: validators reported as idle in staking accounts ([#12391](https://github.com/polkadot-js/apps/pull/12391)) (Thanks to https://github.com/Imod7)
+- Remove unreachable parachains from Paseo testnet endpoints ([#12374](https://github.com/polkadot-js/apps/pull/12374)) (Thanks to https://github.com/alexbcasas)
+- Add SIK and TunaStaking RPC providers to Bulletin (Paseo) ([#12373](https://github.com/polkadot-js/apps/pull/12373)) (Thanks to https://github.com/alexbcasas)
+- Add Gatotech's RPC endpoints to Polkadot, Kusama & Paseo ([#12359](https://github.com/polkadot-js/apps/pull/12359)) (Thanks to https://github.com/miloskriz)
+- Add Bulletin system chain to Paseo testnet endpoints ([#12365](https://github.com/polkadot-js/apps/pull/12365)) (Thanks to https://github.com/alexbcasas)
+- Remove Bridge Hub, Collectives and Coretime from Paseo, update RPC providers ([#12369](https://github.com/polkadot-js/apps/pull/12369)) (Thanks to https://github.com/alexbcasas)
+- Add interweb RPC endpoint for Polkadot ([#12348](https://github.com/polkadot-js/apps/pull/12348)) (Thanks to https://github.com/dcolley)
+- Add Helixstreet RPC endpoints for Polkadot AssetHub and People chains ([#12352](https://github.com/polkadot-js/apps/pull/12352)) (Thanks to https://github.com/helixstreet)
+- Stakeworld tender5 update ([#12345](https://github.com/polkadot-js/apps/pull/12345)) (Thanks to https://github.com/stakeworld)
+- Re-enable stakeworld paseo rpc ([#12349](https://github.com/polkadot-js/apps/pull/12349)) (Thanks to https://github.com/stakeworld)
+- Request to remove all Radiumblock RPC endpoints from polkadot-js/apps configuration ([#12300](https://github.com/polkadot-js/apps/pull/12300)) (Thanks to https://github.com/radiumb)
+- Removal of IBP endpoints ([#12311](https://github.com/polkadot-js/apps/pull/12311)) (Thanks to https://github.com/miloskriz)
+- Update productionRelayPolkadot.ts - Add Bulletin endpoint ([#12305](https://github.com/polkadot-js/apps/pull/12305)) (Thanks to https://github.com/GlobalStakeGit)
+- Adding Zondax RPCs for Paseo Testnet ([#12307](https://github.com/polkadot-js/apps/pull/12307)) (Thanks to https://github.com/porticodotlabs)
+- Remove Dwellir Tunisia endpoints (down since Jan 2026) ([#12246](https://github.com/polkadot-js/apps/pull/12246)) (Thanks to https://github.com/rockbmb)
+- Move Bulletin Chain to Polkadot system parachains (paraId 1010) ([#12274](https://github.com/polkadot-js/apps/pull/12274)) (Thanks to https://github.com/mudigal)
+- Change the provider for the Mythos parachain ([#12258](https://github.com/polkadot-js/apps/pull/12258)) (Thanks to https://github.com/niksaak)
+- Restore Curio endpoint ([#12124](https://github.com/polkadot-js/apps/pull/12124)) (Thanks to https://github.com/alexxxkny)
+- Remove Radiumblock endpoints for Moonbeam, Monriver and Moonbase ([#12236](https://github.com/polkadot-js/apps/pull/12236)) (Thanks to https://github.com/radiumb)
+- Remove several endpoints by IBP ([#12237](https://github.com/polkadot-js/apps/pull/12237)) (Thanks to https://github.com/miloskriz)
+- Add Polytope RPC endpoints for Hyperbridge (Nexus & Gargantua) ([#12230](https://github.com/polkadot-js/apps/pull/12230)) (Thanks to https://github.com/seunlanlege)
+- Re-enable Dwellir endpoints for Moonbeam, Moonriver, and Moonbase Alpha ([#12226](https://github.com/polkadot-js/apps/pull/12226)) (Thanks to https://github.com/benjichat)
+
+Changes:
+
+- Bump polkadot-js deps ([#12455](https://github.com/polkadot-js/apps/pull/12455))
+- Remove redundant type registration in loadOnReady ([#12448](https://github.com/polkadot-js/apps/pull/12448))
+
+
 ## 0.171.1 Apr 1, 2026
 
 Contributed:
