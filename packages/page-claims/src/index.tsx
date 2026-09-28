@@ -180,8 +180,8 @@ function ClaimsApp ({ basePath }: Props): React.ReactElement<Props> {
   // statement kind to sign.
   const statementKind = useCall<StatementKind | null>(!isPreclaimed && !isOldClaimProcess && !!ethereumAddress && api.query.claims.signing, [ethereumAddress], transformStatement);
 
-  const statementSentence = getStatement(systemChain, statementKind)?.sentence || '';
   const prefix = u8aToString(api.consts.claims.prefix.toU8a(true));
+  const statementSentence = getStatement(prefix, statementKind)?.sentence || '';
   const payload = accountId
     ? `${prefix}${u8aToHex(decodeAddress(accountId), -1, false)}${statementSentence}`
     : '';
@@ -255,7 +255,7 @@ function ClaimsApp ({ basePath }: Props): React.ReactElement<Props> {
               {!isOldClaimProcess && (
                 <Statement
                   kind={statementKind}
-                  systemChain={systemChain}
+                  prefix={prefix}
                 />
               )}
               <div>{t('Copy the following string and sign it with the Ethereum account you used during the pre-sale in the wallet of your choice, using the string as the payload, and then paste the transaction signature object below:')}</div>
@@ -302,8 +302,8 @@ function ClaimsApp ({ basePath }: Props): React.ReactElement<Props> {
                   accountId={accountId}
                   ethereumAddress={ethereumAddress}
                   onSuccess={goToStepAccount}
+                  prefix={prefix}
                   statementKind={statementKind}
-                  systemChain={systemChain}
                 />
               )
               : (
@@ -313,6 +313,7 @@ function ClaimsApp ({ basePath }: Props): React.ReactElement<Props> {
                   ethereumSignature={signature}
                   isOldClaimProcess={isOldClaimProcess}
                   onSuccess={goToStepAccount}
+                  prefix={prefix}
                   statementKind={statementKind}
                 />
               )
