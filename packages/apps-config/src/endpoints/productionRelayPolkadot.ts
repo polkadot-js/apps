@@ -887,6 +887,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       LuckyFriday: 'wss://rpc-bridge-hub-polkadot.luckyfriday.io',
       OnFinality: 'wss://bridgehub-polkadot.api.onfinality.io/public-ws',
       Parity: 'wss://polkadot-bridge-hub-rpc.polkadot.io',
+      Rotko: 'wss://bridge-hub-polkadot.rotko.net',
       // RadiumBlock: 'wss://bridgehub-polkadot.public.curie.radiumblock.co/ws',
       Spectrum: 'wss://spectrum-03.simplystaking.xyz/cG9sa2Fkb3QtMDMtOTFkMmYwZGYtcG9sa2Fkb3Q/mgX--uWlEtmNKw/polkadotbridgehub/mainnet/',
       Stakeworld: 'wss://rpc-bridge-hub-polkadot.stakeworld.io'
@@ -923,7 +924,8 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       Dwellir: 'wss://collectives-polkadot-rpc.n.dwellir.com',
       LuckyFriday: 'wss://rpc-collectives-polkadot.luckyfriday.io',
       OnFinality: 'wss://collectives.api.onfinality.io/public-ws',
-      Parity: 'wss://polkadot-collectives-rpc.polkadot.io'
+      Parity: 'wss://polkadot-collectives-rpc.polkadot.io',
+      Rotko: 'wss://collectives-polkadot.rotko.net'
       // RadiumBlock: 'wss://collectives.public.curie.radiumblock.co/ws'
       // Stakeworld: 'wss://rpc-collectives-polkadot.stakeworld.io'
     },
@@ -943,7 +945,8 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       Dwellir: 'wss://coretime-polkadot-rpc.n.dwellir.com',
       LuckyFriday: 'wss://rpc-coretime-polkadot.luckyfriday.io',
       OnFinality: 'wss://coretime-polkadot.api.onfinality.io/public-ws',
-      Parity: 'wss://polkadot-coretime-rpc.polkadot.io'
+      Parity: 'wss://polkadot-coretime-rpc.polkadot.io',
+      Rotko: 'wss://coretime-polkadot.rotko.net'
       // RadiumBlock: 'wss://coretime-polkadot.public.curie.radiumblock.co/ws'
       // Stakeworld: 'wss://rpc-coretime-polkadot.stakeworld.io'
     },
@@ -964,6 +967,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       OnFinality: 'wss://people-polkadot.api.onfinality.io/public-ws',
       Parity: 'wss://polkadot-people-rpc.polkadot.io',
       // RadiumBlock: 'wss://people-polkadot.public.curie.radiumblock.co/ws'
+      Rotko: 'wss://people-polkadot.rotko.net',
       Stakeworld: 'wss://rpc-people-polkadot.stakeworld.io'
     },
     relayName: 'polkadot',
