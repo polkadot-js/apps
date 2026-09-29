@@ -6,6 +6,7 @@ import type { StatementKind } from '@polkadot/types/interfaces';
 import React from 'react';
 
 import { styled } from '@polkadot/react-components';
+import { useApi } from '@polkadot/react-hooks';
 
 import { useTranslation } from './translate.js';
 import { getStatement } from './util.js';
@@ -13,31 +14,27 @@ import { getStatement } from './util.js';
 export interface Props {
   className?: string;
   kind?: StatementKind | null;
-  systemChain: string;
+  prefix: string;
 }
 
-// Get the full hardcoded text for a statement
-function StatementFullText ({ statementUrl, systemChain }: { statementUrl?: string; systemChain: string }): React.ReactElement | null {
+function Statement ({ className, kind, prefix }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
+  const { systemChain } = useApi();
 
-  switch (systemChain) {
-    case 'Polkadot':
-    case 'Polkadot CC1':
-      return statementUrl
-        ? <iframe src={statementUrl} />
-        : null;
-
-    default:
-      return <p>{t('Warning: we did not find any attest statement for {{chain}}', { replace: { chain: systemChain } })}</p>;
-  }
-}
-
-function Statement ({ className, kind, systemChain }: Props): React.ReactElement<Props> | null {
-  const { t } = useTranslation();
-  const statementUrl = getStatement(systemChain, kind)?.url;
-
-  if (!statementUrl) {
+  if (!kind) {
     return null;
+  }
+
+  const statementUrl = getStatement(prefix, kind)?.url;
+
+  // A statement is required but its text is unknown here, say so instead of
+  // silently letting the user sign a message without it
+  if (!statementUrl) {
+    return (
+      <StyledDiv className={className}>
+        <p>{t('Warning: we did not find any attest statement for {{chain}}', { replace: { chain: systemChain } })}</p>
+      </StyledDiv>
+    );
   }
 
   return (
@@ -50,10 +47,7 @@ function Statement ({ className, kind, systemChain }: Props): React.ReactElement
         target='_blank'
       >{statementUrl}</a>
       <div className='statement'>
-        <StatementFullText
-          statementUrl={statementUrl}
-          systemChain={systemChain}
-        />
+        <iframe src={statementUrl} />
       </div>
     </StyledDiv>
   );
