@@ -28,7 +28,7 @@ interface Props {
 const BN_TEN_THOUSAND = new BN(10_000);
 
 function getEra ({ era }: Extrinsic, blockNumber?: BlockNumber): [number, number] | null {
-  if (blockNumber && era.isMortalEra) {
+  if (blockNumber && era?.isMortalEra) {
     const mortalEra = era.asMortalEra;
 
     return [mortalEra.birth(blockNumber.toNumber()), mortalEra.death(blockNumber.toNumber())];
