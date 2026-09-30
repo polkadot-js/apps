@@ -230,10 +230,10 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'darwinia',
     paraId: 2046,
     providers: {
-      Darwinia: 'wss://rpc.darwinia.network',
+      Darwinia: 'wss://rpc.darwinia.network'
       // Dcdao: 'wss://darwinia-rpc.dcdao.box', https://github.com/polkadot-js/apps/issues/11157
       // Dwellir: 'wss://darwinia-rpc.n.dwellir.com', // https://github.com/polkadot-js/apps/issues/11965
-      Subquery: 'wss://darwinia.rpc.subquery.network/public/ws'
+      // Subquery: 'wss://darwinia.rpc.subquery.network/public/ws' // https://github.com/polkadot-js/apps/issues/12425
     },
     text: 'Darwinia',
     ui: {
@@ -657,7 +657,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'phala',
     paraId: 2035,
     providers: {
-      Dwellir: 'wss://phala-rpc.n.dwellir.com'
+      // Dwellir: 'wss://phala-rpc.n.dwellir.com' // https://github.com/polkadot-js/apps/issues/12425
       // Helikon: 'wss://rpc.helikon.io/phala',
       // OnFinality: 'wss://phala.api.onfinality.io/public-ws',
       // Phala: 'wss://api.phala.network/ws', // https://github.com/polkadot-js/apps/issues/11251
@@ -716,7 +716,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'sora',
     paraId: 2025,
     providers: {
-      Soramitsu: 'wss://ws.parachain-collator-3.pc3.sora2.soramitsu.co.jp'
+      // Soramitsu: 'wss://ws.parachain-collator-3.pc3.sora2.soramitsu.co.jp' // https://github.com/polkadot-js/apps/issues/12425
     },
     text: 'SORA',
     ui: {
@@ -843,7 +843,7 @@ export const prodParasPolkadot: Omit<EndpointOption, 'teleport'>[] = [
     info: 'zeitgeist',
     paraId: 2092,
     providers: {
-      OnFinality: 'wss://zeitgeist.api.onfinality.io/public-ws'
+      // OnFinality: 'wss://zeitgeist.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/12425
       // ZeitgeistPM: 'wss://main.rpc.zeitgeist.pm/ws' // https://github.com/polkadot-js/apps/issues/11215
     },
     text: 'Zeitgeist',
@@ -999,7 +999,7 @@ export const prodRelayPolkadot: EndpointOption = {
     // RockX: 'wss://rockx-dot.w3node.com/polka-public-dot/ws', // https://github.com/polkadot-js/apps/issues/11439
     Spectrum: 'wss://spectrum-03.simplystaking.xyz/cG9sa2Fkb3QtMDMtOTFkMmYwZGYtcG9sa2Fkb3Q/LjwBJpV3dIKyWQ/polkadot/mainnet/',
     // Stakeworld: 'wss://rpc-polkadot.stakeworld.io',
-    SubQuery: 'wss://polkadot.rpc.subquery.network/public/ws',
+    // SubQuery: 'wss://polkadot.rpc.subquery.network/public/ws', // https://github.com/polkadot-js/apps/issues/12425
     interweb: 'wss://rpc.interweb-it.com/polkadot',
     'light client': 'light://substrate-connect/polkadot'
   },
