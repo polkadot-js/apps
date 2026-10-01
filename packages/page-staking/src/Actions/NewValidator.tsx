@@ -14,6 +14,7 @@ import { isFunction } from '@polkadot/util';
 import { useTranslation } from '../translate.js';
 import BondPartial from './partials/Bond.js';
 import SessionKeyPartial from './partials/SessionKey.js';
+import { requiresOwnershipProof } from './partials/sessionKeyProof.js';
 import ValidatePartial from './partials/Validate.js';
 
 interface Props {
@@ -32,7 +33,8 @@ function NewValidator ({ isInElection, minCommission, targets }: Props): React.R
   const [{ sessionTx }, setSessionInfo] = useState<SessionInfo>({});
   const [{ validateTx }, setValidateInfo] = useState<ValidateInfo>({});
   const [step, setStep] = useState(1);
-  const isDisabled = isInElection || !isFunction(api.tx.utility?.batch);
+  const needsProof = requiresOwnershipProof(api);
+  const isDisabled = isInElection || !isFunction(needsProof ? api.tx.utility?.batchAll : api.tx.utility?.batch);
 
   const _nextStep = useCallback(
     () => setStep((step) => step + 1),
@@ -122,7 +124,7 @@ function NewValidator ({ isInElection, minCommission, targets }: Props): React.R
                       ? [bondTx, sessionTx, validateTx]
                       : [bondTx, sessionTx, validateTx, controllerTx]
                   ]}
-                  tx={api.tx.utility.batchAll || api.tx.utility.batch}
+                  tx={needsProof ? api.tx.utility.batchAll : (api.tx.utility.batchAll || api.tx.utility.batch)}
                 />
               )
               : (

@@ -6,9 +6,11 @@ import type { SessionInfo } from '../partials/types.js';
 import React, { useState } from 'react';
 
 import { Modal, TxButton } from '@polkadot/react-components';
+import { useApi, useStakingAsyncApis } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../../translate.js';
 import SessionKeyPartital from '../partials/SessionKey.js';
+import { requiresOwnershipProof } from '../partials/sessionKeyProof.js';
 
 interface Props {
   controllerId: string;
@@ -18,6 +20,10 @@ interface Props {
 
 function SetSessionKey ({ controllerId, onClose, stashId }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
+  const { api } = useApi();
+  const { isStakingAsync, rcApi } = useStakingAsyncApis();
+  const sessionApi = isStakingAsync ? rcApi : api;
+  const needsProof = !!sessionApi && requiresOwnershipProof(sessionApi);
   const [{ sessionTx }, setTx] = useState<SessionInfo>({});
 
   return (
@@ -37,7 +43,7 @@ function SetSessionKey ({ controllerId, onClose, stashId }: Props): React.ReactE
       </Modal.Content>
       <Modal.Actions>
         <TxButton
-          accountId={controllerId}
+          accountId={needsProof ? stashId : controllerId}
           extrinsic={sessionTx}
           icon='sign-in-alt'
           isDisabled={!sessionTx}
