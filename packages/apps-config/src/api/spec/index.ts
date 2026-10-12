@@ -128,6 +128,7 @@ import swapdex from './swapdex.js';
 import t0rn from './t0rn.js';
 import ternoa from './ternoa.js';
 import torus from './torus.js';
+import totochain from './totochain.js';
 import trustbase from './trustbase.js';
 import turing from './turing.js';
 import uart from './uart.js';
@@ -311,6 +312,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   'testnet-interlay': interbtc,
   'testnet-kintsugi': interbtc,
   torus,
+  totochain,
   trustbase,
   turing,
   uart,
