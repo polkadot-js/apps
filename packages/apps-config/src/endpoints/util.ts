@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TFunction } from '../types.js';
-import type { EndpointOption, LinkOption } from './types.js';
+import type { EndpointOption, LinkOption, RpcEndpoint } from './types.js';
 
 interface SortOption {
   isUnreachable?: boolean;
@@ -127,4 +127,18 @@ export function getTeleports (input: EndpointOption[]): number[] {
     .filter(({ teleport }) => !!teleport && teleport[0] === -1)
     .map(({ paraId }) => paraId)
     .filter((id): id is number => !!id);
+}
+
+/**
+ * Converts a list of RPC endpoints (as found in ./rpc/<chain-id>.json) to providers,
+ * skipping the ones marked as disabled
+ */
+export function getProviders (endpoints: RpcEndpoint[]): EndpointOption['providers'] {
+  return endpoints
+    .filter(({ disabled }) => !disabled)
+    .reduce((all: EndpointOption['providers'], { name, rpc }) => {
+      all[name] = rpc as EndpointOption['providers'][string];
+
+      return all;
+    }, {});
 }

@@ -2159,6 +2159,7 @@ __metadata:
     "@snowfork/snowbridge-types": "npm:0.2.7"
     "@sora-substrate/type-definitions": "npm:1.27.7"
     "@subsocial/definitions": "npm:0.8.14"
+    "@types/ws": "npm:^8.5.5"
     "@unique-nft/opal-testnet-types": "npm:1003.70.0"
     "@unique-nft/quartz-mainnet-types": "npm:1003.70.0"
     "@unique-nft/sapphire-mainnet-types": "npm:1003.70.0"
@@ -2168,6 +2169,8 @@ __metadata:
     pontem-types-bundle: "npm:1.0.15"
     rxjs: "npm:^7.8.1"
     tslib: "npm:^2.8.1"
+    ws: "npm:^8.18.0"
+    zod: "npm:^3.25.76"
   languageName: unknown
   linkType: soft
 

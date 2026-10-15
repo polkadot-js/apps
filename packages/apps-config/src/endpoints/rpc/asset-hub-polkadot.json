@@ -1,0 +1,35 @@
+[
+  {
+    "name": "Dwellir",
+    "rpc": "wss://asset-hub-polkadot-rpc.n.dwellir.com"
+  },
+  {
+    "name": "Gatotech Unlimited",
+    "rpc": "wss://asset-hub-polkadot.gatotech.network"
+  },
+  {
+    "name": "Helixstreet",
+    "rpc": "wss://rpc-asset-hub-polkadot.helixstreet.io"
+  },
+  {
+    "name": "LuckyFriday",
+    "rpc": "wss://rpc-asset-hub-polkadot.luckyfriday.io"
+  },
+  {
+    "name": "OnFinality",
+    "rpc": "wss://statemint.api.onfinality.io/public-ws"
+  },
+  {
+    "name": "Parity",
+    "rpc": "wss://polkadot-asset-hub-rpc.polkadot.io"
+  },
+  {
+    "name": "Stakeworld",
+    "rpc": "wss://rpc-asset-hub-polkadot.stakeworld.io"
+  },
+  {
+    "name": "RadiumBlock",
+    "rpc": "wss://statemint.public.curie.radiumblock.co/ws",
+    "disabled": true
+  }
+]

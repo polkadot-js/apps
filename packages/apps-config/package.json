@@ -62,6 +62,11 @@
     "@zeroio/type-definitions": "0.0.14",
     "pontem-types-bundle": "1.0.15",
     "rxjs": "^7.8.1",
-    "tslib": "^2.8.1"
+    "tslib": "^2.8.1",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@types/ws": "^8.5.5",
+    "ws": "^8.18.0"
   }
 }

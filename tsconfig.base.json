@@ -9,6 +9,7 @@
      * Reverts https://github.com/polkadot-js/dev/pull/1074
      **/
     "noPropertyAccessFromIndexSignature": false,
+    "resolveJsonModule": true,
 		"paths": {
       "@polkadot/apps": ["apps/src/index.tsx"],
       "@polkadot/apps/Root": ["apps/src/Root.tsx"],

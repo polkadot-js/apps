@@ -7,6 +7,10 @@
     /* Some of our types dependencies are not playing along nicely */
     "verbatimModuleSyntax": false
   },
+  "include": [
+    "src/**/*",
+    "src/**/*.json"
+  ],
   "exclude": [
     "**/build-*",
     "**/*.spec.ts"

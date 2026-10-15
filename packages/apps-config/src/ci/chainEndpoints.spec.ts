@@ -3,10 +3,12 @@
 
 /// <reference types="@polkadot/dev-test/globals.d.ts" />
 
-import { assert, isString } from '@polkadot/util';
-import { WebSocket } from '@polkadot/x-ws';
+import WebSocket from 'ws';
+
+import { isString } from '@polkadot/util';
 
 import { createWsEndpoints } from '../endpoints/index.js';
+import { readRpcFiles, RpcEndpointsSchema } from '../endpoints/rpcEndpoint.js';
 import { fetchJson } from './fetch.js';
 
 interface Endpoint {
@@ -19,14 +21,122 @@ interface DnsResponse {
   Question: { name: string }[];
 }
 
-const TIMEOUT = 60_000;
-
-function noopHandler () {
-  // ignore
+interface RpcResponse {
+  error?: { message: string };
+  id: number;
+  result?: unknown;
 }
 
-describe('check endpoints', (): void => {
-  const checks = createWsEndpoints()
+// Endpoints are retried before being reported
+const ATTEMPTS = 3;
+const RETRY_DELAY = 5_000;
+const TIMEOUT = 5_000;
+
+// Connect the same way the apps UI does from a browser. Some providers reject
+// non-browser clients, e.g. the Node.js built-in WebSocket sends 'User-Agent: node'
+const HEADERS = {
+  Origin: 'https://polkadot.js.org',
+  'User-Agent': 'Mozilla/5.0 (polkadot-js/apps chainEndpoints check)'
+};
+
+function createError (reason: string): Error {
+  return Object.assign(new Error(reason), { code: reason });
+}
+
+function getErrorReason (error: Error & { code?: string }): string {
+  // e.g. 'CERT_HAS_EXPIRED (certificate has expired)'
+  return `${String(error.code)}: ${error.message}`;
+}
+
+function checkEndpoint ({ ws: endpoint }: Endpoint): Promise<void> {
+  return new Promise((resolve, reject): void => {
+    const websocket = new WebSocket(endpoint, { handshakeTimeout: TIMEOUT, headers: HEADERS });
+    const timerId = setTimeout(() => done(createError('Connection timeout')), TIMEOUT);
+
+    function done (error?: Error): void {
+      clearTimeout(timerId);
+      websocket.removeAllListeners();
+      // terminate() can still emit an error (while connecting), which would otherwise be thrown
+      websocket.on('error', () => undefined);
+      websocket.terminate();
+
+      error
+        ? reject(error)
+        : resolve();
+    }
+
+    websocket.on('unexpected-response', (_, { statusCode, statusMessage }) =>
+      done(createError(`Unexpected response. code: '${statusCode}' reason: '${statusMessage}'`))
+    );
+
+    websocket.on('error', (error) =>
+      done(createError(getErrorReason(error)))
+    );
+
+    websocket.on('close', (code, reason) =>
+      done(createError(`Disconnected. code: '${code}' reason: '${reason.toString()}'`))
+    );
+
+    websocket.on('open', (): void => {
+      websocket.send(JSON.stringify({ id: 1, jsonrpc: '2.0', method: 'chain_getFinalizedHead', params: [] }));
+    });
+
+    websocket.on('message', (data): void => {
+      let response: RpcResponse;
+
+      try {
+        response = JSON.parse((data as Buffer).toString('utf8')) as RpcResponse;
+      } catch {
+        return done(createError('Invalid JSON response'));
+      }
+
+      if (response.error) {
+        return done(createError(`RPC error: ${response.error.message}`));
+      }
+
+      isString(response.result) && response.result.startsWith('0x')
+        ? done()
+        : done(createError('Invalid/non-hex finalized head response'));
+    });
+  });
+}
+
+async function checkWithRetries (endpoint: Endpoint): Promise<true> {
+  const [,, hostWithPort] = endpoint.ws.split('/');
+  const [host] = hostWithPort.split(':');
+
+  // fail fast if the dns doesn't exist
+  const dns = await fetchJson<DnsResponse>(`https://dns.google/resolve?name=${host}`);
+
+  // only fail on a negative answer, a null here means the lookup itself failed/timed out
+  if (dns && !dns.Answer) {
+    throw createError(`No DNS entry for ${host}`);
+  }
+
+  let lastError: Error | null = null;
+
+  for (let attempt = 1; attempt <= ATTEMPTS; attempt++) {
+    if (attempt > 1) {
+      await new Promise((resolve) => setTimeout(resolve, RETRY_DELAY));
+    }
+
+    try {
+      await checkEndpoint(endpoint);
+
+      return true;
+    } catch (error) {
+      lastError = error as Error;
+    }
+  }
+
+  throw lastError;
+}
+
+/**
+ * All the (enabled) endpoints from the apps config
+ */
+function getConfigEndpoints (): Endpoint[] {
+  return createWsEndpoints()
     .filter(({ isDisabled, isUnreachable, value }) =>
       !isDisabled &&
       !isUnreachable &&
@@ -40,77 +150,50 @@ describe('check endpoints', (): void => {
       ws: value
     }))
     .filter((v): v is Endpoint => !!v.ws);
+}
 
-  for (const { name, ws: endpoint } of checks) {
-    it(`${name} @ ${endpoint}`, async (): Promise<void> => {
-      const [,, hostWithPort] = endpoint.split('/');
-      const [host] = hostWithPort.split(':');
-      let websocket: WebSocket | null = null;
-      let closeTimerId: ReturnType<typeof setTimeout> | null = null;
+/**
+ * All the (enabled) endpoints from the ../endpoints/rpc/<chain-id>.json files
+ */
+function getJsonEndpoints (): Endpoint[] {
+  return readRpcFiles(new URL('../endpoints/rpc/', import.meta.url))
+    .flatMap(({ content, file }) =>
+      // throws (with the reason) on an invalid file, see rpc.spec.ts
+      RpcEndpointsSchema.parse(content)
+        .filter(({ disabled }) => !disabled)
+        .map(({ name, rpc }): Endpoint => ({
+          name: `${file} (${name})`,
+          ws: rpc
+        }))
+    );
+}
 
-      await fetchJson<DnsResponse>(`https://dns.google/resolve?name=${host}`)
-        .then((json) =>
-          assert(json?.Answer, 'No DNS entry')
-        )
-        .then(() =>
-          new Promise((resolve, reject): void => {
-            websocket = new WebSocket(endpoint);
+/**
+ * The endpoints to check, as selected by CHECK_ENDPOINTS:
+ *   - all: all the endpoints from the apps config
+ *   - json: only the endpoints from the json files
+ */
+function getEndpoints (): Endpoint[] {
+  const source = process.env.CHECK_ENDPOINTS;
 
-            websocket.onclose = (event: { code: number; reason: string }): void => {
-              if (event.code !== 1000) {
-                reject(new Error(`Disconnected, code: '${event.code}' reason: '${event.reason}'`));
-              }
-            };
+  switch (source) {
+    case 'all':
+      return getConfigEndpoints();
 
-            websocket.onerror = (): void => {
-              reject(new Error('Connection error'));
-            };
+    case 'json':
+      return getJsonEndpoints();
 
-            websocket.onopen = (): void => {
-              websocket?.send('{"id":"1","jsonrpc":"2.0","method":"state_getMetadata","params":[]}');
-            };
+    default:
+      throw new Error(`Invalid CHECK_ENDPOINTS=${source}, expected 'all' or 'json'`);
+  }
+}
 
-            websocket.onmessage = (message: { data: string }): void => {
-              try {
-                const result = (JSON.parse(message.data) as { result?: string }).result;
+describe('check endpoints', (): void => {
+  const endpoints = getEndpoints();
 
-                assert(result?.startsWith('0x'), 'Invalid/non-hex response');
-                resolve(result);
-              } catch (e) {
-                reject(e);
-              }
-            };
-
-            closeTimerId = setTimeout(
-              () => {
-                closeTimerId = null;
-                reject(new Error('Connection timeout'));
-              },
-              TIMEOUT
-            );
-          })
-        )
-        .finally(() => {
-          if (closeTimerId) {
-            clearTimeout(closeTimerId);
-            closeTimerId = null;
-          }
-
-          if (websocket) {
-            websocket.onclose = noopHandler;
-            websocket.onerror = noopHandler;
-            websocket.onopen = noopHandler;
-            websocket.onmessage = noopHandler;
-
-            try {
-              websocket.close();
-            } catch (e) {
-              console.error((e as Error).message);
-            }
-
-            websocket = null;
-          }
-        });
+  for (const endpoint of endpoints) {
+    it(`${endpoint.name} @ ${endpoint.ws}`, async (): Promise<void> => {
+      expect(await checkWithRetries(endpoint)).toBe(true);
     });
   }
 });

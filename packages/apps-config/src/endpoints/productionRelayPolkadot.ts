@@ -6,7 +6,10 @@ import type { EndpointOption } from './types.js';
 import { POLKADOT_GENESIS } from '../api/constants.js';
 import { chainsAcalaSVG, chainsAcurastSVG, chainsBitgreenPNG, chainsBulletinSVG, chainsComposableFinancePNG, chainsEquilibriumSVG, chainsFrequencySVG, chainsGeminisPNG, chainsHydrationSVG, chainsInvarchJPEG, chainsLaosPNG, chainsLogionPNG, chainsMyxcavPNG, chainsNeurowebPNG, chainsOakPNG, chainsPeaqPNG, chainsPendulumSVG, chainsPeoplePolkadotSVG, chainsPolkadotCircleSVG, chainsTotemSVG, chainsWatrPNG } from '../ui/logos/chains/index.js';
 import { nodesAjunaPNG, nodesAresOdysseySVG, nodesAssetHubSVG, nodesAstarPNG, nodesAventusSVG, nodesBifrostSVG, nodesBridgeHubSVG, nodesCentrifugePNG, nodesCloverSVG, nodesCoinversationPNG, nodesCollectivesSVG, nodesContinuumPNG, nodesCrustParachainSVG, nodesDarwiniaSVG, nodesEfinitySVG, nodesEwxSVG, nodesHashedPNG, nodesHeimaSVG, nodesHyperbridgePNG, nodesIntegriteeSVG, nodesInterlaySVG, nodesJamtonSVG, nodesKiltIconSVG, nodesKylinPNG, nodesMantaPNG, nodesMoonbeamSVG, nodesMoonsamaSVG, nodesMythosPNG, nodesNodleSVG, nodesOmnibtcSVG, nodesParallelSVG, nodesPhalaSVG, nodesPolkadexSVG, nodesRobonomicsSVG, nodesSoraSubstrateSVG, nodesSubdaoPNG, nodesSubgameSVG, nodesSubsocialSVG, nodesT3rnPNG, nodesUniqueSVG, nodesXodePNG, nodesZeitgeistPNG } from '../ui/logos/nodes/index.js';
-import { getTeleports } from './util.js';
+import rpcAssetHubPolkadot from './rpc/asset-hub-polkadot.json' with { type: 'json' };
+import rpcPeoplePolkadot from './rpc/people-polkadot.json' with { type: 'json' };
+import rpcPolkadot from './rpc/polkadot.json' with { type: 'json' };
+import { getProviders, getTeleports } from './util.js';
 
 // The available endpoints that will show in the dropdown. For the most part (with the exception of
 // Polkadot) we try to keep this to live chains only, with RPCs hosted by the community/chain vendor
@@ -860,16 +863,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
     info: 'PolkadotAssetHub',
     isPeopleForIdentity: true,
     paraId: 1000,
-    providers: {
-      Dwellir: 'wss://asset-hub-polkadot-rpc.n.dwellir.com',
-      'Gatotech Unlimited': 'wss://asset-hub-polkadot.gatotech.network',
-      Helixstreet: 'wss://rpc-asset-hub-polkadot.helixstreet.io',
-      LuckyFriday: 'wss://rpc-asset-hub-polkadot.luckyfriday.io',
-      OnFinality: 'wss://statemint.api.onfinality.io/public-ws',
-      Parity: 'wss://polkadot-asset-hub-rpc.polkadot.io',
-      // RadiumBlock: 'wss://statemint.public.curie.radiumblock.co/ws'
-      Stakeworld: 'wss://rpc-asset-hub-polkadot.stakeworld.io'
-    },
+    providers: getProviders(rpcAssetHubPolkadot),
     relayName: 'polkadot',
     teleport: [-1, 1002, 1001, 1005, 1004, 1010],
     text: 'Asset Hub',
@@ -957,15 +951,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
     isPeople: true,
     isPeopleForIdentity: false,
     paraId: 1004,
-    providers: {
-      Dwellir: 'wss://people-polkadot-rpc.n.dwellir.com',
-      Helixstreet: 'wss://rpc-people-polkadot.helixstreet.io',
-      LuckyFriday: 'wss://rpc-people-polkadot.luckyfriday.io',
-      OnFinality: 'wss://people-polkadot.api.onfinality.io/public-ws',
-      Parity: 'wss://polkadot-people-rpc.polkadot.io',
-      // RadiumBlock: 'wss://people-polkadot.public.curie.radiumblock.co/ws'
-      Stakeworld: 'wss://rpc-people-polkadot.stakeworld.io'
-    },
+    providers: getProviders(rpcPeoplePolkadot),
     relayName: 'polkadot',
     teleport: [-1, 1000],
     text: 'People',
@@ -987,20 +973,7 @@ export const prodRelayPolkadot: EndpointOption = {
     ...prodParasPolkadot
   ],
   providers: {
-    Allnodes: 'wss://polkadot-rpc.publicnode.com',
-    // 'Geometry Labs': 'wss://polkadot.geometry.io/websockets', // https://github.com/polkadot-js/apps/pull/6746
-    // 'Automata 1RPC': 'wss://1rpc.io/dot',
-    Dwellir: 'wss://polkadot-rpc.n.dwellir.com',
-    'Gatotech Unlimited': 'wss://polkadot.gatotech.network',
-    Helixstreet: 'wss://rpc-polkadot.helixstreet.io',
-    LuckyFriday: 'wss://rpc-polkadot.luckyfriday.io',
-    OnFinality: 'wss://polkadot.api.onfinality.io/public-ws',
-    // RadiumBlock: 'wss://polkadot.public.curie.radiumblock.co/ws',
-    // RockX: 'wss://rockx-dot.w3node.com/polka-public-dot/ws', // https://github.com/polkadot-js/apps/issues/11439
-    Spectrum: 'wss://spectrum-03.simplystaking.xyz/cG9sa2Fkb3QtMDMtOTFkMmYwZGYtcG9sa2Fkb3Q/LjwBJpV3dIKyWQ/polkadot/mainnet/',
-    // Stakeworld: 'wss://rpc-polkadot.stakeworld.io',
-    SubQuery: 'wss://polkadot.rpc.subquery.network/public/ws',
-    interweb: 'wss://rpc.interweb-it.com/polkadot',
+    ...getProviders(rpcPolkadot),
     'light client': 'light://substrate-connect/polkadot'
   },
   teleport: getTeleports(prodParasPolkadotCommon),

@@ -98,3 +98,5 @@ export interface LinkOption extends BaseOption, Option {
   value: string;
   valueRelay?: string[];
 }
+
+export type { RpcEndpoint } from './rpcEndpoint.js';

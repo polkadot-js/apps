@@ -21,7 +21,7 @@ export const KUSAMA_GENESIS = getGenesis('kusama');
 export const POLKADOT_GENESIS = getGenesis('polkadot');
 export const POLKADOT_DENOM_BLOCK = new BN(1248328);
 
-export const PASEO_GENESIS = '0x77afd6190f1554ad45fd0d31aee62aacc33c6db0ea801129acb813f913e0764f';
+export const PASEO_GENESIS = '0x374057be67b355151f271ff70c3db98308c62c8adc48dc6724b6a009a1a014fd';
 
 export const WESTEND_GENESIS = getGenesis('westend');
 

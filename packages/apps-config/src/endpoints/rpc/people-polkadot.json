@@ -1,0 +1,31 @@
+[
+  {
+    "name": "Dwellir",
+    "rpc": "wss://people-polkadot-rpc.n.dwellir.com"
+  },
+  {
+    "name": "Helixstreet",
+    "rpc": "wss://rpc-people-polkadot.helixstreet.io"
+  },
+  {
+    "name": "LuckyFriday",
+    "rpc": "wss://rpc-people-polkadot.luckyfriday.io"
+  },
+  {
+    "name": "OnFinality",
+    "rpc": "wss://people-polkadot.api.onfinality.io/public-ws"
+  },
+  {
+    "name": "Parity",
+    "rpc": "wss://polkadot-people-rpc.polkadot.io"
+  },
+  {
+    "name": "Stakeworld",
+    "rpc": "wss://rpc-people-polkadot.stakeworld.io"
+  },
+  {
+    "name": "RadiumBlock",
+    "rpc": "wss://people-polkadot.public.curie.radiumblock.co/ws",
+    "disabled": true
+  }
+]
