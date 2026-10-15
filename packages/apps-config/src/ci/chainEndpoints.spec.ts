@@ -152,9 +152,6 @@ function getConfigEndpoints (): Endpoint[] {
     .filter((v): v is Endpoint => !!v.ws);
 }
 
-/**
- * All the (enabled) endpoints from the ../endpoints/rpc/<chain-id>.json files
- */
 function getJsonEndpoints (): Endpoint[] {
   return readRpcFiles(new URL('../endpoints/rpc/', import.meta.url))
     .flatMap(({ content, file }) =>
