@@ -861,6 +861,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       Dwellir: 'wss://asset-hub-polkadot-rpc.n.dwellir.com',
       'Gatotech Unlimited': 'wss://asset-hub-polkadot.gatotech.network',
       Helixstreet: 'wss://rpc-asset-hub-polkadot.helixstreet.io',
+      LuckyFriday: 'wss://rpc-asset-hub-polkadot.luckyfriday.io',
       OnFinality: 'wss://statemint.api.onfinality.io/public-ws',
       Parity: 'wss://polkadot-asset-hub-rpc.polkadot.io',
       // RadiumBlock: 'wss://statemint.public.curie.radiumblock.co/ws'
