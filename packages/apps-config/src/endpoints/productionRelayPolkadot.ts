@@ -863,6 +863,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
     providers: {
       Dwellir: 'wss://asset-hub-polkadot-rpc.n.dwellir.com',
       'Dwellir 2': 'wss://asset-hub-polkadot-2-rpc.n.dwellir.com',
+      'Dwellir 3': 'wss://asset-hub-polkadot-3-rpc.n.dwellir.com',
       'Gatotech Unlimited': 'wss://asset-hub-polkadot.gatotech.network',
       Helixstreet: 'wss://rpc-asset-hub-polkadot.helixstreet.io',
       LuckyFriday: 'wss://rpc-asset-hub-polkadot.luckyfriday.io',
