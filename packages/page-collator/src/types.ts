@@ -7,5 +7,6 @@ export interface Collator {
   accountId: string;
   deposit?: BN;
   isInvulnerable: boolean;
+  isValidator?: boolean;
   lastBlock?: BN;
 }

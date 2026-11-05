@@ -39,6 +39,16 @@ const OPT_CAN = {
       }))
 };
 
+// Collators that pallet-validator-collators drew from the relay chain validator set
+const OPT_VAL = {
+  transform: (validators: AccountId32[]) =>
+    validators.map((accountId32): Collator => ({
+      accountId: accountId32.toString(),
+      isInvulnerable: false,
+      isValidator: true
+    }))
+};
+
 const OPT_AUT = {
   transform: ([[accountIds], lastAuthoredBlocks]: [[string[]], BN[]]) =>
     accountIds.reduce<Authored>((map, accountId, index): Authored => ({
@@ -78,13 +88,24 @@ function useCollatorImpl (): Collator[] | undefined {
   const candidateCall = api.query.collatorSelection.candidates || api.query.collatorSelection.candidateList;
   const invulnerables = useCall<Collator[]>(api.query.collatorSelection.invulnerables, [], OPT_INV);
   const candidates = useCall<Collator[]>(candidateCall, [], OPT_CAN);
+  const validators = useCall<Collator[]>(api.query.validatorCollators && api.query.session.validators, [], OPT_VAL);
   const lastBlocks = useCall<Authored>(accountIds && api.query.collatorSelection.lastAuthoredBlock?.multi, [accountIds], OPT_AUT);
 
   useEffect(
-    () => invulnerables && candidates && setState(() =>
-      [...invulnerables, ...candidates]
-    ),
-    [candidates, invulnerables]
+    () => {
+      if (!invulnerables || !candidates || (api.query.validatorCollators && !validators)) {
+        return;
+      }
+
+      const known = new Set([...invulnerables, ...candidates].map(({ accountId }) => accountId));
+
+      setState([
+        ...invulnerables,
+        ...candidates,
+        ...(validators || []).filter(({ accountId }) => !known.has(accountId))
+      ]);
+    },
+    [api, candidates, invulnerables, validators]
   );
 
   useEffect(
