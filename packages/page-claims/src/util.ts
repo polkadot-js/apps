@@ -132,13 +132,13 @@ function getPolkadot (kind?: StatementKind | null): Statement | undefined {
   };
 }
 
-export function getStatement (network: string, kind?: StatementKind | null): Statement | undefined {
-  switch (network) {
-    case 'Polkadot':
-    case 'Polkadot CC1':
-      return getPolkadot(kind);
+// The prefix of the Polkadot claims pallet (the Prefix runtime constant). The
+// statements belong to that pallet, not to a chain name: since the Asset Hub
+// Migration it runs on Polkadot Asset Hub, which does not report as 'Polkadot'.
+export const POLKADOT_CLAIMS_PREFIX = 'Pay DOTs to the Polkadot account:';
 
-    default:
-      return undefined;
-  }
+export function getStatement (prefix: string, kind?: StatementKind | null): Statement | undefined {
+  return prefix === POLKADOT_CLAIMS_PREFIX
+    ? getPolkadot(kind)
+    : undefined;
 }
