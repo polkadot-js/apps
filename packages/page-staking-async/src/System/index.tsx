@@ -72,7 +72,6 @@ function StakingApp ({ ahApi, ahEndPoints, basePath, isRelayChain, rcApi, rcEndP
   const nominatedBy = useNominations(loadNominations);
   const ownPools = useOwnPools();
   const ahStakingOverview = useCall<DeriveStakingOverview>(api?.derive.staking.overview);
-  // Asset Hub session validators are its collators, the active validators are the relay chain's
   const rcValidators = useCall<AccountId[]>(rcApi?.query.session.validators);
 
   const stakingOverview = useMemo(() => (
