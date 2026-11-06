@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
-import type { DeriveStakingOverview, DeriveStakingValidators } from '@polkadot/api-derive/types';
+import type { DeriveStakingOverview } from '@polkadot/api-derive/types';
 import type { AppProps } from '@polkadot/react-components/types';
-import type { ElectionStatus, ParaValidatorIndex, ValidatorId } from '@polkadot/types/interfaces';
+import type { AccountId, ElectionStatus, ParaValidatorIndex, ValidatorId } from '@polkadot/types/interfaces';
 import type { BN } from '@polkadot/util';
 
 import React, { useCallback, useMemo, useState } from 'react';
@@ -72,16 +72,17 @@ function StakingApp ({ ahApi, ahEndPoints, basePath, isRelayChain, rcApi, rcEndP
   const nominatedBy = useNominations(loadNominations);
   const ownPools = useOwnPools();
   const ahStakingOverview = useCall<DeriveStakingOverview>(api?.derive.staking.overview);
-  const validatorsInfo = useCall<DeriveStakingValidators>(rcApi?.derive.staking.validators);
+  // Asset Hub session validators are its collators, the active validators are the relay chain's
+  const rcValidators = useCall<AccountId[]>(rcApi?.query.session.validators);
 
   const stakingOverview = useMemo(() => (
-    !!ahStakingOverview && !!validatorsInfo
+    !!ahStakingOverview && !!rcValidators
       ? {
         ...ahStakingOverview,
-        ...validatorsInfo
+        validators: rcValidators
       }
       : undefined
-  ), [ahStakingOverview, validatorsInfo]);
+  ), [ahStakingOverview, rcValidators]);
 
   const toggleNominatedBy = useCallback(
     () => setLoadNominations(true),
