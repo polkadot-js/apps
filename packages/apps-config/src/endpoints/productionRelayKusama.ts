@@ -854,7 +854,8 @@ export const prodParasKusamaCommon: EndpointOption[] = [
       Dwellir: 'wss://asset-hub-kusama-rpc.n.dwellir.com',
       LuckyFriday: 'wss://rpc-asset-hub-kusama.luckyfriday.io',
       OnFinality: 'wss://assethub-kusama.api.onfinality.io/public-ws',
-      Parity: 'wss://kusama-asset-hub-rpc.polkadot.io'
+      Parity: 'wss://kusama-asset-hub-rpc.polkadot.io',
+      Rotko: 'wss://asset-hub-kusama.rotko.net'
       // RadiumBlock: 'wss://statemine.public.curie.radiumblock.co/ws'
       // Stakeworld: 'wss://rpc-assethub-kusama.stakeworld.io'
     },
@@ -875,6 +876,7 @@ export const prodParasKusamaCommon: EndpointOption[] = [
       LuckyFriday: 'wss://rpc-bridge-hub-kusama.luckyfriday.io',
       OnFinality: 'wss://bridgehub-kusama.api.onfinality.io/public-ws',
       Parity: 'wss://kusama-bridge-hub-rpc.polkadot.io',
+      Rotko: 'wss://bridge-hub-kusama.rotko.net',
       // RadiumBlock: 'wss://bridgehub-kusama.public.curie.radiumblock.co/ws',
       Spectrum: 'wss://spectrum-03.simplystaking.xyz/cG9sa2Fkb3QtMDMtOTFkMmYwZGYtcG9sa2Fkb3Q/balkpUVauqyv8g/kusamabridgehub/mainnet/'
       // Stakeworld: 'wss://rpc-bridgehub-kusama.stakeworld.io'
@@ -894,7 +896,8 @@ export const prodParasKusamaCommon: EndpointOption[] = [
       Dwellir: 'wss://coretime-kusama-rpc.n.dwellir.com',
       LuckyFriday: 'wss://rpc-coretime-kusama.luckyfriday.io',
       OnFinality: 'wss://coretime-kusama.api.onfinality.io/public-ws',
-      Parity: 'wss://kusama-coretime-rpc.polkadot.io'
+      Parity: 'wss://kusama-coretime-rpc.polkadot.io',
+      Rotko: 'wss://coretime-kusama.rotko.net'
       // Stakeworld: 'wss://rpc-coretime-kusama.stakeworld.io'
     },
     relayName: 'kusama',
@@ -913,7 +916,8 @@ export const prodParasKusamaCommon: EndpointOption[] = [
     providers: {
       Dwellir: 'wss://encointer-kusama-rpc.n.dwellir.com',
       'Encointer Association': 'wss://kusama.api.encointer.org',
-      LuckyFriday: 'wss://rpc-encointer-kusama.luckyfriday.io'
+      LuckyFriday: 'wss://rpc-encointer-kusama.luckyfriday.io',
+      Rotko: 'wss://encointer-kusama.rotko.net'
       // OnFinality: 'wss://encointer.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/9986
       // Stakeworld: 'wss://ksm-rpc.stakeworld.io/encointer'
     },
@@ -935,7 +939,8 @@ export const prodParasKusamaCommon: EndpointOption[] = [
       Helixstreet: 'wss://rpc-people-kusama.helixstreet.io',
       LuckyFriday: 'wss://rpc-people-kusama.luckyfriday.io',
       OnFinality: 'wss://people-kusama.api.onfinality.io/public-ws',
-      Parity: 'wss://kusama-people-rpc.polkadot.io'
+      Parity: 'wss://kusama-people-rpc.polkadot.io',
+      Rotko: 'wss://people-kusama.rotko.net'
       // RadiumBlock: 'wss://people-kusama.public.curie.radiumblock.co/ws'
       // Stakeworld: 'wss://rpc-people-kusama.stakeworld.io'
     },
