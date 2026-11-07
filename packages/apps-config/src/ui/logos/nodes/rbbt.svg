@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="200" height="200">
+  <defs>
+    <linearGradient id="rbbtGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00e5ff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0055ff;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <circle cx="50" cy="50" r="48" fill="#1a1a1a" />
+  
+  <polygon points="35,25 45,50 25,50" fill="url(#rbbtGrad)" opacity="0.8"/>
+  
+  <polygon points="65,25 75,50 55,50" fill="url(#rbbtGrad)" opacity="0.9"/>
+  
+  <polygon points="50,80 25,50 75,50" fill="url(#rbbtGrad)" />
+  
+  <polygon points="50,80 40,55 60,55" fill="#ffffff" opacity="0.2"/>
+  
+  <circle cx="40" cy="60" r="2" fill="#ffffff" />
+  <circle cx="60" cy="60" r="2" fill="#ffffff" />
+</svg>
