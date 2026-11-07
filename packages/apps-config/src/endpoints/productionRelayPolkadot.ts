@@ -868,6 +868,7 @@ export const prodParasPolkadotCommon: EndpointOption[] = [
       OnFinality: 'wss://statemint.api.onfinality.io/public-ws',
       Parity: 'wss://polkadot-asset-hub-rpc.polkadot.io',
       // RadiumBlock: 'wss://statemint.public.curie.radiumblock.co/ws'
+      'Selvage Labs': 'wss://asset-hub.selvagelabs.io',
       Stakeworld: 'wss://rpc-asset-hub-polkadot.stakeworld.io'
     },
     relayName: 'polkadot',
