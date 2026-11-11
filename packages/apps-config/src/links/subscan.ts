@@ -102,8 +102,6 @@ export const Subscan: ExternalDef = {
     'Turing Network': 'turing',
     UNIQUE: 'unique',
     Unique: 'unique',
-    Vara: 'vara',
-    'Vara Network': 'vara',
     Westend: 'westend',
     'Westend Asset Hub': 'assethub-westend',
     'Westend BridgeHub': 'bridgehub-westend',

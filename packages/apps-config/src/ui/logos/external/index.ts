@@ -15,3 +15,4 @@ export { externalSingularSVG } from './generated/singularSVG.js';
 export { externalStatescanSVG } from './generated/statescanSVG.js';
 export { externalSubscanPNG } from './generated/subscanPNG.js';
 export { externalSubsquareSVG } from './generated/subsquareSVG.js';
+export { externalVaraExplorerPNG } from './generated/varaExplorerPNG.js';

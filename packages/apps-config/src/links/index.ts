@@ -9,6 +9,7 @@ import { KodaDot } from './kodadot.js';
 import { Statescan } from './statescan.js';
 import { Subscan } from './subscan.js';
 import { Subsquare } from './subsquare.js';
+import { VaraExplorer } from './varaExplorer.js';
 
 export const externalLinks: Record<string, ExternalDef> = {
   CereStats,
@@ -16,5 +17,6 @@ export const externalLinks: Record<string, ExternalDef> = {
   KodaDot,
   Statescan,
   Subscan,
-  Subsquare
+  Subsquare,
+  VaraExplorer
 };
