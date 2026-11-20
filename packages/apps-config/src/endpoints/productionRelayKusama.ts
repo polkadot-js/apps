@@ -410,7 +410,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     paraId: 2241,
     providers: {
       // Krest: 'wss://wss-krest.peaq.network/', // https://github.com/polkadot-js/apps/issues/12018
-      OnFinality: 'wss://krest.api.onfinality.io/public-ws'
+      // OnFinality: 'wss://krest.api.onfinality.io/public-ws' // https://github.com/polkadot-js/apps/issues/12425
       // UnitedBloc: 'wss://krest.unitedbloc.com/' https://github.com/polkadot-js/apps/issues/10997
     },
     text: 'Krest',
@@ -574,7 +574,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     providers: {
       // Dwellir: 'wss://quartz-rpc.n.dwellir.com', // https://github.com/polkadot-js/apps/issues/11513
       // OnFinality: 'wss://quartz.api.onfinality.io/public-ws', // https://github.com/polkadot-js/apps/issues/9972
-      'Geo Load Balancer': 'wss://ws-quartz.unique.network'
+      // 'Geo Load Balancer': 'wss://ws-quartz.unique.network' // https://github.com/polkadot-js/apps/issues/12425
       // 'Unique America': 'wss://us-ws-quartz.unique.network', // https://github.com/polkadot-js/apps/issues/11477
       // 'Unique Asia': 'wss://asia-ws-quartz.unique.network', // https://github.com/polkadot-js/apps/issues/11846
       // 'Unique Europe': 'wss://eu-ws-quartz.unique.network'
@@ -707,7 +707,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     info: 'sora',
     paraId: 2011,
     providers: {
-      Soramitsu: 'wss://ws.parachain-collator-2.c2.sora2.soramitsu.co.jp'
+      // Soramitsu: 'wss://ws.parachain-collator-2.c2.sora2.soramitsu.co.jp' // https://github.com/polkadot-js/apps/issues/12425
     },
     text: 'SORA',
     ui: {
