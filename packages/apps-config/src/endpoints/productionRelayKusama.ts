@@ -282,11 +282,11 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     }
   },
   {
-    homepage: 'https://kabocha.network',
+    homepage: 'https://polkadot.js.org/apps/?rpc=wss%3A%2F%2Fkabocha-rpc.birdbrain.wtf#/explorer',
     info: 'kabocha',
     paraId: 2113,
     providers: {
-      JelliedOwl: 'wss://kabocha.jelliedowl.net'
+      Birdbrain: 'wss://kabocha-rpc.birdbrain.wtf'
     },
     text: 'Kabocha',
     ui: {
