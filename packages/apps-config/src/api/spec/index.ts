@@ -143,6 +143,7 @@ import zCloak from './zCloak.js';
 import zeitgeist from './zeitgeist.js';
 import zenlink from './zenlink.js';
 import zero from './zero.js';
+import zkverify from './zkverify.js';
 
 // NOTE: The mapping is done from specName in state.getRuntimeVersion
 const spec: Record<string, OverrideBundleDefinition> = {
@@ -313,6 +314,7 @@ const spec: Record<string, OverrideBundleDefinition> = {
   torus,
   trustbase,
   turing,
+  'tzkv-runtime': zkverify,
   uart,
   unique,
   'unit-node': unitv,
@@ -325,7 +327,8 @@ const spec: Record<string, OverrideBundleDefinition> = {
   vodka,
   'web3games-node': web3games,
   'zcloak-network': zCloak,
-  zeitgeist
+  zeitgeist,
+  'zkv-runtime': zkverify
 };
 
 export default spec;

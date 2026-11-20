@@ -102278,6 +102278,7 @@ export const typesBundle = {
         }
       ]
     },
+    "tzkv-runtime": {},
     "uart": {
       "types": [
         {
@@ -104243,6 +104244,7 @@ export const typesBundle = {
           }
         }
       ]
-    }
+    },
+    "zkv-runtime": {}
   }
 } as unknown as OverrideBundleType;
