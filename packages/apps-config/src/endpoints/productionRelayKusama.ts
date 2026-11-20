@@ -365,7 +365,7 @@ export const prodParasKusama: Omit<EndpointOption, 'teleport'>[] = [
     providers: {
       'Kintsugi Labs': 'wss://api-kusama.interlay.io/parachain',
       // LuckyFriday: 'wss://rpc-kintsugi.luckyfriday.io/', // https://github.com/polkadot-js/apps/issues/9947
-      OnFinality: 'wss://kintsugi.api.onfinality.io/public-ws'
+      // OnFinality: 'wss://kintsugi.api.onfinality.io/public-ws'
     },
     text: 'Kintsugi BTC',
     ui: {
