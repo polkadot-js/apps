@@ -993,6 +993,7 @@ export const prodRelayPolkadot: EndpointOption = {
     Dwellir: 'wss://polkadot-rpc.n.dwellir.com',
     'Gatotech Unlimited': 'wss://polkadot.gatotech.network',
     Helixstreet: 'wss://rpc-polkadot.helixstreet.io',
+    LinkPool: 'wss://polkadot-mainnet.linkpool.com',
     LuckyFriday: 'wss://rpc-polkadot.luckyfriday.io',
     OnFinality: 'wss://polkadot.api.onfinality.io/public-ws',
     // RadiumBlock: 'wss://polkadot.public.curie.radiumblock.co/ws',
