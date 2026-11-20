@@ -108,6 +108,7 @@ export const prodChains: Omit<EndpointOption, 'teleport'>[] = [
   {
     info: 'bittensor',
     providers: {
+      'blockmachine (Lite)': 'wss://rpc.blockmachine.io',
       'Latent Holdings (Lite)': 'wss://lite.sub.latent.to:443',
       'OnFinality (Archive)': 'wss://bittensor-finney.api.onfinality.io/public-ws',
       'Opentensor Fdn (Archive)': 'wss://entrypoint-finney.opentensor.ai:443'
