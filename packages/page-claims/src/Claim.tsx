@@ -26,6 +26,8 @@ interface Props {
   // Do we sign with `claims.claimAttest` (new) instead of `claims.claim` (old)?
   isOldClaimProcess: boolean;
   onSuccess?: TxCallback;
+  // The claims pallet prefix, used to find the statement text
+  prefix: string;
   statementKind?: StatementKind | null;
 }
 
@@ -36,19 +38,29 @@ interface ConstructTx {
 
 // Depending on isOldClaimProcess, construct the correct tx.
 // FIXME We actually want to return the constructed extrinsic here (probably in useMemo)
-function constructTx (api: ApiPromise, systemChain: string, accountId: string, ethereumSignature: EthereumSignature | string | undefined | null, kind: StatementKind | undefined | null, isOldClaimProcess: boolean): ConstructTx {
+function constructTx (api: ApiPromise, prefix: string, accountId: string, ethereumSignature: EthereumSignature | string | undefined | null, kind: StatementKind | undefined | null, isOldClaimProcess: boolean): ConstructTx {
   if (!ethereumSignature) {
     return {};
   }
 
-  return isOldClaimProcess || !kind
-    ? { params: [accountId, ethereumSignature], tx: api.tx.claims.claim }
-    : { params: [accountId, ethereumSignature, getStatement(systemChain, kind)?.sentence], tx: api.tx.claims.claimAttest };
+  if (isOldClaimProcess || !kind) {
+    return { params: [accountId, ethereumSignature], tx: api.tx.claims.claim };
+  }
+
+  const statement = getStatement(prefix, kind);
+
+  // A statement is required but its text is unknown here. Do not build a claim
+  // that the runtime rejects with InvalidStatement; the button stays disabled.
+  if (!statement) {
+    return {};
+  }
+
+  return { params: [accountId, ethereumSignature, statement.sentence], tx: api.tx.claims.claimAttest };
 }
 
-function Claim ({ accountId, className = '', ethereumAddress, ethereumSignature, isOldClaimProcess, onSuccess, statementKind }: Props): React.ReactElement<Props> | null {
+function Claim ({ accountId, className = '', ethereumAddress, ethereumSignature, isOldClaimProcess, onSuccess, prefix, statementKind }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
-  const { api, systemChain } = useApi();
+  const { api } = useApi();
   const [claimValue, setClaimValue] = useState<BN | null>(null);
   const [isBusy, setIsBusy] = useState(false);
 
@@ -97,7 +109,7 @@ function Claim ({ accountId, className = '', ethereumAddress, ethereumSignature,
                   isUnsigned
                   label={t('Claim')}
                   onSuccess={onSuccess}
-                  {...constructTx(api, systemChain, accountId, ethereumSignature, statementKind, isOldClaimProcess)}
+                  {...constructTx(api, prefix, accountId, ethereumSignature, statementKind, isOldClaimProcess)}
                 />
               </Button.Group>
             </>

@@ -23,11 +23,11 @@ interface Props {
   className?: string;
   ethereumAddress?: EthereumAddress | string | null;
   onSuccess?: TxCallback;
+  prefix: string;
   statementKind?: StatementKind | null;
-  systemChain: string;
 }
 
-function Attest ({ accountId, className, ethereumAddress, onSuccess, statementKind, systemChain }: Props): React.ReactElement<Props> | null {
+function Attest ({ accountId, className, ethereumAddress, onSuccess, prefix, statementKind }: Props): React.ReactElement<Props> | null {
   const accounts = useAccounts();
   const { t } = useTranslation();
   const { api } = useApi();
@@ -55,8 +55,8 @@ function Attest ({ accountId, className, ethereumAddress, onSuccess, statementKi
   }, [api, ethereumAddress]);
 
   const statementSentence = useMemo(
-    () => getStatement(systemChain, statementKind)?.sentence,
-    [systemChain, statementKind]
+    () => getStatement(prefix, statementKind)?.sentence,
+    [prefix, statementKind]
   );
 
   if (isBusy || !claimValue) {
@@ -105,7 +105,7 @@ function Attest ({ accountId, className, ethereumAddress, onSuccess, statementKi
       <StyledDiv className={className}>
         <Statement
           kind={statementKind}
-          systemChain={systemChain}
+          prefix={prefix}
         />
         <h2>
           <FormatBalance
