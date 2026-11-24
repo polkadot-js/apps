@@ -31,6 +31,7 @@ import poll from './poll.js';
 import preimages from './preimages.js';
 import ranked from './ranked.js';
 import referenda from './referenda.js';
+import reputationVoting from './reputationVoting.js';
 import rpc from './rpc.js';
 import runtime from './runtime.js';
 import scheduler from './scheduler.js';
@@ -71,6 +72,7 @@ export default function create (t: TFunction): Routes {
     coretime(t),
     // governance v2
     referenda(t),
+    reputationVoting(t),
     membership(t),
     alliance(t),
     ambassador(t),
