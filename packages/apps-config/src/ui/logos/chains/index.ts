@@ -29,6 +29,7 @@ export { chainsDorafactoryPNG } from './generated/dorafactoryPNG.js';
 export { chainsDustyPNG } from './generated/dustyPNG.js';
 export { chainsEquilibriumSVG } from './generated/equilibriumSVG.js';
 export { chainsFerrumPNG } from './generated/ferrumPNG.js';
+export { chainsFlopTestnetSVG } from './generated/flop-testnetSVG.js';
 export { chainsFragnovaPNG } from './generated/fragnovaPNG.js';
 export { chainsFrequencyPaseoSVG } from './generated/frequencyPaseoSVG.js';
 export { chainsFrequencySVG } from './generated/frequencySVG.js';
