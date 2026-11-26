@@ -9,13 +9,16 @@ import { AddressSmall, Badge, Table } from '@polkadot/react-components';
 import { BalanceFree } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
+import { useTranslation } from './translate.js';
+
 interface Props {
   className?: string;
   info: CollatorType;
   lastBlock?: string;
 }
 
-function Collator ({ className, info: { accountId, deposit, isInvulnerable, lastBlock: lastStateBlock }, lastBlock: lastGlobalBlock }: Props): React.ReactElement<Props> {
+function Collator ({ className, info: { accountId, deposit, isInvulnerable, isValidator, lastBlock: lastStateBlock }, lastBlock: lastGlobalBlock }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const lastBlock = useMemo(
     () => lastStateBlock
       ? formatNumber(lastStateBlock)
@@ -30,6 +33,13 @@ function Collator ({ className, info: { accountId, deposit, isInvulnerable, last
           <Badge
             color='green'
             icon='shield'
+          />
+        )}
+        {isValidator && (
+          <Badge
+            color='blue'
+            hover={t('Relay chain validator')}
+            icon='server'
           />
         )}
       </td>
