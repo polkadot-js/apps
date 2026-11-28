@@ -37,5 +37,6 @@ export const ethereumChains = [
   'thebifrost-dev',
   'thebifrost-mainnet',
   'thebifrost-testnet',
+  'totochain',
   'tscs-mainnet'
 ];
