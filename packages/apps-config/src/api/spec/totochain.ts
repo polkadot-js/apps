@@ -74,67 +74,6 @@ const definitions: OverrideBundleDefinition = {
         type: '(u32, u64, u32)'
       }
     },
-    fractionalNft: {
-      wildcardThreshold: {
-        description: 'Mints required before a wildcard is distributed',
-        params: [],
-        type: 'Option<u32>'
-      },
-      wildcardCollectionId: {
-        description: 'Collection wildcards are minted into',
-        params: [],
-        type: 'Option<u32>'
-      },
-      wildcardDistributionMap: {
-        description: 'Scheduled wildcard distributions, by block',
-        params: [],
-        type: 'Vec<(u32, u32)>'
-      },
-      totalFnftsMinted: {
-        description: 'Total fractional NFTs minted',
-        params: [],
-        type: 'Option<u32>'
-      },
-      collectionsCount: {
-        description: 'Number of collections',
-        params: [],
-        type: 'u32'
-      },
-      itemsCount: {
-        description: 'Number of items in a collection',
-        params: [
-          {
-            name: 'collectionId',
-            type: 'u32'
-          }
-        ],
-        type: 'u32'
-      },
-      nftInfo: {
-        description: 'Contract address and token id backing a collection',
-        params: [
-          {
-            name: 'collectionId',
-            type: 'u32'
-          }
-        ],
-        type: 'NftInfo'
-      },
-      owner: {
-        description: 'Owner of one item, if it exists',
-        params: [
-          {
-            name: 'collectionId',
-            type: 'u32'
-          },
-          {
-            name: 'itemId',
-            type: 'u32'
-          }
-        ],
-        type: 'Option<AccountId>'
-      }
-    },
     handshake: {
       hasHandshakeCompleted: {
         description: 'Whether two accounts completed a handshake',
@@ -266,6 +205,62 @@ const definitions: OverrideBundleDefinition = {
         type: 'u32'
       }
     },
+    puzzlePieces: {
+      wildcardThreshold: {
+        description: 'Mints required before a wildcard is distributed',
+        params: [],
+        type: 'Option<u32>'
+      },
+      wildcardCollectionId: {
+        description: 'Collection wildcards are minted into',
+        params: [],
+        type: 'Option<u32>'
+      },
+      wildcardDistributionMap: {
+        description: 'Scheduled wildcard distributions, by block',
+        params: [],
+        type: 'Vec<(u32, u32)>'
+      },
+      pendingWildcards: {
+        description: 'Wildcards owed but not yet minted into the distribution map',
+        params: [],
+        type: 'u32'
+      },
+      totalPuzzlePiecesMinted: {
+        description: 'Total puzzle pieces minted',
+        params: [],
+        type: 'Option<u32>'
+      },
+      collectionsCount: {
+        description: 'Number of collections',
+        params: [],
+        type: 'u32'
+      },
+      itemsCount: {
+        description: 'Number of items in a collection',
+        params: [
+          {
+            name: 'collectionId',
+            type: 'u32'
+          }
+        ],
+        type: 'u32'
+      },
+      owner: {
+        description: 'Owner of one item, if it exists',
+        params: [
+          {
+            name: 'collectionId',
+            type: 'u32'
+          },
+          {
+            name: 'itemId',
+            type: 'u32'
+          }
+        ],
+        type: 'Option<AccountId>'
+      }
+    },
     referral: {
       activeReferralsCount: {
         description: 'Number of accounts in the referral subtree rooted at this account',
@@ -307,7 +302,8 @@ const definitions: OverrideBundleDefinition = {
         params: [
           {
             name: 'pagination',
-            type: 'Pagination'
+            type: 'Pagination',
+            isOptional: true
           }
         ],
         type: 'PaginatedResponse'
@@ -331,7 +327,8 @@ const definitions: OverrideBundleDefinition = {
           },
           {
             name: 'pagination',
-            type: 'Pagination'
+            type: 'Pagination',
+            isOptional: true
           }
         ],
         type: 'PaginatedResponse'
@@ -389,21 +386,6 @@ const definitions: OverrideBundleDefinition = {
         description: 'Free balance of the reward pool account',
         params: [],
         type: 'u128'
-      },
-      collectionIds: {
-        description: 'Collections the reward pool holds items in',
-        params: [],
-        type: 'Vec<u32>'
-      },
-      itemIds: {
-        description: 'Items the reward pool holds in one collection',
-        params: [
-          {
-            name: 'collectionId',
-            type: 'u32'
-          }
-        ],
-        type: 'Vec<u32>'
       }
     },
     techCommitteeManager: {
@@ -488,20 +470,16 @@ const definitions: OverrideBundleDefinition = {
           parent: 'Option<AccountId>',
           children: 'Vec<AccountId>'
         },
-        NftInfo: {
-          address: 'H160',
-          token_id: 'U256'
-        },
         Pagination: {
           page: 'Option<u32>',
-          page_size: 'Option<u32>'
+          pageSize: 'Option<u32>'
         },
         PaginatedResponse: {
           items: 'Vec<AccountId>',
           total: 'Option<u32>',
           page: 'u32',
-          page_size: 'u32',
-          has_more: 'bool'
+          pageSize: 'u32',
+          hasMore: 'bool'
         },
         VoteDirection: {
           _enum: [
@@ -512,7 +490,7 @@ const definitions: OverrideBundleDefinition = {
         VoteRecord: {
           direction: 'VoteDirection',
           reputation: 'u32',
-          voted_at: 'u32'
+          votedAt: 'u32'
         },
         ReputationTally: {
           ayes: 'u128',
@@ -521,10 +499,10 @@ const definitions: OverrideBundleDefinition = {
           electorate: 'u128'
         },
         ActivityReputationInfo: {
-          current_reputation: 'u32',
-          raw_reputation: 'u32',
-          last_activity_block: 'u32',
-          blocks_since_activity: 'u32'
+          currentReputation: 'u32',
+          rawReputation: 'u32',
+          lastActivityBlock: 'u32',
+          blocksSinceActivity: 'u32'
         },
         ActivityReputationPage: {
           entries: 'Vec<(AccountId, u32)>',
